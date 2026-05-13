@@ -130,31 +130,54 @@ The final `--json` push prints the new theme ID. Capture it.
 Whichever method you used in Step 3, now make sure you have the dev theme's files on disk so you can drop the ECA PDP files in:
 
 ```bash
-mkdir -p eca-dev-theme && cd eca-dev-theme
 shopify theme pull \
   --store=<store-domain> \
   --theme=<dev-theme-id> \
+  --path=<working-dir> \
   --force
 ```
 
-The `--force` flag overwrites the working directory cleanly. After this completes, you should see `sections/`, `snippets/`, `blocks/`, `templates/`, `assets/`, `config/`, `layout/`, `locales/` inside the working directory.
-
-If `blocks/` does not exist, the theme is not Horizon (Horizon introduced top-level `blocks/`). Warn the user and offer to abort the ECA PDP install.
+After this completes, the working directory should contain `sections/`, `snippets/`, `templates/`, `assets/`, `config/`, `layout/`, `locales/` (and possibly `blocks/`).
 
 ---
 
-## Step 5 — Copy ECA PDP files into the dev theme
+## Step 4.5 — Detect theme variant
 
-The ECA PDP files ship inside this skill's directory at `theme-files/`. The absolute path is:
-
-```
-{SKILL_DIR}/theme-files/
-```
-
-…where `{SKILL_DIR}` is the directory containing this `SKILL.md`. From the user's `eca-dev-theme` working directory, copy in:
+Determine which install path to take based on the pulled theme's file structure. Run this check from the working directory:
 
 ```bash
-SKILL_DIR="<absolute path to .claude/skills/eca-pdp>"
+THEME_VARIANT="unknown"
+
+if [ -f "sections/product-information.liquid" ] && [ -f "blocks/_product-details.liquid" ]; then
+  THEME_VARIANT="horizon"
+elif [ -f "templates/product.json" ]; then
+  THEME_VARIANT="os2-generic"
+elif [ -f "templates/product.liquid" ]; then
+  THEME_VARIANT="legacy"
+fi
+
+echo "Theme variant: $THEME_VARIANT"
+```
+
+Interpret the result:
+
+| Variant | What it means | Install path |
+|---|---|---|
+| `horizon` | Horizon-native theme. All ECA features supported. | **Step 5a + 6a + 6b** (full install) |
+| `os2-generic` | OS 2.0 theme but not Horizon (Dawn, Sense, Refresh, Impulse, most paid themes). | **Step 5b + 6a + 6b** (fallback: append ECA sections to the merchant's existing product template) |
+| `legacy` | Old theme with `product.liquid` only. OS 2.0 is required for ECA PDP. | **Step 5c** — abort with clear message |
+| `unknown` | Can't detect. Ask the user what theme this is, then pick a path. | Ask before proceeding |
+
+Tell the user which variant you detected and what path you're about to take.
+
+---
+
+## Step 5a — Horizon full install (variant = `horizon`)
+
+The ECA PDP files ship inside this skill's directory at `theme-files/`. From the working directory:
+
+```bash
+SKILL_DIR="<absolute path to .claude/skills/eca-pdp or plugin cache equivalent>"
 
 mkdir -p sections snippets blocks templates
 
@@ -164,32 +187,170 @@ cp -v "$SKILL_DIR/theme-files/blocks/"*.liquid      blocks/
 cp -v "$SKILL_DIR/theme-files/templates/"*.json     templates/
 ```
 
-The files this skill installs:
+What gets installed:
 
-**sections/** (each is a configurable, reorderable section in the theme editor)
-- `eca-value-props.liquid` — objection-busters / value propositions, icon + text grid
-- `eca-how-to-use.liquid` — numbered steps with image + heading + body
-- `eca-ugc-gallery.liquid` — customer photo / video grid
-- `eca-faq.liquid` — FAQ accordion with FAQPage structured data
-- `eca-reviews-embed.liquid` — drop-in for Judge.me / Loox / Stamped / Yotpo / Okendo / Shopify Reviews
-- `eca-founder.liquid` — about-the-founder section with photo + signature
+| Folder | Files | Why |
+|---|---|---|
+| `sections/` | `eca-value-props`, `eca-how-to-use`, `eca-ugc-gallery`, `eca-faq`, `eca-reviews-embed`, `eca-founder` | Six configurable sections |
+| `blocks/` | `eca-pitch`, `eca-trust-row`, `eca-sizing-guide-link` | Horizon-native blocks for the buy box |
+| `snippets/` | `eca-trust-icon`, `eca-product-schema` | Helpers |
+| `templates/` | `product.eca-pdp.json` | Wires `product-information` section with ECA blocks + the six ECA sections in proven order |
 
-**blocks/** (Horizon-native blocks, placeable inside `_product-details`)
-- `eca-pitch.liquid` — reads the `custom.pitch` product metafield with fallback
-- `eca-trust-row.liquid` — shipping + guarantee + secure-checkout icon row under ATC
-- `eca-sizing-guide-link.liquid` — opens a `<dialog>` showing `custom.sizing_guide` metafield content
+Skip to Step 6.
 
-**snippets/**
-- `eca-trust-icon.liquid` — inline SVG icon set (truck, shield, leaf, etc.)
-- `eca-product-schema.liquid` — Product JSON-LD with reviews + offers
+---
 
-**templates/**
-- `product.eca-pdp.json` — wires Horizon's `product-information` section with ECA blocks in the buy box, then orders the six ECA sections in the proven high-converting layout
+## Step 5b — Non-Horizon OS 2.0 fallback (variant = `os2-generic`)
 
-After copying, verify nothing was missed:
+In this mode we **never replace** the theme's existing product template. We create a new `product.eca-pdp.json` based on the theme's `templates/product.json` and append the six ECA marketing sections after the merchant's existing buy box.
+
+**Copy ECA sections + the trust-icon snippet** (skip blocks and the Horizon-specific JSON template):
 
 ```bash
-ls -1 sections/eca-*.liquid snippets/eca-*.liquid blocks/eca-*.liquid templates/product.eca-pdp.json
+SKILL_DIR="<absolute path to skill or plugin cache>"
+
+mkdir -p sections snippets templates
+
+cp -v "$SKILL_DIR/theme-files/sections/"*.liquid          sections/
+cp -v "$SKILL_DIR/theme-files/snippets/eca-trust-icon.liquid" snippets/
+```
+
+**Generate the merged template.** Inline this with python3 — it strips Shopify's `//` and `/* */` JSON comments, copies the existing product.json, renames it, and appends the six ECA sections:
+
+```bash
+python3 <<'PY'
+import json, re, pathlib
+
+src = pathlib.Path("templates/product.json").read_text()
+
+# Strip /* ... */ and // line comments that Shopify allows but stdlib json doesn't
+src = re.sub(r"/\*.*?\*/", "", src, flags=re.S)
+src = re.sub(r"^\s*//.*$", "", src, flags=re.M)
+
+tpl = json.loads(src)
+
+# 1) Set the customisable name shown in admin
+tpl["name"] = "ECA PDP"
+
+# 2) Define the six ECA marketing sections to append below the buy box
+eca_sections = {
+    "eca_value_props": {
+        "type": "eca-value-props",
+        "blocks": {
+            "p1": {"type": "prop", "settings": {"icon": "check", "heading": "Backed by results", "body": "<p>One short sentence about a measurable benefit.</p>"}},
+            "p2": {"type": "prop", "settings": {"icon": "leaf", "heading": "Clean ingredients", "body": "<p>Address the #1 objection in one line.</p>"}},
+            "p3": {"type": "prop", "settings": {"icon": "shield", "heading": "30-day guarantee", "body": "<p>Tell them exactly what happens if they don't love it.</p>"}},
+            "p4": {"type": "prop", "settings": {"icon": "heart", "heading": "Loved by 10,000+", "body": "<p>Social proof in plain numbers.</p>"}}
+        },
+        "block_order": ["p1", "p2", "p3", "p4"],
+        "settings": {"eyebrow": "Why people choose this", "heading": "Built to do one thing — really well", "columns": 4, "padding-block-start": 64, "padding-block-end": 64}
+    },
+    "eca_how_to_use": {
+        "type": "eca-how-to-use",
+        "blocks": {
+            "s1": {"type": "step", "settings": {"heading": "Open it up", "body": "<p>One sentence about the first step.</p>"}},
+            "s2": {"type": "step", "settings": {"heading": "Apply or use it", "body": "<p>One sentence about the second step.</p>"}},
+            "s3": {"type": "step", "settings": {"heading": "Enjoy the results", "body": "<p>One sentence about the outcome.</p>"}}
+        },
+        "block_order": ["s1", "s2", "s3"],
+        "settings": {"eyebrow": "How it works", "heading": "Three simple steps", "columns": 3, "padding-block-start": 64, "padding-block-end": 64}
+    },
+    "eca_ugc": {
+        "type": "eca-ugc-gallery",
+        "blocks": {
+            "u1": {"type": "media", "settings": {"handle": "@customer1"}},
+            "u2": {"type": "media", "settings": {"handle": "@customer2"}},
+            "u3": {"type": "media", "settings": {"handle": "@customer3"}},
+            "u4": {"type": "media", "settings": {"handle": "@customer4"}}
+        },
+        "block_order": ["u1", "u2", "u3", "u4"],
+        "settings": {"eyebrow": "Real people, real results", "heading": "From our community", "columns": 4, "padding-block-start": 64, "padding-block-end": 64}
+    },
+    "eca_faq": {
+        "type": "eca-faq",
+        "blocks": {
+            "q1": {"type": "faq", "settings": {"question": "How long does shipping take?", "answer": "<p>Orders ship within 1 business day.</p>", "open_by_default": True}},
+            "q2": {"type": "faq", "settings": {"question": "What's your return policy?", "answer": "<p>30 days, no questions asked.</p>"}},
+            "q3": {"type": "faq", "settings": {"question": "Is this safe for sensitive use?", "answer": "<p>Address the top safety / suitability question.</p>"}},
+            "q4": {"type": "faq", "settings": {"question": "How do I use it?", "answer": "<p>Summarise in two sentences.</p>"}}
+        },
+        "block_order": ["q1", "q2", "q3", "q4"],
+        "settings": {"heading": "Frequently asked questions", "padding-block-start": 64, "padding-block-end": 64}
+    },
+    "eca_reviews": {
+        "type": "eca-reviews-embed",
+        "settings": {"provider": "judgeme", "heading": "What customers are saying", "padding-block-start": 64, "padding-block-end": 64}
+    },
+    "eca_founder": {
+        "type": "eca-founder",
+        "settings": {
+            "eyebrow": "About the founder",
+            "heading": "Why I built this",
+            "body": "<p>Share the origin story in 2–4 short paragraphs.</p>",
+            "name": "Your name",
+            "title": "Founder & CEO",
+            "padding-block-start": 64,
+            "padding-block-end": 64
+        }
+    }
+}
+
+# 3) Merge into existing sections map (without clobbering existing keys).
+#    Idempotent: if the merchant re-runs the skill, our keys overwrite cleanly
+#    rather than stacking.
+tpl.setdefault("sections", {})
+for k, v in eca_sections.items():
+    tpl["sections"][k] = v
+
+# 4) Append to the order array (keep existing order intact). Skip any ECA key
+#    that is already in the order so re-running doesn't create duplicates.
+existing_order = tpl.get("order", [])
+new_keys = [k for k in eca_sections.keys() if k not in existing_order]
+rec_key = next((k for k in existing_order if "recommendation" in k.lower()), None)
+if rec_key:
+    idx = existing_order.index(rec_key)
+    tpl["order"] = existing_order[:idx] + new_keys + existing_order[idx:]
+else:
+    tpl["order"] = existing_order + new_keys
+
+# 5) Write the new template
+pathlib.Path("templates/product.eca-pdp.json").write_text(
+    json.dumps(tpl, indent=2)
+)
+print(f"Wrote templates/product.eca-pdp.json with order: {tpl['order']}")
+PY
+```
+
+After this runs, `templates/product.eca-pdp.json` exists alongside the unchanged `templates/product.json`. Merchant assigns it per-product in Step 7.
+
+**Tell the merchant clearly what they get vs miss in this mode:**
+> "Your theme isn't Horizon, so I've installed a fallback. Your existing product page buy box (title, price, variants, ATC) stays exactly as-is — I've added six ECA marketing sections below it (value props, how-to-use, UGC, FAQ, reviews, founder). The Horizon-only buy-box upgrades (pitch metafield, trust row, sizing guide drawer) aren't installed because they depend on Horizon's block system. If you want the full ECA PDP buy box, you'd need to migrate to Horizon."
+
+---
+
+## Step 5c — Legacy theme abort (variant = `legacy`)
+
+Tell the user:
+
+> "Your theme uses the legacy `product.liquid` template, not OS 2.0 JSON templates. ECA PDP requires OS 2.0. Two paths forward: (1) upgrade your theme to its OS 2.0 version (most paid theme vendors offer this free), or (2) migrate to Shopify Horizon or Dawn. Once you're on OS 2.0, re-run this skill."
+
+Delete the dev theme to avoid leaving orphan copies in the merchant's theme library:
+
+```bash
+shopify theme delete --store=<store-domain> --theme=<dev-theme-id> --force
+```
+
+Stop. Do not continue to Step 6.
+
+---
+
+## Verify file inventory before pushing
+
+```bash
+echo "Sections:"; ls -1 sections/eca-*.liquid 2>&1
+echo "Snippets:"; ls -1 snippets/eca-*.liquid 2>&1
+echo "Blocks:";   ls -1 blocks/eca-*.liquid 2>&1 || echo "(none — expected in fallback mode)"
+echo "Template:"; ls -1 templates/product.eca-pdp.json 2>&1
 ```
 
 ---
@@ -200,16 +361,24 @@ Push in **two phases**. This makes the install resilient: even if the template J
 
 ### Phase 6a — Push sections, blocks, snippets first
 
+Build the `--only` flag list dynamically — fallback mode has no `blocks/eca-*` files, so don't pass that pattern (Shopify CLI errors on missing files):
+
 ```bash
-shopify theme push \
-  --store=<store-domain> \
-  --theme=<dev-theme-id> \
-  --path=<working-dir> \
-  --json \
-  --force \
-  --only="sections/eca-*.liquid" \
-  --only="snippets/eca-*.liquid" \
-  --only="blocks/eca-*.liquid"
+PUSH_FLAGS=(
+  --store=<store-domain>
+  --theme=<dev-theme-id>
+  --path=<working-dir>
+  --json --force
+  --only="sections/eca-*.liquid"
+  --only="snippets/eca-*.liquid"
+)
+
+# Only push blocks/ if any eca-* blocks exist locally (Horizon path)
+if ls blocks/eca-*.liquid 2>/dev/null | grep -q .; then
+  PUSH_FLAGS+=(--only="blocks/eca-*.liquid")
+fi
+
+shopify theme push "${PUSH_FLAGS[@]}"
 ```
 
 If this push reports errors on a specific file (rare — only happens if liquid syntax is malformed), capture the filename, **continue** to phase 6b, and tell the user at the end which file failed. They can still add the working blocks/sections manually in the editor.

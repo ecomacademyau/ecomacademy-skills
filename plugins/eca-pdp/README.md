@@ -77,12 +77,25 @@ See [METAFIELDS.md](./METAFIELDS.md). The template works without them — but pe
 
 ## Theme compatibility
 
-| Theme | Works? |
-|---|---|
-| Horizon | ✅ Built for it |
-| Dawn / Sense / Refresh / Craft / Studio | ⚠ Sections work; JSON template references Horizon-only blocks |
-| Older paid themes | ⚠ OS 2.0 required |
-| Legacy `product.liquid`-only themes | ❌ Not supported |
+The skill detects which theme variant the merchant is on and installs accordingly:
+
+| Theme | Mode | What you get |
+|---|---|---|
+| **Horizon** | Full install | Custom `product.eca-pdp.json` template with ECA blocks in the buy box (pitch, trust row, sizing guide) + all six ECA marketing sections below |
+| **Dawn / Sense / Refresh / Craft / Studio / most paid themes (OS 2.0)** | Fallback install | Your existing product buy box is preserved as-is. We copy your theme's `templates/product.json`, rename it to `product.eca-pdp.json`, and append the six ECA marketing sections below. Skips the Horizon-only buy-box blocks |
+| **Legacy themes (`product.liquid` only, no OS 2.0)** | Aborts | ECA PDP requires OS 2.0 JSON templates. Skill tells the merchant to upgrade or migrate |
+
+### What the fallback flow looks like in practice
+
+For a non-Horizon OS 2.0 merchant:
+1. Skill duplicates their live theme (e.g. "Dawn") into `ECA Dev — <date>`
+2. Skill reads the dev theme's existing `templates/product.json`
+3. Skill creates `templates/product.eca-pdp.json` based on it — same buy-box structure as before, but with the six ECA sections appended
+4. Skill installs the six section files + the `eca-trust-icon` snippet
+5. Skill skips the three Horizon-specific blocks (`eca-pitch`, `eca-trust-row`, `eca-sizing-guide-link`)
+6. Merchant assigns "ECA PDP" as the template on chosen products — their original product template stays the default
+
+Visual styling on non-Horizon themes inherits the theme's CSS variables where they exist (`--color-foreground`, `--page-width`, etc.) and falls back to sensible defaults where they don't.
 
 ## Layout rationale
 
