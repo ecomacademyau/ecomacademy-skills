@@ -1,0 +1,189 @@
+{%- liquid
+  assign block_settings = block.settings
+-%}
+
+<div
+  class="eca-trust-row spacing-style{% if block_settings.inherit_color_scheme == false %} color-{{ block_settings.color_scheme }}{% endif %}"
+  style="
+    --eca-trust-gap: {{ block_settings.gap }}px;
+    --eca-trust-icon-size: {{ block_settings.icon_size }}px;
+    {% render 'spacing-style', settings: block_settings %}
+  "
+  {{ block.shopify_attributes }}
+>
+  {%- if block_settings.show_shipping and block_settings.shipping_label != blank -%}
+    <div class="eca-trust-row__item">
+      {%- render 'eca-trust-icon', icon: block_settings.shipping_icon -%}
+      <div class="eca-trust-row__text">
+        <strong class="eca-trust-row__label">{{ block_settings.shipping_label }}</strong>
+        {%- if block_settings.shipping_subtext != blank -%}
+          <span class="eca-trust-row__sub">{{ block_settings.shipping_subtext }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if block_settings.show_guarantee and block_settings.guarantee_label != blank -%}
+    <div class="eca-trust-row__item">
+      {%- render 'eca-trust-icon', icon: block_settings.guarantee_icon -%}
+      <div class="eca-trust-row__text">
+        <strong class="eca-trust-row__label">{{ block_settings.guarantee_label }}</strong>
+        {%- if block_settings.guarantee_subtext != blank -%}
+          <span class="eca-trust-row__sub">{{ block_settings.guarantee_subtext }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+
+  {%- if block_settings.show_secure and block_settings.secure_label != blank -%}
+    <div class="eca-trust-row__item">
+      {%- render 'eca-trust-icon', icon: block_settings.secure_icon -%}
+      <div class="eca-trust-row__text">
+        <strong class="eca-trust-row__label">{{ block_settings.secure_label }}</strong>
+        {%- if block_settings.secure_subtext != blank -%}
+          <span class="eca-trust-row__sub">{{ block_settings.secure_subtext }}</span>
+        {%- endif -%}
+      </div>
+    </div>
+  {%- endif -%}
+</div>
+
+{% stylesheet %}
+  .eca-trust-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--eca-trust-gap, 16px);
+    align-items: flex-start;
+  }
+
+  .eca-trust-row__item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  .eca-trust-row__item svg {
+    width: var(--eca-trust-icon-size, 22px);
+    height: var(--eca-trust-icon-size, 22px);
+    flex-shrink: 0;
+    color: var(--color-foreground);
+  }
+
+  .eca-trust-row__text {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+    min-width: 0;
+  }
+
+  .eca-trust-row__label {
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-foreground);
+  }
+
+  .eca-trust-row__sub {
+    font-family: var(--font-body--family);
+    font-size: 0.8125rem;
+    color: var(--color-foreground);
+    opacity: 0.7;
+  }
+
+  @media (max-width: 749px) {
+    .eca-trust-row {
+      gap: 12px;
+    }
+    .eca-trust-row__item {
+      flex: 1 1 100%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "ECA Trust row",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "A row of small reassurance icons (shipping, guarantee, secure checkout). Place directly under the Add to cart button."
+    },
+    {
+      "type": "header",
+      "content": "Shipping"
+    },
+    { "type": "checkbox", "id": "show_shipping", "label": "Show", "default": true },
+    {
+      "type": "select",
+      "id": "shipping_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "truck", "label": "Truck" },
+        { "value": "package", "label": "Package" },
+        { "value": "globe", "label": "Globe" },
+        { "value": "clock", "label": "Clock" }
+      ],
+      "default": "truck"
+    },
+    { "type": "text", "id": "shipping_label", "label": "Heading", "default": "Free shipping" },
+    { "type": "text", "id": "shipping_subtext", "label": "Subtext", "default": "Orders over $50" },
+
+    { "type": "header", "content": "Guarantee" },
+    { "type": "checkbox", "id": "show_guarantee", "label": "Show", "default": true },
+    {
+      "type": "select",
+      "id": "guarantee_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "shield", "label": "Shield" },
+        { "value": "return", "label": "Return arrow" },
+        { "value": "medal", "label": "Medal" },
+        { "value": "heart", "label": "Heart" }
+      ],
+      "default": "shield"
+    },
+    { "type": "text", "id": "guarantee_label", "label": "Heading", "default": "30-day returns" },
+    { "type": "text", "id": "guarantee_subtext", "label": "Subtext", "default": "No questions asked" },
+
+    { "type": "header", "content": "Secure checkout" },
+    { "type": "checkbox", "id": "show_secure", "label": "Show", "default": false },
+    {
+      "type": "select",
+      "id": "secure_icon",
+      "label": "Icon",
+      "options": [
+        { "value": "lock", "label": "Lock" },
+        { "value": "shield", "label": "Shield" },
+        { "value": "card", "label": "Credit card" }
+      ],
+      "default": "lock"
+    },
+    { "type": "text", "id": "secure_label", "label": "Heading", "default": "Secure checkout" },
+    { "type": "text", "id": "secure_subtext", "label": "Subtext", "default": "SSL encrypted" },
+
+    { "type": "header", "content": "Layout" },
+    { "type": "range", "id": "gap", "label": "Gap between items", "min": 4, "max": 40, "step": 2, "unit": "px", "default": 16 },
+    { "type": "range", "id": "icon_size", "label": "Icon size", "min": 14, "max": 40, "step": 1, "unit": "px", "default": 22 },
+    { "type": "checkbox", "id": "inherit_color_scheme", "label": "Inherit color scheme", "default": true },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1",
+      "visible_if": "{{ block.settings.inherit_color_scheme == false }}"
+    },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 8 },
+    { "type": "range", "id": "padding-block-end",   "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-start","label": "Left", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-end",  "label": "Right", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
+  ],
+  "presets": [
+    { "name": "ECA Trust row" }
+  ]
+}
+{% endschema %}

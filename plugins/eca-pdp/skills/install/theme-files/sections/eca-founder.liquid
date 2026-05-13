@@ -1,0 +1,182 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<div
+  class="eca-section eca-founder eca-founder--{{ s.layout }} color-{{ s.color_scheme }}"
+  style="
+    --eca-section-pt: {{ s.padding-block-start }}px;
+    --eca-section-pb: {{ s.padding-block-end }}px;
+  "
+>
+  <div class="eca-section__inner page-width">
+    <div class="eca-founder__grid">
+      <div class="eca-founder__media">
+        {%- if s.image -%}
+          {{ s.image | image_url: width: 900 | image_tag:
+              loading: 'lazy',
+              widths: '400, 700, 900',
+              alt: s.name | default: 'Founder'
+          }}
+        {%- else -%}
+          {{ 'image' | placeholder_svg_tag }}
+        {%- endif -%}
+      </div>
+      <div class="eca-founder__copy">
+        {%- if s.eyebrow != blank -%}
+          <p class="eca-section__eyebrow">{{ s.eyebrow }}</p>
+        {%- endif -%}
+        {%- if s.heading != blank -%}
+          <h2 class="eca-founder__heading">{{ s.heading }}</h2>
+        {%- endif -%}
+        {%- if s.body != blank -%}
+          <div class="eca-founder__body">{{ s.body }}</div>
+        {%- endif -%}
+        {%- if s.signature != blank or s.name != blank -%}
+          <div class="eca-founder__signature">
+            {%- if s.signature -%}
+              {{ s.signature | image_url: width: 200 | image_tag:
+                  loading: 'lazy',
+                  alt: s.name | default: 'Signature',
+                  class: 'eca-founder__signature-img'
+              }}
+            {%- endif -%}
+            {%- if s.name != blank -%}
+              <p class="eca-founder__name">
+                <strong>{{ s.name }}</strong>
+                {%- if s.title != blank %}<span>{{ s.title }}</span>{% endif -%}
+              </p>
+            {%- endif -%}
+          </div>
+        {%- endif -%}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .eca-founder {
+    padding-block-start: var(--eca-section-pt, 0);
+    padding-block-end: var(--eca-section-pb, 0);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .eca-founder__grid {
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  .eca-founder--media-right .eca-founder__grid {
+    grid-template-columns: 1.2fr 1fr;
+  }
+
+  .eca-founder--media-right .eca-founder__media {
+    order: 2;
+  }
+
+  .eca-founder__media {
+    overflow: hidden;
+    border-radius: var(--style-border-radius, 8px);
+    aspect-ratio: 4 / 5;
+    background-color: color-mix(in srgb, var(--color-foreground) 4%, transparent);
+  }
+
+  .eca-founder__media img,
+  .eca-founder__media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .eca-founder__heading {
+    margin: 0 0 1rem;
+    font-family: var(--font-heading--family, var(--font-body--family));
+    font-size: clamp(1.5rem, 2.4vw, 2rem);
+    line-height: 1.2;
+  }
+
+  .eca-founder__body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-foreground);
+    opacity: 0.9;
+  }
+
+  .eca-founder__body p { margin: 0 0 1em; }
+  .eca-founder__body p:last-child { margin-bottom: 0; }
+
+  .eca-founder__signature {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  .eca-founder__signature-img {
+    max-width: 160px;
+    height: auto;
+  }
+
+  .eca-founder__name {
+    margin: 0;
+    font-size: 0.9375rem;
+  }
+
+  .eca-founder__name strong {
+    display: block;
+    font-family: var(--font-heading--family, var(--font-body--family));
+  }
+
+  .eca-founder__name span {
+    opacity: 0.7;
+  }
+
+  @media (max-width: 749px) {
+    .eca-founder__grid,
+    .eca-founder--media-right .eca-founder__grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    .eca-founder--media-right .eca-founder__media {
+      order: 0;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "ECA About the founder",
+  "tag": "section",
+  "class": "section-eca-founder",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "About the founder" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Why I built this" },
+    { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Share the origin story in 2–4 short paragraphs. Why does this product exist? What was wrong with the alternatives? Speak directly to the customer.</p>" },
+    { "type": "image_picker", "id": "image", "label": "Founder image" },
+    { "type": "image_picker", "id": "signature", "label": "Signature image (optional)" },
+    { "type": "text", "id": "name", "label": "Name", "default": "Founder name" },
+    { "type": "text", "id": "title", "label": "Title", "default": "Founder & CEO" },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Image position",
+      "options": [
+        { "value": "media-left", "label": "Left" },
+        { "value": "media-right", "label": "Right" }
+      ],
+      "default": "media-left"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "presets": [
+    { "name": "ECA About the founder", "category": "Product" }
+  ]
+}
+{% endschema %}

@@ -1,0 +1,50 @@
+{%- comment -%}
+  JSON-LD Product schema for SEO and rich results.
+  Render once per product page (the template includes it via the main section).
+{%- endcomment -%}
+
+{%- liquid
+  assign product = closest.product | default: product
+  if product == blank
+    assign product = nil
+  endif
+-%}
+
+{%- if product -%}
+  {%- assign current_variant = product.selected_or_first_available_variant -%}
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org/",
+    "@type": "Product",
+    "name": {{ product.title | json }},
+    "url": {{ shop.url | append: product.url | json }},
+    "image": [
+      {%- for image in product.images limit: 5 -%}
+        {{ image | image_url: width: 1200 | prepend: 'https:' | json }}{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ],
+    "description": {{ product.description | strip_html | truncatewords: 80 | json }},
+    "sku": {{ current_variant.sku | json }},
+    "brand": { "@type": "Brand", "name": {{ product.vendor | json }} },
+    "offers": [
+      {%- for variant in product.variants -%}
+        {
+          "@type": "Offer",
+          "sku": {{ variant.sku | json }},
+          "price": "{{ variant.price | money_without_currency | strip_html | replace: ',', '' }}",
+          "priceCurrency": {{ cart.currency.iso_code | json }},
+          "availability": "{% if variant.available %}https://schema.org/InStock{% else %}https://schema.org/OutOfStock{% endif %}",
+          "url": {{ shop.url | append: product.url | append: '?variant=' | append: variant.id | json }}
+        }{%- unless forloop.last -%},{%- endunless -%}
+      {%- endfor -%}
+    ]
+    {%- if product.metafields.reviews.rating_count and product.metafields.reviews.rating -%}
+    ,"aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "{{ product.metafields.reviews.rating.value }}",
+      "reviewCount": "{{ product.metafields.reviews.rating_count }}"
+    }
+    {%- endif -%}
+  }
+  </script>
+{%- endif -%}

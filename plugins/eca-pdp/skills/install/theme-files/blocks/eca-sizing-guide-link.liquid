@@ -1,0 +1,186 @@
+{%- liquid
+  assign block_settings = block.settings
+  assign product = closest.product
+  assign sizing_guide = product.metafields.custom.sizing_guide
+  assign has_size_option = false
+  for option in product.options
+    assign opt_lower = option | downcase
+    if opt_lower contains 'size'
+      assign has_size_option = true
+      break
+    endif
+  endfor
+-%}
+
+{%- if has_size_option or block_settings.show_always -%}
+  <div
+    class="eca-sizing-guide spacing-style"
+    style="{% render 'spacing-style', settings: block_settings %}"
+    {{ block.shopify_attributes }}
+  >
+    <button
+      type="button"
+      class="eca-sizing-guide__trigger"
+      aria-haspopup="dialog"
+      aria-controls="eca-sizing-guide-dialog"
+      data-eca-sizing-guide-open
+    >
+      {%- render 'eca-trust-icon', icon: 'ruler' -%}
+      <span>{{ block_settings.link_text }}</span>
+    </button>
+
+    <dialog
+      id="eca-sizing-guide-dialog"
+      class="eca-sizing-guide__dialog"
+      aria-labelledby="eca-sizing-guide-title"
+    >
+      <div class="eca-sizing-guide__dialog-inner">
+        <header class="eca-sizing-guide__header">
+          <h2 id="eca-sizing-guide-title">{{ block_settings.heading }}</h2>
+          <button type="button" class="eca-sizing-guide__close" aria-label="Close" data-eca-sizing-guide-close>×</button>
+        </header>
+        <div class="eca-sizing-guide__body">
+          {%- if sizing_guide != blank -%}
+            {{ sizing_guide | metafield_tag }}
+          {%- else -%}
+            {{ block_settings.fallback_content }}
+          {%- endif -%}
+        </div>
+      </div>
+    </dialog>
+  </div>
+
+  <script>
+    (function () {
+      var dialog = document.getElementById('eca-sizing-guide-dialog');
+      if (!dialog || dialog.dataset.ecaBound) return;
+      dialog.dataset.ecaBound = '1';
+      document.querySelectorAll('[data-eca-sizing-guide-open]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          if (typeof dialog.showModal === 'function') dialog.showModal();
+          else dialog.setAttribute('open', '');
+        });
+      });
+      document.querySelectorAll('[data-eca-sizing-guide-close]').forEach(function (btn) {
+        btn.addEventListener('click', function () { dialog.close(); });
+      });
+      dialog.addEventListener('click', function (e) {
+        if (e.target === dialog) dialog.close();
+      });
+    })();
+  </script>
+{%- endif -%}
+
+{% stylesheet %}
+  .eca-sizing-guide__trigger {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: transparent;
+    border: 0;
+    padding: 0;
+    color: var(--color-foreground);
+    font-family: var(--font-body--family);
+    font-size: 0.875rem;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    cursor: pointer;
+  }
+
+  .eca-sizing-guide__trigger svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .eca-sizing-guide__dialog {
+    border: 0;
+    padding: 0;
+    max-width: min(640px, 92vw);
+    max-height: 86vh;
+    border-radius: var(--style-border-radius, 8px);
+    background: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .eca-sizing-guide__dialog::backdrop {
+    background: rgba(0, 0, 0, 0.55);
+  }
+
+  .eca-sizing-guide__dialog-inner {
+    display: flex;
+    flex-direction: column;
+    max-height: 86vh;
+  }
+
+  .eca-sizing-guide__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .eca-sizing-guide__header h2 {
+    margin: 0;
+    font-family: var(--font-heading--family, var(--font-body--family));
+    font-size: 1.125rem;
+  }
+
+  .eca-sizing-guide__close {
+    background: transparent;
+    border: 0;
+    font-size: 1.75rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--color-foreground);
+  }
+
+  .eca-sizing-guide__body {
+    padding: 1.5rem;
+    overflow-y: auto;
+  }
+
+  .eca-sizing-guide__body table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9375rem;
+  }
+
+  .eca-sizing-guide__body th,
+  .eca-sizing-guide__body td {
+    padding: 0.5rem 0.75rem;
+    border-bottom: 1px solid var(--color-border);
+    text-align: left;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "ECA Sizing guide",
+  "tag": null,
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Reads from product metafield 'custom.sizing_guide' (rich text). Auto-hides when no Size option exists."
+    },
+    { "type": "text", "id": "link_text", "label": "Link text", "default": "Sizing guide" },
+    { "type": "text", "id": "heading", "label": "Drawer heading", "default": "Sizing guide" },
+    {
+      "type": "richtext",
+      "id": "fallback_content",
+      "label": "Fallback content",
+      "default": "<p>Set the product metafield <em>custom.sizing_guide</em> to display per-product measurements here.</p>"
+    },
+    { "type": "checkbox", "id": "show_always", "label": "Show even without Size option", "default": false },
+
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 4 },
+    { "type": "range", "id": "padding-block-end",   "label": "Bottom", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 4 },
+    { "type": "range", "id": "padding-inline-start","label": "Left", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 },
+    { "type": "range", "id": "padding-inline-end",  "label": "Right", "min": 0, "max": 100, "step": 1, "unit": "px", "default": 0 }
+  ],
+  "presets": [
+    { "name": "ECA Sizing guide" }
+  ]
+}
+{% endschema %}

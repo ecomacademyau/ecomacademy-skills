@@ -1,0 +1,14 @@
+.DS_Store
+.idea/
+.vscode/
+node_modules/
+*.log
+.env
+.env.*
+!.env.example
+
+# Local archive of the previous Dawn-style files. Don't ship these.
+_archive_dawn/
+
+# Local Claude Code config — don't publish per-member auth/settings
+.claude/settings.local.json

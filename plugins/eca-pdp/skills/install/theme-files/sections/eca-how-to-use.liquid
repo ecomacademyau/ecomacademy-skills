@@ -1,0 +1,195 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<div
+  class="eca-section eca-how color-{{ s.color_scheme }}"
+  style="
+    --eca-section-pt: {{ s.padding-block-start }}px;
+    --eca-section-pb: {{ s.padding-block-end }}px;
+    --eca-how-columns: {{ s.columns }};
+    --eca-how-gap: {{ s.gap }}px;
+  "
+>
+  <div class="eca-section__inner page-width">
+    {%- if s.heading != blank -%}
+      <header class="eca-section__header" style="text-align: {{ s.heading_alignment }};">
+        {%- if s.eyebrow != blank -%}
+          <p class="eca-section__eyebrow">{{ s.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="eca-section__heading">{{ s.heading }}</h2>
+        {%- if s.subheading != blank -%}
+          <div class="eca-section__subheading">{{ s.subheading }}</div>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    <ol class="eca-how__list">
+      {%- for block in section.blocks -%}
+        <li class="eca-how__step" {{ block.shopify_attributes }}>
+          <div class="eca-how__media">
+            {%- if block.settings.image -%}
+              {{ block.settings.image | image_url: width: 800 | image_tag:
+                  loading: 'lazy',
+                  widths: '300, 500, 800',
+                  alt: block.settings.heading
+              }}
+            {%- else -%}
+              <div class="eca-how__placeholder">{{ 'product-1' | placeholder_svg_tag }}</div>
+            {%- endif -%}
+            <span class="eca-how__number">{{ forloop.index }}</span>
+          </div>
+          <div class="eca-how__copy">
+            {%- if block.settings.heading != blank -%}
+              <h3 class="eca-how__heading">{{ block.settings.heading }}</h3>
+            {%- endif -%}
+            {%- if block.settings.body != blank -%}
+              <div class="eca-how__body">{{ block.settings.body }}</div>
+            {%- endif -%}
+          </div>
+        </li>
+      {%- endfor -%}
+    </ol>
+  </div>
+</div>
+
+{% stylesheet %}
+  .eca-how {
+    padding-block-start: var(--eca-section-pt, 0);
+    padding-block-end: var(--eca-section-pb, 0);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .eca-how__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(var(--eca-how-columns, 3), minmax(0, 1fr));
+    gap: var(--eca-how-gap, 32px);
+  }
+
+  .eca-how__step {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .eca-how__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--style-border-radius, 8px);
+    aspect-ratio: 4 / 3;
+    background-color: color-mix(in srgb, var(--color-foreground) 4%, transparent);
+  }
+
+  .eca-how__media img,
+  .eca-how__placeholder svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .eca-how__number {
+    position: absolute;
+    inset-block-start: 12px;
+    inset-inline-start: 12px;
+    background: var(--color-foreground);
+    color: var(--color-background);
+    font-family: var(--font-heading--family, var(--font-body--family));
+    font-size: 0.875rem;
+    font-weight: 700;
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .eca-how__copy {
+    margin-top: 1rem;
+  }
+
+  .eca-how__heading {
+    margin: 0 0 0.5rem;
+    font-family: var(--font-heading--family, var(--font-body--family));
+    font-size: 1.125rem;
+    line-height: 1.3;
+  }
+
+  .eca-how__body {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+    color: var(--color-foreground);
+    opacity: 0.85;
+  }
+
+  .eca-how__body p { margin: 0 0 0.5em; }
+  .eca-how__body p:last-child { margin-bottom: 0; }
+
+  @media (max-width: 989px) {
+    .eca-how__list {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 549px) {
+    .eca-how__list {
+      grid-template-columns: 1fr;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "ECA How to use",
+  "tag": "section",
+  "class": "section-eca-how",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "How it works" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Three simple steps" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading" },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Grid" },
+    { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 4, "step": 1, "default": 3 },
+    { "type": "range", "id": "gap", "label": "Gap", "min": 8, "max": 64, "step": 4, "unit": "px", "default": 32 },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "step",
+      "name": "Step",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "text", "id": "heading", "label": "Heading", "default": "Step heading" },
+        { "type": "richtext", "id": "body", "label": "Body", "default": "<p>Describe this step in one or two short sentences.</p>" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ECA How to use",
+      "category": "Product",
+      "blocks": [
+        { "type": "step", "settings": { "heading": "Open it up" } },
+        { "type": "step", "settings": { "heading": "Apply / use it" } },
+        { "type": "step", "settings": { "heading": "Enjoy the results" } }
+      ]
+    }
+  ]
+}
+{% endschema %}

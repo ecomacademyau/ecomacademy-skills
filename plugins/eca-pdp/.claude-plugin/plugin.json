@@ -1,0 +1,12 @@
+{
+  "name": "eca-pdp",
+  "description": "Connects to a Shopify store via the Shopify CLI, duplicates the live theme into a development theme, and installs a research-backed high-converting product page template. Built for Shopify's Horizon theme architecture.",
+  "author": {
+    "name": "Ecommerce Academy",
+    "email": "brendan@ecomfactory.com.au"
+  },
+  "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
+  "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
+  "license": "MIT",
+  "keywords": ["shopify", "horizon", "product-page", "cro", "conversion", "theme", "ecommerce"]
+}

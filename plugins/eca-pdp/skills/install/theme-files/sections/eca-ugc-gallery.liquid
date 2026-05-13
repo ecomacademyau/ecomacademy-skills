@@ -1,0 +1,192 @@
+{%- liquid
+  assign s = section.settings
+-%}
+
+<div
+  class="eca-section eca-ugc color-{{ s.color_scheme }}"
+  style="
+    --eca-section-pt: {{ s.padding-block-start }}px;
+    --eca-section-pb: {{ s.padding-block-end }}px;
+    --eca-ugc-columns: {{ s.columns }};
+    --eca-ugc-gap: {{ s.gap }}px;
+    --eca-ugc-ratio: {{ s.aspect_ratio }};
+  "
+>
+  <div class="eca-section__inner page-width">
+    {%- if s.heading != blank -%}
+      <header class="eca-section__header" style="text-align: {{ s.heading_alignment }};">
+        {%- if s.eyebrow != blank -%}
+          <p class="eca-section__eyebrow">{{ s.eyebrow }}</p>
+        {%- endif -%}
+        <h2 class="eca-section__heading">{{ s.heading }}</h2>
+        {%- if s.subheading != blank -%}
+          <div class="eca-section__subheading">{{ s.subheading }}</div>
+        {%- endif -%}
+      </header>
+    {%- endif -%}
+
+    <div class="eca-ugc__grid">
+      {%- for block in section.blocks -%}
+        <figure class="eca-ugc__item" {{ block.shopify_attributes }}>
+          <div class="eca-ugc__media">
+            {%- if block.settings.video != blank -%}
+              <video
+                src="{{ block.settings.video.sources[1].url | default: block.settings.video.sources[0].url }}"
+                autoplay muted loop playsinline preload="metadata"
+                {% if block.settings.poster %}poster="{{ block.settings.poster | image_url: width: 800 }}"{% endif %}
+              ></video>
+            {%- elsif block.settings.external_video_url != blank -%}
+              <video
+                src="{{ block.settings.external_video_url }}"
+                autoplay muted loop playsinline preload="metadata"
+                {% if block.settings.poster %}poster="{{ block.settings.poster | image_url: width: 800 }}"{% endif %}
+              ></video>
+            {%- elsif block.settings.image -%}
+              {{ block.settings.image | image_url: width: 800 | image_tag:
+                  loading: 'lazy',
+                  widths: '300, 500, 800',
+                  alt: block.settings.caption | default: 'Customer photo'
+              }}
+            {%- else -%}
+              {{ 'lifestyle-1' | placeholder_svg_tag }}
+            {%- endif -%}
+
+            {%- if block.settings.handle != blank -%}
+              <span class="eca-ugc__handle">{{ block.settings.handle }}</span>
+            {%- endif -%}
+          </div>
+          {%- if block.settings.caption != blank -%}
+            <figcaption class="eca-ugc__caption">{{ block.settings.caption }}</figcaption>
+          {%- endif -%}
+        </figure>
+      {%- endfor -%}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .eca-ugc {
+    padding-block-start: var(--eca-section-pt, 0);
+    padding-block-end: var(--eca-section-pb, 0);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+  }
+
+  .eca-ugc__grid {
+    display: grid;
+    grid-template-columns: repeat(var(--eca-ugc-columns, 4), minmax(0, 1fr));
+    gap: var(--eca-ugc-gap, 12px);
+  }
+
+  .eca-ugc__item {
+    margin: 0;
+  }
+
+  .eca-ugc__media {
+    position: relative;
+    overflow: hidden;
+    border-radius: var(--style-border-radius, 8px);
+    aspect-ratio: var(--eca-ugc-ratio, 1 / 1);
+    background-color: color-mix(in srgb, var(--color-foreground) 4%, transparent);
+  }
+
+  .eca-ugc__media img,
+  .eca-ugc__media video,
+  .eca-ugc__media svg {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .eca-ugc__handle {
+    position: absolute;
+    inset-block-end: 8px;
+    inset-inline-start: 8px;
+    background: rgba(0,0,0,0.55);
+    color: #fff;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+  }
+
+  .eca-ugc__caption {
+    margin-top: 0.5rem;
+    font-size: 0.8125rem;
+    line-height: 1.4;
+    opacity: 0.8;
+  }
+
+  @media (max-width: 989px) {
+    .eca-ugc__grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media (max-width: 549px) {
+    .eca-ugc__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "ECA UGC gallery",
+  "tag": "section",
+  "class": "section-eca-ugc",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Eyebrow", "default": "Real people, real results" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "From our community" },
+    { "type": "richtext", "id": "subheading", "label": "Subheading" },
+    {
+      "type": "select",
+      "id": "heading_alignment",
+      "label": "Heading alignment",
+      "options": [
+        { "value": "left", "label": "Left" },
+        { "value": "center", "label": "Center" }
+      ],
+      "default": "center"
+    },
+    { "type": "header", "content": "Grid" },
+    { "type": "range", "id": "columns", "label": "Columns (desktop)", "min": 2, "max": 6, "step": 1, "default": 4 },
+    { "type": "range", "id": "gap", "label": "Gap", "min": 4, "max": 32, "step": 2, "unit": "px", "default": 12 },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Aspect ratio",
+      "options": [
+        { "value": "1 / 1", "label": "Square" },
+        { "value": "4 / 5", "label": "Portrait (4:5)" },
+        { "value": "9 / 16", "label": "Vertical (9:16)" },
+        { "value": "16 / 9", "label": "Wide (16:9)" }
+      ],
+      "default": "1 / 1"
+    },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Color scheme", "default": "scheme-1" },
+    { "type": "header", "content": "Padding" },
+    { "type": "range", "id": "padding-block-start", "label": "Top", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 },
+    { "type": "range", "id": "padding-block-end", "label": "Bottom", "min": 0, "max": 160, "step": 4, "unit": "px", "default": 64 }
+  ],
+  "blocks": [
+    {
+      "type": "media",
+      "name": "Media tile",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "video", "id": "video", "label": "Video (Shopify-hosted)" },
+        { "type": "url", "id": "external_video_url", "label": "External video URL (mp4)", "info": "Hosted .mp4 link. Used only if image and video above are empty." },
+        { "type": "image_picker", "id": "poster", "label": "Video poster" },
+        { "type": "text", "id": "handle", "label": "Handle / source", "info": "e.g. @customername" },
+        { "type": "text", "id": "caption", "label": "Caption" }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ECA UGC gallery",
+      "category": "Product",
+      "blocks": [
+        { "type": "media" }, { "type": "media" }, { "type": "media" }, { "type": "media" }
+      ]
+    }
+  ]
+}
+{% endschema %}
