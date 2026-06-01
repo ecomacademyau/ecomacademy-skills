@@ -1,21 +1,13 @@
 {
-  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ecomacademy-skills",
-  "description": "Claude Code skills and plugins for Shopify merchants — by Ecommerce Academy.",
-  "owner": {
-    "name": "Ecommerce Academy",
-    "email": "brendan@ecomfactory.com.au"
-  },
+  "owner": { "name": "Ecommerce Academy" },
   "plugins": [
     {
-      "name": "eca-pdp",
-      "source": "./plugins/eca-pdp",
-      "description": "Ecommerce Academy Product Detail Page (ECA PDP). Connects to a Shopify store via the Shopify CLI, duplicates the live theme into a development theme, and installs a high-converting product page template built for Horizon.",
-      "category": "ecommerce",
-      "tags": ["shopify", "horizon", "product-page", "pdp", "cro", "conversion", "theme"],
-      "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
-      "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
-      "license": "MIT"
+      "name": "eca-promo",
+      "description": "Plan and build a complete promotional sale campaign — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
+      "source": "./eca-promo",
+      "version": "1.0.0"
     }
   ]
 }
