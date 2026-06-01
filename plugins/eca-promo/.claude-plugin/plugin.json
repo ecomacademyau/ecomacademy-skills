@@ -2,10 +2,10 @@
   "name": "eca-promo",
   "version": "1.0.0",
   "description": "Plan and build a complete promotional sale campaign — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
-  "author": { "name": "Ecommerce Academy" },
+  "author": { "name": "Ecommerce Academy", "email": "brendan@ecomfactory.com.au" },
   "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
   "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
-  "license": "LicenseRef-Ecommerce-Academy-Members-Only",
-  "keywords": ["ecommerce", "promotion", "campaign", "sale", "email", "ads"],
+  "license": "MIT",
+  "keywords": ["shopify", "ecommerce", "promotion", "campaign", "sale", "email", "ads"],
   "skills": [ { "name": "promotional-campaign", "path": "./skills/promotional-campaign" } ]
 }

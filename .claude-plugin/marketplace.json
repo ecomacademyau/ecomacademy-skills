@@ -1,12 +1,17 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ecomacademy-skills",
-  "owner": { "name": "Ecommerce Academy" },
+  "owner": { "name": "Ecommerce Academy", "email": "brendan@ecomfactory.com.au" },
   "plugins": [
+    {
+      "name": "eca-pdp",
+      "description": "Connects to a Shopify store via the Shopify CLI, duplicates the live theme into a development theme, and installs a research-backed high-converting product page template. Built for Shopify's Horizon theme architecture.",
+      "source": "./plugins/eca-pdp"
+    },
     {
       "name": "eca-promo",
       "description": "Plan and build a complete promotional sale campaign — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
-      "source": "./eca-promo",
+      "source": "./plugins/eca-promo",
       "version": "1.0.0"
     }
   ]
