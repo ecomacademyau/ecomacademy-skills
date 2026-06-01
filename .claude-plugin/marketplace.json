@@ -2,10 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "ecomacademy-skills",
   "description": "Claude Code skills and plugins for Shopify merchants — by Ecommerce Academy.",
-  "owner": {
-    "name": "Ecommerce Academy",
-    "email": "brendan@ecomfactory.com.au"
-  },
+  "owner": { "name": "Ecommerce Academy", "email": "brendan@ecomfactory.com.au" },
   "plugins": [
     {
       "name": "eca-pdp",
@@ -20,7 +17,7 @@
     {
       "name": "eca-promo",
       "source": "./plugins/eca-promo",
-      "description": "Ecommerce Academy Promotion Builder (ECA Promo). Plan and build a complete promotional sale campaign end-to-end — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
+      "description": "Ecommerce Academy Promotion Builder. Plan and build a complete promotional sale campaign — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
       "category": "ecommerce",
       "tags": ["shopify", "promotion", "campaign", "sale", "email", "sms", "ads"],
       "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
