@@ -1,7 +1,10 @@
 {
   "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
   "name": "ecomacademy-skills",
-  "owner": { "name": "Ecommerce Academy", "email": "brendan@ecomfactory.com.au" },
+  "owner": {
+    "name": "Ecommerce Academy",
+    "email": "brendan@ecomfactory.com.au"
+  },
   "plugins": [
     {
       "name": "eca-pdp",
@@ -10,9 +13,9 @@
     },
     {
       "name": "eca-promo",
-      "description": "Plan and build a complete promotional sale campaign — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
+      "description": "Plan and build a complete promotional sale campaign \u2014 offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
       "source": "./plugins/eca-promo",
-      "version": "1.0.0"
+      "version": "1.0.1"
     }
   ]
 }
