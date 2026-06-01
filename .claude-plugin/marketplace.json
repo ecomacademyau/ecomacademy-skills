@@ -15,9 +15,9 @@
       "license": "MIT"
     },
     {
-      "name": "eca-promo",
-      "source": "./plugins/eca-promo",
-      "version": "1.1.0",
+      "name": "eca-promotion",
+      "source": "./plugins/eca-promotion",
+      "version": "1.0.0",
       "description": "Ecommerce Academy Promotion Builder. Plan and build a complete promotional sale campaign — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
       "category": "ecommerce",
       "tags": ["shopify", "promotion", "campaign", "sale", "email", "sms", "ads"],
