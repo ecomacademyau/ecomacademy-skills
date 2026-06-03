@@ -25,8 +25,8 @@
       "license": "MIT"
     },
     {
-      "name": "eca-skills",
-      "source": "./plugins/eca-skills",
+      "name": "eca-ecommerce-agent",
+      "source": "./plugins/eca-ecommerce-agent",
       "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, and competitor analysis. New skills are added here over time; install this one plugin to stay current with all of them.",
       "category": "ecommerce",
       "tags": ["shopify", "brand", "email", "klaviyo", "competitor", "marketing", "skills"],

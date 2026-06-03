@@ -1,17 +1,17 @@
 # Adding skills to the Ecommerce Academy marketplace
 
 This repo is a Claude Code **plugin marketplace**. Members add it once, install the
-`eca-skills` plugin, and from then on **every new skill you add to that plugin reaches
+`eca-ecommerce-agent` plugin, and from then on **every new skill you add to that plugin reaches
 them automatically** on update. This doc is the playbook for keeping that flowing.
 
 ## The one rule that makes auto-distribution work
 
-> **New skills go INSIDE the `eca-skills` plugin. Never ship a skill as its own new plugin.**
+> **New skills go INSIDE the `eca-ecommerce-agent` plugin. Never ship a skill as its own new plugin.**
 
 Claude Code only auto-updates plugins a member has **already installed**. A brand-new
 *plugin* will not appear for existing members unless each of them installs it by hand.
 But a new *skill folder added inside an already-installed plugin* flows to everyone the
-next time they update. So the bundle (`plugins/eca-skills/skills/`) is the home for
+next time they update. So the bundle (`plugins/eca-ecommerce-agent/skills/`) is the home for
 everything you add.
 
 ## Naming rule
@@ -28,19 +28,19 @@ Use kebab-case. Keep the folder name and the frontmatter `name:` identical.
 
 ## How to add a new skill (the whole workflow)
 
-1. **Create the skill folder** at `plugins/eca-skills/skills/eca-<your-skill>/` with a
+1. **Create the skill folder** at `plugins/eca-ecommerce-agent/skills/eca-<your-skill>/` with a
    `SKILL.md` inside. Set the frontmatter `name: eca-<your-skill>`.
 2. **Keep brand specifics in a swappable config file** (e.g. `config.md`,
    `brand-data.md`, `klaviyo-config.md`) and ship a **placeholder/template**, never a
    member's real data. The workflow logic in `SKILL.md` stays brand-agnostic.
-3. **No version bump needed.** `eca-skills` omits the `version` field in its
+3. **No version bump needed.** `eca-ecommerce-agent` omits the `version` field in its
    `plugin.json`, so Claude Code uses the git commit as the version — **every push is
    automatically a new release.** Just commit and push.
 4. **Commit & push** to the marketplace repo's main branch.
 5. Members receive it on their next plugin update (see below).
 
 No edits to `marketplace.json` or `plugin.json` are required to add a skill, because
-`eca-skills` declares `"skills": "./skills"` and auto-discovers every `SKILL.md` under
+`eca-ecommerce-agent` declares `"skills": "./skills"` and auto-discovers every `SKILL.md` under
 that folder.
 
 ## How members get updates
@@ -50,19 +50,19 @@ default** for members. Give them this one-time setup:
 
 - **Easiest:** in the `/plugin` menu, turn **auto-update ON** for the `ecomacademy-skills`
   marketplace. Claude Code then refreshes at startup and prompts `/reload-plugins`.
-- **Manual alternative:** run `/plugin update eca-skills` (or `/plugin update` for all).
+- **Manual alternative:** run `/plugin update eca-ecommerce-agent` (or `/plugin update` for all).
 
 First-time install for a new member:
 
 ```
 /plugin marketplace add ecomacademyau/ecomacademy-skills
-/plugin install eca-skills
+/plugin install eca-ecommerce-agent
 ```
 
 ## The other plugins in this marketplace
 
 - **`eca-promotion`** — the promotional-campaign builder (scripts + fonts). Its one skill
-  is `eca-promotional-campaign`. Like `eca-skills`, it omits an explicit `version`, so
+  is `eca-promotional-campaign`. Like `eca-ecommerce-agent`, it omits an explicit `version`, so
   every commit is a release.
 - **`eca-pdp`** — a Shopify CLI product-page tool (not a skill bundle).
 
@@ -75,9 +75,9 @@ existing members must install a brand-new plugin manually.
 ```
 ecomacademy-skills/
 ├── .claude-plugin/
-│   └── marketplace.json          # lists eca-pdp, eca-promotion, eca-skills
+│   └── marketplace.json          # lists eca-pdp, eca-promotion, eca-ecommerce-agent
 ├── plugins/
-│   ├── eca-skills/               # THE BUNDLE — add new skills here
+│   ├── eca-ecommerce-agent/               # THE BUNDLE — add new skills here
 │   │   ├── .claude-plugin/plugin.json   # "skills": "./skills", no version
 │   │   └── skills/
 │   │       ├── eca-brand-intelligence/
