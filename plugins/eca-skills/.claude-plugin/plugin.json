@@ -1,10 +1,10 @@
 {
   "name": "eca-skills",
-  "description": "The Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, and competitor analysis. New skills are added here over time; installing this one plugin keeps you up to date with all of them.",
-  "author": { "name": "Ecommerce Academy" },
+  "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, and competitor analysis. New skills are added here over time; installing this one plugin keeps you current with all of them.",
+  "author": { "name": "Ecommerce Academy", "email": "brendan@ecomfactory.com.au" },
   "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
   "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
-  "license": "LicenseRef-Ecommerce-Academy-Members-Only",
-  "keywords": ["ecommerce", "brand", "email", "klaviyo", "competitor", "marketing", "skills"],
+  "license": "MIT",
+  "keywords": ["shopify", "ecommerce", "brand", "email", "klaviyo", "competitor", "marketing", "skills"],
   "skills": "./skills"
 }

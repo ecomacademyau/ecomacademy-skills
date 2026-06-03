@@ -1,26 +1,38 @@
 {
-  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
   "name": "ecomacademy-skills",
-  "owner": {
-    "name": "Ecommerce Academy",
-    "email": "brendan@ecomfactory.com.au"
-  },
+  "description": "Claude Code skills and plugins for Shopify merchants — by Ecommerce Academy.",
+  "owner": { "name": "Ecommerce Academy", "email": "brendan@ecomfactory.com.au" },
   "plugins": [
     {
-      "name": "eca-skills",
-      "description": "The Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, and competitor analysis. Add new skills here and everyone on this plugin gets them on update.",
-      "source": "./plugins/eca-skills"
-    },
-    {
-      "name": "eca-promo",
-      "description": "Plan and build a complete promotional sale campaign — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
-      "source": "./plugins/eca-promo",
-      "version": "1.1.0"
-    },
-    {
       "name": "eca-pdp",
-      "description": "Connects to a Shopify store via the Shopify CLI, duplicates the live theme into a development theme, and installs a research-backed high-converting product page template. Built for Shopify's Horizon theme architecture.",
-      "source": "./plugins/eca-pdp"
+      "source": "./plugins/eca-pdp",
+      "description": "Ecommerce Academy Product Detail Page (ECA PDP). Connects to a Shopify store via the Shopify CLI, duplicates the live theme into a development theme, and installs a high-converting product page template built for Horizon.",
+      "category": "ecommerce",
+      "tags": ["shopify", "horizon", "product-page", "pdp", "cro", "conversion", "theme"],
+      "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
+      "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
+      "license": "MIT"
+    },
+    {
+      "name": "eca-promotion",
+      "source": "./plugins/eca-promotion",
+      "description": "Ecommerce Academy Promotion Builder. Plan and build a complete promotional sale campaign — offer, email/SMS, paid ads, on-site changes, and a dated Go-Live timeline.",
+      "category": "ecommerce",
+      "tags": ["shopify", "promotion", "campaign", "sale", "email", "sms", "ads"],
+      "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
+      "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
+      "license": "MIT"
+    },
+    {
+      "name": "eca-skills",
+      "source": "./plugins/eca-skills",
+      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, and competitor analysis. New skills are added here over time; install this one plugin to stay current with all of them.",
+      "category": "ecommerce",
+      "tags": ["shopify", "brand", "email", "klaviyo", "competitor", "marketing", "skills"],
+      "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
+      "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
+      "license": "MIT"
     }
   ]
 }

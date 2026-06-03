@@ -22,6 +22,7 @@ field in the skill's `SKILL.md` frontmatter. Examples:
 - `eca-brand-intelligence`
 - `eca-email-marketing-campaign`
 - `eca-competitor-analysis`
+- `eca-promotional-campaign`
 
 Use kebab-case. Keep the folder name and the frontmatter `name:` identical.
 
@@ -31,27 +32,25 @@ Use kebab-case. Keep the folder name and the frontmatter `name:` identical.
    `SKILL.md` inside. Set the frontmatter `name: eca-<your-skill>`.
 2. **Keep brand specifics in a swappable config file** (e.g. `config.md`,
    `brand-data.md`, `klaviyo-config.md`) and ship a **placeholder/template**, never a
-   member's real data. The workflow logic in `SKILL.md` stays brand-agnostic. (See any
-   existing skill for the pattern.)
-3. **No `version` bump needed.** `eca-skills` deliberately omits the `version` field in
-   its `plugin.json`, so Claude Code uses the git commit as the version — **every push is
+   member's real data. The workflow logic in `SKILL.md` stays brand-agnostic.
+3. **No version bump needed.** `eca-skills` omits the `version` field in its
+   `plugin.json`, so Claude Code uses the git commit as the version — **every push is
    automatically a new release.** Just commit and push.
 4. **Commit & push** to the marketplace repo's main branch.
 5. Members receive it on their next plugin update (see below).
 
-That's it — no edits to `marketplace.json` or `plugin.json` are required to add a skill,
-because `eca-skills` declares `"skills": "./skills"` and auto-discovers every
-`SKILL.md` under that folder.
+No edits to `marketplace.json` or `plugin.json` are required to add a skill, because
+`eca-skills` declares `"skills": "./skills"` and auto-discovers every `SKILL.md` under
+that folder.
 
 ## How members get updates
 
 Because this is a third-party (non-Anthropic) marketplace, **auto-update is OFF by
-default** for members. Give them this one-time setup so updates are painless:
+default** for members. Give them this one-time setup:
 
 - **Easiest:** in the `/plugin` menu, turn **auto-update ON** for the `ecomacademy-skills`
-  marketplace. After that, Claude Code refreshes at startup and prompts `/reload-plugins`.
-- **Manual alternative:** run `/plugin update eca-skills` (or `/plugin update` for all)
-  whenever they want the latest.
+  marketplace. Claude Code then refreshes at startup and prompts `/reload-plugins`.
+- **Manual alternative:** run `/plugin update eca-skills` (or `/plugin update` for all).
 
 First-time install for a new member:
 
@@ -60,21 +59,23 @@ First-time install for a new member:
 /plugin install eca-skills
 ```
 
-## When you DO touch the config files
+## The other plugins in this marketplace
 
-- **Adding a whole new plugin** (rare — only for something that isn't a skill, like the
-  Shopify `eca-pdp` theme tool): add a folder under `plugins/` and a new entry in
-  `.claude-plugin/marketplace.json`. Remember existing members must install it manually.
-- **`eca-promo`** keeps an explicit semantic `version` in its `plugin.json` because it's a
-  discrete, heavier plugin (scripts + fonts). If you edit it, **bump that version** or the
-  update won't be picked up.
+- **`eca-promotion`** — the promotional-campaign builder (scripts + fonts). Its one skill
+  is `eca-promotional-campaign`. Like `eca-skills`, it omits an explicit `version`, so
+  every commit is a release.
+- **`eca-pdp`** — a Shopify CLI product-page tool (not a skill bundle).
+
+Adding a **whole new plugin** (rare — only for something that isn't a skill) means adding
+a folder under `plugins/` and a new entry in `.claude-plugin/marketplace.json`. Remember
+existing members must install a brand-new plugin manually.
 
 ## Repo layout
 
 ```
 ecomacademy-skills/
 ├── .claude-plugin/
-│   └── marketplace.json          # lists eca-skills, eca-promo, eca-pdp
+│   └── marketplace.json          # lists eca-pdp, eca-promotion, eca-skills
 ├── plugins/
 │   ├── eca-skills/               # THE BUNDLE — add new skills here
 │   │   ├── .claude-plugin/plugin.json   # "skills": "./skills", no version
@@ -82,7 +83,7 @@ ecomacademy-skills/
 │   │       ├── eca-brand-intelligence/
 │   │       ├── eca-email-marketing-campaign/
 │   │       └── eca-competitor-analysis/
-│   ├── eca-promo/                # standalone (versioned) promo-campaign plugin
-│   └── eca-pdp/                  # standalone Shopify product-page plugin
+│   ├── eca-promotion/            # promo-campaign plugin (skill: eca-promotional-campaign)
+│   └── eca-pdp/                  # Shopify product-page plugin
 └── CONTRIBUTING.md
 ```
