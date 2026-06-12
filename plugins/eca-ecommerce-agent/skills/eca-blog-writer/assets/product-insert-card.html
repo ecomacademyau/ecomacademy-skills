@@ -1,0 +1,30 @@
+<!--
+  PRODUCT-INSERT CARD
+  A "Recommended" product box to drop inline in the body, next to the section that
+  naturally calls for the product. Use 2–4 per post.
+
+  Replace every {{PLACEHOLDER}}. Pull real data from the Shopify store:
+    {{PRODUCT_URL}}      e.g. https://store.com/products/handle
+    {{PRODUCT_IMAGE}}    a public product image URL
+    {{IMAGE_ALT}}        descriptive alt text (keyword-aware)
+    {{EYEBROW}}          short tag, e.g. "Recommended Tool" / "Our Pick" / "All-Day Support"
+    {{PRODUCT_NAME}}     e.g. QuietPaws™ Ultrasonic Bark Control
+    {{ONE_LINER}}        one-sentence benefit + proof, e.g. "Instant, humane interruption. No shocks. 30-day guarantee."
+    {{PRICE}}            e.g. $79.90 AUD
+    {{CTA_LABEL}}        e.g. "Shop Now"
+  Inline styles only, so it renders regardless of theme. Do NOT leave placeholders in the final HTML.
+-->
+<div style="border:1px solid #e6e6e6;border-radius:14px;padding:18px;margin:28px 0;display:flex;gap:18px;align-items:center;background:#fafafa;box-shadow:0 1px 3px rgba(0,0,0,0.04);">
+  <a href="{{PRODUCT_URL}}" style="flex:0 0 120px;">
+    <img src="{{PRODUCT_IMAGE}}" alt="{{IMAGE_ALT}}" style="width:120px;height:120px;object-fit:cover;border-radius:10px;display:block;" />
+  </a>
+  <div style="flex:1;min-width:0;">
+    <div style="font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#8a8a8a;margin-bottom:4px;">{{EYEBROW}}</div>
+    <a href="{{PRODUCT_URL}}" style="font-size:18px;font-weight:700;color:#111;text-decoration:none;line-height:1.25;">{{PRODUCT_NAME}}</a>
+    <p style="margin:6px 0 12px;font-size:14px;color:#444;line-height:1.45;">{{ONE_LINER}}</p>
+    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+      <span style="font-size:16px;font-weight:700;color:#111;">{{PRICE}}</span>
+      <a href="{{PRODUCT_URL}}" style="background:#111;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:10px 20px;border-radius:999px;display:inline-block;">{{CTA_LABEL}} &rarr;</a>
+    </div>
+  </div>
+</div>

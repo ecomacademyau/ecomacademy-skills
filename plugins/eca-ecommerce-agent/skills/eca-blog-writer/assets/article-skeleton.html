@@ -1,0 +1,57 @@
+<!--
+  ARTICLE BODY SKELETON
+  The reusable structure for the article `body` HTML passed to articleCreate.
+  This is the "template" that keeps every post consistent. Adapt the middle
+  (the H2 sections) to the chosen style in references/blog-styles.md.
+
+  Notes:
+  - Do NOT include an <h1> — Shopify renders the article title as the H1.
+  - The featured image is set as the article `image` (not in the body), so the
+    body starts with the answer-first intro.
+  - Keep paragraphs short. Put the answer first. Use a table somewhere.
+  - Drop product-insert cards (assets/product-insert-card.html) inline where the
+    content calls for the product — 2–4 total.
+  - Replace every {{PLACEHOLDER}} and remove guidance comments before publishing.
+-->
+
+<!-- ANSWER-FIRST INTRO: directly answer the post's core question in the first ~50–200 words -->
+<p>{{ANSWER_FIRST_INTRO}}</p>
+
+<!-- OPTIONAL TABLE OF CONTENTS (for long / pillar / how-to posts) -->
+<h2 id="contents">In this article</h2>
+<ul>
+  <li><a href="#section-1">{{TOC_ITEM_1}}</a></li>
+  <li><a href="#section-2">{{TOC_ITEM_2}}</a></li>
+  <li><a href="#faq">FAQ</a></li>
+</ul>
+
+<!-- BODY SECTION 1 — question-style H2, self-contained, specific -->
+<h2 id="section-1">{{H2_QUESTION_1}}</h2>
+<p>{{SECTION_1_BODY}}</p>
+
+<!-- e.g. a comparison/spec TABLE where it fits (great for SEO + AI citation) -->
+<table>
+  <thead><tr><th>{{COL_1}}</th><th>{{COL_2}}</th><th>{{COL_3}}</th></tr></thead>
+  <tbody>
+    <tr><td>{{R1C1}}</td><td>{{R1C2}}</td><td>{{R1C3}}</td></tr>
+    <tr><td>{{R2C1}}</td><td>{{R2C2}}</td><td>{{R2C3}}</td></tr>
+  </tbody>
+</table>
+
+<!-- >>> INSERT product-insert-card.html here when the section calls for the product <<< -->
+
+<h2 id="section-2">{{H2_QUESTION_2}}</h2>
+<p>{{SECTION_2_BODY}}</p>
+
+<!-- ...add as many sections as the style needs... -->
+
+<!-- FAQ BLOCK — 3–6 real "People Also Ask" questions. Highest-leverage GEO element. -->
+<h2 id="faq">Frequently asked questions</h2>
+<h3>{{FAQ_Q1}}</h3>
+<p>{{FAQ_A1}}</p>
+<h3>{{FAQ_Q2}}</h3>
+<p>{{FAQ_A2}}</p>
+<h3>{{FAQ_Q3}}</h3>
+<p>{{FAQ_A3}}</p>
+
+<!-- >>> INSERT cta-block.html here (closing CTA) <<< -->

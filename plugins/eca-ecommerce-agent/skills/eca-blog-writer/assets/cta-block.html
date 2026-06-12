@@ -1,0 +1,43 @@
+<!--
+  CLOSING CTA BLOCK
+  Goes near the end of the post, after the FAQ. Supports ONE or TWO products.
+  For a single-product post, delete the second .cta-card block.
+
+  Replace every {{PLACEHOLDER}}:
+    {{HEADLINE}}         e.g. "Ready for a calmer morning?"
+    {{SUBHEAD}}          e.g. "No sugar. No crash. Just great coffee, fast."
+    {{GUARANTEE}}        the offer/guarantee from config, e.g. "30-Day Money-Back Guarantee"
+    per card:
+      {{PRODUCT_URL}} {{PRODUCT_IMAGE}} {{IMAGE_ALT}} {{PRODUCT_NAME}}
+      {{ONE_LINER}} {{PRICE}} {{CTA_LABEL}}
+  Inline styles only. Do NOT leave placeholders in the final HTML.
+-->
+<div style="border:1px solid #ececec;border-radius:16px;padding:28px;margin:36px 0;background:#fff;text-align:center;">
+  <h2 style="margin:0 0 6px;font-size:24px;color:#111;">{{HEADLINE}}</h2>
+  <p style="margin:0 0 22px;font-size:15px;color:#555;">{{SUBHEAD}}</p>
+
+  <div style="display:flex;gap:16px;flex-wrap:wrap;justify-content:center;text-align:left;">
+    <!-- cta-card 1 -->
+    <div style="flex:1;min-width:240px;max-width:340px;border:1px solid #eee;border-radius:12px;padding:16px;">
+      <a href="{{PRODUCT_URL}}"><img src="{{PRODUCT_IMAGE}}" alt="{{IMAGE_ALT}}" style="width:100%;height:160px;object-fit:cover;border-radius:8px;display:block;margin-bottom:12px;" /></a>
+      <a href="{{PRODUCT_URL}}" style="font-size:17px;font-weight:700;color:#111;text-decoration:none;">{{PRODUCT_NAME}}</a>
+      <p style="margin:6px 0 12px;font-size:14px;color:#555;">{{ONE_LINER}}</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <span style="font-weight:700;color:#111;">{{PRICE}}</span>
+        <a href="{{PRODUCT_URL}}" style="background:#111;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:9px 18px;border-radius:999px;">{{CTA_LABEL}} &rarr;</a>
+      </div>
+    </div>
+    <!-- cta-card 2 (delete this whole block for single-product posts) -->
+    <div style="flex:1;min-width:240px;max-width:340px;border:1px solid #eee;border-radius:12px;padding:16px;">
+      <a href="{{PRODUCT_URL}}"><img src="{{PRODUCT_IMAGE}}" alt="{{IMAGE_ALT}}" style="width:100%;height:160px;object-fit:cover;border-radius:8px;display:block;margin-bottom:12px;" /></a>
+      <a href="{{PRODUCT_URL}}" style="font-size:17px;font-weight:700;color:#111;text-decoration:none;">{{PRODUCT_NAME}}</a>
+      <p style="margin:6px 0 12px;font-size:14px;color:#555;">{{ONE_LINER}}</p>
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
+        <span style="font-weight:700;color:#111;">{{PRICE}}</span>
+        <a href="{{PRODUCT_URL}}" style="background:#111;color:#fff;text-decoration:none;font-weight:600;font-size:14px;padding:9px 18px;border-radius:999px;">{{CTA_LABEL}} &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <p style="margin:20px 0 0;font-size:13px;color:#8a8a8a;">{{GUARANTEE}}</p>
+</div>

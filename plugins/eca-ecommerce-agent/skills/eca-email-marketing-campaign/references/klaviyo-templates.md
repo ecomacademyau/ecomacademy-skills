@@ -101,7 +101,7 @@ klaviyo_clone_email_template(
 )
 ```
 
-Example new name: `Made in Melbourne — Email 1 — Yes, we make it here`
+Example new name: `Spring Launch — Email 1 — It's Finally Here`
 
 This produces a fresh DND template per email. Capture each new template ID.
 
