@@ -32,6 +32,16 @@ The goal isn't to copy — it's to write the post that deserves to outrank them.
 ### 5. Scan competitor blogs
 - From the brand-intelligence competitor list, look at 2–3 competitor blogs. What topics do they cover repeatedly (a sign it's working)? What angle can you beat? What have they not covered at all?
 
+### 6. Validate search volume before writing (free)
+Don't write a post until you know people actually search the topic. **Google Keyword Planner** (tools.google.com/keyword-planner) is free with a Google Ads account and is the go-to check:
+
+- Enter the primary keyword (and, for influencer posts, the influencer's name plus "[name] products" and "[name] tips").
+- Check **average monthly searches**.
+- **Threshold: aim for roughly 1,000+ searches/month** combined across the primary terms before committing (tune per `config.md`; niche brands may set this lower). Note the secondary keywords it surfaces.
+- No Keyword Planner access? Use the free signals above (autocomplete depth, number of People Also Ask, Reddit/forum activity) as a directional proxy, and say the volume is estimated.
+
+This volume check is part of Gate 1: confirm demand before the title is approved, not after the post is written.
+
 ---
 
 ## Tier 2 — Paid SEO tools. Only if connected. Optional.

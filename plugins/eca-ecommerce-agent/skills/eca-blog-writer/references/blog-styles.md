@@ -58,6 +58,12 @@ Every style still obeys the universal rules in `seo-geo-checklist.md`: answer-fi
 - Avoid defamatory or false claims. If you can't support a statement about the person from the public record, don't make it.
 - This protects the brand legally and keeps the content trustworthy (which is also what AI engines reward).
 
+**Research for this style (do this before writing an influencer post):**
+- **Pick from the influencer database** if the brand keeps one (`influencer-database.md` / the file named in `config.md`): a list of target names with audience size and niche. Only consult it when the chosen post is actually influencer-style; for the other six styles you can ignore it.
+- **Validate the name's search volume** (Keyword Planner, see `research.md`): check the influencer's name plus "[name] products" and "[name] tips" and aim for the volume threshold before committing.
+- **Mine their content:** watch 2 to 3 of their most popular YouTube videos, or pull a transcript (use the `youtube-transcript` skill on the URL) and extract what they actually recommend.
+- **Map their recommendations to your products:** build a short list of "what they recommend" vs "what we sell", and aim to tie 3 to 5 of our products to their topics. Those mappings become the product inserts. Keep it factual: we are applying their publicly-taught method, not claiming their endorsement.
+
 ---
 
 ## 4. Comparison / "Best X for Y"

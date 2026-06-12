@@ -12,7 +12,11 @@ Two overlapping goals: rank in classic search (**SEO**) and get cited by AI answ
 - [ ] **Meta description** ~150–160 characters, includes the keyword, reads like a promise/benefit. (Set via the article's `global.title_tag` / `global.description_tag` metafields — see `shopify-publishing.md`.)
 - [ ] **URL slug** short, lowercase, hyphenated, keyword-bearing, no stop-word clutter.
 - [ ] **One `<h1>`** (Shopify renders the article title as H1 — don't add a second). Logical `<h2>`/`<h3>` hierarchy beneath.
+- [ ] **Editorial images between sections** — captioned figures that illustrate the content (separate from product cards), roughly one every 2 to 3 sections, scaled to length. They lift dwell time/engagement and can rank in image search. A post of only text + product boxes is under-built.
 - [ ] **Descriptive `alt` text** on every image (helps SEO, accessibility, and image search; AI engines read it too).
+- [ ] **Image filenames follow a convention** — lowercase, hyphenated, keyword/topic-bearing (e.g. `liquid-coffee-concentrate-office-desk.jpg`), not `IMG_1234.jpg`.
+- [ ] **Hero image is visually distinct** from the previous blog's hero (don't reuse the same shot post after post).
+- [ ] **All images the right ratio** (hero ~16:9 / 1200x630) and uploaded to the store CDN.
 - [ ] **Internal links** — at least one to the product(s) and one to a related post/collection. This spreads authority and keeps readers on-site.
 - [ ] **External link** to 1–2 credible sources where a claim benefits — signals trustworthiness.
 - [ ] **Content depth** that fully covers the topic. Match or beat the comprehensiveness of what's ranking; don't pad.
@@ -46,5 +50,7 @@ Two overlapping goals: rank in classic search (**SEO**) and get cited by AI answ
 ## Final pre-publish pass
 - [ ] Read it as a customer: does the opening answer the question? Would you click the product?
 - [ ] Read it as an AI engine: could you quote three self-contained, factual passages from it?
+- [ ] **No em-dashes anywhere** ("—") in the body, title, meta description, captions, or product cards. Search the final HTML for the character and remove every one. No en-dash ranges either ("5-10", not "5–10").
+- [ ] **Word count 1,000 to 1,500** (longer only for pillar/ultimate guides).
 - [ ] No keyword stuffing, no fabricated facts/quotes, no leftover placeholders, no broken links.
 - [ ] Brand voice consistent throughout.

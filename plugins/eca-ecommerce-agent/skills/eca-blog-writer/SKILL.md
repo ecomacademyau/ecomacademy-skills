@@ -28,7 +28,7 @@ This brand has been burned by silently-inferred defaults. Before writing a full 
 
 This skill has **two hard checkpoints**. Do not skip or merge them, even if the user seems eager:
 
-- **Gate 1 — Approve the title, the products, and the media.** After research, present the ranked blog ideas as **specific candidate headlines** and **stop**. Do not start writing until the user has (a) approved the **exact final title** and style — if they only name a topic, offer 2–4 concrete headlines and get the wording signed off, don't invent it yourself; (b) confirmed **which products** to feature/recommend; and (c) told you whether there's any **video or other media** to insert. Recommend titles, products, and a media plan so it's a quick yes/no — never just guess. (End of Phase 2 + Phase 2.5.)
+- **Gate 1 — Approve the title, the products, and the media.** After research, present the ranked blog ideas as **specific candidate headlines** and **stop**. Do not start writing until the user has (a) approved the **exact final title** and style — if they only name a topic, offer 2–4 concrete headlines and get the wording signed off, don't invent it yourself; (b) confirmed **which products** to feature/recommend; and (c) approved an **image/media plan** — including the editorial (in-between) images, not just the product cards. Recommend titles, products, and a concrete image plan so it's a quick yes/no — never just guess, and never silently ship a post with no editorial images. (End of Phase 2 + Phase 2.5.)
 - **Gate 2 — Approve the draft.** After writing, present the **full article here in chat for review** and **stop**. Take edits and revise as many rounds as needed. Do **not** create anything in Shopify until the user explicitly approves the draft. (Phase 4.5.)
 
 Only after Gate 2 is passed do you publish (as a draft) in Phase 5. The order is always: research → **Gate 1** → write → **Gate 2** → Shopify draft.
@@ -85,7 +85,9 @@ Output of this phase: a primary keyword/topic, search intent (informational / co
 
 Turn the research into concrete ideas. For each idea give:
 
-- **Working title** (specific and click-worthy, includes the primary keyword naturally).
+- **Working title** (the real headline wording, specific and click-worthy, includes the primary keyword naturally).
+  - **Title formula:** every title should include at least **two of these three**: (1) a **name** that drives search (an influencer/expert/brand, where relevant), (2) a **number** ("Top 5", "7 Ways", "#1 Rule"), (3) a **clear outcome** ("...Without a Machine", "Stop the Afternoon Slump"). Keep the primary keyword near the front.
+  - **CTR test:** picture the title sitting in the live Google results for that query. Would you click it over what's already there? If not, rewrite it before proposing.
 - **Style** (which template from `references/blog-styles.md`).
 - **Primary keyword + search intent.**
 - **Why it'll rank** — the gap it fills vs what's already out there, and why an AI engine would cite it.
@@ -104,12 +106,19 @@ Once the title is approved and **before writing**, lock two things — recommend
 
 **Products to feature / recommend.** Propose the specific product(s) this post should drive clicks to, with a one-line reason each (pull live title/price/image from Shopify; default to the heroes in `config.md`, but suggest the ones most relevant to *this* topic — they may differ from the usual heroes). Ask the user to confirm the list, swap items, add their own, or set the order. The post is built around whatever they approve here.
 
-**Video & other media.** Ask whether anything should be embedded, and where:
-- **Video** — a YouTube/Vimeo URL, a product demo, a UGC clip. (Embedded via an iframe — see `references/shopify-publishing.md`.)
-- **Images** — lifestyle shots, diagrams, before/afters, a hero image they want used. If they don't supply images, use product imagery from Shopify and say so.
-- **Other** — a comparison graphic, an infographic, a downloadable, a customer review/quote to feature.
+**Editorial images (propose a plan — don't skip these).** These are the captioned, in-between-the-sections images that make a post feel like a real article — distinct from the product-insert cards. They break up the copy, lift dwell time and engagement (a ranking signal), and can rank in image search. **Proactively propose an image plan** scaled to the post's length and style: where each image sits and what it shows (e.g., "a desk-latte shot in the latte section, a comparison visual under the table, a lifestyle shot near the close"). Let the post's length decide the count — roughly a couple for a short FAQ post, more for a how-to or pillar guide; the hero is always one on top. Don't stuff; every image must earn its place.
 
-If they have media, get the URLs/files and note where each should sit (e.g., "demo video under the how-to steps"). If they have none, confirm you'll proceed with text + product/Shopify imagery only. Capture all of this before Phase 3 so the structure is built around it, not bolted on after.
+Source them **hybrid, in this order** (state which was used so the user knows):
+1. **The brand's own photos / Shopify media library first** — search the store's Files/media for a fitting lifestyle or contextual shot before anything else.
+2. **Generate on-brand images to fill gaps** — when there's no suitable existing shot and an image-generation tool is available, generate one that matches the brand's visual style. **Always pass the real product in as a reference** for fidelity (the same way the hero was made), so the actual product/label appears — never an AI-invented product.
+
+Present the plan and let the user approve it, swap in their own photos, change placement, or dial the count up/down. (Honour any per-brand image preferences in `config.md`.)
+
+**Video.** Ask whether a video should be embedded and where — a YouTube/Vimeo demo, a product clip, a UGC clip. (Embedded via a responsive iframe — see `references/shopify-publishing.md`.)
+
+**Other media.** A comparison graphic, an infographic, a downloadable, or a customer review/quote to feature.
+
+If the user supplies media, get the URLs/files and note placement. If they have no photos and don't want generated ones, confirm you'll proceed with the hero + product cards only — but always offer the image plan first rather than defaulting to text-only. Capture all of this before Phase 3 so the structure is built around the visuals, not bolted on after.
 
 ## Phase 3 — Write the post
 
@@ -117,7 +126,10 @@ Once a topic + style is locked, read the matching section of `references/blog-st
 
 Non-negotiables for every post (the GEO + SEO baseline):
 
-- **Answer-first opening.** The first ~50–200 words must directly answer the post's core question — don't warm up to it. AI engines (Perplexity, AI Overviews) weight the opening heavily when deciding what to cite, and it earns featured snippets.
+- **No em-dashes. Anywhere. Ever.** Do not use the "—" character in the body, the title, the meta description, image captions, or product-card copy. Em-dashes read as an AI tell. Use a comma, a full stop, a colon, or brackets instead, and rewrite the sentence if needed. Avoid en-dash ranges too: write "5 to 10" or "5-10", not "5–10". This is a hard rule and a pre-publish check.
+- **Length: 1,000 to 1,500 words.** Long enough to fully cover the topic, tight enough to stay read. Pillar/ultimate guides can run longer.
+- **No walls of text.** Short paragraphs, broken up with subheadings, bullets, tables, and images. A reader should be able to skim the structure and get the gist.
+- **Answer-first opening / hook in the first sentence.** The first ~50 to 200 words must directly answer the post's core question. No slow warmup. AI engines (Perplexity, AI Overviews) weight the opening heavily when deciding what to cite, and it earns featured snippets.
 - **Question-style H2s** that mirror how people search and ask ("How do I…", "What is…", "Is X better than Y…"). One clear idea per heading.
 - **Scannable structure** — short paragraphs, lists, and at least one comparison/spec **table** where it fits. AI engines and snippet algorithms lift tables and lists directly.
 - **Definitive, factual statements** with specifics (numbers, timeframes, steps). Cite sources/data where a claim benefits from it — citation-friendliness is what gets a page pulled into a generated answer.
@@ -140,7 +152,8 @@ Assemble the article body from these building blocks:
 - **Featured image** at the top (set as the article image, see Phase 5).
 - **Answer-first intro**, then a **table of contents** for longer posts (anchors to each H2).
 - **Body sections** per the chosen style's structure.
-- **Approved media** placed where Phase 2.5 said it should go — embed videos via a responsive iframe and insert any supplied images with descriptive `alt` text and an optional caption (see `references/shopify-publishing.md`). Don't add media the user didn't approve.
+- **Editorial images** placed between sections per the approved plan — as captioned `<figure>`s with descriptive `alt` text, roughly one every 2–3 sections (scaled to length). These are separate from the product cards: their job is to illustrate the point and break up the copy. Link one or two through to the product where it's natural (as the reference post does), but most can simply support the content. Use library images first, then generated-on-brand (product-referenced) ones to fill gaps.
+- **Approved video / other media** placed where Phase 2.5 said it should go — videos via a responsive iframe (see `references/shopify-publishing.md`). Don't add media the user didn't approve.
 - **Product-insert cards** — `assets/product-insert-card.html`. Drop one in where the content naturally calls for the product (e.g., right after describing the problem it solves). Pull real product data (title, price, URL, image, one-line benefit) from the Shopify store. 2–4 per post is the sweet spot; more than that reads as an ad.
 - **Inline contextual links** — link the product name the first time it's mentioned in the body.
 - **FAQ block** near the end.
@@ -183,6 +196,18 @@ Only after Gate 2 sign-off. Read `references/shopify-publishing.md` for the exac
 Never publish live without explicit instruction. If publishing fails on a credential/permission error, tell the user which scope is missing rather than retrying blindly.
 
 ---
+
+## Phase 6 — After it goes live: index it and measure it
+
+This runs only once the user actually **publishes** the post live (the default is a draft, so prompt them when they confirm it's live).
+
+**Submit for indexing immediately.** Without this, Google can take a week or more to find the post.
+- Go to search.google.com/search-console, select the store's property, paste the full live blog URL into the inspection bar, and click **Request Indexing**. Wait for "URL added to priority crawl queue".
+- There's no standard GSC API connector, so this is a guided manual step: give the user the exact URL to submit and the click path. If a GSC connector is ever available, use it.
+
+**Set a 6-week check.** Offer to create a scheduled reminder (6 weeks out) to review the post's impressions and clicks in Search Console. If it's getting impressions for the target keyword, that's the signal to consider a small Google Search ad to amplify the organic traffic. Once the brand has 3 to 5 posts live, compare impressions and treat the best performer as the benchmark.
+
+(Repurposing into email/social is intentionally out of scope for this skill, use the brand's email and ad-copy skills for that.)
 
 ## A note on quality over volume
 

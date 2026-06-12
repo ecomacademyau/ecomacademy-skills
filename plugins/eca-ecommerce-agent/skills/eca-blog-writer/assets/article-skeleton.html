@@ -5,16 +5,16 @@
   (the H2 sections) to the chosen style in references/blog-styles.md.
 
   Notes:
-  - Do NOT include an <h1> — Shopify renders the article title as the H1.
+  - Do NOT include an <h1>, Shopify renders the article title as the H1.
   - The featured image is set as the article `image` (not in the body), so the
     body starts with the answer-first intro.
   - Keep paragraphs short. Put the answer first. Use a table somewhere.
   - Drop product-insert cards (assets/product-insert-card.html) inline where the
-    content calls for the product — 2–4 total.
+    content calls for the product, 2-4 total.
   - Replace every {{PLACEHOLDER}} and remove guidance comments before publishing.
 -->
 
-<!-- ANSWER-FIRST INTRO: directly answer the post's core question in the first ~50–200 words -->
+<!-- ANSWER-FIRST INTRO: directly answer the post's core question in the first ~50-200 words -->
 <p>{{ANSWER_FIRST_INTRO}}</p>
 
 <!-- OPTIONAL TABLE OF CONTENTS (for long / pillar / how-to posts) -->
@@ -25,9 +25,18 @@
   <li><a href="#faq">FAQ</a></li>
 </ul>
 
-<!-- BODY SECTION 1 — question-style H2, self-contained, specific -->
+<!-- BODY SECTION 1, question-style H2, self-contained, specific -->
 <h2 id="section-1">{{H2_QUESTION_1}}</h2>
 <p>{{SECTION_1_BODY}}</p>
+
+<!-- EDITORIAL IMAGE (not a product card): a captioned figure that illustrates the section
+     and breaks up the copy. Source from the brand's library first, else generate on-brand
+     (with the real product as a reference). Place ~1 every 2-3 sections, scaled to length.
+     Descriptive alt text is required; caption is optional. Link to the product only where natural. -->
+<figure style="margin:24px 0;">
+  <img src="{{EDITORIAL_IMAGE_URL}}" alt="{{EDITORIAL_IMAGE_ALT}}" style="width:100%;height:auto;border-radius:12px;display:block;" loading="lazy" />
+  <figcaption style="font-size:13px;color:#777;margin-top:8px;text-align:center;">{{EDITORIAL_CAPTION}}</figcaption>
+</figure>
 
 <!-- e.g. a comparison/spec TABLE where it fits (great for SEO + AI citation) -->
 <table>
@@ -45,7 +54,7 @@
 
 <!-- ...add as many sections as the style needs... -->
 
-<!-- FAQ BLOCK — 3–6 real "People Also Ask" questions. Highest-leverage GEO element. -->
+<!-- FAQ BLOCK, 3-6 real "People Also Ask" questions. Highest-leverage GEO element. -->
 <h2 id="faq">Frequently asked questions</h2>
 <h3>{{FAQ_Q1}}</h3>
 <p>{{FAQ_A1}}</p>

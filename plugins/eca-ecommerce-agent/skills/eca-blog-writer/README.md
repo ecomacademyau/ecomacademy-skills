@@ -11,7 +11,7 @@ It's built for stores that want content that gets **indexed and cited in Google 
 1. **Research** — finds what people actually search and ask in the brand's category. Free methods first (web search, People Also Ask, autocomplete, communities, competitor blogs, reading what AI engines currently say); paid SEO tools (Semrush/Ahrefs) used only if connected; Google Search Console data used if the user can supply it.
 2. **Blog ideas** — a ranked, specific shortlist, each tied to a proven post style and the product it drives to. **→ Gate 1: you approve a title, confirm which products to feature (it recommends, you decide), and flag any video/media to embed — before writing.**
 3. **Writing** — full draft in the brand's voice, in the correct structure for the chosen style, optimised for SEO + GEO (answer-first, question H2s, tables, FAQ block).
-4. **Structure & inserts** — assembles clean HTML with product-insert cards and a closing CTA block — the click-through engine.
+4. **Structure & visuals** — assembles clean HTML with a hero image, **captioned editorial images between sections** (sourced from your library first, then generated on-brand with the real product as reference), product-insert cards, and a closing CTA block.
 5. **Review** — presents the full draft here for your review, edits, and sign-off. **→ Gate 2: nothing goes to Shopify until you approve.**
 6. **Publish** — creates the article in Shopify **as a draft for review** by default (never live unless you ask).
 
