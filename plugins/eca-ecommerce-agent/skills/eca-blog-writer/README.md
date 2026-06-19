@@ -15,9 +15,9 @@ It's built for stores that want content that gets **indexed and cited in Google 
 5. **Review** — presents the full draft here for your review, edits, and sign-off. **→ Gate 2: nothing goes to Shopify until you approve.**
 6. **Publish** — creates the article in Shopify **as a draft for review** by default (never live unless you ask).
 
-## The seven post styles
+## The eight post styles
 
-Listicle · How-to / educational · Influencer / authority product review · Comparison / "best X for Y" · Question / FAQ answer-style · Ultimate guide / pillar · Myth-busting / problem-solver. Full structure for each in `references/blog-styles.md`.
+Listicle · How-to / educational · Influencer / authority product review · Comparison / "best X for Y" · Question / FAQ answer-style · Ultimate guide / pillar · Myth-busting / problem-solver · **Advertorial (any angle: news/PR, founder story, review, exposé)** (a story-led, news-style sales page for paid traffic, with a hook-development step; see `references/advertorial-framework.md`). Full structure for each in `references/blog-styles.md`.
 
 ## Requirements
 
@@ -50,9 +50,11 @@ eca-blog-writer/
 ├─ README.md                        # this file
 ├─ references/
 │  ├─ research.md                   # tiered keyword/topic research (free first, paid optional)
-│  ├─ blog-styles.md                # the 7 post styles + required structure for each
+│  ├─ blog-styles.md                # the 8 post styles + required structure for each
+│  ├─ advertorial-framework.md      # Style 8: full advertorial / founder-story framework
+│  ├─ influencer-database.md        # watchlist for influencer-style posts (conditional)
 │  ├─ seo-geo-checklist.md          # on-page SEO + AI-answer-engine optimisation checklist
-│  └─ shopify-publishing.md         # exact GraphQL to publish as a draft (articleCreate)
+│  └─ shopify-publishing.md         # exact GraphQL to publish as a draft (article or page)
 └─ assets/
    ├─ article-skeleton.html         # the reusable body structure ("template")
    ├─ product-insert-card.html      # inline "Recommended" product card

@@ -123,6 +123,23 @@ Convert a normal YouTube watch URL (`watch?v=ID`) to the embed form (`/embed/ID`
 
 **Other media** — infographics/comparison graphics are just images (use the figure pattern). For a downloadable (PDF etc.), upload to Shopify Files and link it. Keep every embed responsive and lazy-loaded so it doesn't slow the page (page speed affects both SEO and conversion).
 
+## Publishing an advertorial as a Page (not a blog article)
+
+Advertorials (Style 8) conventionally live on a Shopify **Page** (`/pages/...`), not in a blog. Confirm page vs blog article with the user at Gate 1. To publish as a page, use `pageCreate` instead of `articleCreate`:
+
+```graphql
+mutation CreatePage($page: PageCreateInput!) {
+  pageCreate(page: $page) {
+    page { id handle title }
+    userErrors { field message }
+  }
+}
+```
+
+`PageCreateInput` key fields: `title`, `handle`, `body` (HTML), `isPublished` (set **false** for a draft, the default), `templateSuffix`, and `metafields` (use `global.title_tag` / `global.description_tag` for SEO, same as articles). Verify the exact fields with `graphql_schema('PageCreateInput')` and validate before running. The live URL will be `https://<store-domain>/pages/<handle>`.
+
+The advertorial body still carries its product-insert/CTA blocks and the **required legal disclaimer** at the end. If the user would rather it sit in a blog, use `articleCreate` as normal instead. Default both to draft (`isPublished: false`) for review.
+
 ## Advanced (optional): a custom article theme template
 
 If a brand wants a distinct branded layout for these posts (different from their default article page), create a theme template `article.<suffix>.json`/`.liquid` in the theme and pass `templateSuffix: "<suffix>"` in the article input. This requires theme-file access (`themeFilesUpsert`) and theme/Liquid knowledge. Most stores don't need it — the body HTML components in `assets/` already give every post a consistent, on-brand structure that renders on any theme. Only go here if the user specifically asks for a custom article layout.

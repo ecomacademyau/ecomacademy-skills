@@ -41,10 +41,11 @@ The posts exist to drive clicks to these. List the heroes; Claude pulls live pri
 
 ## Post styles available
 
-All seven live in `references/blog-styles.md`. Note any the brand prefers or wants to avoid:
+All eight live in `references/blog-styles.md`. Note any the brand prefers or wants to avoid:
 
 1. Listicle  2. How-to / educational  3. Influencer / authority product review
 4. Comparison / "best X for Y"  5. Question / FAQ answer-style  6. Ultimate guide / pillar  7. Myth-busting / problem-solver
+8. Advertorial, any angle (news/PR, founder story, review, exposé; story-led sales page for paid traffic; see `references/advertorial-framework.md`)
 
 - **Preferred styles:** [or "all"]
 - **Influencer-style note:** only reference real public figures with factual, non-defamatory framing

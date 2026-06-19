@@ -138,6 +138,21 @@ Every style still obeys the universal rules in `seo-geo-checklist.md`: answer-fi
 
 ---
 
+## 8. Advertorial (any angle: news/PR, founder story, review, exposé)
+
+**Best for:** converting cold paid traffic with a story-led or news-style sales page.
+**Intent:** direct-response conversion, not organic ranking.
+
+This is a distinct, long-form format with its own full structure, persuasion mechanics, compliance requirements, and publish target (usually a Shopify **Page**, not a blog article). **Read `references/advertorial-framework.md` and follow it** whenever the user asks for an advertorial, a PR / news-style piece, a founder story, an "our story" page, or any story-led sales page.
+
+It is **angle-agnostic**: first pick the **angle** (news/PR investigative, founder story, personal review, problem/exposé, or listicle-news) and craft the **hook** (the big idea: news peg, surprising stat, contrarian claim, unique mechanism, transformation, curiosity, or authority). Do not default to the founder story. The framework file gives a hook-building step plus full structures for the founder-story and news/PR angles.
+
+Shared backbone (every angle): hook headline (+ dateline/byline for news/PR) → lead that delivers the hook → problem + named villain → the discovery / mechanism ("reason why") → product as the answer with benefits → stacked proof → comparison vs the alternative → repeated CTAs + usage demo → curiosity/scarcity close → **required advertising disclaimer**.
+
+**Why it works:** a sharp hook plus editorial framing borrows credibility and attention; problem > villain > mechanism > solution makes the product the obvious fix; stacked proof overwhelms doubt; repeated CTAs catch the reader whenever they are ready. **Real proof and real quotes only, never impersonate a real outlet or fabricate experts/awards.** See the framework file.
+
+---
+
 ## Choosing the style (quick guide)
 
 | If the search looks like… | Use style |
@@ -149,5 +164,6 @@ Every style still obeys the universal rules in `seo-geo-checklist.md`: answer-fi
 | "what is / why does / can / how long" (one tight question) | Question/FAQ |
 | "complete guide / everything about" (broad) | Ultimate guide |
 | "is it true / myths / why is my … not working" | Myth-busting/problem-solver |
+| "advertorial / PR / news-style / founder story / our story / sales page (often for paid traffic)" | Advertorial, any angle (read `advertorial-framework.md`) |
 
 When a topic could fit two styles, pick the one that matches the *buyer's stage* — comparison and influencer styles sit closest to the sale; listicle and guide sit earliest.
