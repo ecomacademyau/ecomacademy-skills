@@ -47,7 +47,7 @@
       "name": "eca-ecommerce-agent",
       "displayName": "ECA Marketing Coworker",
       "source": "./plugins/eca-ecommerce-agent",
-      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, and SEO/AI blog writing. New skills are added here over time; install this one plugin to stay current with all of them.",
+      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, and UGC video scripts. New skills are added here over time; install this one plugin to stay current with all of them.  What's new (v1.4.0): New Skill Added: UGC Script Writer",
       "category": "ecommerce",
       "tags": [
         "shopify",
@@ -62,7 +62,10 @@
         "skills",
         "blog",
         "seo",
-        "content"
+        "content",
+        "ugc",
+        "video",
+        "scripts"
       ],
       "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
       "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
