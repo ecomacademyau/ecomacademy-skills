@@ -1,6 +1,8 @@
 # Founder Ad Story
 **Status: FULL (gold-standard reference).** A ~60-second founder monologue, shot on a phone, that builds trust with a cold audience by telling the true story of the moment the founder realised the customer's problem was real — and what they did about it.
 
+**Funnel position:** TOF · MOF
+
 > Source: the "Shoot Your Own Founder Ad" worksheet. This is the reference quality bar for every other type. Read `00-engine.md` first.
 
 ## Why it works
@@ -8,6 +10,14 @@ People keep watching for one reason: **it feels like a real person telling the t
 
 ## Format rule — talking-to-camera ONLY (non-negotiable)
 A founder ad is the founder talking **straight to camera in one continuous take**, exactly like a Story posted to their own feed. **Never use b-roll, cutaways, supered clips, or a second angle.** The entire power of this format is unbroken eye contact and the feeling that a real person is talking *to you* — the moment you cut away, it reads as an ad and the spell breaks. So: no `[b-roll]`/`[cutaway]` notes in this script, no edited inserts. The only thing on screen is the founder's face (and, in Beat 4, the product held up in their own hand — still in the same continuous shot, not a cutaway). On-screen captions are fine; cut-to footage is not.
+
+## Prerequisite — you need a real founder story (check this first)
+This type only works with **genuine founder details**: who they are, the moment they realised the customer's problem was real, and what they did about it. Before writing:
+
+1. **Look in `brand-data.md` §1 (founder story) and §3 (voice).** If the story's there, use it.
+2. **If it's missing or marked TBD, ask the member** for the few things only they know — the founder's name + one-line personality, what personally frustrated them (or what they fell for), the moment it clicked, and what they made. A handful of questions is all it takes, and the rough, real answer is the good one.
+3. **Never invent a founder, a backstory, or a "moment."** If it didn't happen, it can't be in the script — that's the one thing that kills a founder ad.
+4. **If there's genuinely no founder story to tell** — a faceless brand, no founder willing to be on camera, a dropship/marketplace brand, or a founder with no real origin moment — this is the **wrong type**. Say so and route to a format that doesn't need a founder: **3 Reasons Why** or **Comment Reply** (and, once live, Product Review, Us vs Them / Before-After, or Unboxing). A staff member or a customer can front those; a Founder *Story* needs the founder.
 
 ## Step 1 — Generate the hook (0–3s)
 Use the hook engine in `00-engine.md` with VIDEO TYPE = "Founder Monologue". Founder-specific hook rules:

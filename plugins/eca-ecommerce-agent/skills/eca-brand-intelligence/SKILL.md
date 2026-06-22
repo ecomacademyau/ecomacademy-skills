@@ -1,11 +1,11 @@
 ---
 name: eca-brand-intelligence
-description: Load the brand's full identity — story, market, competitors, products, voice, visual rules, ICP, and the why-people-buy transformation — before producing any customer-facing content or making strategic suggestions. If no brand-data file exists yet (or it's mostly placeholders), this skill BUILDS one from the store URL: it crawls the site, runs deep market and competitor research, mines reviews for buying motivation, and drafts the whole brand profile for approval. Use this skill whenever the user asks Claude to write, edit, or review marketing copy, product descriptions, ad creative, email/SMS, social posts, landing-page content, blog articles, FAQ, customer-service replies, value-prop work, or positioning decisions — even if the user doesn't mention the brand by name. Also trigger when the user asks "is this on-brand?", "how would we say X?", "who's our customer?", "who are our competitors?", "set up brand intelligence", "build our brand profile from our website", or wants to evaluate an opportunity against the brand's positioning. The skill works for any brand by swapping the `brand-data.md` file.
+description: Load the brand's full identity — story, market, competitors, products, voice, visual rules, ICP/Avatar, and the why-people-buy transformation — before producing any customer-facing content or making strategic suggestions. If no brand-data file exists yet (or it's mostly placeholders), this skill BUILDS one from the store URL: it crawls the site to, runs deep market and competitor research, mines reviews for buying motivation, and drafts the whole brand profile for approval. Use this skill whenever the user asks Claude to write, edit, or review marketing copy, product descriptions, ad creative, email/SMS, social posts, landing-page content, blog articles, FAQ, customer-service replies, value-prop work, or positioning decisions — even if the user doesn't mention the brand by name. Also trigger when the user asks "is this on-brand?", "how would we say X?", "who's our customer?", "who are our competitors?", "set up brand intelligence", "build our brand profile from our website", or wants to evaluate an opportunity against the brand's positioning. The skill works for any brand by swapping the `brand-data.md` file.
 ---
 
 # Brand Intelligence
 
-This skill grounds every downstream marketing skill (email, ads, blog, personas, promotions, PDPs) in the real brand — not generic ecommerce best practice. All brand facts live in one file, `brand-data.md`, in this folder. The logic for *how* to build and apply that file lives here.
+This skill grounds every downstream marketing skill (email, ads, content, blog, personas, promotions, PDPs) in the real brand — not generic ecommerce best practice. All brand facts live in one file, `brand-data.md`, in this folder. The logic for *how* to build and apply that file lives here.
 
 **The skill has two modes. Always run Step 0 first to decide which.**
 
@@ -24,14 +24,25 @@ Never half-load the file. A thin brand-data file produces confident, wrong copy 
 
 ## Mode A — Build the brand-data file
 
-Goal: produce a complete `brand-data.md` from the structure in `templates/brand-data-template.md`, sourced from the brand's own website and real research — not invention. This is **tool-optional**: use whatever is connected, degrade gracefully, and mark anything you can't verify as a gap rather than guessing.
+Goal: produce a complete `brand-data.md` from the structure in `templates/brand-data-template.md`, sourced from the brand's own website and real research — not invention. This is **tool-optional**: use whatever is connected, suggest tools if they are available,degrade gracefully, and mark anything you can't verify as a gap rather than guessing.
 
 **This mode is collaborative, not autonomous.** The member owns the brand — Claude researches and *proposes*; the member *validates and signs off*. A brand profile is a set of strategic decisions (positioning, who we're for, how we win), not just retrieved facts, so it must not be saved until the member has reviewed the direction and agreed to it. There are **two mandatory checkpoints** below — **Gate 1** (agree the direction before drafting) and **Gate 2** (sign off before saving). Do not skip them, even if you have enough to complete the file unattended. Running this end-to-end without stopping is a failure of the skill, not efficiency.
 
-### A1 — Get the starting point
+### A1 — Connect the tools that make this valuable (do this first)
+The build is only as rich as the data it can reach. Before any research, check what's already connected and **recommend the missing high-value connectors**, each mapped to what it unlocks — then offer to help connect them (search the connector registry, or point the member to Customize → Connectors). Only suggest what's **not already connected**, and keep it to the few that matter for this brand. Never block: if they skip a connector, fall back to the website + web research and flag the affected sections as lower-confidence in Section 18.
+
+Full value-map in `references/connectors.md`. In short:
+- **Shopify** *(essential)* — live products, prices, variants, collections, customers, orders → Sections 4, 7, 8, 12.
+- **Klaviyo** *(essential)* — lists, segments, campaign history, sender identity, existing email voice → Sections 3, 12, 17.
+- **A reviews app** *(essential — e.g. Judge.me/Yotpo/Okendo)* — the richest source for why-people-buy, proof, objections, voice-of-customer → Sections 2, 8, 9, 12.
+- **Claude in Chrome extension + Claude desktop app** *(highly useful)* — render JS-heavy pages (review widgets, competitor sites, Meta Ads Library, Reddit/Quora) plain fetching can't → Sections 10, 11, and the forum-first VoC research.
+- **Semrush** *(useful)* — keyword volumes + competitor search data → Section 15.
+- **Web analytics — GA4 or Microsoft Clarity** *(optional)* — validate the ICP with real audience/behaviour data → Section 12.
+
+### A2 — Get the starting point
 Ask the member for the **store URL** if you don't already have it, and ask whether there's any existing positioning, must-keep language, or direction they want respected (and anything that's off-limits). Keep it to one or two quick questions — the deeper founder-only items (mission, margins, discount depth) come at Gate 2 once the draft gives them context. Confirm you're building for the right brand before doing anything else.
 
-### A2 — Crawl the brand's own site
+### A3 — Crawl the brand's own site
 Read the brand in its own words before anyone else's. Fetch and read:
 - **Homepage** — the lead promise, hero offer, top value props.
 - **About / our-story** — founder story, values, provenance, mission.
@@ -41,7 +52,7 @@ Read the brand in its own words before anyone else's. Fetch and read:
 
 Capture voice from how *they* write, not how you'd write. Their headlines are your Section 3 calibration target.
 
-### A3 — Mine "why people buy" & the transformation (Section 2)
+### A4 — Mine "why people buy" & the transformation (Section 2)
 This is the highest-value section, so spend real effort here. From the reviews and on-site copy, extract:
 - The **before → after** transformation (the struggle they leave behind, the new reality they get).
 - The **functional, emotional, and identity** jobs-to-be-done.
@@ -49,8 +60,8 @@ This is the highest-value section, so spend real effort here. From the reviews a
 - The recurring **praise themes** and the **objections** people raise (feeds Sections 8 and 9).
 If review volume is thin, say so and flag Section 2 as low-confidence rather than inventing motivation.
 
-### A4 — Deep voice-of-customer & market pain-point research (forum-first)
-This is the step that makes the market position real. Follow `references/market-research.md` in this folder: adopt the market-research-analyst role and mine where consumers talk openly — **prioritising discussion forums** (Reddit, Quora, niche forums) and **competitor reviews** (Amazon, Trustpilot, ProductReview, review widgets), then X, Medium, and YouTube comments. Capture, with verbatim quotes and sources:
+### A5 — Deep voice-of-customer & market pain-point research (forum-first)
+This is the step that makes the market position real. Follow `references/market-research.md` in this folder: adopt the market-research-analyst role and mine where consumers talk openly — **prioritising discussion forums** (Reddit, Quora, niche forums) and **competitor reviews** (Amazon, Trustpilot, ProductReview, review widgets), then X, Medium, reddit, and YouTube comments. Capture, with verbatim quotes and sources:
 - the category's recurring **pain points**,
 - **why the current solutions fail** (per alternative/competitor),
 - **what consumers say they want** (unmet needs, "I just want…"),
@@ -60,7 +71,7 @@ Surface threads with web search, fetch what you're allowed to, and rely on snipp
 
 **Output two things:** (1) a standalone **market-research report** saved alongside `brand-data.md` (structure in `references/market-research.md`), written so a marketer who wasn't in the room can write on-message copy the same day; and (2) distilled findings piped into Sections 2, 9, 10, 11, 12, and 15 of the brand-data file, with sources logged in Section 18.
 
-### A5 — Market sizing & competitor desk research
+### A6 — Market sizing & competitor desk research
 Complement the voice-of-customer work with desk research (web search / fetch, and **Semrush MCP** if connected):
 - **Market (Section 10)** — category size, growth rate, format/segment trends (cite source + year).
 - **Competitors (Section 11)** — confirm the 3–5 direct competitors plus adjacent and indirect players. For each: format, positioning, strengths, weaknesses, and our wedge. Check their site and, where useful, their **Meta Ads Library** activity. (The `competitor-analysis` skill can do a deeper teardown on any single one.)
@@ -69,6 +80,7 @@ Complement the voice-of-customer work with desk research (web search / fetch, an
 ### Gate 1 — Validate direction & key assumptions (MANDATORY — do not skip)
 Before drafting the file, stop and get the member's agreement on the **brand direction**, not just the facts. Present a short synthesis of what the research points to and let them correct it:
 - the **positioning / wedge** (how we win, the axis we own),
+- the **avatar / ICP** (who we're for, who we're not for),
 - the **core transformation & "why people buy"** you found,
 - the **primary persona(s)** and who we're *not* for,
 - the **3–5 competitors** and the angle against them,
@@ -76,8 +88,8 @@ Before drafting the file, stop and get the member's agreement on the **brand dir
 
 Ask the member to confirm, correct, or redirect. Use a small number of focused questions (the AskUserQuestion tool is ideal) rather than a wall of text. **Do not proceed to drafting until they've agreed the direction.** If they redirect, fold it in and re-confirm. This is the step that makes it *their* brand intelligence, not Claude's guess.
 
-### A6 — Draft every section from the template
-Work through `templates/brand-data-template.md` top to bottom and fill each section from A2–A5. Rules:
+### A7 — Draft every section from the template
+Work through `templates/brand-data-template.md` top to bottom and fill each section from A3–A6. Rules:
 - **Never invent brand facts.** No SKUs, prices, claims, awards, or stats you didn't verify. Unverifiable items become `TBD` in Section 19 and a row in Section 18 (Sources & confidence).
 - Fill **Section 18** as you go — note each section's source, confidence (High/Med/Low), and date.
 - Founder-only items (confirmed mission, discount-depth guardrails, margins, logo files, verified ICP demographics) are gaps to ask about, not gaps to fill.
@@ -98,6 +110,7 @@ Before producing any output covered by this skill, read `brand-data.md` — the 
 
 ### B2 — Match the work to the right sections
 - **Product copy / PDPs** → Products, Why-people-buy, Proof, Objections, Offers, ICP, Voice
+- **content / video scripts** → Why-people-buy, Messaging pillars, Voice, Market, Competitors, ICP
 - **Email / SMS** → Voice, Why-people-buy, ICP, Offers, Promo calendar, Proof
 - **Ads (paid social/search)** → Messaging pillars, Why-people-buy, Objections, Competitors, Proof, ICP, Visual
 - **Social organic** → Voice, Brand essence, Visual identity

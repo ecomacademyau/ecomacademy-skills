@@ -1,6 +1,8 @@
 # Comment Reply
 **Status: LOCKED (2026-06-19).** A video (≈15–30s) that answers a real (or representative) comment/question/objection on screen. Feels native, not like an ad — you're "just replying." Excellent for handling objections and for riding engagement on a post that's getting traction. Read `00-engine.md` first.
 
+**Funnel position:** TOF · MOF · BOF
+
 ## Why it works
 The on-screen comment *is* the hook — it borrows curiosity and social proof, and it pre-frames the video as a helpful reply rather than a pitch. Answering an objection out loud disarms it for everyone watching with the same doubt.
 

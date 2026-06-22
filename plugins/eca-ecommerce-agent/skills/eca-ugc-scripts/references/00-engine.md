@@ -43,7 +43,7 @@ The hook is the hardest line and the highest-leverage one. Never write one and s
 
 ## Timing discipline
 
-- Short-form sweet spots: **15–30s** for most paid/organic; up to **60s** for Founder/Interview stories.
+- **~30s is the guide, not a ceiling.** Most paid/organic lands well at 15–30s — but **stretch to 45–60s when a longer cut genuinely tells the story better**, especially **Founder Story** (and other narrative types like Interview). Length should serve the story and retention, never padding: if the longer version holds attention the whole way through, keep it; if any second sags, cut back toward 30s.
 - Give a **rough second-count per beat** and a **total**. If it runs long, the fix is almost always the product-explanation beat — cut it to the steps.
 - Read it aloud at normal pace to check the real runtime before shipping.
 
@@ -58,6 +58,9 @@ Deliver, in this order:
 6. **The ask** — the exact CTA line and where it sends people.
 
 Keep it copy-paste ready, equally usable as a self-shoot guide or a creator brief. Offer to save it as a file for handoff.
+
+## After approval — export to Word (standing rule)
+**Every time a member approves a script, export the final version to a Word (.docx) document — automatically, without being asked.** Use the docx skill. Include: the title, the brief (type · funnel stage · avatar · offer/angle · destination), the 3 hook options, and the **script as clean, editable spoken lines in sequence — NO beat headings or timing labels** (the doc is a writing surface for the member to refine into their own voice, so it should read like the words they'll actually say). Keep only essential on-screen/action cues as light notes. Then add total runtime, shoot notes, and the CTA below the script as reference. Save it to the member's folder and share the link. One script = one document; name it clearly (brand · type · angle).
 
 ## Universal shooting notes (carry into every type unless the type overrides)
 
