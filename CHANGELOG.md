@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.5.1 - 2026-06-23
+
+- Added in Operations Coworker
+
 ## v1.5.0 - 2026-06-22
 
 - Updated UGC inputs for better scripts, extended to 60secs if needed.

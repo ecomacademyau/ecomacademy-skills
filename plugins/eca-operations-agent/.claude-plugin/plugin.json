@@ -1,0 +1,23 @@
+{
+  "name": "eca-operations-agent",
+  "displayName": "ECA Operations Coworker",
+  "version": "1.0.0",
+  "description": "Ecommerce Academy Operations Coworker — turn the repeatable tasks in your business into reusable Claude skills using the TEACH framework. New operations skills are added here over time; install this one plugin to stay current with all of them.",
+  "author": {
+    "name": "Ecommerce Academy",
+    "email": "brendan@ecomfactory.com.au"
+  },
+  "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
+  "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
+  "license": "MIT",
+  "keywords": [
+    "operations",
+    "skills",
+    "skill-builder",
+    "teach",
+    "automation",
+    "workflow",
+    "ecommerce"
+  ],
+  "skills": "./skills"
+}

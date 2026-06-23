@@ -47,7 +47,7 @@
       "name": "eca-ecommerce-agent",
       "displayName": "ECA Marketing Coworker",
       "source": "./plugins/eca-ecommerce-agent",
-      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, and UGC video scripts. New skills are added here over time; install this one plugin to stay current with all of them.  What's new (v1.5.0): Updated UGC inputs for better scripts, extended to 60secs if needed.",
+      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, and UGC video scripts. New skills are added here over time; install this one plugin to stay current with all of them.  What's new (v1.5.1): Added in Operations Coworker",
       "category": "ecommerce",
       "tags": [
         "shopify",
@@ -66,6 +66,25 @@
         "ugc",
         "video",
         "scripts"
+      ],
+      "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
+      "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
+      "license": "MIT"
+    },
+    {
+      "name": "eca-operations-agent",
+      "displayName": "ECA Operations Coworker",
+      "source": "./plugins/eca-operations-agent",
+      "description": "Ecommerce Academy Operations Coworker — turn the repeatable tasks in your business into reusable Claude skills with the TEACH framework.",
+      "category": "ecommerce",
+      "tags": [
+        "operations",
+        "skills",
+        "skill-builder",
+        "teach",
+        "automation",
+        "workflow",
+        "ecommerce"
       ],
       "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
       "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
