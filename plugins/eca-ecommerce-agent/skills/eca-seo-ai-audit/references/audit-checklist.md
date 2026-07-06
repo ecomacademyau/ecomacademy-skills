@@ -82,6 +82,7 @@ Get found *and prove it*. Google Search Console (GSC) and Bing Webmaster Tools (
 | **Entity clarity / E-E-A-T** | Clear About page, consistent brand name/NAP, author + expertise signals, real story | Strengthen About/author; consistency |
 | **Citable facts & original data** | Specific numbers, comparisons, and any original data (LLMs prefer grounded, specific info to cite) | Add stats, comparisons, original insight |
 | **Comparison & buying-guide content** | "Best…", "X vs Y", buying guides — the formats AI pulls into answers | Create comparison/guide pages |
+| **Content gaps (data-driven)** | A ranked content plan from GSC impression-but-no-page queries + DataForSEO keyword/question ideas + the topics AI cites rivals for | Build the plan; **hand to the blog-writer skill** to produce answer-first, AI-citable posts |
 | **Freshness** | Key pages updated recently; dates visible | Refresh + show updated dates |
 | **Bing indexing** | Site verified in **Bing Webmaster Tools** (prerequisite for ChatGPT citation) | Submit + verify |
 | **Reviews / social proof on-page** | Ratings and review text visible and in schema | Ensure reviews render + are in Product schema |

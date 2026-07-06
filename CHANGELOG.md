@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.7.0 - 2026-07-06
+
+- Update to AEO skill to push to code and suggest content updates and blog skill.
+
 ## v1.6.0 - 2026-07-06
 
 - Added in SEO / AIO Update

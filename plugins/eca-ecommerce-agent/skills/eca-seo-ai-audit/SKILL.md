@@ -33,7 +33,8 @@ Before judging the site, learn what it should rank for and where it stands. Usin
 - **Current appearance** — top queries, positions, impressions and which pages rank (GSC/Bing Performance); note branded vs non-branded.
 - **Best keywords to target** — the highest-opportunity terms: category-relevant, real search volume, and where the store already has a foothold (ranking ~5–20, or lots of impressions) so it can climb fastest.
 - **AI appearance** — is the brand mentioned/cited in AI answers for the category, and who is cited instead? (DataForSEO AI-mention data.)
-Output a short target-keyword list + a one-line "here's where you stand", in plain English.
+- **Content gaps → a content plan** — from **GSC** (queries you get impressions for but don't rank or have no dedicated page, and question/informational-intent searches) + **DataForSEO** (keyword ideas, related & question keywords, search intent, and the **topics AI cites competitors for**), list the specific articles/pages worth creating. This feeds the blog-writer handoff in Step 7 / Step 8.
+Output a short target-keyword list, the content-gap list, and a one-line "here's where you stand", in plain English.
 
 ## Step 3 — Technical audit
 Foundations & crawlability (`references/audit-checklist.md`, Layers 1 & 3): index coverage (GSC), robots.txt, sitemap, llms.txt, canonicals, **rendered** schema (via Chrome — never theme source alone), and real page speed / Core Web Vitals (DataForSEO Lighthouse + GSC).
@@ -53,16 +54,17 @@ Produce **two** things:
 Turn findings into an easy plan, **quick wins (highest visibility gain, least effort) first**, each explained step-by-step in plain language:
 - **Now** — quick, high-impact visibility wins (fix a weak/wrong title on a page already getting impressions, submit sitemaps to GSC/Bing, add a missing FAQ answer, fix a broken redirect).
 - **Later** — bigger projects (indexing/catalog cleanup, comparison/answer content, schema additions).
-- **Ongoing** — habits that compound (publish answer-first content, build off-site/AI presence, monthly re-audit + re-score).
+- **Ongoing** — habits that compound: **publish answer-first content from the data-driven content plan** (the queries, questions and AI-citation gaps found in Step 2), **handed to the `blog-writer` skill** to write and draft to Shopify (it produces SEO + AI-answer-engine-optimised posts — answer-first, question-headed, comparison/"best of", buying guides); build off-site/AI presence; and re-audit + re-score monthly. This content loop is the compounding lever for *both* search and AI visibility.
 
 ## Step 8 — Implement (on approval)
-Where you can, **make the changes for the member** — but always show the change, get approval, then apply: content via the Shopify tools, theme via a **dev theme**, app-based via config (`references/fixes-playbook.md`). Re-check it landed, **re-score**, and show the before → after so the win is visible.
+Where you can, **make the changes for the member** — but always show the change, get approval, then apply: content via the Shopify tools; **anything that needs code/theme editing → have the member do it in Claude Code** (if they're not there, tell them to connect and switch to it) rather than editing code from here; app-based via config (`references/fixes-playbook.md`); **new content pieces from the content plan → hand to the `blog-writer` skill** to write and draft. Re-check it landed, **re-score**, and show the before → after so the win is visible.
 
 ## Guardrails
 - **Required tools first** — connect the full stack (Step 1) or stop; no partial audits.
 - **Double-check anything that needs explaining** — never report a raw/alarming number without drilling into the *why* and separating expected from actionable.
 - **Visibility ≠ capture** — don't score CTR/clicks as SEO.
-- **Propose → approve → apply** — never edit the live theme directly; real data only, no invented facts.
+- **Every action requires the member's explicit approval — no exceptions.** Propose → approve → apply. Never edit the live theme directly; real data only, no invented facts.
+- **Code/theme edits belong in Claude Code.** If a fix needs editing code (theme files, `robots.txt.liquid`, JSON-LD snippets, H1 templates, etc.) and the member isn't already in **Claude Code**, tell them to connect and use Claude Code to make those updates — don't attempt code edits from here. Content edits (SEO fields, product/collection copy, metafields) can be done here via the Shopify tools, on approval.
 - **Non-alarmist, plain English, quick-wins-first** — every time.
 
 ## Reusing

@@ -17,6 +17,7 @@ Lower risk, reversible, no theme edit. Apply after approval, one batch at a time
 | **Internal links** | Add related-product/collection links and blog→product links in body content. |
 
 ### Lane B — Theme / technical fixes (via a DEV theme, or as code to paste)
+> **Where to do code/theme edits:** these belong in **Claude Code**, which can work the theme via the Shopify CLI / git. If the member isn't in Claude Code, direct them to connect and switch to it — don't attempt code edits from the chat environment. Every change still goes: propose → member approves → apply → member previews → publish.
 Higher risk — **duplicate the live theme to a development theme first** (same pattern as the eca-pdp skill / Shopify CLI), make the change there, let the member **preview then publish**. If no dev-theme access, hand over the exact code to paste and where.
 
 | Fix | How |
