@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.8.1 - 2026-07-06
+
+- Updated AEO & SEO To work towards 100/100
+
 ## v1.8.0 - 2026-07-06
 
 - Updated ECA SEO Skill with more robust audit and implementation
