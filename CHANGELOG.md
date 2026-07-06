@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.9.0 - 2026-07-07
+
+- Audit shows the score + scorecard table in the chat summary, always routes content creation/rewrites through the blog skill, and adds an agentic-commerce readiness check (agents.md, UCP/MCP, AI-agent feeds).
+
 ## v1.8.1 - 2026-07-06
 
 - Updated AEO & SEO To work towards 100/100

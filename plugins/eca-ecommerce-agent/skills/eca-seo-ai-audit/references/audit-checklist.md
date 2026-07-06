@@ -79,6 +79,7 @@ Get found *and prove it*. Google Search Console (GSC) and Bing Webmaster Tools (
 | Check | What good looks like | Fix |
 |---|---|---|
 | **llms.txt** | A curated `/llms.txt` (markdown) listing the key URLs + one-line descriptions so LLMs grab the right pages | Create it; see fixes-playbook for the Shopify workaround |
+| **Agentic-commerce setup** | The store is set up for AI agents to **discover and transact**: `agents.md`, UCP/MCP endpoints (`/.well-known/ucp`, `/api/ucp/mcp`), AI-agent product feeds (`/products.json`, per-product `.json`), and a healthy Lighthouse **Agentic-Browsing** score | Usually delivered by an **agentic-commerce app** (or Shopify's native agentic features). If absent, recommend the member **install & configure it** — a growing channel for AI-driven discovery/checkout |
 | **Answer-first content** | The first ~200 words of key pages/posts *directly answer* the query (definition, direct answer), not a slow build-up | Rewrite intros to lead with the answer |
 | **FAQs (real questions)** | Pages/sections answering the actual questions buyers ask (pull from brand-data §9 objections + §12 pre-purchase questions), each with a concise answer + FAQPage schema | Add FAQ content + schema |
 | **Conversational Q&A headings** | Headings phrased as the questions people ask AI ("Is X worth it?", "X vs Y") | Restructure headings |

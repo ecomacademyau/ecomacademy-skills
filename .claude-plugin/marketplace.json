@@ -47,7 +47,7 @@
       "name": "eca-ecommerce-agent",
       "displayName": "ECA Marketing Coworker",
       "source": "./plugins/eca-ecommerce-agent",
-      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, and SEO/AI store audits. New skills are added here over time; install this one plugin to stay current with all of them.  What's new (v1.8.1): Updated AEO & SEO To work towards 100/100",
+      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, and SEO/AI store audits. New skills are added here over time; install this one plugin to stay current with all of them.  What's new (v1.9.0): Audit shows the score + scorecard table in the chat summary, always routes content creation/rewrites through the blog skill, and adds an agentic-commerce readiness check (agents.md, UCP/MCP, AI-agent feeds).",
       "category": "ecommerce",
       "tags": [
         "shopify",

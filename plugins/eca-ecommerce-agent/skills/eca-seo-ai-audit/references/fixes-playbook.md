@@ -45,6 +45,7 @@ Many high-value Shopify fixes are delivered by **apps**, not theme/content edits
 | FAQ page + FAQPage schema | FAQ (often inside an SEO suite) | — |
 | Image compression, lazy-load, defer JS (Core Web Vitals) | Speed | TinyIMG, Avada, Hyperspeed |
 | Serving `/llms.txt`, AI/agent feeds | AI/GEO | emerging llms.txt apps |
+| **Agentic-commerce setup** (agents.md, UCP/MCP endpoints, AI-agent product feeds) | Agentic commerce | an agentic-commerce app, or Shopify's native agentic features — **member installs & configures** |
 | 404s / redirects | Redirects (often inside an SEO suite) | — |
 
 **Rules when recommending an app:**
