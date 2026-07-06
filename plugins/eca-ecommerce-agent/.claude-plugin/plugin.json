@@ -1,8 +1,8 @@
 {
   "name": "eca-ecommerce-agent",
   "displayName": "ECA Marketing Coworker",
-  "version": "1.7.0",
-  "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, and SEO/AI store audits. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.7.0): Update to AEO skill to push to code and suggest content updates and blog skill.",
+  "version": "1.8.0",
+  "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, and SEO/AI store audits. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.8.0): Updated ECA SEO Skill with more robust audit and implementation",
   "author": {
     "name": "Ecommerce Academy",
     "email": "brendan@ecomfactory.com.au"

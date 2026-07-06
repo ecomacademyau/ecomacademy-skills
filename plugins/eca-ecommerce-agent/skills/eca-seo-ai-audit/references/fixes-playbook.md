@@ -12,7 +12,7 @@ Lower risk, reversible, no theme edit. Apply after approval, one batch at a time
 | **SEO title & meta description** | Update the page/product/collection/article SEO fields (via the Shopify tools, or `metafields` `global.title_tag` / `global.description_tag`). One at a time or batched; show before/after. **⚠️ With `productUpdate`/`SEOInput`, always send BOTH `title` and `description` together — omitting one NULLS it (wipes the existing value). Read the current SEO first and pass both.** |
 | **Product / collection descriptions** | Rewrite to be unique, useful, answer-first; update the body via the Shopify product/collection update tools. Keep the brand voice (brand-data.md); never invent specs/claims. |
 | **Image alt text** | Set descriptive alt on product media. |
-| **FAQ content** | Create/expand FAQ as a page or product/collection metafield; source questions from brand-data §9 (objections) + §12 (pre-purchase questions); concise answer-first responses. |
+| **FAQ content** | Create/expand FAQ as a page or product/collection metafield; source questions from brand-data §9 (objections) + §12 (pre-purchase questions); concise answer-first responses. **Always pair with FAQPage JSON-LD** that mirrors the visible Q&A (via the theme/SEO/FAQ app — route the code to Claude Code) — never publish FAQ content without its schema. |
 | **Blog / comparison / buying-guide content** | Draft answer-first articles (lead with the answer in the first ~200 words); publish as blog articles. Pair with the blog-writer skill for depth. |
 | **Internal links** | Add related-product/collection links and blog→product links in body content. |
 
