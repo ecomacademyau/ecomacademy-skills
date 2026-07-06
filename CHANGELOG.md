@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.6.0 - 2026-07-06
+
+- Added in SEO / AIO Update
+
 ## v1.5.1 - 2026-06-23
 
 - Added in Operations Coworker
