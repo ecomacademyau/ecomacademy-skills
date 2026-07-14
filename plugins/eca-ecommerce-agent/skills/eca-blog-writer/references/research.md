@@ -6,6 +6,29 @@ This skill must work for a member with **zero paid tools**. Treat Tier 1 as the 
 
 ---
 
+## Start here — DataForSEO (real search + AI data)
+
+**All Ecommerce Academy members connect DataForSEO, so begin research here** — it turns guesswork into real numbers, for both search *and* AI answer engines. (If it isn't connected, skip to Tier 1 and note volumes are directional — never block.)
+
+**Keyword demand & difficulty (what people actually search):**
+- `dataforseo_labs_google_keyword_overview` / `bulk_keyword_difficulty` — real search volume, difficulty and intent for the seed keyword.
+- `dataforseo_labs_google_keyword_ideas` / `keyword_suggestions` / `related_keywords` — expand into the full cluster; pull the **question keywords** (how/what/why/best/vs) — these become H2s and the FAQ block.
+- `dataforseo_labs_google_search_intent` — informational / commercial / transactional → drives the post style.
+- `kw_data_google_ads_search_volume` / `kw_data_google_trends_explore` — volume + what's trending now.
+
+**Where the store already stands (fastest wins):**
+- `dataforseo_labs_google_ranked_keywords` (target = the store) — its ranked keywords; find **striking-distance** terms (position ~5–20, with impressions) where one good post jumps to page one.
+- `dataforseo_labs_google_serp_competitors` / `serp_organic_live_advanced` — who ranks for the target query, the SERP features present, and whether there's an **AI Overview** — what you're up against.
+
+**AEO — get found in AI answer engines (the point):**
+- `ai_optimization_keyword_data_search_volume` — AI search volume for the terms.
+- `ai_opt_llm_ment_search` / `ai_opt_llm_ment_top_domains` / `ai_opt_llm_ment_top_pages` — **which domains/pages AI engines (e.g. ChatGPT) actually cite** for the topic, and whether the brand appears. Write to become a more citable source than those.
+- `ai_optimization_llm_response` — how an LLM currently answers the target question, and what it cites.
+
+Workflow: seed topic → demand/difficulty/intent → expand to the question cluster → check SERP + AI citations → hand the primary keyword, the question list and the **AI-citation gap** to writing. Then enrich with the free Tier-1 methods below for voice-of-customer language and angle.
+
+---
+
 ## Tier 1 — Free methods (no connector needed). Always do these.
 
 ### 1. Read the current top results

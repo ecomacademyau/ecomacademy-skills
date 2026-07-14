@@ -1,8 +1,8 @@
 {
   "name": "eca-ecommerce-agent",
   "displayName": "ECA Marketing Coworker",
-  "version": "1.9.0",
-  "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, and SEO/AI store audits. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.9.0): Audit shows the score + scorecard table in the chat summary, always routes content creation/rewrites through the blog skill, and adds an agentic-commerce readiness check (agents.md, UCP/MCP, AI-agent feeds).",
+  "version": "1.10.0",
+  "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, and SEO/AI store audits. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.10.0): Blog Writer now starts with DataForSEO — real search-volume, difficulty and question-keyword research to pick topics, plus AI-citation data so posts are written to get cited in ChatGPT/Perplexity/AI Overviews.",
   "author": {
     "name": "Ecommerce Academy",
     "email": "brendan@ecomfactory.com.au"

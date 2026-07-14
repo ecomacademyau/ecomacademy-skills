@@ -34,6 +34,7 @@ Two overlapping goals: rank in classic search (**SEO**) and get cited by AI answ
 - [ ] **An FAQ block** of 3–6 real "People Also Ask" questions with concise, complete answers. The highest-leverage single GEO element — it feeds AI answers and FAQ-rich results. (Add FAQPage structured data if the theme supports it.)
 - [ ] **Freshness signals** — current facts, a recent date; update cornerstone posts periodically. AI engines favour current sources.
 - [ ] **Entity clarity** — name the brand, products, and key concepts explicitly and consistently so engines associate them correctly.
+- [ ] **Beat the current AI citations** — from the DataForSEO AI-mention data (research phase), you know which sources AI cites for this topic today; this post must be more specific, better-structured and more current than them, so it earns the citation.
 
 ## Structured data (if the theme/app allows)
 - [ ] `Article` / `BlogPosting` schema (most Shopify themes add this automatically).

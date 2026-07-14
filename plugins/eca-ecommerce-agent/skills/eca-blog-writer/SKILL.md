@@ -57,11 +57,17 @@ Don't re-ask anything the user already specified.
 
 ---
 
-## Phase 1 — Keyword & topic research (free first, paid if available)
+## Phase 1 — Keyword & topic research (start with DataForSEO)
 
-The aim is to write about things people **actually search and ask** — not what we assume. Read `references/research.md` for the full method. Run the tiers in order and stop when you have enough signal (usually a primary keyword + 5–15 supporting questions/subtopics):
+The aim is to write about what people **actually search and ask** — grounded in **real data**, not assumptions. **All Ecommerce Academy members have DataForSEO connected, so start there**, then enrich with the free methods for the *language* and *angle* raw numbers can't give. Read `references/research.md` for the full method + exact tools. Stop when you have enough signal (a primary keyword + 5–15 supporting questions + the AI-citation gap). **If DataForSEO isn't connected, fall back to the free methods and note volumes are directional — never block.**
 
-**Tier 1 — free, always available (no connector needed). This is the universal baseline:**
+**Start here — DataForSEO (real search + AI data):**
+1. **Demand, difficulty & intent** for the seed keyword (`dataforseo_labs_google_keyword_overview`, `bulk_keyword_difficulty`, `search_intent`).
+2. **The question cluster** — expand to related & question keywords (`keyword_ideas`, `keyword_suggestions`, `related_keywords`); the how/what/why/best/vs terms become your H2s and FAQ block.
+3. **Striking-distance** — the store's own ranked keywords at position ~5–20 (`dataforseo_labs_google_ranked_keywords`) where one post jumps to page one; the fastest wins.
+4. **The SERP + AI answers** — who ranks and whether there's an AI Overview (`serp_organic_live_advanced`), and **which sources AI engines cite for the topic** (`ai_opt_llm_ment_top_domains` / `ai_opt_llm_ment_top_pages`, `ai_optimization_llm_response`). Write to become a more citable source than those — this is the AEO win.
+
+**Then enrich (free, always valuable):**
 
 1. **Web search** the seed topic and read the top-ranking posts — note their angle, their H2s, and the gaps they leave.
 2. **Harvest "People Also Ask" and autocomplete** — search the seed term and its variations; collect the questions and long-tail completions. These map directly to AI-answer-engine queries and featured snippets.
@@ -77,7 +83,7 @@ The aim is to write about things people **actually search and ask** — not what
 
 **Never block on a paid tool.** If none is connected, Tier 1 alone is enough to ship great posts — say so and move on. Note in the final output which tier the data came from so the user knows how hard the volume numbers are.
 
-Output of this phase: a primary keyword/topic, search intent (informational / commercial / transactional), a cluster of supporting questions and subtopics, and the best-fit post style.
+Output of this phase: a primary keyword/topic, search intent (informational / commercial / transactional), a cluster of supporting questions and subtopics, the **AI-citation gap** (which sources AI engines cite now, from DataForSEO — the gap your post fills), and the best-fit post style.
 
 ---
 
