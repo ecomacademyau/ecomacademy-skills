@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.11.0 - 2026-07-27
+
+- Added in ECA Meta Ads Skill
+
 ## v1.10.0 - 2026-07-14
 
 - Blog Writer now starts with DataForSEO — real search-volume, difficulty and question-keyword research to pick topics, plus AI-citation data so posts are written to get cited in ChatGPT/Perplexity/AI Overviews.
