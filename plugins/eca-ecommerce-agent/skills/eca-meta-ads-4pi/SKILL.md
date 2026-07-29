@@ -1,11 +1,13 @@
 ---
 name: eca-meta-ads-4pi
+metadata:
+  version: "2.2.1"
 description: "Analyse a Meta (Facebook) ads account live via the official Meta Ads MCP (ads_* tools; CSV fallback) using the 4PI framework and produce an ECA-branded HTML report with campaign/ad set/ad breakdowns, scaling verdicts, and recommendations. Use whenever the user mentions ad analysis, Meta ads report, 4PI analysis, creative analysis, ad performance review, weekly ad report, funnel analysis, CPM or CPA analysis, scaling ads, which ads to stop or are working, ad creative testing, campaign diagnosis, landing page mismatch, or post-click analysis, or asks to run the ad/weekly/performance report for any Meta ad account. Also trigger on Facebook Ads Manager CSV uploads, Ads Manager data, ad funnel health, frequency analysis, or audience saturation — even partial requests like 'check my ads', 'how are my campaigns doing', 'what should I test next', or 'run the 4PI'. Includes Firecrawl landing-page audits and metastatus.com platform checks."
 ---
 
-# Meta Ads 4PI Analyst
+# Meta Ads 4PI Analyst — v2.2
 
-Analyse Meta ad performance with the 4PI framework (Spend, CPM, Frequency, CPA), map each campaign's funnel, diagnose creative and post-click problems, and deliver a **branded HTML report** the client can open in a browser.
+Analyse Meta ad performance with the 4PI framework (Spend, CPM, Frequency, CPA), map each campaign's funnel, diagnose creative and post-click problems, and deliver a **branded HTML report** the client can open in a browser. Print the skill version (from the frontmatter) in the report footer so every report states which version produced it. Version history: `CHANGELOG.md`.
 
 **Before any analysis, read the Knowledge Base:** `references/4pi-knowledge-base.md`. It contains the full 4PI playbook — funnel decoder, golden rule, profitability proxy, creative diagnostics, macro calendar, Ad Concept Board, and tone rules. The analysis is only as good as fidelity to that framework.
 
@@ -26,10 +28,13 @@ Analyse Meta ad performance with the 4PI framework (Spend, CPM, Frequency, CPA),
 
 ## Step 0 — Ask Before Pulling (always, unless already answered)
 
-Before running any pulls, ask the user two questions (use the AskUserQuestion tool when available; skip any question already answered by the request or the client config):
+Before running any pulls, ask the user three questions — in one AskUserQuestion call when available; skip any question already answered by the request or the client config:
 
 1. **"What's your current target CPA (blended)?"** — offer an **"I don't know"** option. If they don't know, reply with: *"See your ecomOS to know your target CPA per channel"*, then proceed with no target — CPA gets judged against campaign peers and profitability, and the report states "no target CPA set". Never invent a target.
 2. **"Whole account, or a specific campaign?"** — offer "Whole account" and let them name a campaign. If a specific campaign is chosen, scope every pull and every section to it (the account snapshot shrinks to that campaign's three windows).
+3. **"Full report, or Quick check?"** — two options, with the recommended one chosen by context: **Full** recommended for a client's first report or when the last report is >2 weeks old; **Quick** recommended for routine re-runs when report memory exists. Describe them honestly in the options: *Full — complete deep dive: ad breakdowns, creative hooks, post-click audit, seasonality + industry benchmark* · *Quick — same analysis and verdicts, condensed report: scorecard, funnel maps, 4PI tables, scaling verdicts, top priorities (fewer tokens, faster)*. Skip the question when the request already says it ("quick check", "full report", "light version").
+
+**What Quick mode changes — and what it never changes.** The analysis is identical in both modes: all core pulls (three windows, daily, structure, creatives for format badges), verification tables, 4PI maths, status detection, thresholds, action labels, scaling verdicts, and the report memory read + write. Quick mode only (a) skips the optional enrichment calls — YoY seasonality pulls, industry benchmark, anomaly/opportunity, post-click scrapes — and (b) renders the condensed report (see html-report.md "Report depth modes"). If an ad meets the post-click trigger gates in Quick mode, don't run the audit — flag it in one line: "TEST#X qualifies for a post-click audit — run a Full report to investigate." Never degrade the analysis itself to save tokens; verdicts must be equally trustworthy in both modes.
 
 ## Step 1 — Identify the Client & Load Brand Config
 
@@ -54,6 +59,7 @@ Use the **official Meta Ads MCP** (tools named `ads_*`). Follow `references/mcp-
 - `ads_get_ad_entities` at **ad level** for three windows (last_7d, MTD custom range, last_30d) plus a `time_increment: "1"` daily pull for the funnel decoder's daily frequency and the last-5-days spend trajectory
 - `ads_get_ad_entities` at campaign + adset level for budgets, objectives, `delivery_sub_status` (learning phase), `attribution_setting`
 - `ads_get_ad_entities` at **campaign level with `breakdowns: ["country"]`** → the **delivered market** per campaign. There is no geo/targeting field in the catalog, so this breakdown is the only way to know which market a campaign actually reaches — and delivery beats the campaign name. Needed for Step 6 and for any market/currency claim.
+- **Year-over-year seasonality pulls** at **account level**: the same calendar windows shifted one year back (custom `time_range`, e.g. this 30d window in the previous year, and the same MTD range last year). Fields: `amount_spent, impressions, cpm, frequency, results, cost_per_result, purchase_roas`. Rules and interpretation: Knowledge Base "Year-over-Year Seasonality Check". No data last year → skip gracefully.
 - `ads_get_creatives` (with creative_ids) → creative type, copy, and **landing page URL** (needed for Step 6)
 - Optional enrichment: `ads_insights_anomaly_signal`, `ads_get_opportunity_score`, and `ads_insights_industry_benchmark` (peer comparison vs similar advertisers — see mcp-data-pull.md §6b; frequently returns "no data" for small accounts, skip gracefully) — supporting context only, never the headline
 
@@ -84,6 +90,8 @@ All comparison is **within a campaign** — never across campaigns. For each ad:
 4. **Efficiency** — CPA (`cost_per_result`) vs campaign and vs target; **Profit per Order = AOV − CPA** (pre-COGS proxy; AOV = purchase_roas × spend ÷ purchases — see Knowledge Base "Profitability"). Profit/Order overrides raw CPA for scaling decisions. If a true GPT column exists (CSV path) or the client config has a gross-margin %, upgrade the proxy accordingly.
 
 Classify each ad ACTIVE / STOPPED / WINDING DOWN and apply the minimum-data threshold (≥ 7 days AND spend ≥ 2× target CPA) **before** assigning any action label. Never recommend stopping an ad that is already stopped.
+
+Labels come from the **7-day** window, with one exception: an ad whose 7 days are statistically thin (≤ 2 purchases, or spend < 2× target CPA in that window) is judged on its **30-day** figures instead — print both and state which drove the call (Knowledge Base, "Small-Sample Rule"). Frequency and CPM headline values and their trend labels must be computed from one series and agree with each other (same section, "One computation, one label").
 
 Action labels: **Keep / Hold / Fix / Watch / Stop / Scalable / Insufficient data** — nothing else. Every label needs a specific number as justification.
 
@@ -141,9 +149,9 @@ State the success signal (target daily frequency + CPM position the new ad shoul
 
 Follow `references/html-report.md`. Reports use the **ECA Design System** (Ecommerce Academy branding — tokens and rules in `assets/ECA Design System/`), with the client named as "Prepared for <Brand>". Required section order:
 
-1. Report header (brand logo/colors, date range, account totals, macro note)
-2. Account snapshot — three window tables (7d / MTD / 30d)
-3. Per campaign (sorted by spend desc): funnel map → 4PI table → ad breakdowns → diagnosis → next steps
+1. Report header (brand logo/colors, date range, account totals, sentiment, platform status, macro note)
+2. Account snapshot — three window tables (7d / MTD / 30d), then the **Seasonality vs Last Year card** directly beneath (see html-report.md §3b)
+3. Per campaign (sorted by spend desc): funnel map → 4PI table → ad breakdowns → diagnosis → scaling verdict → next steps
 4. Post-click audit findings (if run)
 5. Account-level summary: top 3 priorities + systemic observations
 

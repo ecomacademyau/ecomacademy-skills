@@ -26,6 +26,7 @@ If no config exists for the brand being analysed:
 - brand_accent: "#1F3A5F"
 - logo_url: https://...       # optional
 - fonts: "Lora / Inter"       # optional override
+- industry_vertical: apparel_and_accessories   # Triple Whale benchmark slug — list at benchmark.triplewhalelabs.com/benchmarks/
 - personas_source: <path or note, e.g. "eca-brand-intelligence brand-data.md" or "none">
 - notes: <anything relevant: offer structure, seasonality, who owns creative, etc.>
 ```

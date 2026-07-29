@@ -42,6 +42,10 @@ Use **day-level frequency** (from the `time_increment: "1"` pull — average the
 
 Cross-check CPM and frequency — they should agree. Low CPM + low freq = confirmed TOF. High CPM + high freq = confirmed BOF. Disagreement → investigate (also check `cpp` vs `cpm`: cpp much higher than cpm confirms repeat-hitting).
 
+**One computation, one label.** The headline daily frequency and its trend must come from the *same* series — the per-day values in the `time_increment: "1"` pull. Headline = mean of those dailies. Trend = mean of the first 3 dailies → mean of the last 3. Never mix in a window-aggregate frequency (a 7-day aggregate dedupes reach over 7 days and is a different, larger number — mixing the two produces a headline sitting outside its own trend range, which reads as a bug and undermines every other number on the page).
+
+Direction label derives from those same two endpoints, with an explicit flat band: **rising** if last is >2% above first · **falling** if >2% below · **flat** otherwise. A label that contradicts the numbers printed beside it (e.g. "rising (1.42 → 1.42)") is a correctness failure, not a cosmetic one — frequency direction feeds the CPM-and-frequency-both-rising danger signal. Apply the identical rule to CPM trends.
+
 ### PI 4 — Efficiency: CPA, Profit per Order, AOV
 
 - CPA (`cost_per_result`) compared only within the same campaign and against the target CPA.
@@ -90,6 +94,14 @@ Never tell someone to stop an ad that's already stopped. Never call an ad Scalab
 ## Minimum Data Requirements
 
 Evaluate an ad only if BOTH: running ≥ **7 days of delivery** AND spend ≥ **2× target CPA** (from client config or the user — never invented). If no target CPA exists, use 2× the campaign's blended CPA purely as the data-sufficiency bar and label it as such — do NOT present it as a performance target anywhere in the report; instead state "no target CPA set" and judge CPA relative to campaign peers and profitability only. Below threshold → label **Insufficient data**, state the threshold, assign no other label. Early metrics are volatile; killing ads too early is the most common small-budget mistake.
+
+## Small-Sample Rule (which window drives the action label)
+
+Action labels are based on the **last 7 days** — except when the 7-day window is too thin to carry a verdict. An ad's 7-day figures are **statistically thin** when purchases ≤ 2 or spend < 2× target CPA in that window, even if its 30-day record clears the data bar.
+
+For those ads: base the action label on the **30-day** CPA and profit, print the 7-day number too, and say why in one line — e.g. *"judged on 30d: the 7d GP/order of $56.83 comes from a single $99.90 order."* Never silently switch windows; the reader must see which window drove the call. Ads with healthy 7-day volume are always judged on 7 days, with 30d as trend context.
+
+Why: one lucky (or unlucky) high-AOV order can swing a 1–2 purchase week by hundreds of percent. Acting on that noise is the same error as acting below the data-sufficiency bar, just one level up.
 
 ## Time Window Analysis
 
@@ -273,7 +285,31 @@ A week can be STRONG and still carry a risk note — sentiment is the headline, 
 
 ## Meta Platform Status Check
 
-Before finalising, check https://metastatus.com/ads-manager and https://metastatus.com/ads-manager/history (Firecrawl/web fetch). If any Ads Delivery / Reporting / Creation incident overlaps the analysis window, flag it in the report header — delivery dips and metric weirdness during an incident are platform noise, not ad performance. If clean, say so in one line ("no platform incidents in window"). If the check fails, write "platform status unchecked" — never guess.
+Before finalising, check https://metastatus.com/ads-manager and https://metastatus.com/ads-manager/history (firecrawl-mcp `firecrawl_scrape` with `maxAge: 0` — the MCP caches by default and a cached status page defeats the purpose of a status check; any web-fetch tool works as fallback). If any Ads Delivery / Reporting / Creation incident overlaps the analysis window, flag it in the report header — delivery dips and metric weirdness during an incident are platform noise, not ad performance. If clean, say so in one line ("no platform incidents in window"). If the check fails, write "platform status unchecked" — never guess.
+
+## Year-over-Year Seasonality Check
+
+Answers one question: **"is this period genuinely weak/strong, or is it just this time of year?"** A bad month that was equally bad last year is seasonality; a bad month that was strong last year is a real problem.
+
+**Pull** (account level only): the report's 30d window and MTD window shifted exactly one year back, via custom `time_range` (e.g. 13 Jun–12 Jul 2026 → 13 Jun–12 Jul 2025). Fields: spend, impressions, CPM, frequency, results, cost_per_result, purchase_roas.
+
+**How to read each metric YoY:**
+
+| Metric | YoY meaning | Trust level |
+|---|---|---|
+| **CPM** | The cleanest seasonality signal — auction price for this audience at this time of year. CPM up 30% YoY with similar targeting = market inflation; expect higher CPAs everywhere and don't blame creative. | High |
+| Spend | Context only — budget decisions changed it | Directional |
+| CPA / purchases | Directional — account structure, creatives, offers all changed since last year | Directional |
+| ROAS | Weakest — attribution and AOV both drift | Lowest |
+
+**Rules:**
+
+- Account level only. Never compare individual ads or campaigns YoY — they're different objects.
+- YoY context **explains**, it never **excuses**: "CPM +35% YoY" reframes a rising-CPM read as seasonal, but a funnel-drying signal (CPM AND frequency rising now) still stands regardless of last year.
+- Check the macro calendar for both years — if last year's window contained an event this year's doesn't (or vice versa), say so before comparing.
+- If the YoY CPM gap is material (roughly ±20%), echo it into the report header's macro status chip — it changes how every CPM read in the report should be interpreted.
+- Account has no data for the period last year (younger account) → one line: "no year-ago data — seasonality check unavailable"; never substitute industry lore for the missing year.
+- Calendar dates, not weekday-aligned — note that weekday mix differs slightly YoY; it's a seasonality read, not a precision instrument.
 
 ## The 3 Testing Paths
 

@@ -23,6 +23,7 @@ Installed skills are read-only, so state lives **next to the reports**, in two r
   "brand": "j-walk",
   "report_date": "2026-07-12",
   "generated": "2026-07-13",
+  "mode": "full",
   "currency": "AUD",
   "sentiment": "STRONG",
   "account": {"spend_7d": 538.62, "purchases_7d": 28, "cpa_7d": 19.24, "aov_7d": 49.16, "ppo_7d": 29.92},
@@ -68,4 +69,5 @@ Write the new history JSON (file + embedded block). Tell the user in the chat su
 - **Memory never overrides fresh data.** It provides context and accountability, not numbers.
 - **Missing memory is fine.** First-run mode is a complete, valid report — don't manufacture comparisons.
 - **One previous report is enough.** Compare against the latest only; don't build multi-week charts from memory files unless the user asks (then read as many as exist).
+- **Quick and Full runs are equal citizens.** Both write the full history schema (with `"mode"`); a Quick run is a valid baseline for the next comparison.
 - Stale memory (>21 days old): still use it, but label the gap ("comparing to the report of 12 Jul — 4 weeks ago; treat deltas as directional").

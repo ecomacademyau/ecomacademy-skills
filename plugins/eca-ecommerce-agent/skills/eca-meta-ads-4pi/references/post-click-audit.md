@@ -29,7 +29,7 @@ From `ads_get_creatives`: hook/headline (`title`), primary text (`body`), CTA ty
 
 ### 4. Scrape geolocated to the market
 
-`firecrawl_scrape(url, location: {country: "<market>"}, formats: ["markdown"])` — for copy, review language, structure. If the scrape fails (bot-blocked), note it and ask the user for a screenshot, or skip with a note. Never substitute a non-geolocated fetch and treat it as the market's view.
+`firecrawl_scrape(url, location: {country: "<market>"}, formats: ["markdown"], maxAge: 0)` — for copy, review language, structure. (These are the **firecrawl-mcp** tool and parameters — `location` is confirmed supported in the MCP schema.) `maxAge: 0` matters: the MCP serves cached renders by default, and a cached page can be days old or captured from a different geo — an audit on a stale render is a wrong audit. If the scrape fails (bot-blocked), note it and ask the user for a screenshot, or skip with a note. Never substitute a non-geolocated fetch and treat it as the market's view.
 
 ### 5. Reconcile currencies
 

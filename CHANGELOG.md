@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.0 - 2026-07-30
+
+- Update to Meta Ads Analysis
+
 ## v1.11.0 - 2026-07-27
 
 - Added in ECA Meta Ads Skill

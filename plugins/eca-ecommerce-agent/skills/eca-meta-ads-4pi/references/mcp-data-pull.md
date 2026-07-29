@@ -75,6 +75,7 @@ Make these calls (each is one `ads_get_ad_entities` call):
 5. **Structure pulls**: level `campaign` (fields: id, name, objective, daily_budget, lifetime_budget, status, effective_status, amount_spent for 30d) and level `adset` (fields: id, name, campaign_id, daily_budget, optimization_goal, delivery_sub_status, attribution_setting, effective_status).
 6. **Audience segment check (ASC campaigns only)**: for Advantage+ Shopping campaigns, re-pull key ads with `breakdowns: ["user_segment_key"]` to split new vs existing customers — this is the repeat-purchase-bias check. Only ONE breakdown per call. If the result comes back empty, retry without the breakdown and note "segment data unavailable".
 7. **Delivered-market pull**: level `campaign`, `date_preset: "last_30d"`, `breakdowns: ["country"]`, fields `["id","name","amount_spent","impressions"]`. The market = the country carrying the majority of spend. There is no geo/targeting attribute in the field catalog, so this breakdown is the only way to know which market a campaign actually reaches — and **delivery beats the campaign name**. Required before any post-click audit (Step 6) and before any market/currency claim in the report.
+8. **Year-over-year seasonality pulls** (account level, two calls): level `ad_account`, custom `time_range` = this report's 30d window shifted exactly one year back (e.g. `{"since":"2025-06-13","until":"2025-07-12"}`), and the same for the MTD window. Fields: `["amount_spent","impressions","cpm","frequency","results","cost_per_result","purchase_roas"]`. Interpretation rules live in the Knowledge Base ("Year-over-Year Seasonality Check" — CPM is the signal, the rest is directional). Empty/no data → the account is younger than a year for that window; skip with one line, never fill from industry lore.
 
 Practical notes:
 
@@ -115,6 +116,22 @@ Learning status comes from the parent ad set's `delivery_sub_status`: `LEARNING`
 - Per the tool's own guidance: lead with **business outcome metrics** (cost per result) over surface metrics (CPM), and only compare like-for-like optimization goals.
 - **Small accounts frequently get `"No industry benchmark data available"`** (verified live) — that is a normal outcome. Skip silently or write one line ("peer benchmark: not available for this account size"); never estimate industry figures from general knowledge to fill the gap.
 - When data exists: one line in the account scorecard ("Cost/result vs similar advertisers: X% better/worse") and optionally per-campaign. Context, never the headline — 4PI verdicts do not change because of a benchmark.
+
+### 6c. Industry benchmark fallback — Triple Whale (Firecrawl)
+
+When Meta's peer benchmark returns no data (usual for smaller accounts), scrape Triple Whale's public benchmark for the brand's vertical:
+
+`firecrawl_scrape("https://benchmark.triplewhalelabs.com/benchmarks/<industry_slug>/", formats: ["markdown"], maxAge: 0, waitFor: 6000)`
+
+- **Slug** from the client config's `industry_vertical` (lowercase, underscores: `apparel_and_accessories`, `health_and_beauty`, `food_and_beverage`, `sports_and_outdoors`, `pets_and_animals`, `baby`, `consumer_electronics`, `home_and_garden`, …). Full industry list on https://benchmark.triplewhalelabs.com/benchmarks/ — if the vertical isn't in the config, ask once during onboarding and save it.
+- **What you get free (verified live):** Meta-channel **ROAS, CPA, CPM** as p25 / median / p75 for the industry cohort. Everything else (CTR, CVR, AOV, ATC…) is paywalled ("Unlock Insights") — skip those, never infer them.
+- **Render as the Industry Benchmark card** (html-report.md §3c): percentile band graphic + per-campaign 30d ROAS table with quarter pills + ACCOUNT row + "Why ROAS only" bullets + "context, not a verdict" close.
+- **Currency rule (why ROAS only):** the cohort figures are **USD**. If the account currency is anything else, CPM and CPA are not comparable and must not be converted — **ROAS is a ratio, so it carries no currency; it's the one clean comparison**. Only when the account is USD may CPM/CPA join the card (the AOV-blend caveat still applies).
+- **Anonymise the source in the report.** The provider's name never appears in any client-facing output — the card says "other <vertical> brands running Meta" / "the cohort". This reference file keeps the URL because the skill needs it to fetch; that's the only place it lives.
+- **Caveats that stay in the card:** cohort blends every revenue and AOV band (the page's filters are client-side UI, not URL-addressable — you always get the default cohort); cohort attribution ≠ Meta attribution; directional context, never the headline — a healthy ROAS percentile changes nothing about a drying funnel.
+- Scrape fails or vertical missing → skip with one line, same as the Meta benchmark.
+
+Order of preference: Meta peer benchmark (like-for-like optimization goals) → industry cohort card → nothing (say so). Never both as if independent — pick the best available.
 
 ### 7. Response parsing (verified against live pulls)
 
