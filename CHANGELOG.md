@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.2 - 2026-08-04
+
+- Update to Landing page builder to be more interactive, led by user not AI
+
 ## v1.12.1 - 2026-08-04
 
 - Added Landing Page Builder Skill

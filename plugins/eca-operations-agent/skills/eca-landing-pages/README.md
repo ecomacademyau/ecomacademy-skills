@@ -18,11 +18,15 @@ Hook matching the ad → matching image → CTA with risk removal → benefit/tr
 
 **The core principle is message match** — the page continues the exact promise the ad made. Mismatch is the biggest post-click killer (and what `eca-meta-ads-4pi` flags).
 
-## How it works
-1. **Scope + pull the ad** — reads the real ad copy/angle from the Meta Ads MCP, plus `brand-data.md` for voice, personas, proof and claim rules.
-2. **Write the content** — full copy presented for approval before anything is installed.
-3. **Build into the theme** — Shopify CLI duplicates the **live theme into a dev theme** (live is never touched), installs only the sections that format needs, writes the approved copy into the template, pushes, and returns a preview link.
-4. **Create the page unpublished** and hand over: preview URL, remaining placeholders, how to publish, and a reminder to point the ad at the new page.
+## How it works — you lead, it suggests
+
+It runs as an **interactive guide**. You make the calls; it brings the options, a recommendation and the data.
+
+1. **Pick your starting point** — *"I know what I want"*, or *"look at my ad account and suggest"* (it pulls your live ads and comes back with a shortlist worth building pages for).
+2. **Shape it together** — format, angle, product, offer, media. Every question comes with a recommendation so you can just say yes.
+3. **Confirm the brief** — it writes the whole plan back to you (format, hook options, structure, key messages, media, gaps). **Nothing is built until you approve it.**
+4. **It builds** — Shopify CLI duplicates your **live theme into a dev theme** (live is never touched), installs only the sections that format needs, writes the copy into the template, pushes, and returns a preview link.
+5. **Hand over** — page created unpublished: preview URL, any remaining placeholders, how to publish, and a reminder to point the ad at the new page.
 
 ## What gets installed
 ```
