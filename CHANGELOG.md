@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.1 - 2026-08-04
+
+- Added Landing Page Builder Skill
+
 ## v1.12.0 - 2026-07-30
 
 - Update to Meta Ads Analysis

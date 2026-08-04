@@ -1,0 +1,50 @@
+{%- comment -%} ECA LP — How it works. Element 6: numbered steps. {%- endcomment -%}
+<section class="eca-lp-how">
+  <div class="eca-lp-wrap">
+    {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+    <div class="eca-lp-how__grid">
+      {%- for block in section.blocks -%}
+        <div class="eca-lp-how__step" {{ block.shopify_attributes }}>
+          <div class="eca-lp-how__num">{{ forloop.index }}</div>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'eca-lp-how__img', alt: block.settings.title }}
+          {%- endif -%}
+          <h3 class="eca-lp-how__title">{{ block.settings.title }}</h3>
+          <div class="eca-lp-how__body">{{ block.settings.body }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+    {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — How it works",
+  "tag": "section", "class": "eca-lp-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "How it works" },
+    { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+  ],
+  "blocks": [{
+    "type": "step", "name": "Step", "settings": [
+      { "type": "text", "id": "title", "label": "Step title", "default": "{{STEP}}" },
+      { "type": "richtext", "id": "body", "label": "Step detail", "default": "<p>{{Plain, one-sentence instruction.}}</p>" },
+      { "type": "image_picker", "id": "image", "label": "Image (optional)" }
+    ]
+  }],
+  "max_blocks": 5,
+  "presets": [{ "name": "ECA LP — How it works", "blocks": [{"type":"step"},{"type":"step"},{"type":"step"}] }]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-how{padding:3.5rem 1.5rem;background:rgba(0,0,0,.02)}
+.eca-lp-how__grid{display:grid;gap:2rem;margin-top:2rem}
+@media(min-width:750px){.eca-lp-how__grid{grid-template-columns:repeat(auto-fit,minmax(200px,1fr))}}
+.eca-lp-how__num{width:2.25rem;height:2.25rem;border-radius:999px;display:grid;place-items:center;font-weight:800;background:rgba(0,0,0,.08);margin-bottom:.75rem}
+.eca-lp-how__img{width:100%;height:auto;border-radius:10px;margin-bottom:.75rem;display:block}
+.eca-lp-how__title{margin:0 0 .5rem;font-size:1.1rem}
+.eca-lp-how__body{opacity:.85;line-height:1.6}
+.eca-lp-how .eca-lp-cta{text-align:center;margin-top:2.5rem}
+{% endstylesheet %}

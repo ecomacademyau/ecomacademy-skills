@@ -1,0 +1,57 @@
+{%- comment -%} ECA LP — Listicle. Numbered reasons/ways, each standing alone. {%- endcomment -%}
+<section class="eca-lp-listicle">
+  <div class="eca-lp-wrap eca-lp-wrap--narrow">
+    {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- for block in section.blocks -%}
+      <div class="eca-lp-listicle__item" {{ block.shopify_attributes }}>
+        <div class="eca-lp-listicle__num">{{ forloop.index }}</div>
+        <div class="eca-lp-listicle__content">
+          <h3 class="eca-lp-listicle__title">{{ block.settings.title }}</h3>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'eca-lp-listicle__img', alt: block.settings.title }}
+          {%- endif -%}
+          <div class="eca-lp-listicle__body">{{ block.settings.body }}</div>
+          {%- if block.settings.cta_label != blank -%}
+            {% render 'eca-lp-cta', label: block.settings.cta_label, url: block.settings.cta_url, risk: blank, style: 'secondary' %}
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endfor -%}
+    {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — Listicle",
+  "tag": "section", "class": "eca-lp-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "{{N reasons ...}}" },
+    { "type": "header", "content": "Closing call to action" },
+    { "type": "text", "id": "cta_label", "label": "Button text", "default": "Shop now" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+  ],
+  "blocks": [{
+    "type": "item", "name": "List item", "settings": [
+      { "type": "text", "id": "title", "label": "Item headline", "default": "{{REASON}}" },
+      { "type": "richtext", "id": "body", "label": "Body", "default": "<p>{{Make this item stand alone and earn the next scroll.}}</p>" },
+      { "type": "image_picker", "id": "image", "label": "Image (optional)" },
+      { "type": "text", "id": "cta_label", "label": "Soft CTA (optional)", "info": "Add one every few items." },
+      { "type": "url", "id": "cta_url", "label": "Soft CTA link" }
+    ]
+  }],
+  "max_blocks": 12,
+  "presets": [{ "name": "ECA LP — Listicle", "blocks": [{"type":"item"},{"type":"item"},{"type":"item"}] }]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-listicle{padding:3.5rem 1.5rem}
+.eca-lp-wrap--narrow{max-width:760px}
+.eca-lp-listicle__item{display:flex;gap:1.25rem;padding:1.75rem 0;border-bottom:1px solid rgba(0,0,0,.08)}
+.eca-lp-listicle__item:last-of-type{border-bottom:none}
+.eca-lp-listicle__num{flex:0 0 2.5rem;height:2.5rem;border-radius:999px;display:grid;place-items:center;font-weight:800;background:rgba(0,0,0,.06)}
+.eca-lp-listicle__title{margin:.25rem 0 .75rem;font-size:1.25rem}
+.eca-lp-listicle__img{width:100%;height:auto;border-radius:10px;margin:.5rem 0 1rem;display:block}
+.eca-lp-listicle__body{line-height:1.7;opacity:.9}
+.eca-lp-listicle > .eca-lp-wrap > .eca-lp-cta{text-align:center;margin-top:2.5rem}
+{% endstylesheet %}

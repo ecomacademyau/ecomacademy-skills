@@ -1,0 +1,12 @@
+{%- comment -%}
+  ECA LP — reusable CTA button + risk-removal line
+  Usage: {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+{%- endcomment -%}
+{%- if label != blank -%}
+  <div class="eca-lp-cta">
+    <a href="{{ url | default: '#' }}" class="eca-lp-btn eca-lp-btn--{{ style | default: 'primary' }}">{{ label }}</a>
+    {%- if risk != blank -%}
+      <p class="eca-lp-cta__risk">{{ risk }}</p>
+    {%- endif -%}
+  </div>
+{%- endif -%}

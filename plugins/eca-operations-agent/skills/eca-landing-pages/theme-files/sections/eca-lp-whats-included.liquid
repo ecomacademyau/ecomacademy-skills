@@ -1,0 +1,56 @@
+{%- comment -%} ECA LP — What's included. For Kit / bundle / subscription formats. {%- endcomment -%}
+<section class="eca-lp-incl">
+  <div class="eca-lp-wrap">
+    {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+    <div class="eca-lp-incl__grid">
+      {%- for block in section.blocks -%}
+        <div class="eca-lp-incl__item" {{ block.shopify_attributes }}>
+          {%- if block.settings.image != blank -%}
+            {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', class: 'eca-lp-incl__img', alt: block.settings.title }}
+          {%- endif -%}
+          <h3 class="eca-lp-incl__title">{{ block.settings.title }}</h3>
+          {%- if block.settings.value != blank -%}<p class="eca-lp-incl__value">{{ block.settings.value }}</p>{%- endif -%}
+          <div class="eca-lp-incl__body">{{ block.settings.body }}</div>
+        </div>
+      {%- endfor -%}
+    </div>
+    {%- if section.settings.total_value != blank -%}
+      <p class="eca-lp-incl__total">{{ section.settings.total_value }}</p>
+    {%- endif -%}
+    {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — What's included",
+  "tag": "section", "class": "eca-lp-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What's included" },
+    { "type": "text", "id": "total_value", "label": "Total-value line", "info": "e.g. Total value $120 — yours for $89.", "default": "" },
+    { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+  ],
+  "blocks": [{
+    "type": "item", "name": "Item", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "title", "label": "Item name", "default": "{{ITEM}}" },
+      { "type": "text", "id": "value", "label": "Value (optional)", "info": "e.g. $29 value" },
+      { "type": "richtext", "id": "body", "label": "What it's for", "default": "<p>{{Why this is in the kit.}}</p>" }
+    ]
+  }],
+  "max_blocks": 8,
+  "presets": [{ "name": "ECA LP — What's included", "blocks": [{"type":"item"},{"type":"item"},{"type":"item"}] }]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-incl{padding:3.5rem 1.5rem}
+.eca-lp-incl__grid{display:grid;gap:1.75rem;margin-top:2rem}
+@media(min-width:750px){.eca-lp-incl__grid{grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}}
+.eca-lp-incl__img{width:100%;height:auto;border-radius:10px;margin-bottom:.75rem;display:block}
+.eca-lp-incl__title{margin:0 0 .25rem;font-size:1.1rem}
+.eca-lp-incl__value{font-weight:700;opacity:.7;margin:0 0 .5rem;font-size:.9rem}
+.eca-lp-incl__body{opacity:.85;line-height:1.6}
+.eca-lp-incl__total{text-align:center;font-weight:700;font-size:1.15rem;margin:2rem 0 0}
+.eca-lp-incl .eca-lp-cta{text-align:center;margin-top:1.5rem}
+{% endstylesheet %}

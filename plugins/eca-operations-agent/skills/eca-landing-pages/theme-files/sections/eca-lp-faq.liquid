@@ -1,0 +1,59 @@
+{%- comment -%} ECA LP — FAQ. Element 9: real objections, answer-first, + FAQPage JSON-LD for AI answer engines. {%- endcomment -%}
+<section class="eca-lp-faq">
+  <div class="eca-lp-wrap eca-lp-wrap--narrow">
+    {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- for block in section.blocks -%}
+      <details class="eca-lp-faq__item" {{ block.shopify_attributes }}>
+        <summary class="eca-lp-faq__q">{{ block.settings.question }}</summary>
+        <div class="eca-lp-faq__a">{{ block.settings.answer }}</div>
+      </details>
+    {%- endfor -%}
+    {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+  </div>
+</section>
+{%- if section.blocks.size > 0 -%}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {%- for block in section.blocks -%}
+    {
+      "@type": "Question",
+      "name": {{ block.settings.question | strip_html | json }},
+      "acceptedAnswer": { "@type": "Answer", "text": {{ block.settings.answer | strip_html | json }} }
+    }{%- unless forloop.last -%},{%- endunless -%}
+    {%- endfor -%}
+  ]
+}
+</script>
+{%- endif -%}
+{% schema %}
+{
+  "name": "ECA LP — FAQ", "tag": "section", "class": "eca-lp-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Questions people ask" },
+    { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+  ],
+  "blocks": [{
+    "type": "faq", "name": "Question", "settings": [
+      { "type": "text", "id": "question", "label": "Question", "info": "Use the real objections buyers raise.", "default": "{{QUESTION}}" },
+      { "type": "richtext", "id": "answer", "label": "Answer", "info": "Answer first, then the detail.", "default": "<p>{{Answer directly in the first sentence.}}</p>" }
+    ]
+  }],
+  "max_blocks": 10,
+  "presets": [{ "name": "ECA LP — FAQ", "blocks": [{"type":"faq"},{"type":"faq"},{"type":"faq"},{"type":"faq"},{"type":"faq"}] }]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-faq{padding:3.5rem 1.5rem}
+.eca-lp-faq__item{border-bottom:1px solid rgba(0,0,0,.1)}
+.eca-lp-faq__q{cursor:pointer;padding:1.1rem 0;font-weight:600;font-size:1.05rem;list-style:none;display:flex;justify-content:space-between;gap:1rem}
+.eca-lp-faq__q::after{content:"+";font-weight:400;opacity:.5}
+.eca-lp-faq__item[open] .eca-lp-faq__q::after{content:"–"}
+.eca-lp-faq__q::-webkit-details-marker{display:none}
+.eca-lp-faq__a{padding:0 0 1.1rem;line-height:1.7;opacity:.88}
+.eca-lp-faq .eca-lp-cta{text-align:center;margin-top:2.5rem}
+{% endstylesheet %}
