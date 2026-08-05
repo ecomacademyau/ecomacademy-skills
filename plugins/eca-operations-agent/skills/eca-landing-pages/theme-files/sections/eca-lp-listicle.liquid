@@ -1,9 +1,22 @@
-{%- comment -%} eca-lp-library v1.18.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
 {%- comment -%}
   ECA LP — Listicle. Article-first: convinces through the list, THEN introduces the product.
   No CTA before the list has done its work.
 {%- endcomment -%}
-<section class="eca-lp-listicle">
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-listicle {{ eca_cls }}" style="{{ eca_sty }}">
   <div class="eca-lp-wrap eca-lp-wrap--narrow">
     {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
     {%- if section.settings.intro != blank -%}<div class="eca-lp-listicle__intro">{{ section.settings.intro }}</div>{%- endif -%}
@@ -54,34 +67,159 @@
 {% schema %}
 {
   "name": "ECA LP — Listicle",
-  "tag": "section", "class": "eca-lp-section",
+  "tag": "section",
+  "class": "eca-lp-section",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "{{N reasons ...}}" },
-    { "type": "richtext", "id": "intro", "label": "Intro (optional)", "info": "One or two lines that set up the list. Keep it editorial — no selling yet." },
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "image_position", "label": "Image position", "options": [
-      { "value": "left", "label": "Image left, text right" },
-      { "value": "right", "label": "Image right, text left" },
-      { "value": "alternate", "label": "Alternate left / right" },
-      { "value": "none", "label": "No images (text only)" }
-    ], "default": "left", "info": "Images are placeholders until you add your own." },
-    { "type": "header", "content": "The close (after the list)" },
-    { "type": "text", "id": "close_heading", "label": "Closing heading", "info": "Introduce the product here — after the list has convinced.", "default": "" },
-    { "type": "richtext", "id": "close_body", "label": "Closing copy", "default": "" },
-    { "type": "text", "id": "cta_label", "label": "Button text", "info": "Make it follow on from the list, e.g. 'Ditch the machine — try it' rather than 'Shop now'.", "default": "" },
-    { "type": "url", "id": "cta_url", "label": "Button link" },
-    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "{{N reasons ...}}"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro (optional)",
+      "info": "One or two lines that set up the list. Keep it editorial — no selling yet."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Image left, text right"
+        },
+        {
+          "value": "right",
+          "label": "Image right, text left"
+        },
+        {
+          "value": "alternate",
+          "label": "Alternate left / right"
+        },
+        {
+          "value": "none",
+          "label": "No images (text only)"
+        }
+      ],
+      "default": "left",
+      "info": "Images are placeholders until you add your own."
+    },
+    {
+      "type": "header",
+      "content": "The close (after the list)"
+    },
+    {
+      "type": "text",
+      "id": "close_heading",
+      "label": "Closing heading",
+      "info": "Introduce the product here — after the list has convinced.",
+      "default": ""
+    },
+    {
+      "type": "richtext",
+      "id": "close_body",
+      "label": "Closing copy",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button text",
+      "info": "Make it follow on from the list, e.g. 'Ditch the machine — try it' rather than 'Shop now'.",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "risk_text",
+      "label": "Risk-removal line",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Section colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)",
+      "info": "Overrides the scheme. Only use if you need an exact colour."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text (optional)"
+    }
   ],
-  "blocks": [{
-    "type": "item", "name": "List item", "settings": [
-      { "type": "text", "id": "title", "label": "Item headline", "default": "{{REASON}}" },
-      { "type": "richtext", "id": "body", "label": "Body (2 paragraphs)", "info": "Write 1-2 full paragraphs, not a single line. Para 1: the problem or insight this reason names, in the reader's world. Para 2: how it actually plays out differently. Each item should stand alone as a short piece of writing.", "default": "<p>{{Paragraph 1 — name the problem or insight, in the reader's world.}}</p><p>{{Paragraph 2 — how it plays out differently, concretely.}}</p>" },
-      { "type": "image_picker", "id": "image", "label": "Image" },
-      { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "" }
-    ]
-  }, { "type": "@app" }],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "List item",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Item headline",
+          "default": "{{REASON}}"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Body (2 paragraphs)",
+          "info": "Write 1-2 full paragraphs, not a single line. Para 1: the problem or insight this reason names, in the reader's world. Para 2: how it actually plays out differently. Each item should stand alone as a short piece of writing.",
+          "default": "<p>{{Paragraph 1 — name the problem or insight, in the reader's world.}}</p><p>{{Paragraph 2 — how it plays out differently, concretely.}}</p>"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "image_alt",
+          "label": "Image alt text",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
   "max_blocks": 12,
-  "presets": [{ "name": "ECA LP — Listicle", "blocks": [{"type":"item"},{"type":"item"},{"type":"item"}] }]
+  "presets": [
+    {
+      "name": "ECA LP — Listicle",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
 {% stylesheet %}

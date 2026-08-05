@@ -1,6 +1,19 @@
-{%- comment -%} eca-lp-library v1.18.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
 {%- comment -%} ECA LP — Advertorial article body. Long-form story with inline images and soft CTAs. {%- endcomment -%}
-<section class="eca-lp-art">
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-art {{ eca_cls }}" style="{{ eca_sty }}">
   <div class="eca-lp-wrap eca-lp-wrap--narrow">
     {%- if section.settings.disclosure != blank -%}
       <p class="eca-lp-art__disclosure">{{ section.settings.disclosure }}</p>
@@ -31,23 +44,143 @@
 </section>
 {% schema %}
 {
-  "name": "ECA LP — Advertorial body", "tag": "section", "class": "eca-lp-section",
+  "name": "ECA LP — Article body",
+  "tag": "section",
+  "class": "eca-lp-section",
   "settings": [
-    { "type": "text", "id": "disclosure", "label": "Advertising disclosure", "info": "Required on advertorials. Keep it to the disclosure only (e.g. 'Advertisement' or 'Sponsored') — never append the internal page/format name.", "default": "Advertisement" },
-    { "type": "text", "id": "byline", "label": "Byline / dateline", "info": "Editorial credit only, e.g. 'By Jane Doe' or a city and date. Not the page type.", "default": "" }
+    {
+      "type": "text",
+      "id": "disclosure",
+      "label": "Advertising disclosure",
+      "info": "Required on advertorials. Keep it to the disclosure only (e.g. 'Advertisement' or 'Sponsored') — never append the internal page/format name.",
+      "default": "Advertisement"
+    },
+    {
+      "type": "text",
+      "id": "byline",
+      "label": "Byline / dateline",
+      "info": "Editorial credit only, e.g. 'By Jane Doe' or a city and date. Not the page type.",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Section colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)",
+      "info": "Overrides the scheme. Only use if you need an exact colour."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text (optional)"
+    }
   ],
   "blocks": [
-    { "type": "paragraph", "name": "Paragraph", "settings": [{ "type": "richtext", "id": "body", "label": "Text", "default": "<p>{{Story paragraph — first person, true, specific.}}</p>" }] },
-    { "type": "subhead", "name": "Subheading", "settings": [{ "type": "text", "id": "text", "label": "Subheading", "default": "{{SUBHEAD}}" }] },
-    { "type": "image", "name": "Image", "settings": [{ "type": "image_picker", "id": "image", "label": "Image" }, { "type": "text", "id": "caption", "label": "Caption" }] },
-    { "type": "pullquote", "name": "Pull quote", "settings": [{ "type": "text", "id": "text", "label": "Quote", "default": "{{PULL QUOTE}}" }] },
-    { "type": "cta", "name": "Inline CTA", "settings": [
-      { "type": "text", "id": "label", "label": "Button text", "default": "Shop now" },
-      { "type": "url", "id": "url", "label": "Button link" },
-      { "type": "text", "id": "risk", "label": "Risk-removal line", "default": "" } ] }
+    {
+      "type": "paragraph",
+      "name": "Paragraph",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "Text",
+          "default": "<p>{{Story paragraph — first person, true, specific.}}</p>"
+        }
+      ]
+    },
+    {
+      "type": "subhead",
+      "name": "Subheading",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Subheading",
+          "default": "{{SUBHEAD}}"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption"
+        }
+      ]
+    },
+    {
+      "type": "pullquote",
+      "name": "Pull quote",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Quote",
+          "default": "{{PULL QUOTE}}"
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "name": "Inline CTA",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button text",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "risk",
+          "label": "Risk-removal line",
+          "default": ""
+        }
+      ]
+    }
   ],
   "max_blocks": 40,
-  "presets": [{ "name": "ECA LP — Advertorial body", "blocks": [{"type":"paragraph"},{"type":"subhead"},{"type":"paragraph"},{"type":"cta"}] }]
+  "presets": [
+    {
+      "name": "ECA LP — Advertorial body",
+      "blocks": [
+        {
+          "type": "paragraph"
+        },
+        {
+          "type": "subhead"
+        },
+        {
+          "type": "paragraph"
+        },
+        {
+          "type": "cta"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
 {% stylesheet %}

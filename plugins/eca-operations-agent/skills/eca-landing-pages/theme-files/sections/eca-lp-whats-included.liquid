@@ -1,6 +1,19 @@
-{%- comment -%} eca-lp-library v1.18.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
 {%- comment -%} ECA LP — What's included. For Kit / bundle / subscription formats. {%- endcomment -%}
-<section class="eca-lp-incl">
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-incl {{ eca_cls }}" style="{{ eca_sty }}">
   <div class="eca-lp-wrap">
     {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
     <div class="eca-lp-incl__grid">
@@ -30,24 +43,112 @@
 {% schema %}
 {
   "name": "ECA LP — What's included",
-  "tag": "section", "class": "eca-lp-section",
+  "tag": "section",
+  "class": "eca-lp-section",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "What's included" },
-    { "type": "text", "id": "total_value", "label": "Total-value line", "info": "e.g. Total value $120 — yours for $89.", "default": "" },
-    { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
-    { "type": "url", "id": "cta_url", "label": "Button link" },
-    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "What's included"
+    },
+    {
+      "type": "text",
+      "id": "total_value",
+      "label": "Total-value line",
+      "info": "e.g. Total value $120 — yours for $89.",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button text",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "risk_text",
+      "label": "Risk-removal line",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Section colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)",
+      "info": "Overrides the scheme. Only use if you need an exact colour."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text (optional)"
+    }
   ],
-  "blocks": [{
-    "type": "item", "name": "Item", "settings": [
-      { "type": "image_picker", "id": "image", "label": "Image" },
-      { "type": "text", "id": "title", "label": "Item name", "default": "{{ITEM}}" },
-      { "type": "text", "id": "value", "label": "Value (optional)", "info": "e.g. $29 value" },
-      { "type": "richtext", "id": "body", "label": "What it's for", "default": "<p>{{Why this is in the kit.}}</p>" }
-    ]
-  }, { "type": "@app" }],
+  "blocks": [
+    {
+      "type": "item",
+      "name": "Item",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Image"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Item name",
+          "default": "{{ITEM}}"
+        },
+        {
+          "type": "text",
+          "id": "value",
+          "label": "Value (optional)",
+          "info": "e.g. $29 value"
+        },
+        {
+          "type": "richtext",
+          "id": "body",
+          "label": "What it's for",
+          "default": "<p>{{Why this is in the kit.}}</p>"
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
+  ],
   "max_blocks": 8,
-  "presets": [{ "name": "ECA LP — What's included", "blocks": [{"type":"item"},{"type":"item"},{"type":"item"}] }]
+  "presets": [
+    {
+      "name": "ECA LP — What's included",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
 {% stylesheet %}

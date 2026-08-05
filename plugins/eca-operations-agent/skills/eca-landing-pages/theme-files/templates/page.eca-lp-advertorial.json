@@ -63,19 +63,27 @@
     },
     "proof": {
       "type": "eca-lp-proof",
-      "settings": {},
+      "settings": {
+        "layout": "split"
+      },
       "blocks": {
         "stat-1": {
           "type": "stat",
-          "settings": {}
+          "settings": {
+            "icon_name": "star"
+          }
         },
         "stat-2": {
           "type": "stat",
-          "settings": {}
+          "settings": {
+            "icon_name": "clock"
+          }
         },
         "stat-3": {
           "type": "stat",
-          "settings": {}
+          "settings": {
+            "icon_name": "dollar"
+          }
         }
       },
       "block_order": [

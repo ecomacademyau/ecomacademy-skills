@@ -1,4 +1,4 @@
-{%- comment -%} eca-lp-library v1.20.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
 {%- comment -%}
   ECA LP — Offer + buy. Block-based: badge, heading, price, variants, inventory,
   countdown, buy button, risk line and trust points are all movable blocks.
@@ -12,7 +12,20 @@
     {%- if variant.id == want_id -%}{%- assign v = variant -%}{%- endif -%}
   {%- endfor -%}
 {%- endif -%}
-<section class="eca-lp-offer" id="eca-lp-offer">
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-offer {{ eca_cls }}" id="eca-lp-offer" style="{{ eca_sty }}">
   <div class="eca-lp-wrap eca-lp-offer__inner">
     <div class="eca-lp-offer__media">
       {%- if section.settings.image != blank -%}
@@ -224,64 +237,389 @@
 {% schema %}
 {
   "name": "ECA LP — Offer + buy",
-  "tag": "section", "class": "eca-lp-section",
+  "tag": "section",
+  "class": "eca-lp-section",
   "settings": [
-    { "type": "product", "id": "product", "label": "Product", "info": "Enables price, variants, inventory and native add-to-cart." },
-    { "type": "image_picker", "id": "image", "label": "Image (defaults to product image)" },
-    { "type": "text", "id": "default_variant", "label": "Default variant ID (optional)", "info": "Preselect a specific variant \u2014 e.g. build this page around one flavour or size. Find the ID in the product URL in Shopify admin (?variant=123456). Leave blank to use the first available variant." }
+    {
+      "type": "product",
+      "id": "product",
+      "label": "Product",
+      "info": "Enables price, variants, inventory and native add-to-cart."
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image (defaults to product image)"
+    },
+    {
+      "type": "text",
+      "id": "default_variant",
+      "label": "Default variant ID (optional)",
+      "info": "Preselect a specific variant — e.g. build this page around one flavour or size. Find the ID in the product URL in Shopify admin (?variant=123456). Leave blank to use the first available variant."
+    },
+    {
+      "type": "header",
+      "content": "Section colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)",
+      "info": "Overrides the scheme. Only use if you need an exact colour."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text (optional)"
+    }
   ],
   "blocks": [
-    { "type": "badge", "name": "Sale / urgency badge", "settings": [
-      { "type": "text", "id": "text", "label": "Badge text", "info": "Only claim what's true, e.g. 'Save 20%' or 'Ends Sunday'.", "default": "" },
-      { "type": "color", "id": "bg", "label": "Background", "default": "#D0021B" },
-      { "type": "color", "id": "fg", "label": "Text colour", "default": "#FFFFFF" } ] },
-    { "type": "heading", "name": "Heading", "limit": 1, "settings": [
-      { "type": "text", "id": "text", "label": "Heading", "default": "{{THE OFFER}}" } ] },
-    { "type": "text", "name": "Offer detail", "settings": [
-      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>{{What they get, plainly.}}</p>" } ] },
-    { "type": "price", "name": "Price", "limit": 1, "settings": [
-      { "type": "checkbox", "id": "show_saving", "label": "Show amount saved", "default": true } ] },
-    { "type": "variants", "name": "Product variations", "limit": 1, "settings": [
-      { "type": "text", "id": "label", "label": "Label", "default": "Choose your option" } ] },
-    { "type": "inventory", "name": "Inventory indicator", "limit": 1, "settings": [
-      { "type": "range", "id": "threshold", "label": "Low-stock threshold", "min": 1, "max": 50, "step": 1, "default": 10 },
-      { "type": "text", "id": "low_text", "label": "Low stock text", "info": "Use {qty} for the number.", "default": "Only {qty} left in stock" },
-      { "type": "text", "id": "in_text", "label": "In stock text", "info": "Leave blank to show nothing when stock is healthy.", "default": "In stock, ships within 24 hours" },
-      { "type": "text", "id": "out_text", "label": "Sold out text", "default": "Currently sold out" } ] },
-    { "type": "countdown", "name": "Countdown timer", "limit": 1, "settings": [
-      { "type": "paragraph", "content": "Only ever count down to something real — a genuine offer deadline or a true daily/weekly cutoff (like your dispatch time). Fake urgency damages trust and can breach consumer law." },
-      { "type": "text", "id": "label", "label": "Label", "default": "Order within" },
-      { "type": "select", "id": "mode", "label": "Type", "options": [
-        { "value": "fixed", "label": "Fixed deadline (one-off offer)" },
-        { "value": "daily", "label": "Daily cutoff (resets every day)" },
-        { "value": "weekly", "label": "Weekly cutoff (resets every week)" }
-      ], "default": "daily", "info": "Daily/weekly never need resetting — ideal for a real dispatch or order cutoff." },
-      { "type": "text", "id": "end_at", "label": "Fixed: ends at", "info": "Only for the fixed type. Format: 2026-12-24 23:59 (your store's time).", "default": "" },
-      { "type": "text", "id": "reset_time", "label": "Daily/weekly: cutoff time", "info": "24-hour, your store's time. e.g. 14:00 for a 2pm dispatch cutoff.", "default": "14:00" },
-      { "type": "select", "id": "reset_day", "label": "Weekly: day", "options": [
-        {"value":"1","label":"Monday"},{"value":"2","label":"Tuesday"},{"value":"3","label":"Wednesday"},
-        {"value":"4","label":"Thursday"},{"value":"5","label":"Friday"},{"value":"6","label":"Saturday"},{"value":"0","label":"Sunday"}
-      ], "default": "5" },
-      { "type": "text", "id": "expired_text", "label": "Fixed: text when expired", "default": "This offer has ended" },
-      { "type": "checkbox", "id": "hide_on_end", "label": "Fixed: hide when expired", "default": true } ] },
-    { "type": "buy", "name": "Add to cart button", "limit": 1, "settings": [
-      { "type": "text", "id": "label", "label": "Button text", "default": "Add to cart" },
-      { "type": "text", "id": "sold_out_label", "label": "Sold out text", "default": "Sold out" },
-      { "type": "checkbox", "id": "show_dynamic", "label": "Show express checkout buttons", "default": false } ] },
-    { "type": "risk", "name": "Risk-removal line", "limit": 1, "settings": [
-      { "type": "text", "id": "text", "label": "Text", "default": "{{GUARANTEE}}" } ] },
-    { "type": "trust_points", "name": "Trust points", "limit": 1, "settings": [
-      { "type": "select", "id": "icon_name", "label": "Icon", "options": [
-        {"value":"check-circle","label":"Check"},{"value":"truck","label":"Truck"},{"value":"shield","label":"Shield"},
-        {"value":"refresh","label":"Returns"},{"value":"lock","label":"Secure"}], "default": "check-circle" },
-      { "type": "textarea", "id": "points", "label": "Points (one per line)", "default": "" } ] },
-    { "type": "spacer", "name": "Spacer", "settings": [
-      { "type": "range", "id": "height", "label": "Height", "min": 8, "max": 80, "step": 4, "unit": "px", "default": 16 } ] },
-    { "type": "@app" }
+    {
+      "type": "badge",
+      "name": "Sale / urgency badge",
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Badge text",
+          "info": "Only claim what's true, e.g. 'Save 20%' or 'Ends Sunday'.",
+          "default": ""
+        },
+        {
+          "type": "color",
+          "id": "bg",
+          "label": "Background",
+          "default": "#D0021B"
+        },
+        {
+          "type": "color",
+          "id": "fg",
+          "label": "Text colour",
+          "default": "#FFFFFF"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Heading",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Heading",
+          "default": "{{THE OFFER}}"
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Offer detail",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>{{What they get, plainly.}}</p>"
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_saving",
+          "label": "Show amount saved",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "variants",
+      "name": "Product variations",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Choose your option"
+        }
+      ]
+    },
+    {
+      "type": "inventory",
+      "name": "Inventory indicator",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "range",
+          "id": "threshold",
+          "label": "Low-stock threshold",
+          "min": 1,
+          "max": 50,
+          "step": 1,
+          "default": 10
+        },
+        {
+          "type": "text",
+          "id": "low_text",
+          "label": "Low stock text",
+          "info": "Use {qty} for the number.",
+          "default": "Only {qty} left in stock"
+        },
+        {
+          "type": "text",
+          "id": "in_text",
+          "label": "In stock text",
+          "info": "Leave blank to show nothing when stock is healthy.",
+          "default": "In stock, ships within 24 hours"
+        },
+        {
+          "type": "text",
+          "id": "out_text",
+          "label": "Sold out text",
+          "default": "Currently sold out"
+        }
+      ]
+    },
+    {
+      "type": "countdown",
+      "name": "Countdown timer",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "paragraph",
+          "content": "Only ever count down to something real — a genuine offer deadline or a true daily/weekly cutoff (like your dispatch time). Fake urgency damages trust and can breach consumer law."
+        },
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Label",
+          "default": "Order within"
+        },
+        {
+          "type": "select",
+          "id": "mode",
+          "label": "Type",
+          "options": [
+            {
+              "value": "fixed",
+              "label": "Fixed deadline (one-off offer)"
+            },
+            {
+              "value": "daily",
+              "label": "Daily cutoff (resets every day)"
+            },
+            {
+              "value": "weekly",
+              "label": "Weekly cutoff (resets every week)"
+            }
+          ],
+          "default": "daily",
+          "info": "Daily/weekly never need resetting — ideal for a real dispatch or order cutoff."
+        },
+        {
+          "type": "text",
+          "id": "end_at",
+          "label": "Fixed: ends at",
+          "info": "Only for the fixed type. Format: 2026-12-24 23:59 (your store's time).",
+          "default": ""
+        },
+        {
+          "type": "text",
+          "id": "reset_time",
+          "label": "Daily/weekly: cutoff time",
+          "info": "24-hour, your store's time. e.g. 14:00 for a 2pm dispatch cutoff.",
+          "default": "14:00"
+        },
+        {
+          "type": "select",
+          "id": "reset_day",
+          "label": "Weekly: day",
+          "options": [
+            {
+              "value": "1",
+              "label": "Monday"
+            },
+            {
+              "value": "2",
+              "label": "Tuesday"
+            },
+            {
+              "value": "3",
+              "label": "Wednesday"
+            },
+            {
+              "value": "4",
+              "label": "Thursday"
+            },
+            {
+              "value": "5",
+              "label": "Friday"
+            },
+            {
+              "value": "6",
+              "label": "Saturday"
+            },
+            {
+              "value": "0",
+              "label": "Sunday"
+            }
+          ],
+          "default": "5"
+        },
+        {
+          "type": "text",
+          "id": "expired_text",
+          "label": "Fixed: text when expired",
+          "default": "This offer has ended"
+        },
+        {
+          "type": "checkbox",
+          "id": "hide_on_end",
+          "label": "Fixed: hide when expired",
+          "default": true
+        }
+      ]
+    },
+    {
+      "type": "buy",
+      "name": "Add to cart button",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button text",
+          "default": "Add to cart"
+        },
+        {
+          "type": "text",
+          "id": "sold_out_label",
+          "label": "Sold out text",
+          "default": "Sold out"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_dynamic",
+          "label": "Show express checkout buttons",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "risk",
+      "name": "Risk-removal line",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "{{GUARANTEE}}"
+        }
+      ]
+    },
+    {
+      "type": "trust_points",
+      "name": "Trust points",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_name",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "check-circle",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "refresh",
+              "label": "Returns"
+            },
+            {
+              "value": "lock",
+              "label": "Secure"
+            }
+          ],
+          "default": "check-circle"
+        },
+        {
+          "type": "textarea",
+          "id": "points",
+          "label": "Points (one per line)",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "type": "spacer",
+      "name": "Spacer",
+      "settings": [
+        {
+          "type": "range",
+          "id": "height",
+          "label": "Height",
+          "min": 8,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "default": 16
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
   ],
   "max_blocks": 14,
-  "presets": [{ "name": "ECA LP — Offer + buy", "blocks": [
-    {"type":"heading"},{"type":"text"},{"type":"price"},{"type":"variants"},{"type":"inventory"},{"type":"buy"},{"type":"risk"} ] }]
+  "presets": [
+    {
+      "name": "ECA LP — Offer + buy",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "text"
+        },
+        {
+          "type": "price"
+        },
+        {
+          "type": "variants"
+        },
+        {
+          "type": "inventory"
+        },
+        {
+          "type": "buy"
+        },
+        {
+          "type": "risk"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
 {% stylesheet %}

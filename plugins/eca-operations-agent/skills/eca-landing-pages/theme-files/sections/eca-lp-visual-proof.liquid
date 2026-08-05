@@ -1,86 +1,340 @@
-{%- comment -%} eca-lp-library v1.21.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
 {%- comment -%}
-  ECA LP — Visual proof. Real customer photos and videos (UGC).
-  Use genuine customer content only — never stock imagery presented as customers.
+  ECA LP — Visual proof. Full-width UGC carousel: vertical (9:16) customer videos/photos,
+  scroll-snap with arrows, optional caption or social-post styled comment underneath.
+  Real customer content only.
 {%- endcomment -%}
-<section class="eca-lp-vp">
-  <div class="eca-lp-wrap">
-    {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
-    {%- if section.settings.intro != blank -%}<div class="eca-lp-vp__intro">{{ section.settings.intro }}</div>{%- endif -%}
-    <div class="eca-lp-vp__grid eca-lp-vp__grid--{{ section.settings.columns }}">
+{%- assign uid = section.id -%}
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-vp {{ eca_cls }}" style="{{ eca_sty }}">
+  {%- if section.settings.heading != blank -%}
+    <h2 class="eca-lp-h2 eca-lp-vp__h">{{ section.settings.heading }}</h2>
+  {%- endif -%}
+  {%- if section.settings.intro != blank -%}
+    <div class="eca-lp-vp__intro">{{ section.settings.intro }}</div>
+  {%- endif -%}
+
+  <div class="eca-lp-vp__wrap" data-eca-carousel="{{ uid }}">
+    {%- if section.settings.show_arrows -%}
+      <button class="eca-lp-vp__arrow eca-lp-vp__arrow--prev" type="button" aria-label="Previous" data-eca-prev>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      </button>
+    {%- endif -%}
+
+    <div class="eca-lp-vp__track eca-lp-vp__track--{{ section.settings.per_view }}" data-eca-track>
       {%- for block in section.blocks -%}
         {%- if block.type == '@app' -%}
-          <div class="eca-lp-vp__app" {{ block.shopify_attributes }}>{% render block %}</div>
+          <div class="eca-lp-vp__card" {{ block.shopify_attributes }}>{% render block %}</div>
         {%- else -%}
-          <figure class="eca-lp-vp__item" {{ block.shopify_attributes }}>
+          <article class="eca-lp-vp__card" {{ block.shopify_attributes }}>
             <div class="eca-lp-vp__media">
               {%- if block.settings.video != blank -%}
-                {{ block.settings.video | video_tag: image_size: '600x', autoplay: false, loop: true, muted: true, controls: true, class: 'eca-lp-vp__vid' }}
+                {{ block.settings.video | video_tag: image_size: '600x', autoplay: false, loop: true, muted: true, controls: false, class: 'eca-lp-vp__vid', preload: 'metadata' }}
+                <button class="eca-lp-vp__play" type="button" aria-label="Play video" data-eca-play>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M10 8.5 16 12l-6 3.5z" fill="currentColor"/></svg>
+                </button>
               {%- elsif block.settings.image != blank -%}
-                {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'eca-lp-vp__img', sizes: '(min-width: 750px) 30vw, 50vw', widths: '300,500,700', alt: block.settings.caption }}
+                {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'eca-lp-vp__img', sizes: '(min-width: 750px) 25vw, 70vw', widths: '300,500,700', alt: block.settings.caption }}
               {%- else -%}
-                {% render 'eca-lp-placeholder', ratio: '1x1', label: 'Customer photo or video' %}
+                {% render 'eca-lp-placeholder', ratio: '9x16', label: 'Customer video or photo' %}
               {%- endif -%}
             </div>
-            {%- if block.settings.caption != blank or block.settings.handle != blank -%}
-              <figcaption class="eca-lp-vp__cap">
-                {%- if block.settings.caption != blank -%}<span class="eca-lp-vp__quote">{{ block.settings.caption }}</span>{%- endif -%}
-                {%- if block.settings.handle != blank -%}<span class="eca-lp-vp__handle">{{ block.settings.handle }}</span>{%- endif -%}
-              </figcaption>
-            {%- endif -%}
-          </figure>
+
+            {%- unless section.settings.caption_style == 'none' -%}
+              {%- if block.settings.caption != blank or block.settings.handle != blank -%}
+                <div class="eca-lp-vp__cap eca-lp-vp__cap--{{ section.settings.caption_style }}">
+                  {%- if section.settings.caption_style == 'post' -%}
+                    <div class="eca-lp-vp__by">
+                      {%- if block.settings.avatar != blank -%}
+                        {{ block.settings.avatar | image_url: width: 80 | image_tag: loading: 'lazy', class: 'eca-lp-vp__avatar', alt: block.settings.handle }}
+                      {%- else -%}
+                        <span class="eca-lp-vp__avatar eca-lp-vp__avatar--ph">{{ block.settings.handle | default: '?' | slice: 0 | upcase }}</span>
+                      {%- endif -%}
+                      <span class="eca-lp-vp__handle">{{ block.settings.handle }}</span>
+                      {%- if block.settings.verified -%}
+                        {% render 'eca-lp-icon', name: 'check-circle', class: 'eca-lp-vp__tick' %}
+                      {%- endif -%}
+                    </div>
+                    {%- if block.settings.caption != blank -%}<p class="eca-lp-vp__text">{{ block.settings.caption }}</p>{%- endif -%}
+                  {%- else -%}
+                    {%- if block.settings.caption != blank -%}<p class="eca-lp-vp__text">{{ block.settings.caption }}</p>{%- endif -%}
+                    {%- if block.settings.handle != blank -%}<p class="eca-lp-vp__handle">{{ block.settings.handle }}</p>{%- endif -%}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+            {%- endunless -%}
+          </article>
         {%- endif -%}
       {%- endfor -%}
     </div>
-    {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+
+    {%- if section.settings.show_arrows -%}
+      <button class="eca-lp-vp__arrow eca-lp-vp__arrow--next" type="button" aria-label="Next" data-eca-next>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 18 6-6-6-6"/></svg>
+      </button>
+    {%- endif -%}
   </div>
+
+  {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
 </section>
+
+<script>
+(function(){
+  var root=document.querySelector('[data-eca-carousel="{{ uid }}"]'); if(!root) return;
+  var track=root.querySelector('[data-eca-track]');
+  var prev=root.querySelector('[data-eca-prev]'), next=root.querySelector('[data-eca-next]');
+  function step(){ var c=track.querySelector('.eca-lp-vp__card'); return c?c.getBoundingClientRect().width+16:300; }
+  if(prev) prev.addEventListener('click',function(){ track.scrollBy({left:-step(),behavior:'smooth'}); });
+  if(next) next.addEventListener('click',function(){ track.scrollBy({left:step(),behavior:'smooth'}); });
+  function sync(){
+    if(!prev||!next) return;
+    var max=track.scrollWidth-track.clientWidth-2;
+    prev.hidden=track.scrollLeft<=2; next.hidden=track.scrollLeft>=max;
+  }
+  track.addEventListener('scroll',sync,{passive:true}); window.addEventListener('resize',sync); sync();
+  root.querySelectorAll('[data-eca-play]').forEach(function(btn){
+    btn.addEventListener('click',function(){
+      var v=btn.parentElement.querySelector('video'); if(!v) return;
+      root.querySelectorAll('video').forEach(function(o){ if(o!==v){o.pause();o.removeAttribute('controls');
+        var b=o.parentElement.querySelector('[data-eca-play]'); if(b) b.hidden=false; } });
+      v.setAttribute('controls','');
+      v.play(); btn.hidden=true;
+    });
+  });
+})();
+</script>
 {% schema %}
 {
-  "name": "ECA LP — Visual proof (UGC)",
-  "tag": "section", "class": "eca-lp-section",
+  "name": "ECA LP — Visual proof",
+  "tag": "section",
+  "class": "eca-lp-section",
   "settings": [
-    { "type": "paragraph", "content": "Real customer photos and videos only. Never present stock imagery as customer content." },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "Real customers, real results" },
-    { "type": "richtext", "id": "intro", "label": "Intro (optional)" },
-    { "type": "select", "id": "columns", "label": "Columns", "options": [
-      {"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"}], "default": "3" },
-    { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
-    { "type": "url", "id": "cta_url", "label": "Button link" },
-    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+    {
+      "type": "paragraph",
+      "content": "Real customer photos and videos only. Never present stock imagery as customer content."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Real customers, real results"
+    },
+    {
+      "type": "richtext",
+      "id": "intro",
+      "label": "Intro (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Carousel"
+    },
+    {
+      "type": "select",
+      "id": "per_view",
+      "label": "Cards visible (desktop)",
+      "options": [
+        {
+          "value": "3",
+          "label": "3"
+        },
+        {
+          "value": "4",
+          "label": "4"
+        },
+        {
+          "value": "5",
+          "label": "5"
+        }
+      ],
+      "default": "4"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_arrows",
+      "label": "Show arrows",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "caption_style",
+      "label": "Caption style",
+      "options": [
+        {
+          "value": "none",
+          "label": "No text (media only)"
+        },
+        {
+          "value": "simple",
+          "label": "Simple caption"
+        },
+        {
+          "value": "post",
+          "label": "Social post (avatar + handle)"
+        }
+      ],
+      "default": "post"
+    },
+    {
+      "type": "header",
+      "content": "Call to action"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button text",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "risk_text",
+      "label": "Risk-removal line",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Section colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)",
+      "info": "Overrides the scheme. Only use if you need an exact colour."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text (optional)"
+    }
   ],
   "blocks": [
-    { "type": "item", "name": "Photo / video", "settings": [
-      { "type": "image_picker", "id": "image", "label": "Photo" },
-      { "type": "video", "id": "video", "label": "Video (overrides photo)" },
-      { "type": "text", "id": "caption", "label": "Caption / short quote", "info": "Their words, not marketing copy.", "default": "" },
-      { "type": "text", "id": "handle", "label": "Name or @handle", "default": "" } ] },
-    { "type": "@app" }
+    {
+      "type": "item",
+      "name": "Photo / video",
+      "settings": [
+        {
+          "type": "video",
+          "id": "video",
+          "label": "Video (9:16 works best)"
+        },
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Photo (used if no video)"
+        },
+        {
+          "type": "text",
+          "id": "caption",
+          "label": "Caption / comment",
+          "info": "Their words, not marketing copy.",
+          "default": ""
+        },
+        {
+          "type": "text",
+          "id": "handle",
+          "label": "Name or @handle",
+          "default": ""
+        },
+        {
+          "type": "image_picker",
+          "id": "avatar",
+          "label": "Avatar (post style)"
+        },
+        {
+          "type": "checkbox",
+          "id": "verified",
+          "label": "Show verified tick",
+          "default": false
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
   ],
-  "max_blocks": 12,
-  "presets": [{ "name": "ECA LP — Visual proof (UGC)", "blocks": [{"type":"item"},{"type":"item"},{"type":"item"}] }]
+  "max_blocks": 16,
+  "presets": [
+    {
+      "name": "ECA LP — Visual proof",
+      "blocks": [
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        },
+        {
+          "type": "item"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
 {% stylesheet %}
-.eca-lp-vp{padding:3.5rem 1.5rem}
-.eca-lp-vp__intro{text-align:center;max-width:620px;margin:0 auto 2rem;opacity:.85}
-.eca-lp-vp__grid{display:grid;gap:1rem;margin-top:1.5rem;grid-template-columns:repeat(2,1fr)}
+.eca-lp-vp{padding:3.5rem 0}
+.eca-lp-vp__h{text-align:center;padding:0 1.5rem}
+.eca-lp-vp__intro{text-align:center;max-width:620px;margin:0 auto 1.75rem;opacity:.85;padding:0 1.5rem}
+.eca-lp-vp__wrap{position:relative}
+.eca-lp-vp__track{display:flex;gap:1rem;overflow-x:auto;scroll-snap-type:x mandatory;scroll-behavior:smooth;padding:.25rem 1.5rem 1rem;-webkit-overflow-scrolling:touch;scrollbar-width:none}
+.eca-lp-vp__track::-webkit-scrollbar{display:none}
+.eca-lp-vp__card{flex:0 0 68%;scroll-snap-align:center;margin:0}
 @media(min-width:750px){
-  .eca-lp-vp__grid--2{grid-template-columns:repeat(2,1fr)}
-  .eca-lp-vp__grid--3{grid-template-columns:repeat(3,1fr)}
-  .eca-lp-vp__grid--4{grid-template-columns:repeat(4,1fr)}
+  .eca-lp-vp__track--3 .eca-lp-vp__card{flex-basis:calc((100% - 2rem)/3)}
+  .eca-lp-vp__track--4 .eca-lp-vp__card{flex-basis:calc((100% - 3rem)/4)}
+  .eca-lp-vp__track--5 .eca-lp-vp__card{flex-basis:calc((100% - 4rem)/5)}
+  .eca-lp-vp__track{padding-left:2.5rem;padding-right:2.5rem;scroll-snap-type:x proximity}
 }
-.eca-lp-vp__item{margin:0}
-.eca-lp-vp__media{position:relative;border-radius:12px;overflow:hidden}
-.eca-lp-vp__img,.eca-lp-vp__vid{width:100%;height:100%;aspect-ratio:1/1;object-fit:cover;display:block}
-.eca-lp-vp__cap{padding:.6rem .1rem 0;font-size:.85rem;line-height:1.5}
-.eca-lp-vp__quote{display:block;opacity:.9}
-.eca-lp-vp__handle{display:block;opacity:.6;font-weight:600;margin-top:.15rem}
-.eca-lp-vp .eca-lp-cta{text-align:center;margin-top:2rem}
-.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;min-height:160px;color:currentColor}
+.eca-lp-vp__media{position:relative;border-radius:14px;overflow:hidden;background:rgba(127,127,127,.08)}
+.eca-lp-vp__img,.eca-lp-vp__vid{width:100%;height:100%;aspect-ratio:9/16;object-fit:cover;display:block}
+.eca-lp-vp__play{position:absolute;inset:0;margin:auto;width:64px;height:64px;border:none;background:transparent;color:#fff;cursor:pointer;opacity:.95;filter:drop-shadow(0 2px 8px rgba(0,0,0,.35))}
+.eca-lp-vp__play svg{width:100%;height:100%}
+.eca-lp-vp__play:hover{transform:scale(1.06)}
+.eca-lp-vp__cap{padding:.7rem .15rem 0}
+.eca-lp-vp__text{margin:0;font-size:.9rem;line-height:1.5;opacity:.9}
+.eca-lp-vp__cap--simple .eca-lp-vp__handle{margin:.3rem 0 0;font-size:.85rem;font-weight:600;opacity:.6}
+.eca-lp-vp__by{display:flex;align-items:center;gap:.45rem;margin-bottom:.35rem}
+.eca-lp-vp__avatar{width:26px;height:26px;border-radius:999px;object-fit:cover;flex:0 0 26px}
+.eca-lp-vp__avatar--ph{display:grid;place-items:center;background:rgba(127,127,127,.2);font-size:.75rem;font-weight:700}
+.eca-lp-vp__by .eca-lp-vp__handle{font-size:.85rem;font-weight:700}
+.eca-lp-vp__tick{width:14px;height:14px;opacity:.65}
+.eca-lp-vp__arrow{position:absolute;top:38%;z-index:2;width:44px;height:44px;border-radius:999px;border:1px solid rgba(127,127,127,.25);background:rgba(255,255,255,.92);color:inherit;cursor:pointer;display:none;align-items:center;justify-content:center;box-shadow:0 2px 10px rgba(0,0,0,.1)}
+.eca-lp-vp__arrow svg{width:20px;height:20px}
+.eca-lp-vp__arrow--prev{left:.75rem}
+.eca-lp-vp__arrow--next{right:.75rem}
+.eca-lp-vp__arrow[hidden]{display:none}
+@media(min-width:750px){.eca-lp-vp__arrow{display:flex}}
+.eca-lp-vp .eca-lp-cta{text-align:center;margin-top:1.5rem;padding:0 1.5rem}
+.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:14px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;color:currentColor}
+.eca-lp-ph--9x16{aspect-ratio:9/16}
 .eca-lp-ph--1x1{aspect-ratio:1/1}
 .eca-lp-ph--4x3{aspect-ratio:4/3}
 .eca-lp-ph--16x9{aspect-ratio:16/9}
 .eca-lp-ph__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
-.eca-lp-ph__label{position:relative;font-size:.75rem;font-weight:600;opacity:.55;padding:.35rem .7rem;background:rgba(255,255,255,.75);border-radius:999px;text-align:center}
+.eca-lp-ph__label{position:relative;font-size:.72rem;font-weight:600;opacity:.55;padding:.3rem .65rem;background:rgba(255,255,255,.75);border-radius:999px;text-align:center}
 {% endstylesheet %}

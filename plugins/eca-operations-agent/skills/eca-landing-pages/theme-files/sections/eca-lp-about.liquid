@@ -1,9 +1,22 @@
-{%- comment -%} eca-lp-library v1.21.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
 {%- comment -%}
   ECA LP — About us / me. The human touch at the foot of the page.
   Use the real founder/team story from brand-data. Never invent a person or a photo of one.
 {%- endcomment -%}
-<section class="eca-lp-about">
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-about {{ eca_cls }}" style="{{ eca_sty }}">
   <div class="eca-lp-wrap eca-lp-about__inner eca-lp-about__inner--{{ section.settings.image_position }}">
     <div class="eca-lp-about__media">
       {%- if section.settings.image != blank -%}
@@ -29,25 +42,131 @@
 {% schema %}
 {
   "name": "ECA LP — About us",
-  "tag": "section", "class": "eca-lp-section",
+  "tag": "section",
+  "class": "eca-lp-section",
   "settings": [
-    { "type": "paragraph", "content": "Use the real founder or team story. Never invent a person, a quote or a photo of one." },
-    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Who's behind this" },
-    { "type": "text", "id": "heading", "label": "Heading", "default": "{{Why we made this}}" },
-    { "type": "richtext", "id": "story", "label": "Story", "info": "Two or three short paragraphs in the founder's own voice. Why they made it, who for.", "default": "<p>{{Two or three short paragraphs in your own voice — why you made this, and who you made it for.}}</p>" },
-    { "type": "image_picker", "id": "image", "label": "Photo", "info": "A real photo of the founder or team." },
-    { "type": "select", "id": "image_shape", "label": "Photo shape", "options": [
-      {"value":"round","label":"Round"},{"value":"square","label":"Rounded square"}], "default": "round" },
-    { "type": "select", "id": "image_position", "label": "Photo position", "options": [
-      {"value":"left","label":"Photo left"},{"value":"right","label":"Photo right"}], "default": "left" },
-    { "type": "image_picker", "id": "signature", "label": "Signature image (optional)" },
-    { "type": "text", "id": "name", "label": "Name", "default": "" },
-    { "type": "text", "id": "role", "label": "Role", "default": "" },
-    { "type": "text", "id": "cta_label", "label": "Button text (optional)", "default": "" },
-    { "type": "url", "id": "cta_url", "label": "Button link" },
-    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+    {
+      "type": "paragraph",
+      "content": "Use the real founder or team story. Never invent a person, a quote or a photo of one."
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Small label",
+      "default": "Who's behind this"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "{{Why we made this}}"
+    },
+    {
+      "type": "richtext",
+      "id": "story",
+      "label": "Story",
+      "info": "Two or three short paragraphs in the founder's own voice. Why they made it, who for.",
+      "default": "<p>{{Two or three short paragraphs in your own voice — why you made this, and who you made it for.}}</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Photo",
+      "info": "A real photo of the founder or team."
+    },
+    {
+      "type": "select",
+      "id": "image_shape",
+      "label": "Photo shape",
+      "options": [
+        {
+          "value": "round",
+          "label": "Round"
+        },
+        {
+          "value": "square",
+          "label": "Rounded square"
+        }
+      ],
+      "default": "round"
+    },
+    {
+      "type": "select",
+      "id": "image_position",
+      "label": "Photo position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Photo left"
+        },
+        {
+          "value": "right",
+          "label": "Photo right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "image_picker",
+      "id": "signature",
+      "label": "Signature image (optional)"
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Name",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "role",
+      "label": "Role",
+      "default": ""
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button text (optional)",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "text",
+      "id": "risk_text",
+      "label": "Risk-removal line",
+      "default": ""
+    },
+    {
+      "type": "header",
+      "content": "Section colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)",
+      "info": "Overrides the scheme. Only use if you need an exact colour."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text (optional)"
+    }
   ],
-  "presets": [{ "name": "ECA LP — About us" }]
+  "presets": [
+    {
+      "name": "ECA LP — About us"
+    }
+  ]
 }
 {% endschema %}
 {% stylesheet %}

@@ -1,6 +1,19 @@
-{%- comment -%} eca-lp-library v1.18.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
 {%- comment -%} ECA LP — Guarantee. Element 7: risk removal, in its own moment. {%- endcomment -%}
-<section class="eca-lp-gar">
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-gar {{ eca_cls }}" style="{{ eca_sty }}">
   <div class="eca-lp-wrap eca-lp-wrap--narrow eca-lp-gar__inner">
     {%- if section.settings.badge != blank -%}
       {{ section.settings.badge | image_url: width: 200 | image_tag: loading: 'lazy', class: 'eca-lp-gar__badge', alt: section.settings.heading }}
@@ -12,15 +25,66 @@
 </section>
 {% schema %}
 {
-  "name": "ECA LP — Guarantee", "tag": "section", "class": "eca-lp-section",
+  "name": "ECA LP — Guarantee",
+  "tag": "section",
+  "class": "eca-lp-section",
   "settings": [
-    { "type": "text", "id": "heading", "label": "Heading", "default": "{{GUARANTEE — e.g. Try it for 30 days}}" },
-    { "type": "richtext", "id": "body", "label": "Guarantee detail", "info": "What it is, how long, and how to claim. Plain language, no asterisks. Use the brand's real policy only.", "default": "<p>{{Explain the guarantee: what, how long, how to claim.}}</p>" },
-    { "type": "image_picker", "id": "badge", "label": "Badge image (optional)" },
-    { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
-    { "type": "url", "id": "cta_url", "label": "Button link" }
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "{{GUARANTEE — e.g. Try it for 30 days}}"
+    },
+    {
+      "type": "richtext",
+      "id": "body",
+      "label": "Guarantee detail",
+      "info": "What it is, how long, and how to claim. Plain language, no asterisks. Use the brand's real policy only.",
+      "default": "<p>{{Explain the guarantee: what, how long, how to claim.}}</p>"
+    },
+    {
+      "type": "image_picker",
+      "id": "badge",
+      "label": "Badge image (optional)"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Button text",
+      "default": ""
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Section colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)",
+      "info": "Overrides the scheme. Only use if you need an exact colour."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text (optional)"
+    }
   ],
-  "presets": [{ "name": "ECA LP — Guarantee" }]
+  "presets": [
+    {
+      "name": "ECA LP — Guarantee"
+    }
+  ]
 }
 {% endschema %}
 {% stylesheet %}

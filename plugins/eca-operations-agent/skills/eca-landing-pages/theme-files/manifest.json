@@ -1,5 +1,5 @@
 {
-  "library_version": "1.21.0",
+  "library_version": "1.25.0",
   "install_rule": "Install anything missing. Refresh same-name files to the current version (additive-only by construction, so safe). Never overwrite or delete a superseded file listed in deprecated_do_not_install. Ask before replacing a hand-edited file.",
   "always_copy": [
     "snippets/",

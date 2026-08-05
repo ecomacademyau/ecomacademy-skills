@@ -30,19 +30,27 @@
     },
     "proof": {
       "type": "eca-lp-proof",
-      "settings": {},
+      "settings": {
+        "layout": "split"
+      },
       "blocks": {
         "stat-1": {
           "type": "stat",
-          "settings": {}
+          "settings": {
+            "icon_name": "star"
+          }
         },
         "stat-2": {
           "type": "stat",
-          "settings": {}
+          "settings": {
+            "icon_name": "clock"
+          }
         },
         "stat-3": {
           "type": "stat",
-          "settings": {}
+          "settings": {
+            "icon_name": "dollar"
+          }
         }
       },
       "block_order": [
@@ -203,7 +211,9 @@
     "visual-proof": {
       "type": "eca-lp-visual-proof",
       "settings": {
-        "columns": "3"
+        "per_view": "4",
+        "caption_style": "post",
+        "show_arrows": true
       },
       "blocks": {
         "item-1": {

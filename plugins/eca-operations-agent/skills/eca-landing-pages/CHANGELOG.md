@@ -2,6 +2,19 @@
 
 Tracked so we know what changed between test runs. Newest first.
 
+## v1.25.0 — UGC carousel
+- **Visual proof rebuilt as a full-width carousel**: vertical 9:16 cards (Reels/TikTok shape), scroll-snap with arrows on desktop and native swipe on mobile, click-to-play video with a play overlay (playing one pauses the others).
+- **Three caption styles**: none (media only), simple caption, or **social post** (avatar, @handle, optional verified tick, comment) — so UGC can look like the platform it came from.
+- Background colour setting; 3/4/5 cards visible on desktop.
+
+## v1.24.0 — schema name limits
+- **Fixed section names exceeding Shopify's 25-character schema limit**, which causes the file to be rejected outright: "Visual proof (UGC)" → "Visual proof", "What's in the box" → "In the box", "Advertorial body" → "Article body". *(Found by a code agent during a live install.)*
+- Added a **schema-limit check** to the build validation (section and block names ≤ 25 chars) so this can't ship again.
+
+## v1.23.0 — proof redesign + trust bar colours
+- **Proof section redesigned.** The numbers are now the hero, not the image: stats sit in bordered cards with optional icons, and there are four layouts (**stats only**, image left/right split, image above). The image is constrained rather than dominating the section. Fixes a genuinely weak default where an empty placeholder swamped the proof.
+- **Trust bar** gains background and text/icon colour settings.
+
 ## v1.22.0 — hand-over links
 - Every build now ends with **three clickable links**: edit in the theme editor (deep-linked to the page), preview on the dev theme, and page settings in admin. No more hunting for the page after it's built.
 

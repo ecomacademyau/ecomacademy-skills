@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.10 - 2026-08-05
+
+- Visual Proof Update, Color Scheme for Sections
+
 ## v1.12.9 - 2026-08-05
 
 - Updated Social Proof Section and Deep link after builds

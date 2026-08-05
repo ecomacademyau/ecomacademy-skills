@@ -1,9 +1,22 @@
-{%- comment -%} eca-lp-library v1.18.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
 {%- comment -%}
   ECA LP — Hero. Block-based: every element (eyebrow, headline, sub-headline, rating,
   CTA, trust points, custom text) is a movable block, reorderable in the theme editor.
 {%- endcomment -%}
-<section class="eca-lp-hero eca-lp-hero--{{ section.settings.layout }}" style="--eca-lp-pad:{{ section.settings.padding }}px">
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-hero eca-lp-hero--{{ section.settings.layout }} {{ eca_cls }}" style="--eca-lp-pad:{{ section.settings.padding }}px;{{ eca_sty }}">
   <div class="eca-lp-hero__inner">
     <div class="eca-lp-hero__copy">
       {%- for block in section.blocks -%}
@@ -85,51 +98,304 @@
   "tag": "section",
   "class": "eca-lp-section",
   "settings": [
-    { "type": "header", "content": "Media (match the ad's creative)" },
-    { "type": "image_picker", "id": "image", "label": "Image", "info": "A frame from the ad creative works best. Leave empty to show a placeholder." },
-    { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "" },
-    { "type": "video", "id": "video", "label": "Video (overrides image)" },
-    { "type": "header", "content": "Layout" },
-    { "type": "select", "id": "layout", "label": "Layout", "options": [
-      { "value": "split", "label": "Split (copy + media)" },
-      { "value": "centered", "label": "Centered (media below)" },
-      { "value": "editorial", "label": "Editorial (advertorial style)" },
-      { "value": "centered_nomedia", "label": "Centered, no media" }
-    ], "default": "split" },
-    { "type": "range", "id": "padding", "label": "Section padding", "min": 20, "max": 120, "step": 4, "unit": "px", "default": 56 }
+    {
+      "type": "header",
+      "content": "Media (match the ad's creative)"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "A frame from the ad creative works best. Leave empty to show a placeholder."
+    },
+    {
+      "type": "text",
+      "id": "image_alt",
+      "label": "Image alt text",
+      "default": ""
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video (overrides image)"
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "split",
+          "label": "Split (copy + media)"
+        },
+        {
+          "value": "centered",
+          "label": "Centered (media below)"
+        },
+        {
+          "value": "editorial",
+          "label": "Editorial (advertorial style)"
+        },
+        {
+          "value": "centered_nomedia",
+          "label": "Centered, no media"
+        }
+      ],
+      "default": "split"
+    },
+    {
+      "type": "range",
+      "id": "padding",
+      "label": "Section padding",
+      "min": 20,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "header",
+      "content": "Section colour"
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme",
+      "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page."
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)",
+      "info": "Overrides the scheme. Only use if you need an exact colour."
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text (optional)"
+    }
   ],
   "blocks": [
-    { "type": "eyebrow", "name": "Eyebrow", "limit": 1, "settings": [
-      { "type": "text", "id": "text", "label": "Eyebrow text", "info": "Usually leave this block off entirely — it pushes the headline down. Only for something genuinely useful like 'As seen in...'. Never the page type or a discount.", "default": "" } ] },
-    { "type": "heading", "name": "Headline", "limit": 1, "settings": [
-      { "type": "text", "id": "text", "label": "Headline", "info": "Echo your ad's strongest line so the visitor knows they're in the right place.", "default": "{{HEADLINE — match your ad's promise}}" } ] },
-    { "type": "subheading", "name": "Sub-headline", "limit": 1, "settings": [
-      { "type": "richtext", "id": "text", "label": "Sub-headline", "default": "<p>{{SUBHEAD — expand the promise in one line}}</p>" } ] },
-    { "type": "rating", "name": "Rating / social proof", "limit": 1, "settings": [
-      { "type": "checkbox", "id": "show_stars", "label": "Show stars", "default": true },
-      { "type": "range", "id": "star_count", "label": "Rating", "min": 0, "max": 5, "step": 0.5, "unit": "\u2605", "default": 5, "info": "Half stars supported. Use your real average rating." },
-      { "type": "color", "id": "star_color", "label": "Star colour", "info": "Leave empty to inherit your theme's text colour.", "default": "#F5A623" },
-      { "type": "text", "id": "text", "label": "Text", "info": "Use your real rating and review count, e.g. 'Rated 4.8/5 from 268 reviews'.", "default": "" } ] },
-    { "type": "cta", "name": "Button", "settings": [
-      { "type": "text", "id": "label", "label": "Button text", "default": "Shop now" },
-      { "type": "url", "id": "url", "label": "Button link" },
-      { "type": "text", "id": "risk", "label": "Risk-removal line", "info": "Sits under the button, e.g. 30-day money-back guarantee.", "default": "" },
-      { "type": "select", "id": "style", "label": "Style", "options": [{"value":"primary","label":"Primary"},{"value":"secondary","label":"Secondary"}], "default": "primary" } ] },
-    { "type": "trust_points", "name": "Trust points", "limit": 1, "settings": [
-      { "type": "select", "id": "icon_name", "label": "Icon", "options": [
-        {"value":"check-circle","label":"Check"},{"value":"truck","label":"Truck"},{"value":"shield","label":"Shield"},
-        {"value":"leaf","label":"Leaf"},{"value":"bolt","label":"Bolt"},{"value":"star","label":"Star"}], "default": "check-circle" },
-      { "type": "textarea", "id": "points", "label": "Points (one per line)", "default": "" } ] },
-    { "type": "text", "name": "Custom text", "settings": [
-      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>{{Text}}</p>" } ] },
-    { "type": "spacer", "name": "Spacer", "settings": [
-      { "type": "range", "id": "height", "label": "Height", "min": 8, "max": 80, "step": 4, "unit": "px", "default": 16 } ] },
-    { "type": "@app" }
+    {
+      "type": "eyebrow",
+      "name": "Eyebrow",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Eyebrow text",
+          "info": "Usually leave this block off entirely — it pushes the headline down. Only for something genuinely useful like 'As seen in...'. Never the page type or a discount.",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "name": "Headline",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Headline",
+          "info": "Echo your ad's strongest line so the visitor knows they're in the right place.",
+          "default": "{{HEADLINE — match your ad's promise}}"
+        }
+      ]
+    },
+    {
+      "type": "subheading",
+      "name": "Sub-headline",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Sub-headline",
+          "default": "<p>{{SUBHEAD — expand the promise in one line}}</p>"
+        }
+      ]
+    },
+    {
+      "type": "rating",
+      "name": "Rating / social proof",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "show_stars",
+          "label": "Show stars",
+          "default": true
+        },
+        {
+          "type": "range",
+          "id": "star_count",
+          "label": "Rating",
+          "min": 0,
+          "max": 5,
+          "step": 0.5,
+          "unit": "★",
+          "default": 5,
+          "info": "Half stars supported. Use your real average rating."
+        },
+        {
+          "type": "color",
+          "id": "star_color",
+          "label": "Star colour",
+          "info": "Leave empty to inherit your theme's text colour.",
+          "default": "#F5A623"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "info": "Use your real rating and review count, e.g. 'Rated 4.8/5 from 268 reviews'.",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "type": "cta",
+      "name": "Button",
+      "settings": [
+        {
+          "type": "text",
+          "id": "label",
+          "label": "Button text",
+          "default": "Shop now"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Button link"
+        },
+        {
+          "type": "text",
+          "id": "risk",
+          "label": "Risk-removal line",
+          "info": "Sits under the button, e.g. 30-day money-back guarantee.",
+          "default": ""
+        },
+        {
+          "type": "select",
+          "id": "style",
+          "label": "Style",
+          "options": [
+            {
+              "value": "primary",
+              "label": "Primary"
+            },
+            {
+              "value": "secondary",
+              "label": "Secondary"
+            }
+          ],
+          "default": "primary"
+        }
+      ]
+    },
+    {
+      "type": "trust_points",
+      "name": "Trust points",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon_name",
+          "label": "Icon",
+          "options": [
+            {
+              "value": "check-circle",
+              "label": "Check"
+            },
+            {
+              "value": "truck",
+              "label": "Truck"
+            },
+            {
+              "value": "shield",
+              "label": "Shield"
+            },
+            {
+              "value": "leaf",
+              "label": "Leaf"
+            },
+            {
+              "value": "bolt",
+              "label": "Bolt"
+            },
+            {
+              "value": "star",
+              "label": "Star"
+            }
+          ],
+          "default": "check-circle"
+        },
+        {
+          "type": "textarea",
+          "id": "points",
+          "label": "Points (one per line)",
+          "default": ""
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "name": "Custom text",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "text",
+          "label": "Text",
+          "default": "<p>{{Text}}</p>"
+        }
+      ]
+    },
+    {
+      "type": "spacer",
+      "name": "Spacer",
+      "settings": [
+        {
+          "type": "range",
+          "id": "height",
+          "label": "Height",
+          "min": 8,
+          "max": 80,
+          "step": 4,
+          "unit": "px",
+          "default": 16
+        }
+      ]
+    },
+    {
+      "type": "@app"
+    }
   ],
   "max_blocks": 12,
-  "presets": [{ "name": "ECA LP — Hero", "blocks": [
-    { "type": "heading" }, { "type": "subheading" }, { "type": "rating" }, { "type": "cta" }
-  ] }]
+  "presets": [
+    {
+      "name": "ECA LP — Hero",
+      "blocks": [
+        {
+          "type": "heading"
+        },
+        {
+          "type": "subheading"
+        },
+        {
+          "type": "rating"
+        },
+        {
+          "type": "cta"
+        }
+      ]
+    }
+  ]
 }
 {% endschema %}
 {% stylesheet %}

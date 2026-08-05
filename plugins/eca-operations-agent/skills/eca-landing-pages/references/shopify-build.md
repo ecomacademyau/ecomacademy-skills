@@ -109,6 +109,25 @@ for f in sections/*.liquid; do
 done
 ```
 
+**And check the schema limits** — Shopify silently rejects a section file whose schema breaks them:
+
+```bash
+python3 - <<'EOF'
+import re, json, glob
+for f in sorted(glob.glob('sections/*.liquid')):
+    sch = json.loads(re.search(r'{% schema %}(.*?){% endschema %}', open(f).read(), re.S).group(1))
+    if len(sch.get('name','')) > 25:
+        print(f"NAME TOO LONG ({len(sch['name'])}>25): {f} — {sch['name']}")
+    for b in sch.get('blocks', []):
+        if len(b.get('name','')) > 25:
+            print(f"BLOCK NAME TOO LONG: {f} — {b['name']}")
+    if len(sch.get('blocks', [])) > 50:
+        print(f"TOO MANY BLOCK TYPES: {f}")
+EOF
+```
+
+Known Shopify schema limits worth respecting: **section `name` ≤ 25 characters** (and block `name` too), max 50 block types, max 25 settings per block. Keep names short — the theme editor truncates long ones anyway.
+
 If the CLI reports a file as rejected, read its error before retrying — a rejected section means the page renders without it.
 
 **If anything reports missing, copy it across and re-check before pushing.** A missing snippet doesn't fail quietly — it renders a Liquid error to real visitors.
@@ -116,6 +135,19 @@ If the CLI reports a file as rejected, read its error before retrying — a reje
 Also worth running after the push: pull the preview URL and confirm the page renders (no `Liquid error` strings in the HTML).
 
 Then **write the approved copy into the template JSON** so the page renders complete on first load — every value still lives in `settings`, so it all stays editable in the theme editor.
+
+### Colour schemes — check the theme supports them
+
+Every section exposes a `color_scheme` setting. That control is populated by the theme's own scheme definitions, so before you rely on it:
+
+```bash
+grep -l "color_scheme_group" <theme-dir>/config/settings_schema.json
+```
+
+- **Found** — schemes work. Set them per section in the theme editor (or in the page template JSON via `"color_scheme": "scheme-2"`).
+- **Not found** (older OS 2.0 themes) — the dropdown will be empty. Nothing breaks and every section still renders inheriting the page colours, but tell the member plainly that their theme predates colour schemes and they should use the **Custom background / Custom text** pickers on each section instead.
+
+Either way the section Liquid only applies a scheme class when one is actually chosen, so an unset value always falls back to the theme's own colours.
 
 ## 4. Push + preview
 ```bash
