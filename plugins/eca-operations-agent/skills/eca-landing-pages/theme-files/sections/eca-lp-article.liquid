@@ -33,7 +33,7 @@
   "name": "ECA LP — Advertorial body", "tag": "section", "class": "eca-lp-section",
   "settings": [
     { "type": "text", "id": "disclosure", "label": "Advertising disclosure", "info": "Required on advertorials. Keep it to the disclosure only (e.g. 'Advertisement' or 'Sponsored') — never append the internal page/format name.", "default": "Advertisement" },
-    { "type": "text", "id": "byline", "label": "Byline / dateline", "info": "Editorial credit only, e.g. 'By Jane Doe' or a city and date. Not the page type." }
+    { "type": "text", "id": "byline", "label": "Byline / dateline", "info": "Editorial credit only, e.g. 'By Jane Doe' or a city and date. Not the page type.", "default": "" }
   ],
   "blocks": [
     { "type": "paragraph", "name": "Paragraph", "settings": [{ "type": "richtext", "id": "body", "label": "Text", "default": "<p>{{Story paragraph — first person, true, specific.}}</p>" }] },
@@ -43,7 +43,7 @@
     { "type": "cta", "name": "Inline CTA", "settings": [
       { "type": "text", "id": "label", "label": "Button text", "default": "Shop now" },
       { "type": "url", "id": "url", "label": "Button link" },
-      { "type": "text", "id": "risk", "label": "Risk-removal line" } ] }
+      { "type": "text", "id": "risk", "label": "Risk-removal line", "default": "" } ] }
   ],
   "max_blocks": 40,
   "presets": [{ "name": "ECA LP — Advertorial body", "blocks": [{"type":"paragraph"},{"type":"subhead"},{"type":"paragraph"},{"type":"cta"}] }]

@@ -65,18 +65,18 @@
       { "value": "none", "label": "No images (text only)" }
     ], "default": "left", "info": "Images are placeholders until you add your own." },
     { "type": "header", "content": "The close (after the list)" },
-    { "type": "text", "id": "close_heading", "label": "Closing heading", "info": "Introduce the product here — after the list has convinced." },
-    { "type": "richtext", "id": "close_body", "label": "Closing copy" },
-    { "type": "text", "id": "cta_label", "label": "Button text", "info": "Make it follow on from the list, e.g. 'Ditch the machine — try it' rather than 'Shop now'." },
+    { "type": "text", "id": "close_heading", "label": "Closing heading", "info": "Introduce the product here — after the list has convinced.", "default": "" },
+    { "type": "richtext", "id": "close_body", "label": "Closing copy", "default": "" },
+    { "type": "text", "id": "cta_label", "label": "Button text", "info": "Make it follow on from the list, e.g. 'Ditch the machine — try it' rather than 'Shop now'.", "default": "" },
     { "type": "url", "id": "cta_url", "label": "Button link" },
-    { "type": "text", "id": "risk_text", "label": "Risk-removal line" }
+    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
   ],
   "blocks": [{
     "type": "item", "name": "List item", "settings": [
       { "type": "text", "id": "title", "label": "Item headline", "default": "{{REASON}}" },
       { "type": "richtext", "id": "body", "label": "Body (2 paragraphs)", "info": "Write 1-2 full paragraphs, not a single line. Para 1: the problem or insight this reason names, in the reader's world. Para 2: how it actually plays out differently. Each item should stand alone as a short piece of writing.", "default": "<p>{{Paragraph 1 — name the problem or insight, in the reader's world.}}</p><p>{{Paragraph 2 — how it plays out differently, concretely.}}</p>" },
       { "type": "image_picker", "id": "image", "label": "Image" },
-      { "type": "text", "id": "image_alt", "label": "Image alt text" }
+      { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "" }
     ]
   }, { "type": "@app" }],
   "max_blocks": 12,

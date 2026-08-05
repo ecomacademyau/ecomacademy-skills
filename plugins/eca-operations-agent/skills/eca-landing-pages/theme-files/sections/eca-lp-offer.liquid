@@ -210,7 +210,7 @@
   ],
   "blocks": [
     { "type": "badge", "name": "Sale / urgency badge", "settings": [
-      { "type": "text", "id": "text", "label": "Badge text", "info": "Only claim what's true, e.g. 'Save 20%' or 'Ends Sunday'." },
+      { "type": "text", "id": "text", "label": "Badge text", "info": "Only claim what's true, e.g. 'Save 20%' or 'Ends Sunday'.", "default": "" },
       { "type": "color", "id": "bg", "label": "Background", "default": "#D0021B" },
       { "type": "color", "id": "fg", "label": "Text colour", "default": "#FFFFFF" } ] },
     { "type": "heading", "name": "Heading", "limit": 1, "settings": [
@@ -234,7 +234,7 @@
         { "value": "daily", "label": "Daily cutoff (resets every day)" },
         { "value": "weekly", "label": "Weekly cutoff (resets every week)" }
       ], "default": "daily", "info": "Daily/weekly never need resetting — ideal for a real dispatch or order cutoff." },
-      { "type": "text", "id": "end_at", "label": "Fixed: ends at", "info": "Only for the fixed type. Format: 2026-12-24 23:59 (your store's time)." },
+      { "type": "text", "id": "end_at", "label": "Fixed: ends at", "info": "Only for the fixed type. Format: 2026-12-24 23:59 (your store's time).", "default": "" },
       { "type": "text", "id": "reset_time", "label": "Daily/weekly: cutoff time", "info": "24-hour, your store's time. e.g. 14:00 for a 2pm dispatch cutoff.", "default": "14:00" },
       { "type": "select", "id": "reset_day", "label": "Weekly: day", "options": [
         {"value":"1","label":"Monday"},{"value":"2","label":"Tuesday"},{"value":"3","label":"Wednesday"},
@@ -252,7 +252,7 @@
       { "type": "select", "id": "icon_name", "label": "Icon", "options": [
         {"value":"check-circle","label":"Check"},{"value":"truck","label":"Truck"},{"value":"shield","label":"Shield"},
         {"value":"refresh","label":"Returns"},{"value":"lock","label":"Secure"}], "default": "check-circle" },
-      { "type": "textarea", "id": "points", "label": "Points (one per line)" } ] },
+      { "type": "textarea", "id": "points", "label": "Points (one per line)", "default": "" } ] },
     { "type": "spacer", "name": "Spacer", "settings": [
       { "type": "range", "id": "height", "label": "Height", "min": 8, "max": 80, "step": 4, "unit": "px", "default": 16 } ] },
     { "type": "@app" }

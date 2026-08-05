@@ -2,10 +2,6 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
-## v1.12.8 - 2026-08-05
-
-- Landing pages: fixed theme sections failing to install via the Shopify MCP — removed all empty-string schema defaults (themeFilesUpsert rejects them with "default can't be blank") and documented the rule in shopify-build.md
-
 ## v1.12.7 - 2026-08-05
 
 - Update to sections
