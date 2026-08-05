@@ -27,7 +27,7 @@
               {%- if block.settings.image != blank -%}
                 {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'eca-lp-li__img', sizes: '(min-width: 750px) 40vw, 100vw', widths: '400,700,1000', alt: block.settings.image_alt }}
               {%- else -%}
-                <div class="eca-lp-ph eca-lp-ph--4x3">{{ 'image' | placeholder_svg_tag: 'eca-lp-ph__svg' }}</div>
+                {% render 'eca-lp-placeholder', ratio: '4x3', label: 'Add an image' %}
               {%- endif -%}
             </div>
           {%- endunless -%}
@@ -74,7 +74,7 @@
   "blocks": [{
     "type": "item", "name": "List item", "settings": [
       { "type": "text", "id": "title", "label": "Item headline", "default": "{{REASON}}" },
-      { "type": "richtext", "id": "body", "label": "Body", "default": "<p>{{Make this item stand alone and earn the next scroll.}}</p>" },
+      { "type": "richtext", "id": "body", "label": "Body (2 paragraphs)", "info": "Write 1-2 full paragraphs, not a single line. Para 1: the problem or insight this reason names, in the reader's world. Para 2: how it actually plays out differently. Each item should stand alone as a short piece of writing.", "default": "<p>{{Paragraph 1 — name the problem or insight, in the reader's world.}}</p><p>{{Paragraph 2 — how it plays out differently, concretely.}}</p>" },
       { "type": "image_picker", "id": "image", "label": "Image" },
       { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "" }
     ]
@@ -102,9 +102,10 @@
 .eca-lp-listicle__close-h{font-size:1.5rem;margin:0 0 .75rem}
 .eca-lp-listicle__close-b{line-height:1.7;opacity:.9;max-width:620px;margin:0 auto}
 .eca-lp-listicle .eca-lp-cta{text-align:center;margin-top:1.75rem}
-.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(0,0,0,.04);display:block;min-height:180px}
+.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;min-height:200px;color:currentColor}
 .eca-lp-ph--16x9{aspect-ratio:16/9}
 .eca-lp-ph--4x3{aspect-ratio:4/3}
 .eca-lp-ph--1x1{aspect-ratio:1/1}
-.eca-lp-ph__svg{width:100%;height:100%;display:block;fill:rgba(0,0,0,.12);object-fit:cover}
+.eca-lp-ph__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.eca-lp-ph__label{position:relative;font-size:.8rem;font-weight:600;opacity:.55;text-align:center;padding:.4rem .8rem;background:rgba(255,255,255,.75);border-radius:999px}
 {% endstylesheet %}

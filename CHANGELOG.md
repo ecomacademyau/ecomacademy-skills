@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.6 - 2026-08-05
+
+- Tweaks to Listicle
+
 ## v1.12.5 - 2026-08-05
 
 - Updated the way placeholders are rendered

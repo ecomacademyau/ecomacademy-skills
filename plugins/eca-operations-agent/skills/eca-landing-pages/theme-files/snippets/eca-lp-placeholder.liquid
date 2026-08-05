@@ -1,0 +1,15 @@
+{%- comment -%}
+  ECA LP — image placeholder. Always renders. Self-contained inline SVG (no dependency on
+  Shopify placeholder names, which silently render nothing if unavailable in a theme).
+  Usage: {% render 'eca-lp-placeholder', ratio: '16x9', label: 'Hero image — 16:9' %}
+{%- endcomment -%}
+<div class="eca-lp-ph eca-lp-ph--{{ ratio | default: '16x9' }}" role="img" aria-label="{{ label | default: 'Image placeholder' }}">
+  <svg class="eca-lp-ph__svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 40" preserveAspectRatio="xMidYMid slice" focusable="false">
+    <rect width="64" height="40" fill="currentColor" opacity="0.06"/>
+    <g fill="currentColor" opacity="0.22">
+      <circle cx="22" cy="15" r="4"/>
+      <path d="M8 32l12-11 7 6 9-9 20 14z"/>
+    </g>
+  </svg>
+  {%- if label != blank -%}<span class="eca-lp-ph__label">{{ label }}</span>{%- endif -%}
+</div>

@@ -29,6 +29,8 @@ Each format uses the same ten-element framework (`framework.md`) in a different 
 6. `eca-lp-faq`
 7. `eca-lp-offer`
 
+**Item length — this matters.** Each numbered item needs **1-2 full paragraphs after its headline**, not a one-liner. Paragraph one names the problem or insight in the reader's world; paragraph two shows how it plays out differently with the product. A listicle of one-line bullets reads like a feature list and converts like one — the depth is what makes it feel like an article worth reading.
+
 **Note:** each list item should stand alone and end with a reason to keep reading. It must feel like an article that convinces first — the product arrives *after* the list, as the conclusion the reader has already been led to.
 
 ## 3. Social Proof — `page.eca-lp-social-proof.json`

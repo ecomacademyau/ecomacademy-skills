@@ -11,7 +11,7 @@
           {%- if block.settings.image != blank -%}
             {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', class: 'eca-lp-incl__img', alt: block.settings.title }}
           {%- else -%}
-            <div class="eca-lp-ph eca-lp-ph--1x1">{{ 'product-1' | placeholder_svg_tag: 'eca-lp-ph__svg' }}</div>
+            {% render 'eca-lp-placeholder', ratio: '1x1', label: 'Item image' %}
           {%- endif -%}
           <h3 class="eca-lp-incl__title">{{ block.settings.title }}</h3>
           {%- if block.settings.value != blank -%}<p class="eca-lp-incl__value">{{ block.settings.value }}</p>{%- endif -%}
@@ -59,9 +59,10 @@
 .eca-lp-incl__body{opacity:.85;line-height:1.6}
 .eca-lp-incl__total{text-align:center;font-weight:700;font-size:1.15rem;margin:2rem 0 0}
 .eca-lp-incl .eca-lp-cta{text-align:center;margin-top:1.5rem}
-.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(0,0,0,.04);display:block;min-height:180px}
+.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;min-height:200px;color:currentColor}
 .eca-lp-ph--16x9{aspect-ratio:16/9}
 .eca-lp-ph--4x3{aspect-ratio:4/3}
 .eca-lp-ph--1x1{aspect-ratio:1/1}
-.eca-lp-ph__svg{width:100%;height:100%;display:block;fill:rgba(0,0,0,.12);object-fit:cover}
+.eca-lp-ph__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.eca-lp-ph__label{position:relative;font-size:.8rem;font-weight:600;opacity:.55;text-align:center;padding:.4rem .8rem;background:rgba(255,255,255,.75);border-radius:999px}
 {% endstylesheet %}

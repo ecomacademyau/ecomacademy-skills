@@ -20,11 +20,44 @@ Note the returned theme ID and preview URL.
 
 **Check it's OS 2.0** before proceeding: the theme must have `templates/*.json` and a `sections/` directory with section groups. If it's a vintage theme, stop and tell the member — these templates need Online Store 2.0.
 
-## 3. Install only what the format needs
+## 3. Install the files
+
 Copy from this skill's `theme-files/`:
-- `sections/eca-lp-*.liquid` → the theme's `sections/` (only the ones the chosen format uses)
-- `snippets/eca-lp-*.liquid` → the theme's `snippets/`
-- `templates/page.eca-lp-<format>.json` → the theme's `templates/`
+- **`snippets/` — copy ALL of them, every time.** Never cherry-pick snippets. They're tiny shared dependencies (CTA, placeholder, future helpers) and a section that renders a missing snippet throws a Liquid error on the live page. Copying the whole folder costs nothing and removes an entire class of bug.
+- **`assets/` — copy ALL of them, every time** (if the folder exists), for the same reason.
+- `sections/eca-lp-*.liquid` → only the ones the chosen format uses.
+- `templates/page.eca-lp-<format>.json` → the chosen template.
+
+**Rule: whole folders for dependencies (snippets, assets), selective only for sections and templates.**
+
+## 3b. Verify dependencies BEFORE pushing (mandatory)
+
+Never push a theme whose sections reference a file that isn't there. **Derive the dependency list from the code, not from memory** — this way it keeps working as the library grows and new helpers are added:
+
+```bash
+# From the theme root. Lists every snippet the installed ECA LP sections render,
+# then reports any that are missing.
+grep -ho "render[[:space:]]*'[^']*'" sections/eca-lp-*.liquid \
+  | sed "s/.*'\(.*\)'/\1/" | sort -u \
+  | while read -r snip; do
+      [ -f "snippets/$snip.liquid" ] || echo "MISSING SNIPPET: snippets/$snip.liquid"
+    done
+
+# Sanity: every section referenced by the template exists
+python3 - <<'EOF'
+import json, glob, os
+for t in glob.glob('templates/page.eca-lp-*.json'):
+    d = json.load(open(t))
+    for sid, sec in d.get('sections', {}).items():
+        f = f"sections/{sec['type']}.liquid"
+        if not os.path.exists(f):
+            print(f"MISSING SECTION: {f} (used by {t})")
+EOF
+```
+
+**If anything reports missing, copy it across and re-check before pushing.** A missing snippet doesn't fail quietly — it renders a Liquid error to real visitors.
+
+Also worth running after the push: pull the preview URL and confirm the page renders (no `Liquid error` strings in the HTML).
 
 Then **write the approved copy into the template JSON** so the page renders complete on first load — every value still lives in `settings`, so it all stays editable in the theme editor.
 

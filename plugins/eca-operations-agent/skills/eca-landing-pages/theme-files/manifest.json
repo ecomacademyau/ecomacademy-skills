@@ -1,0 +1,37 @@
+{
+  "always_copy": [
+    "snippets/",
+    "assets/"
+  ],
+  "copy_per_format": {
+    "sections": "only those used by the chosen template",
+    "templates": "the chosen page.eca-lp-<format>.json"
+  },
+  "snippets": [
+    "eca-lp-cta.liquid",
+    "eca-lp-placeholder.liquid"
+  ],
+  "sections": [
+    "eca-lp-article.liquid",
+    "eca-lp-benefits.liquid",
+    "eca-lp-faq.liquid",
+    "eca-lp-guarantee.liquid",
+    "eca-lp-hero.liquid",
+    "eca-lp-how-it-works.liquid",
+    "eca-lp-listicle.liquid",
+    "eca-lp-offer.liquid",
+    "eca-lp-proof.liquid",
+    "eca-lp-reviews-embed.liquid",
+    "eca-lp-settings.liquid",
+    "eca-lp-testimonials.liquid",
+    "eca-lp-whats-included.liquid"
+  ],
+  "templates": [
+    "page.eca-lp-advertorial.json",
+    "page.eca-lp-hero.json",
+    "page.eca-lp-kit.json",
+    "page.eca-lp-listicle.json",
+    "page.eca-lp-social-proof.json"
+  ],
+  "note": "Dependencies are verified from the code at build time (see references/shopify-build.md 3b) \u2014 this manifest is a convenience, not the source of truth."
+}

@@ -75,26 +75,9 @@
     },
     "testimonials": {
       "type": "eca-lp-testimonials",
-      "settings": {},
-      "blocks": {
-        "quote-1": {
-          "type": "quote",
-          "settings": {}
-        },
-        "quote-2": {
-          "type": "quote",
-          "settings": {}
-        },
-        "quote-3": {
-          "type": "quote",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "quote-1",
-        "quote-2",
-        "quote-3"
-      ]
+      "settings": {
+        "use_app_widget": true
+      }
     },
     "reviews-embed": {
       "type": "eca-lp-reviews-embed",
