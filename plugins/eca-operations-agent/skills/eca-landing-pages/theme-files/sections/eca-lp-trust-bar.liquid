@@ -1,0 +1,78 @@
+{%- comment -%}
+  ECA LP — Trust bar. Press logos, awards, certifications, or icon+text trust points.
+  Only use with REAL logos/awards the brand actually has. Never fabricate press or certifications.
+{%- endcomment -%}
+<section class="eca-lp-trust">
+  <div class="eca-lp-wrap">
+    {%- if section.settings.heading != blank -%}
+      <p class="eca-lp-trust__h">{{ section.settings.heading }}</p>
+    {%- endif -%}
+    <div class="eca-lp-trust__row eca-lp-trust__row--{{ section.settings.style }}">
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div {{ block.shopify_attributes }}>{% render block %}</div>
+        {%- elsif block.type == 'logo' -%}
+          <div class="eca-lp-trust__logo" {{ block.shopify_attributes }}>
+            {%- if block.settings.image != blank -%}
+              {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}" rel="noopener">{%- endif -%}
+                {{ block.settings.image | image_url: width: 300 | image_tag: loading: 'lazy', alt: block.settings.alt }}
+              {%- if block.settings.link != blank -%}</a>{%- endif -%}
+            {%- else -%}
+              {%- if request.design_mode -%}<span class="eca-lp-trust__ph">Add logo</span>{%- endif -%}
+            {%- endif -%}
+          </div>
+        {%- else -%}
+          <div class="eca-lp-trust__point" {{ block.shopify_attributes }}>
+            {%- if block.settings.icon_name != 'none' -%}
+              {% render 'eca-lp-icon', name: block.settings.icon_name, class: 'eca-lp-trust__ico' %}
+            {%- endif -%}
+            <span>{{ block.settings.text }}</span>
+          </div>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — Trust bar",
+  "tag": "section", "class": "eca-lp-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Small heading (optional)", "info": "e.g. 'As featured in' or 'Why people trust us'. Leave blank to hide.", "default": "" },
+    { "type": "select", "id": "style", "label": "Style", "options": [
+      { "value": "logos", "label": "Logos (press / awards)" },
+      { "value": "points", "label": "Icon + text trust points" }
+    ], "default": "points" }
+  ],
+  "blocks": [
+    { "type": "point", "name": "Trust point", "settings": [
+      { "type": "select", "id": "icon_name", "label": "Icon", "options": [
+        {"value":"none","label":"No icon"},{"value":"truck","label":"Truck / shipping"},{"value":"shield","label":"Shield / guarantee"},
+        {"value":"refresh","label":"Refresh / returns"},{"value":"lock","label":"Lock / secure"},{"value":"leaf","label":"Leaf / eco"},
+        {"value":"star","label":"Star / rating"},{"value":"award","label":"Award"},{"value":"heart","label":"Heart"},
+        {"value":"check-circle","label":"Check"},{"value":"package","label":"Package"},{"value":"bolt","label":"Fast"}
+      ], "default": "check-circle" },
+      { "type": "text", "id": "text", "label": "Text", "info": "Short and factual, e.g. 'Free shipping over $50'.", "default": "{{TRUST POINT}}" }
+    ]},
+    { "type": "logo", "name": "Logo / award", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Logo image", "info": "Only use press logos, awards or certifications the brand genuinely has." },
+      { "type": "text", "id": "alt", "label": "Alt text", "default": "" },
+      { "type": "url", "id": "link", "label": "Link (optional)" }
+    ]},
+    { "type": "@app" }
+  ],
+  "max_blocks": 8,
+  "presets": [{ "name": "ECA LP — Trust bar", "blocks": [{"type":"point"},{"type":"point"},{"type":"point"}] }]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-trust{padding:1.75rem 1.5rem;border-top:1px solid rgba(127,127,127,.18);border-bottom:1px solid rgba(127,127,127,.18)}
+.eca-lp-trust__h{text-align:center;font-size:.72rem;text-transform:uppercase;letter-spacing:.14em;font-weight:700;opacity:.55;margin:0 0 1rem}
+.eca-lp-trust__row{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:1.25rem 2.5rem}
+.eca-lp-trust__point{display:flex;align-items:center;gap:.55rem;font-size:.92rem;font-weight:600}
+.eca-lp-trust__ico{width:20px;height:20px;flex:0 0 20px;opacity:.75}
+.eca-lp-trust__logo img{height:34px;width:auto;max-width:150px;object-fit:contain;opacity:.65;filter:grayscale(1);transition:opacity .2s,filter .2s}
+.eca-lp-trust__logo img:hover{opacity:1;filter:none}
+.eca-lp-trust__ph{font-size:.8rem;opacity:.5;border:1px dashed rgba(127,127,127,.4);padding:.5rem 1rem;border-radius:8px}
+@media(max-width:600px){.eca-lp-trust__row{gap:1rem 1.5rem}.eca-lp-trust__point{font-size:.85rem}}
+{% endstylesheet %}

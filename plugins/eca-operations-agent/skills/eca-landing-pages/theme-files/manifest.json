@@ -9,6 +9,7 @@
   },
   "snippets": [
     "eca-lp-cta.liquid",
+    "eca-lp-icon.liquid",
     "eca-lp-placeholder.liquid"
   ],
   "sections": [
@@ -24,6 +25,7 @@
     "eca-lp-reviews-embed.liquid",
     "eca-lp-settings.liquid",
     "eca-lp-testimonials.liquid",
+    "eca-lp-trust-bar.liquid",
     "eca-lp-whats-included.liquid"
   ],
   "templates": [
@@ -33,5 +35,5 @@
     "page.eca-lp-listicle.json",
     "page.eca-lp-social-proof.json"
   ],
-  "note": "Dependencies are verified from the code at build time (see references/shopify-build.md 3b) \u2014 this manifest is a convenience, not the source of truth."
+  "note": "Dependencies are verified from the code at build time (references/shopify-build.md 3b) \u2014 this manifest is a convenience, not the source of truth."
 }

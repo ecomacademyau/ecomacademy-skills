@@ -52,6 +52,8 @@ It runs as an **interactive guide**. You make the calls; it brings the options, 
 sections/
   eca-lp-settings.liquid          Page config: sticky add-to-cart + hide nav/footer
   eca-lp-hero.liquid              Hook + media + CTA + risk removal
+  eca-lp-trust-bar.liquid         Trust points or press/award logos
+
   eca-lp-benefits.liquid          Outcome-led benefits grid
   eca-lp-listicle.liquid          Numbered reasons with inline CTAs
   eca-lp-how-it-works.liquid      Numbered steps
@@ -65,6 +67,8 @@ sections/
   eca-lp-article.liquid           Advertorial body (with ad disclosure)
 snippets/
   eca-lp-cta.liquid               Reusable CTA + risk-removal line
+  eca-lp-placeholder.liquid       Always-renders image placeholder
+  eca-lp-icon.liquid              Built-in inline icon set (inherits theme colour)
 templates/
   page.eca-lp-{hero,listicle,social-proof,kit,advertorial}.json
 ```

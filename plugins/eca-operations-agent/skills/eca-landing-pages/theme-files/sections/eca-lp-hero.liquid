@@ -1,29 +1,81 @@
-{%- comment -%} ECA LP — Hero. Element 1-3: hook, matching image, CTA + risk removal. {%- endcomment -%}
+{%- comment -%}
+  ECA LP — Hero. Block-based: every element (eyebrow, headline, sub-headline, rating,
+  CTA, trust points, custom text) is a movable block, reorderable in the theme editor.
+{%- endcomment -%}
 <section class="eca-lp-hero eca-lp-hero--{{ section.settings.layout }}" style="--eca-lp-pad:{{ section.settings.padding }}px">
   <div class="eca-lp-hero__inner">
     <div class="eca-lp-hero__copy">
-      {%- if section.settings.eyebrow != blank -%}
-        <p class="eca-lp-hero__eyebrow">{{ section.settings.eyebrow }}</p>
-      {%- endif -%}
-      <h1 class="eca-lp-hero__headline">{{ section.settings.headline }}</h1>
-      {%- if section.settings.subhead != blank -%}
-        <div class="eca-lp-hero__subhead">{{ section.settings.subhead }}</div>
-      {%- endif -%}
-      {%- if section.settings.rating_text != blank -%}
-        <p class="eca-lp-hero__rating">{{ section.settings.rating_text }}</p>
-      {%- endif -%}
-      {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'eyebrow' -%}
+            {%- if block.settings.text != blank -%}
+              <p class="eca-lp-hero__eyebrow" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+            {%- endif -%}
+
+          {%- when 'heading' -%}
+            <h1 class="eca-lp-hero__headline" {{ block.shopify_attributes }}>{{ block.settings.text }}</h1>
+
+          {%- when 'subheading' -%}
+            <div class="eca-lp-hero__subhead" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+          {%- when 'rating' -%}
+            {%- if block.settings.text != blank or block.settings.show_stars -%}
+              <p class="eca-lp-hero__rating" {{ block.shopify_attributes }}>
+                {%- if block.settings.show_stars -%}
+                  <span class="eca-lp-hero__stars"{% if block.settings.star_color != blank %} style="color:{{ block.settings.star_color }}"{% endif %} aria-label="{{ block.settings.star_count }} out of 5 stars">
+                    {%- assign whole = block.settings.star_count | floor -%}
+                    {%- assign has_half = false -%}
+                    {%- assign rem = block.settings.star_count | minus: whole -%}
+                    {%- if rem >= 0.25 -%}{%- assign has_half = true -%}{%- endif -%}
+                    {%- for i in (1..whole) -%}{% render 'eca-lp-icon', name: 'star-filled', class: 'eca-lp-star' %}{%- endfor -%}
+                    {%- if has_half -%}{% render 'eca-lp-icon', name: 'star-half', class: 'eca-lp-star' %}{%- endif -%}
+                  </span>
+                {%- endif -%}
+                {%- if block.settings.text != blank -%}<span>{{ block.settings.text }}</span>{%- endif -%}
+              </p>
+            {%- endif -%}
+
+          {%- when 'cta' -%}
+            <div {{ block.shopify_attributes }}>
+              {% render 'eca-lp-cta', label: block.settings.label, url: block.settings.url, risk: block.settings.risk, style: block.settings.style %}
+            </div>
+
+          {%- when 'trust_points' -%}
+            <ul class="eca-lp-hero__points" {{ block.shopify_attributes }}>
+              {%- assign pts = block.settings.points | newline_to_br | split: '<br />' -%}
+              {%- for pt in pts -%}
+                {%- assign clean = pt | strip -%}
+                {%- if clean != blank -%}
+                  <li>{% render 'eca-lp-icon', name: block.settings.icon_name, class: 'eca-lp-hero__pico' %}<span>{{ clean }}</span></li>
+                {%- endif -%}
+              {%- endfor -%}
+            </ul>
+
+          {%- when 'text' -%}
+            <div class="eca-lp-hero__text" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+          {%- when 'spacer' -%}
+            <div style="height:{{ block.settings.height }}px" {{ block.shopify_attributes }}></div>
+
+          {%- when '@app' -%}
+            <div {{ block.shopify_attributes }}>{% render block %}</div>
+
+        {%- endcase -%}
+      {%- endfor -%}
     </div>
-    <div class="eca-lp-hero__media">
-      {%- if section.settings.video != blank -%}
-        {{ section.settings.video | video_tag: image_size: '1200x', autoplay: true, loop: true, muted: true, controls: true }}
-      {%- elsif section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'eager', sizes: '(min-width: 750px) 50vw, 100vw', widths: '600,900,1200,1800', alt: section.settings.image_alt }}
-      {%- else -%}
-        {%- comment -%} Placeholder until the member adds their own image {%- endcomment -%}
-        {% render 'eca-lp-placeholder', ratio: '16x9', label: 'Hero image — 16:9' %}
-      {%- endif -%}
-    </div>
+
+    {%- unless section.settings.layout == 'centered_nomedia' -%}
+      <div class="eca-lp-hero__media">
+        {%- if section.settings.video != blank -%}
+          {{ section.settings.video | video_tag: image_size: '1200x', autoplay: true, loop: true, muted: true, controls: true }}
+        {%- elsif section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'eager', sizes: '(min-width: 750px) 50vw, 100vw', widths: '600,900,1200,1800', alt: section.settings.image_alt }}
+        {%- else -%}
+          {% render 'eca-lp-placeholder', ratio: '16x9', label: 'Hero image — 16:9' %}
+        {%- endif -%}
+      </div>
+    {%- endunless -%}
   </div>
 </section>
 {% schema %}
@@ -32,28 +84,51 @@
   "tag": "section",
   "class": "eca-lp-section",
   "settings": [
-    { "type": "header", "content": "Hook (match your ad's promise)" },
-    { "type": "text", "id": "eyebrow", "label": "Eyebrow (leave blank — off by default)", "info": "Usually leave empty. An eyebrow pushes your headline down and competes with it, and the offer converts better at the CTA. Only use it for something genuinely useful above the hook, e.g. a trust line like 'As seen in...'. Never the page type or a discount.", "default": "" },
-    { "type": "text", "id": "headline", "label": "Headline", "info": "Echo your ad's strongest line so the visitor knows they're in the right place.", "default": "{{HEADLINE — match your ad's promise}}" },
-    { "type": "richtext", "id": "subhead", "label": "Sub-headline", "info": "One line that expands the promise or handles the first objection.", "default": "<p>{{SUBHEAD — expand the promise in one line}}</p>" },
-    { "type": "text", "id": "rating_text", "label": "Rating / social proof line", "info": "e.g. Rated 4.9/5 from 263 reviews. Leave blank to hide.", "default": "" },
-    { "type": "header", "content": "Call to action" },
-    { "type": "text", "id": "cta_label", "label": "Button text", "default": "Shop now" },
-    { "type": "url", "id": "cta_url", "label": "Button link" },
-    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "info": "Sits under the button, e.g. 30-day money-back guarantee.", "default": "{{GUARANTEE — e.g. 30-day money-back guarantee}}" },
     { "type": "header", "content": "Media (match the ad's creative)" },
-    { "type": "image_picker", "id": "image", "label": "Image", "info": "Ideally a frame from the ad creative itself." },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "A frame from the ad creative works best. Leave empty to show a placeholder." },
     { "type": "text", "id": "image_alt", "label": "Image alt text", "default": "" },
     { "type": "video", "id": "video", "label": "Video (overrides image)" },
     { "type": "header", "content": "Layout" },
     { "type": "select", "id": "layout", "label": "Layout", "options": [
       { "value": "split", "label": "Split (copy + media)" },
       { "value": "centered", "label": "Centered (media below)" },
-      { "value": "editorial", "label": "Editorial (advertorial style)" }
+      { "value": "editorial", "label": "Editorial (advertorial style)" },
+      { "value": "centered_nomedia", "label": "Centered, no media" }
     ], "default": "split" },
     { "type": "range", "id": "padding", "label": "Section padding", "min": 20, "max": 120, "step": 4, "unit": "px", "default": 56 }
   ],
-  "presets": [{ "name": "ECA LP — Hero" }]
+  "blocks": [
+    { "type": "eyebrow", "name": "Eyebrow", "limit": 1, "settings": [
+      { "type": "text", "id": "text", "label": "Eyebrow text", "info": "Usually leave this block off entirely — it pushes the headline down. Only for something genuinely useful like 'As seen in...'. Never the page type or a discount.", "default": "" } ] },
+    { "type": "heading", "name": "Headline", "limit": 1, "settings": [
+      { "type": "text", "id": "text", "label": "Headline", "info": "Echo your ad's strongest line so the visitor knows they're in the right place.", "default": "{{HEADLINE — match your ad's promise}}" } ] },
+    { "type": "subheading", "name": "Sub-headline", "limit": 1, "settings": [
+      { "type": "richtext", "id": "text", "label": "Sub-headline", "default": "<p>{{SUBHEAD — expand the promise in one line}}</p>" } ] },
+    { "type": "rating", "name": "Rating / social proof", "limit": 1, "settings": [
+      { "type": "checkbox", "id": "show_stars", "label": "Show stars", "default": true },
+      { "type": "range", "id": "star_count", "label": "Rating", "min": 0, "max": 5, "step": 0.5, "unit": "\u2605", "default": 5, "info": "Half stars supported. Use your real average rating." },
+      { "type": "color", "id": "star_color", "label": "Star colour", "info": "Leave empty to inherit your theme's text colour.", "default": "#F5A623" },
+      { "type": "text", "id": "text", "label": "Text", "info": "Use your real rating and review count, e.g. 'Rated 4.8/5 from 268 reviews'.", "default": "" } ] },
+    { "type": "cta", "name": "Button", "settings": [
+      { "type": "text", "id": "label", "label": "Button text", "default": "Shop now" },
+      { "type": "url", "id": "url", "label": "Button link" },
+      { "type": "text", "id": "risk", "label": "Risk-removal line", "info": "Sits under the button, e.g. 30-day money-back guarantee.", "default": "" },
+      { "type": "select", "id": "style", "label": "Style", "options": [{"value":"primary","label":"Primary"},{"value":"secondary","label":"Secondary"}], "default": "primary" } ] },
+    { "type": "trust_points", "name": "Trust points", "limit": 1, "settings": [
+      { "type": "select", "id": "icon_name", "label": "Icon", "options": [
+        {"value":"check-circle","label":"Check"},{"value":"truck","label":"Truck"},{"value":"shield","label":"Shield"},
+        {"value":"leaf","label":"Leaf"},{"value":"bolt","label":"Bolt"},{"value":"star","label":"Star"}], "default": "check-circle" },
+      { "type": "textarea", "id": "points", "label": "Points (one per line)", "default": "" } ] },
+    { "type": "text", "name": "Custom text", "settings": [
+      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>{{Text}}</p>" } ] },
+    { "type": "spacer", "name": "Spacer", "settings": [
+      { "type": "range", "id": "height", "label": "Height", "min": 8, "max": 80, "step": 4, "unit": "px", "default": 16 } ] },
+    { "type": "@app" }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "ECA LP — Hero", "blocks": [
+    { "type": "heading" }, { "type": "subheading" }, { "type": "rating" }, { "type": "cta" }
+  ] }]
 }
 {% endschema %}
 {% stylesheet %}
@@ -61,15 +136,23 @@
 .eca-lp-hero__inner{max-width:1200px;margin:0 auto;display:grid;gap:2.5rem;align-items:center}
 .eca-lp-hero--split .eca-lp-hero__inner{grid-template-columns:1fr}
 @media(min-width:750px){.eca-lp-hero--split .eca-lp-hero__inner{grid-template-columns:1fr 1fr}}
-.eca-lp-hero--centered .eca-lp-hero__inner,.eca-lp-hero--editorial .eca-lp-hero__inner{max-width:760px;text-align:center}
-.eca-lp-hero--editorial .eca-lp-hero__inner{text-align:left}
+.eca-lp-hero--centered .eca-lp-hero__inner,.eca-lp-hero--centered_nomedia .eca-lp-hero__inner{max-width:760px;text-align:center}
+.eca-lp-hero--editorial .eca-lp-hero__inner{max-width:760px;text-align:left}
+.eca-lp-hero--centered .eca-lp-cta,.eca-lp-hero--centered_nomedia .eca-lp-cta{display:flex;flex-direction:column;align-items:center}
 .eca-lp-hero__eyebrow{text-transform:uppercase;letter-spacing:.1em;font-size:.75rem;font-weight:700;opacity:.7;margin:0 0 .75rem}
 .eca-lp-hero__headline{font-size:clamp(1.9rem,4.5vw,3.2rem);line-height:1.1;margin:0 0 1rem}
 .eca-lp-hero__subhead{font-size:1.125rem;line-height:1.6;opacity:.85;margin-bottom:1.25rem}
-.eca-lp-hero__rating{font-size:.95rem;font-weight:600;margin:0 0 1.25rem}
+.eca-lp-hero__rating{font-size:.95rem;font-weight:600;margin:0 0 1.25rem;display:flex;align-items:center;gap:.45rem;flex-wrap:wrap}
+.eca-lp-hero--centered .eca-lp-hero__rating,.eca-lp-hero--centered_nomedia .eca-lp-hero__rating{justify-content:center}
+.eca-lp-hero__stars{display:inline-flex;align-items:center;gap:1px}
+.eca-lp-star{width:17px;height:17px;flex:0 0 17px}
+.eca-lp-hero__text{line-height:1.7;opacity:.9;margin-bottom:1rem}
+.eca-lp-hero__points{list-style:none;padding:0;margin:1rem 0;display:grid;gap:.5rem}
+.eca-lp-hero__points li{display:flex;align-items:center;gap:.5rem;font-size:.95rem}
+.eca-lp-hero__pico{width:18px;height:18px;flex:0 0 18px;opacity:.7}
 .eca-lp-hero__media img,.eca-lp-hero__media video{width:100%;height:auto;border-radius:12px;display:block}
 .eca-lp-cta{margin-top:1.25rem}
-.eca-lp-btn{display:inline-block;padding:.9rem 2rem;border-radius:999px;font-weight:700;text-decoration:none;background:currentColor;transition:opacity .2s}
+.eca-lp-btn{display:inline-block;padding:.9rem 2rem;border-radius:999px;font-weight:700;text-decoration:none;transition:opacity .2s}
 .eca-lp-btn:hover{opacity:.85}
 .eca-lp-btn--primary{background:rgb(var(--color-button,17,17,17));color:rgb(var(--color-button-text,255,255,255))}
 .eca-lp-btn--secondary{background:transparent;border:2px solid currentColor}

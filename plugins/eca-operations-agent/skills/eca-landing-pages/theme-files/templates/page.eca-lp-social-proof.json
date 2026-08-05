@@ -2,7 +2,31 @@
   "sections": {
     "hero": {
       "type": "eca-lp-hero",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "heading-1": {
+          "type": "heading",
+          "settings": {}
+        },
+        "subheading-1": {
+          "type": "subheading",
+          "settings": {}
+        },
+        "rating-1": {
+          "type": "rating",
+          "settings": {}
+        },
+        "cta-1": {
+          "type": "cta",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading-1",
+        "subheading-1",
+        "rating-1",
+        "cta-1"
+      ]
     },
     "proof": {
       "type": "eca-lp-proof",
@@ -43,15 +67,21 @@
       "blocks": {
         "benefit-1": {
           "type": "benefit",
-          "settings": {}
+          "settings": {
+            "icon_name": "check-circle"
+          }
         },
         "benefit-2": {
           "type": "benefit",
-          "settings": {}
+          "settings": {
+            "icon_name": "bolt"
+          }
         },
         "benefit-3": {
           "type": "benefit",
-          "settings": {}
+          "settings": {
+            "icon_name": "sparkle"
+          }
         }
       },
       "block_order": [
@@ -99,7 +129,41 @@
     },
     "offer": {
       "type": "eca-lp-offer",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "heading-1": {
+          "type": "heading",
+          "settings": {}
+        },
+        "text-1": {
+          "type": "text",
+          "settings": {}
+        },
+        "price-1": {
+          "type": "price",
+          "settings": {}
+        },
+        "variants-1": {
+          "type": "variants",
+          "settings": {}
+        },
+        "buy-1": {
+          "type": "buy",
+          "settings": {}
+        },
+        "risk-1": {
+          "type": "risk",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading-1",
+        "text-1",
+        "price-1",
+        "variants-1",
+        "buy-1",
+        "risk-1"
+      ]
     },
     "lp-settings": {
       "type": "eca-lp-settings",
@@ -109,11 +173,38 @@
         "sticky_enabled": true,
         "show_after": 600
       }
+    },
+    "trust-bar": {
+      "type": "eca-lp-trust-bar",
+      "settings": {
+        "style": "points",
+        "heading": ""
+      },
+      "blocks": {
+        "point-1": {
+          "type": "point",
+          "settings": {}
+        },
+        "point-2": {
+          "type": "point",
+          "settings": {}
+        },
+        "point-3": {
+          "type": "point",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "point-1",
+        "point-2",
+        "point-3"
+      ]
     }
   },
   "order": [
     "lp-settings",
     "hero",
+    "trust-bar",
     "proof",
     "testimonials",
     "reviews-embed",

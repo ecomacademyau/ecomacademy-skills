@@ -2,7 +2,26 @@
   "sections": {
     "hero": {
       "type": "eca-lp-hero",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "heading-1": {
+          "type": "heading",
+          "settings": {}
+        },
+        "subheading-1": {
+          "type": "subheading",
+          "settings": {}
+        },
+        "rating-1": {
+          "type": "rating",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading-1",
+        "subheading-1",
+        "rating-1"
+      ]
     },
     "listicle": {
       "type": "eca-lp-listicle",
@@ -105,7 +124,41 @@
     },
     "offer": {
       "type": "eca-lp-offer",
-      "settings": {}
+      "settings": {},
+      "blocks": {
+        "heading-1": {
+          "type": "heading",
+          "settings": {}
+        },
+        "text-1": {
+          "type": "text",
+          "settings": {}
+        },
+        "price-1": {
+          "type": "price",
+          "settings": {}
+        },
+        "variants-1": {
+          "type": "variants",
+          "settings": {}
+        },
+        "buy-1": {
+          "type": "buy",
+          "settings": {}
+        },
+        "risk-1": {
+          "type": "risk",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "heading-1",
+        "text-1",
+        "price-1",
+        "variants-1",
+        "buy-1",
+        "risk-1"
+      ]
     },
     "lp-settings": {
       "type": "eca-lp-settings",
@@ -115,11 +168,38 @@
         "sticky_enabled": true,
         "show_after": 600
       }
+    },
+    "trust-bar": {
+      "type": "eca-lp-trust-bar",
+      "settings": {
+        "style": "points",
+        "heading": ""
+      },
+      "blocks": {
+        "point-1": {
+          "type": "point",
+          "settings": {}
+        },
+        "point-2": {
+          "type": "point",
+          "settings": {}
+        },
+        "point-3": {
+          "type": "point",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "point-1",
+        "point-2",
+        "point-3"
+      ]
     }
   },
   "order": [
     "lp-settings",
     "hero",
+    "trust-bar",
     "listicle",
     "proof",
     "testimonials",
