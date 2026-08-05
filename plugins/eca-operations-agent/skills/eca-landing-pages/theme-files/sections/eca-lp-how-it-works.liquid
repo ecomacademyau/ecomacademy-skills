@@ -8,6 +8,8 @@
           <div class="eca-lp-how__num">{{ forloop.index }}</div>
           {%- if block.settings.image != blank -%}
             {{ block.settings.image | image_url: width: 600 | image_tag: loading: 'lazy', class: 'eca-lp-how__img', alt: block.settings.title }}
+          {%- else -%}
+            <div class="eca-lp-ph eca-lp-ph--4x3">{{ 'image' | placeholder_svg_tag: 'eca-lp-ph__svg' }}</div>
           {%- endif -%}
           <h3 class="eca-lp-how__title">{{ block.settings.title }}</h3>
           <div class="eca-lp-how__body">{{ block.settings.body }}</div>

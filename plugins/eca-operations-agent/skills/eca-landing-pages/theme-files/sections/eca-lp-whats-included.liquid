@@ -10,6 +10,8 @@
         <div class="eca-lp-incl__item" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', class: 'eca-lp-incl__img', alt: block.settings.title }}
+          {%- else -%}
+            <div class="eca-lp-ph eca-lp-ph--1x1">{{ 'product-1' | placeholder_svg_tag: 'eca-lp-ph__svg' }}</div>
           {%- endif -%}
           <h3 class="eca-lp-incl__title">{{ block.settings.title }}</h3>
           {%- if block.settings.value != blank -%}<p class="eca-lp-incl__value">{{ block.settings.value }}</p>{%- endif -%}

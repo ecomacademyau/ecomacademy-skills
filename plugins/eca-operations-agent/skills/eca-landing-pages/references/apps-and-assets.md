@@ -29,24 +29,25 @@ Only build custom when nothing installed does the job, or the member asks for it
 
 ---
 
-## 2. Create the images and icons — don't ship empty boxes
+## 2. Images: always ship placeholders — the member supplies the real ones
 
-A landing page with grey placeholder squares doesn't convert and doesn't get approved. **Produce real visuals wherever you can**, in this order of preference:
+**Do not choose, source or generate photographs for the page.** Picking images automatically produces layouts that look wrong — the wrong crop, the wrong subject, a product shot where a lifestyle shot belongs. The member knows their imagery; you don't. So:
 
-1. **The brand's own assets first.** Shopify Files (`files` / the asset library), product images, and any frames from the actual ad creative. *A frame from the ad is the single best hero image* — maximum message match. Check Shopify Files before making anything new.
-2. **Generate what's missing** — if an image-generation tool is connected (e.g. Higgsfield, or any available image MCP), create the icons, illustrations, section imagery, and lifestyle shots the page needs. Pass the real product image as a reference so generated visuals stay on-brand and don't invent a product that doesn't exist.
-3. **Icons**: prefer a simple inline SVG set you generate to match the brand, or the theme's own icon set, over sourcing random third-party icons.
-4. **Upload to Shopify** (Files / theme assets) so the images live with the store and are picked in each section's `image_picker` setting.
-5. **If you can't create the image, use a placeholder service** rather than shipping an empty box — the member needs to see the layout working. Use a neutral, correctly-sized placeholder that matches the page's aspect ratio, e.g.:
-   - `https://placehold.co/1200x630?text=Hero+image` — plain, sized, captionable (set the text to the shot you need)
-   - `https://picsum.photos/1200/630` — a real photo when you just need the layout to read naturally
-   **Placeholders are temporary and must never go live.** Every one gets: a clear note in the handover saying what shot to supply, and a line in the "before you publish" checklist. Never use a placeholder for anything that implies a claim (no stock "results" photos, no stand-in faces presented as customers).
-6. **Only if even that isn't appropriate**, leave a `{{PLACEHOLDER}}` and say exactly what's needed ("a 16:9 photo of the kit on a kitchen bench") so the member can brief a photographer or shoot it on a phone.
+**Every image slot ships as a placeholder.** The sections handle this natively: when an `image_picker` setting is empty, the section renders Shopify's built-in `placeholder_svg_tag` at the correct aspect ratio (16:9 hero, 4:3 steps, 1:1 product/kit items). The layout reads correctly straight away, and the member swaps in their own image in the theme editor with two clicks — no code, no re-deploy.
+
+**What you do instead of choosing images:**
+- **Set the right aspect ratio and position** for each slot so the layout is correct.
+- **Write the image brief** — for every placeholder, tell the member exactly what shot belongs there: subject, framing, ratio. e.g. *"Hero, 16:9 — the product in use on a kitchen bench, natural light. A frame from your ad creative works best here."*
+- **Recommend the ad's own creative for the hero** — it's the strongest message match — but let the member place it.
+- **Write the `alt` text** as a suggestion in the brief so it's ready when they add the image.
+- **List every placeholder in the pre-publish checklist.** The page is not ready to publish while placeholders remain.
+
+**The only exception:** if the member explicitly asks you to place a specific image (or points you at one in their Files), use that one. Their call, not yours.
 
 ### Icons
-Icons are different from photos — you can almost always ship the real thing.
-- Use a **free, openly-licensed icon set that suits the theme's style**: [Lucide](https://lucide.dev), [Heroicons](https://heroicons.com), [Feather](https://feathericons.com), [Phosphor](https://phosphoricons.com) (all MIT/ISC and free for commercial use). Pick one set and stay consistent — mixing sets looks amateur.
-- **Inline the SVG into the section rather than hot-linking a CDN.** Inlining means no external request (faster), nothing breaks if the CDN goes down, and the icon inherits the theme's colour via `fill="currentColor"` / `stroke="currentColor"` — so it matches the theme automatically. Match the theme's existing icon weight (outline vs solid) and stroke width.
-- If the theme already ships an icon set (`snippets/icon-*.liquid` or an `icon` snippet), **use the theme's own icons first** — guaranteed style match.
+Icons are different — they're generic symbols, not photography, so ship the real thing:
+- **Use the theme's own icon set first** (`snippets/icon-*.liquid`) — guaranteed style match.
+- Otherwise **inline an SVG** from a free, openly-licensed set that suits the theme: [Lucide](https://lucide.dev), [Heroicons](https://heroicons.com), [Feather](https://feathericons.com), [Phosphor](https://phosphoricons.com) (all MIT/ISC, fine commercially). Pick one set and stay consistent.
+- **Inline, don't hot-link a CDN** — no external request, nothing breaks if the CDN dies, and `currentColor` makes the icon inherit the theme's colour automatically.
 
-**Never** invent a photo of a real person, fake a testimonial headshot, or generate an image implying a claim the brand can't make. **Always** set descriptive `alt` text and follow the file-naming convention (lowercase, hyphenated, keyword-bearing).
+**Never** fake a testimonial headshot or use an image implying a claim the brand can't support. **Always** follow the file-naming convention (lowercase, hyphenated, keyword-bearing) for anything the member does upload.

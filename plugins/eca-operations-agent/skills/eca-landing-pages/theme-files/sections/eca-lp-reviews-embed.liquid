@@ -9,7 +9,10 @@
       <div class="eca-lp-rev__embed">{{ section.settings.embed }}</div>
     {%- else -%}
       {%- if request.design_mode -%}
-        <p class="eca-lp-rev__hint">Add your review app's embed code in this section's settings, or drag the app block in here (Judge.me, Loox, Okendo, Yotpo, Stamped).</p>
+        <div class="eca-lp-appslot">
+          <p class="eca-lp-appslot__t">Add your review app's widget here</p>
+          <p class="eca-lp-appslot__d">Either click <strong>Add block</strong> and pick your reviews app, or paste its embed snippet in this section's settings (Judge.me, Loox, Okendo, Yotpo, Stamped).</p>
+        </div>
       {%- endif -%}
     {%- endif -%}
     {%- for block in section.blocks -%}
@@ -31,4 +34,7 @@
 {% stylesheet %}
 .eca-lp-rev{padding:3.5rem 1.5rem}
 .eca-lp-rev__hint{text-align:center;opacity:.6;padding:2rem;border:1px dashed rgba(0,0,0,.2);border-radius:10px}
+.eca-lp-appslot{border:2px dashed rgba(0,0,0,.2);border-radius:12px;padding:2rem;text-align:center}
+.eca-lp-appslot__t{font-weight:700;margin:0 0 .5rem}
+.eca-lp-appslot__d{opacity:.7;margin:0;font-size:.9rem;max-width:460px;margin-inline:auto;line-height:1.6}
 {% endstylesheet %}

@@ -2,6 +2,22 @@
 <section class="eca-lp-tst">
   <div class="eca-lp-wrap">
     {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.use_app_widget -%}
+      {%- comment -%} App handles this section — don't duplicate it with custom quotes {%- endcomment -%}
+      {%- assign has_app = false -%}
+      {%- for block in section.blocks -%}{%- if block.type == '@app' -%}{%- assign has_app = true -%}{%- endif -%}{%- endfor -%}
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}<div {{ block.shopify_attributes }}>{% render block %}</div>{%- endif -%}
+      {%- endfor -%}
+      {%- unless has_app -%}
+        {%- if request.design_mode -%}
+          <div class="eca-lp-appslot">
+            <p class="eca-lp-appslot__t">Add your review app's block here</p>
+            <p class="eca-lp-appslot__d">Click <strong>Add block</strong> and choose your reviews app (Judge.me, Loox, Okendo, Yotpo, Stamped). Using the app's own widget keeps the star ratings and review counts live and accurate.</p>
+          </div>
+        {%- endif -%}
+      {%- endunless -%}
+    {%- else -%}
     <div class="eca-lp-tst__grid">
       {%- for block in section.blocks -%}
         {%- if block.type == '@app' -%}
@@ -20,6 +36,7 @@
         {%- endif -%}
       {%- endfor -%}
     </div>
+    {%- endif -%}
     {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
   </div>
 </section>
@@ -28,6 +45,7 @@
   "name": "ECA LP — Testimonials", "tag": "section", "class": "eca-lp-section",
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "What customers say" },
+    { "type": "checkbox", "id": "use_app_widget", "label": "Use my review app's widget instead", "info": "Recommended when you have a reviews app. Hides the manual quotes below and shows your app's live reviews instead — add the app block to this section.", "default": false },
     { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
     { "type": "url", "id": "cta_url", "label": "Button link" },
     { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
@@ -56,4 +74,7 @@
 .eca-lp-tst__by em{font-weight:400;opacity:.65;font-style:normal}
 .eca-lp-tst__photo{width:36px;height:36px;border-radius:999px;object-fit:cover}
 .eca-lp-tst .eca-lp-cta{text-align:center;margin-top:2.5rem}
+.eca-lp-appslot{border:2px dashed rgba(0,0,0,.2);border-radius:12px;padding:2rem;text-align:center;margin-top:1.5rem}
+.eca-lp-appslot__t{font-weight:700;margin:0 0 .5rem}
+.eca-lp-appslot__d{opacity:.7;margin:0;font-size:.9rem;max-width:460px;margin-inline:auto;line-height:1.6}
 {% endstylesheet %}

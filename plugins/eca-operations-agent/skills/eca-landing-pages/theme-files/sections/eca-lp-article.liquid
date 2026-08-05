@@ -13,7 +13,11 @@
           <h2 class="eca-lp-art__subhead" {{ block.shopify_attributes }}>{{ block.settings.text }}</h2>
         {%- when 'image' -%}
           <figure class="eca-lp-art__figure" {{ block.shopify_attributes }}>
-            {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: block.settings.caption }}
+            {%- if block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1000 | image_tag: loading: 'lazy', alt: block.settings.caption }}
+            {%- else -%}
+              <div class="eca-lp-ph eca-lp-ph--16x9">{{ 'image' | placeholder_svg_tag: 'eca-lp-ph__svg' }}</div>
+            {%- endif -%}
             {%- if block.settings.caption != blank -%}<figcaption>{{ block.settings.caption }}</figcaption>{%- endif -%}
           </figure>
         {%- when 'pullquote' -%}

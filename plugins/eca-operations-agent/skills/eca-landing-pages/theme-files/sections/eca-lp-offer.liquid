@@ -9,6 +9,8 @@
         {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title | default: section.settings.heading }}
       {%- elsif product != blank -%}
         {{ product.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', alt: product.title }}
+      {%- else -%}
+        <div class="eca-lp-ph eca-lp-ph--1x1">{{ 'product-1' | placeholder_svg_tag: 'eca-lp-ph__svg' }}</div>
       {%- endif -%}
     </div>
     <div class="eca-lp-offer__copy">

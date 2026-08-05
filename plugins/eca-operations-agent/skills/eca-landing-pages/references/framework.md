@@ -41,8 +41,10 @@ Remove the "but how does this actually work for me?" friction.
 - For kits/bundles/subscriptions: itemise exactly what arrives, with values if relevant.
 - Set delivery/timing expectations here.
 
-## 7. Risk removal / guarantee
-State the guarantee properly, in its own moment: what it is, how long, and how to claim.
+## 7. Risk removal / guarantee — **required on every page**
+Every landing page must carry a risk reversal. If `brand-data.md` doesn't have one, **ask the member** — money-back window, free returns, warranty, free shipping, cancel-anytime, or a satisfaction promise. If they truly have none, tell them plainly it will cost conversions and help them find the smallest credible one. Never invent it.
+
+State it properly, in its own moment: what it is, how long, and how to claim.
 - Plain language, no asterisks. "Try it for 30 days. Don't love it, we refund you."
 - Repeat it near every CTA in short form.
 
@@ -72,4 +74,5 @@ Close with the actual offer and a way to buy without leaving.
 - **Specificity**: real numbers, timeframes, and objects. Vague copy doesn't convert or get cited.
 - **Placeholders**: anything you can't source becomes an obvious `{{PLACEHOLDER}}` plus a clear note on what to supply — never a plausible-sounding invention.
 - **Scannability**: short paragraphs, one idea per block, subheads that carry the argument if you only read them.
-- **Every scroll-length needs a CTA** — repeat the primary action after each major block.
+- **Every scroll-length needs a CTA** — repeat the primary action after each major block. *(Exception: listicles hold the CTA until after the list.)*
+- **Urgency only if it's true** — a real deadline, genuine limited stock, a launch window or a price rise can be stated near the CTA. Never fake a countdown or an "only 3 left": it damages trust and can breach consumer law.

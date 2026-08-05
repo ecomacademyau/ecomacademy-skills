@@ -6,6 +6,8 @@
       <div class="eca-lp-proof__video">{{ section.settings.video | video_tag: image_size: '1200x', autoplay: false, loop: false, controls: true }}</div>
     {%- elsif section.settings.image != blank -%}
       {{ section.settings.image | image_url: width: 1200 | image_tag: loading: 'lazy', class: 'eca-lp-proof__img', alt: section.settings.heading }}
+    {%- elsif section.settings.show_placeholder -%}
+      <div class="eca-lp-ph eca-lp-ph--16x9">{{ 'lifestyle-2' | placeholder_svg_tag: 'eca-lp-ph__svg' }}</div>
     {%- endif -%}
     <div class="eca-lp-proof__stats">
       {%- for block in section.blocks -%}
@@ -29,6 +31,7 @@
   "settings": [
     { "type": "text", "id": "heading", "label": "Heading", "default": "{{PROOF HEADING}}" },
     { "type": "image_picker", "id": "image", "label": "Proof image (demo / before-after)" },
+    { "type": "checkbox", "id": "show_placeholder", "label": "Show placeholder when no image", "default": true },
     { "type": "video", "id": "video", "label": "Proof video (overrides image)" },
     { "type": "text", "id": "source", "label": "Source / caveat line", "info": "Cite where the numbers come from. Never invent stats.", "default": "" }
   ],

@@ -2,7 +2,22 @@
 
 Build a high-converting landing page for an ad campaign directly into a Shopify theme — as **editable theme sections**, not a hardcoded one-off.
 
-Built by **Ecommerce Academy**. Runs in **Claude Code** (needs the Shopify CLI).
+Built by **Ecommerce Academy**.
+
+## Before you start
+1. **Run it in a code editor** — this skill edits real theme files, so it needs **Claude Code inside VS Code, Cursor or your editor of choice**. It can't run from a chat-only window.
+2. **Open the folder with your brand data, research and skills** — usually the **Marketing Coworker folder** you already use with Claude Code. That's where your `brand-data.md`, personas and research live, and the page copy is only as good as what it can read.
+3. **Have the Shopify CLI installed and connected** to your store (`shopify version`, then `shopify theme list --store your-store.myshopify.com`). Install with `npm install -g @shopify/cli @shopify/theme` if needed.
+
+### Connections
+| | Needed? | What it adds |
+|---|---|---|
+| **Shopify CLI** | **Required** | Pulls your live theme and pushes the dev theme — the build itself |
+| **`brand-data.md`** in the folder | Strongly recommended | Your voice, personas, objections and proof — without it the copy is generic |
+| **Shopify MCP** | Optional | Creates the page for you and reads your products; without it you create the page in two clicks |
+| **Meta Ads MCP** | Optional | Pulls your real ad copy for message match, and powers "look at my ad account and suggest" |
+
+*The Shopify CLI and the Shopify MCP are different tools — the CLI handles theme files, the MCP handles products and pages. Only the CLI is a hard requirement.*
 
 ## The five formats
 | Format | Use when the ad… |
@@ -27,10 +42,15 @@ It runs as an **interactive guide**. You make the calls; it brings the options, 
 3. **Confirm the brief** — it writes the whole plan back to you (format, hook options, structure, key messages, media, gaps). **Nothing is built until you approve it.**
 4. **It builds** — Shopify CLI duplicates your **live theme into a dev theme** (live is never touched), installs only the sections that format needs, writes the copy into the template, pushes, and returns a preview link.
 5. **Hand over** — page created unpublished: preview URL, any remaining placeholders, how to publish, and a reminder to point the ad at the new page.
+6. **Write the matching ads** — it then offers to run `eca-ad-copywriting` (headlines + primary text) and `eca-ugc-scripts` (video scripts) off the same angle, so the ad and the page say the same thing.
+
+### How many pages should I build?
+**One per distinct angle, not several per angle.** Different angles (founder story vs price vs convenience) each deserve their own page — that's message match. Multiple pages for the *same* angle only pay off once you have the traffic to split-test properly (roughly 100+ conversions per variant). Test your **ads** first: creative variance is much bigger than page variance, and it's faster and cheaper to learn from.
 
 ## What gets installed
 ```
 sections/
+  eca-lp-settings.liquid          Page config: sticky add-to-cart + hide nav/footer
   eca-lp-hero.liquid              Hook + media + CTA + risk removal
   eca-lp-benefits.liquid          Outcome-led benefits grid
   eca-lp-listicle.liquid          Numbered reasons with inline CTAs

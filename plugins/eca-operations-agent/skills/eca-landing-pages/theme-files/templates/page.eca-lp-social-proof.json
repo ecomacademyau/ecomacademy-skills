@@ -117,9 +117,19 @@
     "offer": {
       "type": "eca-lp-offer",
       "settings": {}
+    },
+    "lp-settings": {
+      "type": "eca-lp-settings",
+      "settings": {
+        "hide_header": true,
+        "hide_footer": false,
+        "sticky_enabled": true,
+        "show_after": 600
+      }
     }
   },
   "order": [
+    "lp-settings",
     "hero",
     "proof",
     "testimonials",

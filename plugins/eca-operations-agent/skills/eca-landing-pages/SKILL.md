@@ -1,6 +1,6 @@
 ---
 name: eca-landing-pages
-description: Build a high-converting landing page for an ad campaign directly into a Shopify theme — choose a format (Hero Product, Listicle, Social Proof, Kit/Subscription Bundle, or Advertorial), match the copy to the actual ad angle, and install it as editable theme sections. Use whenever the member wants a landing page, ad landing page, campaign page, LP, "a page for this ad", a sales page, an advertorial page, a listicle page, a bundle/kit page, wants to fix an ad-to-page mismatch, improve post-click conversion, or asks to build/install a page into their Shopify theme. Runs as an interactive guide where the member leads: they either tell you what they want or ask you to look at their ad account and suggest, you shape it together, then you write a brief they confirm before anything is built. Runs in Claude Code with the Shopify CLI: duplicates the live theme into a dev theme (never touches live), installs the section library and page template, and creates the page unpublished for review. Works with any Online Store 2.0 theme.
+description: Build a high-converting landing page for an ad campaign directly into a Shopify theme — choose a format (Hero Product, Listicle, Social Proof, Kit/Subscription Bundle, or Advertorial), match the copy to the actual ad angle, and install it as editable theme sections. Use whenever the member wants a landing page, ad landing page, campaign page, LP, "a page for this ad", a sales page, an advertorial page, a listicle page, a bundle/kit page, wants to fix an ad-to-page mismatch, improve post-click conversion, or asks to build/install a page into their Shopify theme. Runs as an interactive guide where the member leads: they either tell you what they want or ask you to look at their ad account and suggest, you shape it together, then you write a brief they confirm before anything is built. Must be run in Claude Code inside a code editor (VS Code/Cursor), from the folder holding the brand data and skills, with the Shopify CLI connected: duplicates the live theme into a dev theme (never touches live), installs the section library and page template, and creates the page unpublished for review. Works with any Online Store 2.0 theme.
 ---
 
 # ECA Landing Pages
@@ -10,6 +10,36 @@ Turn an ad into a landing page that actually converts the traffic it buys — bu
 **The core principle: message match.** The page must continue the exact promise the ad made. The most common post-click killer is an ad that promises one thing and a page that opens with something else. Everything here serves that.
 
 > Runs in **Claude Code** (needs the Shopify CLI + local theme access). Never edits the live theme — all work happens in a duplicated dev theme, and the page is created **unpublished** for review.
+
+## Before you start — read this first
+
+**Tell the member these three things up front, and check each one, before doing anything else.** Getting this wrong is the most common reason a run goes sideways.
+
+**1. Run this in a code editor.** This skill edits real theme files, so it must run in **Claude Code inside a code editing tool** — VS Code, Cursor, or whichever editor they prefer. It can't be driven from a chat-only environment. If they aren't in one, stop and get them set up first.
+
+**2. Open the right folder.** They should be working in the folder that holds their **brand data, research and skills** — typically the **Marketing Coworker folder** they already use with Claude Code. That folder is where `brand-data.md`, personas, past research and the rest of the ECA skills live, and this skill leans on all of it. Working from an empty or unrelated folder means generic copy and no message match. Confirm the folder before you start, and say what you found (or didn't).
+
+**3. Shopify CLI connected and running.** The build step needs the **Shopify CLI installed and authenticated** to their store. Verify early — don't discover it's missing after writing the whole page:
+```bash
+shopify version                                   # installed?
+shopify theme list --store <store>.myshopify.com  # authenticated? (prompts login if not)
+```
+If it's missing: `npm install -g @shopify/cli @shopify/theme`. Confirm the exact `.myshopify.com` domain with the member — never guess it.
+
+### Connections: what's required vs what makes it better
+
+**The Shopify CLI and the Shopify MCP are different tools and this skill uses both differently** — don't confuse them. Check each and tell the member what you have:
+
+| | What it does here | Needed? | Without it |
+|---|---|---|---|
+| **Shopify CLI** | Pulls the live theme, pushes the dev theme. The build itself. | **Required** | Can't build. Plan the page, then stop. |
+| **`brand-data.md` in the folder** | Voice, personas, objections, proof, guarantee, claim rules. | **Strongly recommended** | Copy gets generic and you'll have to ask far more questions. Say so. |
+| **Shopify MCP** (Admin API) | Creates the page unpublished (`pageCreate`), reads products for the offer/sticky-bar sections, and helps detect installed apps. | *Optional* | Fine — give the member the two-click manual instruction to create the page and assign the template, and ask them which apps they run. |
+| **Meta Ads MCP** | Pulls the real ad copy, angle, creative and current destination URL — the raw material for message match. Also powers "look at my ad account and suggest". | *Optional* | Ask them to paste the ad copy and angle instead. Path B (suggest from the ad account) isn't available — say so rather than guessing. |
+
+In Claude Code, MCPs are added with `claude mcp add …` — if a useful one is missing, tell the member what it would unlock and let them decide. **Never block on an optional connector**: run with what's there, say plainly what you couldn't do, and carry on.
+
+**Only the CLI is a hard stop.** If it's missing, you can still plan the page with them — just don't start building until it's ready.
 
 ## The five formats
 
@@ -54,6 +84,8 @@ Work through these with them, one at a time, each with your recommendation attac
 - **Product / offer** — what the page sells, and the exact offer (price, bundle, subscription, discount).
 - **Goal + destination** — buy now, add to cart, subscribe, or lead capture.
 - **Media** — what imagery they have; recommend pulling a frame from the ad creative for continuity.
+- **Risk removal / guarantee (required on every page)** — take it from `brand-data.md`. **If there isn't one, ask the member directly** what they can offer: money-back window, free returns, warranty, free shipping, cancel-anytime, or a satisfaction promise. If they genuinely have none, **tell them plainly that it will cost conversions** — a landing page asking for money with no risk reversal converts worse — and suggest the smallest credible one they could stand behind. Never invent a guarantee, and never ship the page without addressing this.
+- **Scarcity / urgency (suggest it)** — ask whether anything *true* creates urgency: limited stock, a launch or seasonal window, a price rise, a bonus for the first N orders, a deadline on the offer. Bake it in near the CTA if so. **Only if it's real** — fake countdowns and invented "only 3 left" damage trust and can breach consumer law. If there's nothing genuine, say so and move on.
 - **Installed apps** — check what's already on the store (reviews, subscriptions, FAQ, bundles) and plan to use their widgets rather than rebuilding. Ask if it's a close call. See `references/apps-and-assets.md`.
 - **Anything to avoid** — claims, comparisons or wording that's off-limits.
 
@@ -71,9 +103,12 @@ Write the brief back to them as a short, scannable summary and **stop.** It cove
 | **Product & offer** | exactly what's sold, at what price/terms |
 | **The hook** | 2–3 candidate headlines that echo the ad — let them pick or edit |
 | **Page structure** | the section order for that format, in plain English |
-| **Key messages** | the benefits, proof and guarantee you'll use (and where each came from) |
+| **Key messages** | the benefits and proof you'll use (and where each came from) |
+| **Risk removal** | the guarantee/risk reversal this page will carry — flagged if the brand has none |
+| **Urgency** | any genuine scarcity or deadline to include, or "none — nothing truthful to use" |
+| **Page config** | sticky add-to-cart on/off + product · hide navigation? · hide footer? |
 | **Apps in use** | which sections will use an installed app's widget (e.g. Judge.me reviews) vs a custom one |
-| **Media plan** | which images/video go where, and which you'll create vs need from them |
+| **Image briefs** | each image slot with the shot needed (subject, framing, ratio) — all ship as placeholders for the member to fill |
 | **Gaps** | anything you couldn't source, and what you need from them |
 | **Destination** | the page URL and where the CTA sends people |
 
@@ -94,7 +129,7 @@ Follow `references/framework.md`. Every page carries the same ten elements in a 
 9. **FAQs** (handling the real objections)
 10. **Offer, product and final CTA**
 
-**Create the visuals as you go** — pull from the brand's Shopify Files and the ad creative first, generate icons/imagery with an image tool where one is connected, upload to Shopify, and only use a `{{PLACEHOLDER}}` when nothing can be sourced or made (then say exactly what shot is needed). Full method in `references/apps-and-assets.md`.
+**Images stay as placeholders** — write the *image brief* for each slot (subject, framing, aspect ratio, suggested alt text) rather than choosing pictures; the sections render native Shopify placeholders so the layout reads correctly until the member adds theirs. Ship real **icons** (theme set or inline SVG). Full method in `references/apps-and-assets.md`.
 
 **Rules:** use the brand's real voice; never invent claims, reviews, stats or guarantees — pull them from `brand-data.md` or the store, and if something's missing, put a clear `{{PLACEHOLDER}}` in and tell the member exactly what to supply.
 
@@ -109,17 +144,47 @@ Only after the brief is confirmed. Follow `references/shopify-build.md` exactly.
 5. Push to the dev theme and give the member the **preview link**.
 6. **Create the Shopify page** (unpublished) and assign it the template.
 
-## Step 6 — Hand over
+## Step 6 — Hand over the page
 
 Give the member: the preview URL, the page URL (unpublished), what to review, and a **before-you-publish checklist** listing every placeholder image and `{{PLACEHOLDER}}` still in the page with exactly what to supply for each (shot description, aspect ratio). Be explicit that **placeholder images must be replaced before the page goes live**. Then how to publish when happy. Remind them to **point the ad's destination URL at the new page** once live — the page only pays off if the ad sends traffic to it.
 
+## Page-wide configuration
+
+Every template includes an **ECA LP — Page settings** section (first in the order) that carries the landing-page-level options. Confirm both with the member in the brief:
+
+- **Sticky add-to-cart bar** — appears after a set scroll depth with the product, price, add-to-cart and a risk-removal line. On by default; set the product it sells. Keeps the ask permanently in reach on mobile.
+- **Hide site navigation** — removes the header/menu so the only way out of the page is the CTA. Standard for paid traffic. **Hiding the footer is separate and off by default** — some ad platforms expect policy links (returns, privacy, contact) to be reachable, so only hide it if the member is sure.
+
+## Step 7 — Now write the ads for it (offer this every time)
+
+A landing page only earns its keep if traffic arrives with the matching promise. Once the page is built, **offer to write the ads that point at it** — you already have everything they need (the angle, the hook, the audience, the offer, the proof, the guarantee):
+
+- **`eca-ad-copywriting`** — headlines and primary text for the Meta campaign, built from this page's hook and angle so the ad and page say the same thing.
+- **`eca-ugc-scripts`** — if the concept suits video (Founder Story, 3 Reasons Why, Comment Reply, Us vs Them), hand over the funnel tier and angle and let it script the shoot.
+
+Hand them the page's hook, the persona, the objection it handles, the offer and the guarantee, so the ads inherit the same message. Then remind them to **point the campaign's destination URL at the new page** — the whole thing only works if the ad actually sends traffic there.
+
+## How many pages? One per angle, not several per angle
+
+Members often ask whether to build multiple landing pages for the same hook. **Default answer: no.**
+
+- **One strong page per distinct angle** — yes. If they run a founder-story angle, a price-comparison angle and a convenience angle, each deserves its own page carrying that promise. That's message match, and it's the point of this skill.
+- **Several pages for the *same* angle** — only when the traffic genuinely supports a test. A landing-page split test needs enough conversions per variant to mean anything (rough guide: **~100+ conversions per variant**, or several thousand sessions each). Below that, the result is noise and they've doubled their maintenance for nothing.
+- **Test the ads first.** Creative variance is far larger than page variance in most accounts — it's normal to see a 10×+ spread in CPA between ads on the same page. Ads are cheaper and faster to test, so exhaust that lever before splitting page traffic.
+- **If they do split-test**, change **one thing** (the hook, the format, or the offer — not all three), run both to the same audience, and decide up front what result would make them pick a winner.
+
+Say this plainly if they ask for five pages off one angle — it's usually enthusiasm worth redirecting into five *ads*.
+
 ## Build rules
 
+- **Leave the hero eyebrow blank unless the member asks for one.** The headline is the message match — an eyebrow pushes it down and competes with it, and offers/discounts convert better at the CTA and offer sections than above the hook. Don't fill it with the page type, a discount, or a generic label. It stays empty by default; the member can add one in the theme editor if they want.
+- **Listicles earn the ask — they don't open with one.** A listicle must read like an article: no CTA button before the list has done its convincing. Let the items build the case, then introduce the product in the closing block, then ask. The CTA text must follow from the list's argument ("Ditch the machine — try it") rather than a generic "Shop now".
 - **Never expose internal page-type or format names in public copy.** The five format names (Hero Product, Listicle, Social Proof, Kit, Advertorial) are *our* build vocabulary — they mean nothing to a visitor and cheapen the page. Keep them out of eyebrows, headings, bylines, alt text, page titles and URL handles. The **only** exception is the legally-required advertising disclosure on advertorials, which is just "Advertisement" or "Sponsored" — never "Advertisement · Founder Story". Every visible word must be written for the customer, not for us.
 
 
+- **When an app covers a section, don't also write your own content for it.** If the store has a reviews app, do not fill the testimonials section with hand-picked quotes *and* embed the app widget — that duplicates the same reviews twice on one page (it looks broken and it's what a real test caught). Instead switch the section to app-widget mode and leave a clear "add your app's block here" prompt. Same for FAQ, subscription and bundle apps. One source of truth per section.
 - **App-first, then native, then custom.** Before building any section, check what the store already has — if a reviews/subscription/FAQ/bundle app is installed, use its widget or `@app` block rather than rebuilding it (every ECA LP section accepts `@app` blocks). Ask the member when it's a close call. See `references/apps-and-assets.md`.
-- **Ship real visuals, not empty boxes.** Brand files and ad frames first → generate with an image tool if one's connected → otherwise a correctly-sized **placeholder service** (placehold.co / picsum.photos) so the layout still reads. **Icons: inline a free openly-licensed SVG** (Lucide/Heroicons/Feather) using `currentColor` so it inherits the theme — or the theme's own icon set. **Placeholders never go live**: list every one in the handover and the pre-publish checklist.
+- **Never choose images — always ship placeholders.** Auto-picked photos produce wrong-looking layouts. Every image slot renders Shopify's native `placeholder_svg_tag` at the right aspect ratio until the member picks their own in the theme editor. Your job is the **image brief** (subject, framing, ratio) for each slot, not the image. Only place a specific image if the member asks. **Icons are the exception** — inline the theme's own icon set or a free openly-licensed SVG (Lucide/Heroicons) using `currentColor`. See `references/apps-and-assets.md`.
 - **Use native Shopify/theme features wherever they exist** — the theme's own product/buy-buttons, review app blocks and image handling, standard section groups, `{{ section.settings }}`, `image_url` filters, and native `<details>` accordions. Only write custom Liquid where nothing native does the job.
 - **Everything must be editable in the theme editor** — every headline, body, image, button, and list item is a section/block setting with a sensible default and a clear label. No hardcoded copy in Liquid.
 - **OS 2.0 compatible, theme-agnostic** — don't depend on Horizon-only blocks; inherit the theme's fonts/colours rather than hardcoding a design system.
@@ -128,4 +193,4 @@ Give the member: the preview URL, the page URL (unpublished), what to review, an
 - **AEO**: the FAQ section emits **FAQPage JSON-LD** so the page can be cited by AI answer engines.
 
 ## Related skills
-`references/apps-and-assets.md` (app-first + asset creation) · `eca-meta-ads-4pi` (flags the ad→page mismatch this skill fixes) · `eca-ad-copywriting` (the ad copy this page must match) · `eca-brand-intelligence` (voice, personas, proof) · `eca-seo-ai-audit` (checks the page once live).
+`references/apps-and-assets.md` (app-first + asset creation) · `eca-meta-ads-4pi` (flags the ad→page mismatch this skill fixes) · **`eca-ad-copywriting`** (write the ads that point at this page — offer this after every build) · **`eca-ugc-scripts`** (video ads for the same angle) · `eca-brand-intelligence` (voice, personas, proof) · `eca-seo-ai-audit` (checks the page once live).

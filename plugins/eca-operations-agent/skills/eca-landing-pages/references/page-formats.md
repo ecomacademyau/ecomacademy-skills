@@ -21,15 +21,15 @@ Each format uses the same ten-element framework (`framework.md`) in a different 
 **Use when:** the ad is "N reasons / N ways / N things", curiosity-led, or educational. Reads like content, sells like a page.
 
 **Section order**
-1. `eca-lp-hero` — the listicle promise ("7 reasons people are switching")
-2. `eca-lp-listicle` — the numbered items (each: number, headline, body, optional image); CTA every few items
+1. `eca-lp-hero` — the listicle promise ("7 reasons people are switching"). **No CTA button here** — leave the hero's button blank; the page hasn't earned the ask yet.
+2. `eca-lp-listicle` — the numbered items (image left/right/alternating/none, set in the theme editor), then the **closing block** that introduces the product, then the CTA — with text that follows from the list ("Ditch the machine — try it"), not a generic "Shop now".
 3. `eca-lp-proof`
 4. `eca-lp-testimonials`
 5. `eca-lp-guarantee`
 6. `eca-lp-faq`
 7. `eca-lp-offer`
 
-**Note:** each list item should stand alone and end with a reason to keep reading. Put a soft CTA after item 3 and a hard CTA at the end.
+**Note:** each list item should stand alone and end with a reason to keep reading. It must feel like an article that convinces first — the product arrives *after* the list, as the conclusion the reader has already been led to.
 
 ## 3. Social Proof — `page.eca-lp-social-proof.json`
 **Use when:** the ad leans on reviews, UGC, testimonials, or "everyone's switching". Proof does the selling; the copy just frames it.
