@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.12 - 2026-08-06
+
+- Advertorial editorial masthead, benefit image controls, colour-scheme adapter
+
 ## v1.12.11 - 2026-08-05
 
 - Update to section layouts and usability

@@ -1,0 +1,186 @@
+{%- comment -%} eca-lp-library v1.29.0 {%- endcomment -%}
+{%- comment -%}
+  ECA LP — Editorial masthead for advertorials. Block-based: disclosure, kicker, headline,
+  standfirst, byline (avatar + author + date), media (image / Shopify video / YouTube-Vimeo),
+  social-proof strip, rules and spacers. Reads like an article, discloses like an ad.
+{%- endcomment -%}
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-ed eca-lp-ed--{{ section.settings.align }} {{ eca_cls }}" style="{{ eca_sty }}--eca-ed-w:{{ section.settings.content_width }}px;">
+  <div class="eca-lp-ed__inner">
+    {%- for block in section.blocks -%}
+      {%- case block.type -%}
+
+        {%- when 'disclosure' -%}
+          <p class="eca-lp-ed__disc" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+
+        {%- when 'kicker' -%}
+          <p class="eca-lp-ed__kicker" {{ block.shopify_attributes }}>{{ block.settings.text }}</p>
+
+        {%- when 'headline' -%}
+          <h1 class="eca-lp-ed__h1" {{ block.shopify_attributes }}>{{ block.settings.text }}</h1>
+
+        {%- when 'standfirst' -%}
+          <div class="eca-lp-ed__dek" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+        {%- when 'rule' -%}
+          <hr class="eca-lp-ed__rule" style="border-top-width:{{ block.settings.thickness }}px;{% if block.settings.rule_color != blank %}border-top-color:{{ block.settings.rule_color }};{% endif %}" {{ block.shopify_attributes }}>
+
+        {%- when 'byline' -%}
+          {%- liquid
+            assign shown_date = block.settings.date
+            if block.settings.use_today
+              assign shown_date = 'now' | date: '%A, %B %-d, %Y'
+            endif
+          -%}
+          <div class="eca-lp-ed__by" {{ block.shopify_attributes }}>
+            {%- if block.settings.avatar != blank -%}
+              {{ block.settings.avatar | image_url: width: 96 | image_tag: loading: 'lazy', class: 'eca-lp-ed__av', alt: block.settings.author }}
+            {%- endif -%}
+            <div class="eca-lp-ed__bymeta">
+              {%- if shown_date != blank -%}<span class="eca-lp-ed__date">{{ shown_date }}</span>{%- endif -%}
+              {%- if block.settings.author != blank -%}<span class="eca-lp-ed__author">by {{ block.settings.author }}</span>{%- endif -%}
+              {%- if block.settings.read_time != blank -%}<span class="eca-lp-ed__read">{{ block.settings.read_time }}</span>{%- endif -%}
+            </div>
+          </div>
+
+        {%- when 'media' -%}
+          <figure class="eca-lp-ed__fig" {{ block.shopify_attributes }}>
+            {%- if block.settings.external_video != blank -%}
+              <div class="eca-lp-ed__embed">
+                {%- if block.settings.external_video.type == 'youtube' -%}
+                  <iframe src="https://www.youtube.com/embed/{{ block.settings.external_video.id }}" title="{{ block.settings.caption | escape }}" loading="lazy" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                {%- else -%}
+                  <iframe src="https://player.vimeo.com/video/{{ block.settings.external_video.id }}" title="{{ block.settings.caption | escape }}" loading="lazy" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                {%- endif -%}
+              </div>
+            {%- elsif block.settings.video != blank -%}
+              {{ block.settings.video | video_tag: image_size: '1200x', autoplay: false, loop: false, muted: false, controls: true, class: 'eca-lp-ed__media' }}
+            {%- elsif block.settings.image != blank -%}
+              {{ block.settings.image | image_url: width: 1400 | image_tag: loading: 'lazy', class: 'eca-lp-ed__media', sizes: '(min-width: 800px) 720px, 100vw', widths: '400,700,1000,1400', alt: block.settings.caption }}
+            {%- else -%}
+              {% render 'eca-lp-placeholder', ratio: '16x9', label: 'Article image or video' %}
+            {%- endif -%}
+            {%- if block.settings.caption != blank -%}
+              <figcaption class="eca-lp-ed__cap">{{ block.settings.caption }}</figcaption>
+            {%- endif -%}
+          </figure>
+
+        {%- when 'stats' -%}
+          <div class="eca-lp-ed__stats" {{ block.shopify_attributes }}>
+            {%- if block.settings.stat_1 != blank -%}<span class="eca-lp-ed__stat">{{ block.settings.stat_1 }}</span>{%- endif -%}
+            {%- if block.settings.stat_2 != blank -%}<span class="eca-lp-ed__stat">{{ block.settings.stat_2 }}</span>{%- endif -%}
+            {%- if block.settings.stat_3 != blank -%}<span class="eca-lp-ed__stat">{{ block.settings.stat_3 }}</span>{%- endif -%}
+          </div>
+
+        {%- when 'spacer' -%}
+          <div class="eca-lp-ed__sp" style="height:{{ block.settings.height }}px" {{ block.shopify_attributes }}></div>
+
+        {%- when '@app' -%}
+          <div {{ block.shopify_attributes }}>{% render block %}</div>
+
+      {%- endcase -%}
+    {%- endfor -%}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — Editorial head",
+  "tag": "section",
+  "class": "eca-lp-section",
+  "settings": [
+    { "type": "paragraph", "content": "The masthead for an advertorial. Keep the disclosure block — presenting an ad as editorial without it is deceptive and is regulated in most markets." },
+    { "type": "range", "id": "content_width", "label": "Column width", "min": 560, "max": 900, "step": 20, "unit": "px", "default": 720, "info": "Narrow columns read like articles. Wider than ~800px starts to feel like a landing page again." },
+    { "type": "select", "id": "align", "label": "Alignment", "options": [
+      { "value": "left", "label": "Left (editorial)" },
+      { "value": "center", "label": "Centred" }], "default": "left" },
+    { "type": "header", "content": "Section colour" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page." },
+    { "type": "color", "id": "bg_color", "label": "Custom background (optional)", "info": "Overrides the scheme. Only use if you need an exact colour." },
+    { "type": "color", "id": "text_color", "label": "Custom text (optional)" }
+  ],
+  "blocks": [
+    { "type": "disclosure", "name": "Ad disclosure", "limit": 1, "settings": [
+      { "type": "text", "id": "text", "label": "Disclosure", "default": "Advertisement", "info": "Use a plain, obvious word: Advertisement, Sponsored, or Paid partnership." } ] },
+    { "type": "kicker", "name": "Category label", "limit": 1, "settings": [
+      { "type": "text", "id": "text", "label": "Label", "default": "", "info": "e.g. Health, Reviews, Home. Optional." } ] },
+    { "type": "headline", "name": "Headline", "limit": 1, "settings": [
+      { "type": "text", "id": "text", "label": "Headline", "default": "{{EDITORIAL HEADLINE}}" } ] },
+    { "type": "standfirst", "name": "Standfirst", "settings": [
+      { "type": "richtext", "id": "text", "label": "Standfirst", "default": "<p>{{The one-line promise under the headline}}</p>", "info": "The sentence under the headline that makes them keep reading." } ] },
+    { "type": "byline", "name": "Byline", "limit": 1, "settings": [
+      { "type": "image_picker", "id": "avatar", "label": "Author photo" },
+      { "type": "text", "id": "author", "label": "Author", "default": "", "info": "A real person who actually wrote or approved this. Never invent a journalist." },
+      { "type": "text", "id": "date", "label": "Date", "default": "" },
+      { "type": "checkbox", "id": "use_today", "label": "Show today's date instead", "default": false, "info": "Keeps an evergreen page current. Don't use it on anything time-specific." },
+      { "type": "text", "id": "read_time", "label": "Read time (optional)", "info": "e.g. 4 min read" } ] },
+    { "type": "media", "name": "Image or video", "settings": [
+      { "type": "video_url", "id": "external_video", "label": "YouTube / Vimeo link", "accept": ["youtube", "vimeo"] },
+      { "type": "video", "id": "video", "label": "Uploaded video" },
+      { "type": "image_picker", "id": "image", "label": "Image" },
+      { "type": "text", "id": "caption", "label": "Caption", "default": "" } ] },
+    { "type": "stats", "name": "Social proof strip", "settings": [
+      { "type": "paragraph", "content": "Real, verifiable figures only." },
+      { "type": "text", "id": "stat_1", "label": "First", "default": "" },
+      { "type": "text", "id": "stat_2", "label": "Second", "default": "" },
+      { "type": "text", "id": "stat_3", "label": "Third", "default": "" } ] },
+    { "type": "rule", "name": "Divider", "settings": [
+      { "type": "range", "id": "thickness", "label": "Thickness", "min": 1, "max": 6, "step": 1, "unit": "px", "default": 2 },
+      { "type": "color", "id": "rule_color", "label": "Colour" } ] },
+    { "type": "spacer", "name": "Spacer", "settings": [
+      { "type": "range", "id": "height", "label": "Height", "min": 4, "max": 64, "step": 4, "unit": "px", "default": 16 } ] },
+    { "type": "@app" }
+  ],
+  "max_blocks": 14,
+  "presets": [
+    { "name": "ECA LP — Editorial head", "blocks": [
+      { "type": "disclosure" }, { "type": "headline" }, { "type": "standfirst" },
+      { "type": "rule" }, { "type": "byline" }, { "type": "media" }, { "type": "stats" } ] }
+  ]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-ed{padding:2.5rem 1.5rem 1rem}
+.eca-lp-ed__inner{max-width:var(--eca-ed-w,720px);margin:0 auto}
+.eca-lp-ed--center .eca-lp-ed__inner{text-align:center}
+.eca-lp-ed--center .eca-lp-ed__by,.eca-lp-ed--center .eca-lp-ed__stats{justify-content:center}
+.eca-lp-ed__disc{font-size:.68rem;font-weight:700;letter-spacing:.14em;text-transform:uppercase;opacity:.55;margin:0 0 1.25rem}
+.eca-lp-ed__kicker{font-size:.75rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;opacity:.75;margin:0 0 .5rem}
+.eca-lp-ed__h1{font-size:clamp(1.75rem,4vw,2.6rem);line-height:1.15;letter-spacing:-.01em;margin:0 0 .6rem}
+.eca-lp-ed__dek{font-size:clamp(1.02rem,1.6vw,1.2rem);line-height:1.5;opacity:.75;margin:0 0 1.25rem}
+.eca-lp-ed__dek p{margin:0}
+.eca-lp-ed__rule{border:0;border-top:2px solid currentColor;opacity:.25;margin:1.25rem 0}
+.eca-lp-ed__by{display:flex;align-items:center;gap:.75rem;margin:0 0 1.5rem}
+.eca-lp-ed__av{width:44px;height:44px;border-radius:999px;object-fit:cover;flex:0 0 44px}
+.eca-lp-ed__bymeta{display:flex;flex-direction:column;font-size:.9rem;line-height:1.4}
+.eca-lp-ed__date{opacity:.7}
+.eca-lp-ed__author{font-weight:600}
+.eca-lp-ed__read{opacity:.6;font-size:.82rem}
+.eca-lp-ed__fig{margin:0 0 1.5rem}
+.eca-lp-ed__media{width:100%;height:auto;display:block;border-radius:10px}
+.eca-lp-ed__embed{position:relative;width:100%;aspect-ratio:16/9;border-radius:10px;overflow:hidden;background:rgba(127,127,127,.1)}
+.eca-lp-ed__embed iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.eca-lp-ed__cap{font-size:.82rem;opacity:.6;margin-top:.5rem;line-height:1.45}
+.eca-lp-ed__stats{display:flex;flex-wrap:wrap;border:1px solid rgba(127,127,127,.28);border-radius:10px;margin:0 0 1.5rem}
+.eca-lp-ed__stat{flex:1 1 33%;min-width:140px;padding:.85rem 1rem;font-size:.88rem;font-weight:600;text-align:center;border-left:1px solid rgba(127,127,127,.28)}
+.eca-lp-ed__stat:first-child{border-left:0}
+.eca-lp-ed__sp{width:100%}
+.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:10px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;color:currentColor}
+.eca-lp-ph--16x9{aspect-ratio:16/9}
+.eca-lp-ph--4x3{aspect-ratio:4/3}
+.eca-lp-ph--1x1{aspect-ratio:1/1}
+.eca-lp-ph--9x16{aspect-ratio:9/16}
+.eca-lp-ph__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.eca-lp-ph__label{position:relative;font-size:.8rem;font-weight:600;opacity:.55;padding:.4rem .8rem;background:rgba(255,255,255,.75);border-radius:999px}
+{% endstylesheet %}

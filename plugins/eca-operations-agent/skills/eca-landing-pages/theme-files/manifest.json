@@ -1,5 +1,5 @@
 {
-  "library_version": "1.28.0",
+  "library_version": "1.29.0",
   "install_rule": "Install anything missing. Refresh same-name files to the current version (additive-only by construction, so safe). Never overwrite or delete a superseded file listed in deprecated_do_not_install. Ask before replacing a hand-edited file.",
   "always_copy": [
     "snippets/",
@@ -9,10 +9,12 @@
     "eca-lp-about.liquid",
     "eca-lp-article.liquid",
     "eca-lp-benefits.liquid",
+    "eca-lp-editorial-head.liquid",
     "eca-lp-faq.liquid",
     "eca-lp-guarantee.liquid",
     "eca-lp-hero-v2.liquid",
     "eca-lp-how-it-works.liquid",
+    "eca-lp-in-the-box-v2.liquid",
     "eca-lp-listicle.liquid",
     "eca-lp-offer-v2.liquid",
     "eca-lp-proof.liquid",
@@ -21,8 +23,7 @@
     "eca-lp-testimonials.liquid",
     "eca-lp-trust-bar.liquid",
     "eca-lp-visual-proof.liquid",
-    "eca-lp-whats-included.liquid",
-    "eca-lp-in-the-box-v2.liquid"
+    "eca-lp-whats-included.liquid"
   ],
   "deprecated_do_not_install": [
     "eca-lp-hero.liquid",

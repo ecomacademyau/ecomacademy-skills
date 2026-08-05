@@ -1,26 +1,57 @@
 {
   "sections": {
-    "hero": {
-      "type": "eca-lp-hero-v2",
-      "settings": {},
+    "editorial-head": {
+      "type": "eca-lp-editorial-head",
       "blocks": {
-        "heading-1": {
-          "type": "heading",
+        "disclosure": {
+          "type": "disclosure",
           "settings": {}
         },
-        "subheading-1": {
-          "type": "subheading",
+        "headline": {
+          "type": "headline",
+          "settings": {}
+        },
+        "standfirst": {
+          "type": "standfirst",
+          "settings": {}
+        },
+        "rule": {
+          "type": "rule",
+          "settings": {}
+        },
+        "byline": {
+          "type": "byline",
+          "settings": {}
+        },
+        "media": {
+          "type": "media",
+          "settings": {}
+        },
+        "stats": {
+          "type": "stats",
           "settings": {}
         }
       },
       "block_order": [
-        "heading-1",
-        "subheading-1"
-      ]
+        "disclosure",
+        "headline",
+        "standfirst",
+        "rule",
+        "byline",
+        "media",
+        "stats"
+      ],
+      "settings": {
+        "content_width": 720,
+        "align": "left"
+      }
     },
     "article": {
       "type": "eca-lp-article",
-      "settings": {},
+      "settings": {
+        "disclosure": "",
+        "byline": ""
+      },
       "blocks": {
         "paragraph-1": {
           "type": "paragraph",
@@ -215,7 +246,7 @@
   },
   "order": [
     "lp-settings",
-    "hero",
+    "editorial-head",
     "trust-bar",
     "article",
     "proof",
