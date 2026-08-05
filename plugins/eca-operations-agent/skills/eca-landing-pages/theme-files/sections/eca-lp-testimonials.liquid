@@ -4,6 +4,9 @@
     {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
     <div class="eca-lp-tst__grid">
       {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div class="eca-lp-tst__app" {{ block.shopify_attributes }}>{% render block %}</div>
+        {%- else -%}
         <figure class="eca-lp-tst__card" {{ block.shopify_attributes }}>
           {%- if block.settings.stars != blank -%}<div class="eca-lp-tst__stars">{{ block.settings.stars }}</div>{%- endif -%}
           <blockquote class="eca-lp-tst__quote">{{ block.settings.quote }}</blockquote>
@@ -14,6 +17,7 @@
             <span>{{ block.settings.name }}{% if block.settings.context != blank %} <em>{{ block.settings.context }}</em>{% endif %}</span>
           </figcaption>
         </figure>
+        {%- endif -%}
       {%- endfor -%}
     </div>
     {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
@@ -36,7 +40,7 @@
       { "type": "text", "id": "context", "label": "Context (optional)", "info": "e.g. Verified buyer" },
       { "type": "image_picker", "id": "photo", "label": "Photo (optional)" }
     ]
-  }],
+  }, { "type": "@app" }],
   "max_blocks": 8,
   "presets": [{ "name": "ECA LP — Testimonials", "blocks": [{"type":"quote"},{"type":"quote"},{"type":"quote"}] }]
 }

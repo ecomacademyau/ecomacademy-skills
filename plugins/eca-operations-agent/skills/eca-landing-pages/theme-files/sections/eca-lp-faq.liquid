@@ -3,10 +3,14 @@
   <div class="eca-lp-wrap eca-lp-wrap--narrow">
     {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
     {%- for block in section.blocks -%}
+      {%- if block.type == '@app' -%}
+        <div {{ block.shopify_attributes }}>{% render block %}</div>
+      {%- else -%}
       <details class="eca-lp-faq__item" {{ block.shopify_attributes }}>
         <summary class="eca-lp-faq__q">{{ block.settings.question }}</summary>
         <div class="eca-lp-faq__a">{{ block.settings.answer }}</div>
       </details>
+      {%- endif -%}
     {%- endfor -%}
     {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
   </div>
@@ -42,7 +46,7 @@
       { "type": "text", "id": "question", "label": "Question", "info": "Use the real objections buyers raise.", "default": "{{QUESTION}}" },
       { "type": "richtext", "id": "answer", "label": "Answer", "info": "Answer first, then the detail.", "default": "<p>{{Answer directly in the first sentence.}}</p>" }
     ]
-  }],
+  }, { "type": "@app" }],
   "max_blocks": 10,
   "presets": [{ "name": "ECA LP — FAQ", "blocks": [{"type":"faq"},{"type":"faq"},{"type":"faq"},{"type":"faq"},{"type":"faq"}] }]
 }

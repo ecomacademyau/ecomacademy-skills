@@ -9,10 +9,14 @@
     {%- endif -%}
     <div class="eca-lp-proof__stats">
       {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div {{ block.shopify_attributes }}>{% render block %}</div>
+        {%- else -%}
         <div class="eca-lp-proof__stat" {{ block.shopify_attributes }}>
           <div class="eca-lp-proof__num">{{ block.settings.stat }}</div>
           <div class="eca-lp-proof__label">{{ block.settings.label }}</div>
         </div>
+        {%- endif -%}
       {%- endfor -%}
     </div>
     {%- if section.settings.source != blank -%}<p class="eca-lp-proof__source">{{ section.settings.source }}</p>{%- endif -%}
@@ -33,7 +37,7 @@
       { "type": "text", "id": "stat", "label": "Number", "default": "{{NUMBER}}" },
       { "type": "text", "id": "label", "label": "Label", "default": "{{what it measures}}" }
     ]
-  }],
+  }, { "type": "@app" }],
   "max_blocks": 4,
   "presets": [{ "name": "ECA LP — Proof", "blocks": [{"type":"stat"},{"type":"stat"},{"type":"stat"}] }]
 }

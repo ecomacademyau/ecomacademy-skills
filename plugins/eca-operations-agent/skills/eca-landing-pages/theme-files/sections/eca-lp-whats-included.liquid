@@ -4,6 +4,9 @@
     {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
     <div class="eca-lp-incl__grid">
       {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div {{ block.shopify_attributes }}>{% render block %}</div>
+        {%- else -%}
         <div class="eca-lp-incl__item" {{ block.shopify_attributes }}>
           {%- if block.settings.image != blank -%}
             {{ block.settings.image | image_url: width: 500 | image_tag: loading: 'lazy', class: 'eca-lp-incl__img', alt: block.settings.title }}
@@ -12,6 +15,7 @@
           {%- if block.settings.value != blank -%}<p class="eca-lp-incl__value">{{ block.settings.value }}</p>{%- endif -%}
           <div class="eca-lp-incl__body">{{ block.settings.body }}</div>
         </div>
+        {%- endif -%}
       {%- endfor -%}
     </div>
     {%- if section.settings.total_value != blank -%}
@@ -38,7 +42,7 @@
       { "type": "text", "id": "value", "label": "Value (optional)", "info": "e.g. $29 value" },
       { "type": "richtext", "id": "body", "label": "What it's for", "default": "<p>{{Why this is in the kit.}}</p>" }
     ]
-  }],
+  }, { "type": "@app" }],
   "max_blocks": 8,
   "presets": [{ "name": "ECA LP — What's included", "blocks": [{"type":"item"},{"type":"item"},{"type":"item"}] }]
 }

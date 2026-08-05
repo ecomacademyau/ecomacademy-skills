@@ -54,6 +54,7 @@ Work through these with them, one at a time, each with your recommendation attac
 - **Product / offer** — what the page sells, and the exact offer (price, bundle, subscription, discount).
 - **Goal + destination** — buy now, add to cart, subscribe, or lead capture.
 - **Media** — what imagery they have; recommend pulling a frame from the ad creative for continuity.
+- **Installed apps** — check what's already on the store (reviews, subscriptions, FAQ, bundles) and plan to use their widgets rather than rebuilding. Ask if it's a close call. See `references/apps-and-assets.md`.
 - **Anything to avoid** — claims, comparisons or wording that's off-limits.
 
 Don't re-ask anything they've already answered.
@@ -71,7 +72,8 @@ Write the brief back to them as a short, scannable summary and **stop.** It cove
 | **The hook** | 2–3 candidate headlines that echo the ad — let them pick or edit |
 | **Page structure** | the section order for that format, in plain English |
 | **Key messages** | the benefits, proof and guarantee you'll use (and where each came from) |
-| **Media plan** | which images/video go where |
+| **Apps in use** | which sections will use an installed app's widget (e.g. Judge.me reviews) vs a custom one |
+| **Media plan** | which images/video go where, and which you'll create vs need from them |
 | **Gaps** | anything you couldn't source, and what you need from them |
 | **Destination** | the page URL and where the CTA sends people |
 
@@ -92,6 +94,8 @@ Follow `references/framework.md`. Every page carries the same ten elements in a 
 9. **FAQs** (handling the real objections)
 10. **Offer, product and final CTA**
 
+**Create the visuals as you go** — pull from the brand's Shopify Files and the ad creative first, generate icons/imagery with an image tool where one is connected, upload to Shopify, and only use a `{{PLACEHOLDER}}` when nothing can be sourced or made (then say exactly what shot is needed). Full method in `references/apps-and-assets.md`.
+
 **Rules:** use the brand's real voice; never invent claims, reviews, stats or guarantees — pull them from `brand-data.md` or the store, and if something's missing, put a clear `{{PLACEHOLDER}}` in and tell the member exactly what to supply.
 
 ## Step 5 — Build into the theme (Claude Code + Shopify CLI)
@@ -107,10 +111,15 @@ Only after the brief is confirmed. Follow `references/shopify-build.md` exactly.
 
 ## Step 6 — Hand over
 
-Give the member: the preview URL, the page URL (unpublished), what to review, any `{{PLACEHOLDER}}` items still needing real content (with what to supply), and how to publish when happy. Remind them to **point the ad's destination URL at the new page** once live — the page only pays off if the ad sends traffic to it.
+Give the member: the preview URL, the page URL (unpublished), what to review, and a **before-you-publish checklist** listing every placeholder image and `{{PLACEHOLDER}}` still in the page with exactly what to supply for each (shot description, aspect ratio). Be explicit that **placeholder images must be replaced before the page goes live**. Then how to publish when happy. Remind them to **point the ad's destination URL at the new page** once live — the page only pays off if the ad sends traffic to it.
 
 ## Build rules
 
+- **Never expose internal page-type or format names in public copy.** The five format names (Hero Product, Listicle, Social Proof, Kit, Advertorial) are *our* build vocabulary — they mean nothing to a visitor and cheapen the page. Keep them out of eyebrows, headings, bylines, alt text, page titles and URL handles. The **only** exception is the legally-required advertising disclosure on advertorials, which is just "Advertisement" or "Sponsored" — never "Advertisement · Founder Story". Every visible word must be written for the customer, not for us.
+
+
+- **App-first, then native, then custom.** Before building any section, check what the store already has — if a reviews/subscription/FAQ/bundle app is installed, use its widget or `@app` block rather than rebuilding it (every ECA LP section accepts `@app` blocks). Ask the member when it's a close call. See `references/apps-and-assets.md`.
+- **Ship real visuals, not empty boxes.** Brand files and ad frames first → generate with an image tool if one's connected → otherwise a correctly-sized **placeholder service** (placehold.co / picsum.photos) so the layout still reads. **Icons: inline a free openly-licensed SVG** (Lucide/Heroicons/Feather) using `currentColor` so it inherits the theme — or the theme's own icon set. **Placeholders never go live**: list every one in the handover and the pre-publish checklist.
 - **Use native Shopify/theme features wherever they exist** — the theme's own product/buy-buttons, review app blocks and image handling, standard section groups, `{{ section.settings }}`, `image_url` filters, and native `<details>` accordions. Only write custom Liquid where nothing native does the job.
 - **Everything must be editable in the theme editor** — every headline, body, image, button, and list item is a section/block setting with a sensible default and a clear label. No hardcoded copy in Liquid.
 - **OS 2.0 compatible, theme-agnostic** — don't depend on Horizon-only blocks; inherit the theme's fonts/colours rather than hardcoding a design system.
@@ -119,4 +128,4 @@ Give the member: the preview URL, the page URL (unpublished), what to review, an
 - **AEO**: the FAQ section emits **FAQPage JSON-LD** so the page can be cited by AI answer engines.
 
 ## Related skills
-`eca-meta-ads-4pi` (flags the ad→page mismatch this skill fixes) · `eca-ad-copywriting` (the ad copy this page must match) · `eca-brand-intelligence` (voice, personas, proof) · `eca-seo-ai-audit` (checks the page once live).
+`references/apps-and-assets.md` (app-first + asset creation) · `eca-meta-ads-4pi` (flags the ad→page mismatch this skill fixes) · `eca-ad-copywriting` (the ad copy this page must match) · `eca-brand-intelligence` (voice, personas, proof) · `eca-seo-ai-audit` (checks the page once live).
