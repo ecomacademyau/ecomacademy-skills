@@ -227,6 +227,10 @@
         "point-2",
         "point-3"
       ]
+    },
+    "about": {
+      "type": "eca-lp-about",
+      "settings": {}
     }
   },
   "order": [
@@ -240,6 +244,7 @@
     "reviews-embed",
     "guarantee",
     "faq",
+    "about",
     "offer"
   ]
 }

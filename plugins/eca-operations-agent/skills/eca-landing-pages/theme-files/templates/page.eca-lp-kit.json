@@ -28,29 +28,6 @@
         "cta-1"
       ]
     },
-    "whats-included": {
-      "type": "eca-lp-whats-included",
-      "settings": {},
-      "blocks": {
-        "item-1": {
-          "type": "item",
-          "settings": {}
-        },
-        "item-2": {
-          "type": "item",
-          "settings": {}
-        },
-        "item-3": {
-          "type": "item",
-          "settings": {}
-        }
-      },
-      "block_order": [
-        "item-1",
-        "item-2",
-        "item-3"
-      ]
-    },
     "benefits": {
       "type": "eca-lp-benefits",
       "settings": {},
@@ -251,19 +228,54 @@
         "point-2",
         "point-3"
       ]
+    },
+    "in-the-box": {
+      "type": "eca-lp-in-the-box",
+      "settings": {
+        "image_position": "left"
+      },
+      "blocks": {
+        "item-1": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-2": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-3": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-4": {
+          "type": "item",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3",
+        "item-4"
+      ]
+    },
+    "about": {
+      "type": "eca-lp-about",
+      "settings": {}
     }
   },
   "order": [
     "lp-settings",
     "hero",
     "trust-bar",
-    "whats-included",
+    "in-the-box",
     "benefits",
     "how-it-works",
     "proof",
     "testimonials",
     "guarantee",
     "faq",
+    "about",
     "offer"
   ]
 }

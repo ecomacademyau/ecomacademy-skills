@@ -199,6 +199,50 @@
         "point-2",
         "point-3"
       ]
+    },
+    "visual-proof": {
+      "type": "eca-lp-visual-proof",
+      "settings": {
+        "columns": "3"
+      },
+      "blocks": {
+        "item-1": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-2": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-3": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-4": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-5": {
+          "type": "item",
+          "settings": {}
+        },
+        "item-6": {
+          "type": "item",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "item-1",
+        "item-2",
+        "item-3",
+        "item-4",
+        "item-5",
+        "item-6"
+      ]
+    },
+    "about": {
+      "type": "eca-lp-about",
+      "settings": {}
     }
   },
   "order": [
@@ -206,11 +250,13 @@
     "hero",
     "trust-bar",
     "proof",
+    "visual-proof",
     "testimonials",
     "reviews-embed",
     "benefits",
     "guarantee",
     "faq",
+    "about",
     "offer"
   ]
 }

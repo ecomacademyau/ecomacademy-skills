@@ -126,8 +126,34 @@ Give the member the preview URL: `https://<store>.myshopify.com/?preview_theme_i
 ## 5. Create the page (unpublished)
 Create a Shopify page assigned to the new template, left unpublished. Via the Admin API (`pageCreate`) if available, otherwise give the member the two-click instruction: **Online Store → Pages → Add page → Template suffix = `eca-lp-<format>`**, save as hidden/unpublished.
 
-## 6. Hand over
-Preview URL · page URL · what to review · any remaining `{{PLACEHOLDER}}` items and what to supply · how to publish (publish the page, then the theme) · **and point the ad's destination URL at the new page**.
+## 6. Hand over — always give the three links
+
+**Every build ends with clickable links. Never just say "the page has been created" — the member should be one click from seeing and editing it.** Build them from the values you already have: the store domain, the dev theme ID, the page handle, and the page ID returned by `pageCreate`.
+
+**1. Edit in the theme editor** (the important one — this is where they change copy, images and blocks):
+```
+https://<store>.myshopify.com/admin/themes/<theme_id>/editor?previewPath=%2Fpages%2F<handle>
+```
+Opens the theme editor with *this page* loaded, so every ECA LP section is right there in the left panel.
+
+**2. Preview the page** (see it as a customer, on the dev theme):
+```
+https://<store>.myshopify.com/pages/<handle>?preview_theme_id=<theme_id>
+```
+
+**3. Page settings in admin** (title, SEO fields, publish toggle):
+```
+https://<store>.myshopify.com/admin/pages/<page_id>
+```
+
+Label them plainly, e.g.:
+> **Edit the page** (theme editor) → *link*
+> **Preview it** (as a customer) → *link*
+> **Page settings** (title, SEO, publish) → *link*
+
+Then: what to review · any remaining `{{PLACEHOLDER}}` items and the shot needed for each · how to publish (publish the page, then the theme) · **and point the ad's destination URL at the new page**.
+
+**If you couldn't create the page via the API**, still give links 1 and 2 (they work as soon as the page exists) plus the two-click instruction to create it.
 
 ---
 

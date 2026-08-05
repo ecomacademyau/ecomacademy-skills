@@ -2,6 +2,14 @@
 
 Tracked so we know what changed between test runs. Newest first.
 
+## v1.22.0 — hand-over links
+- Every build now ends with **three clickable links**: edit in the theme editor (deep-linked to the page), preview on the dev theme, and page settings in admin. No more hunting for the page after it's built.
+
+## v1.21.0 — three new sections
+- **`eca-lp-visual-proof`** (Social Proof pages): UGC photo/video grid, 2-4 columns, captions and @handles, placeholders throughout. Real customer content only.
+- **`eca-lp-in-the-box`** (Kit pages): image in one column, itemised list with values and icons in the other, flippable, with a total-value line. Replaces the grid layout on the kit template.
+- **`eca-lp-about`** (**all five formats**): founder/team photo (round or square), short story in their own voice, optional signature, name and role. Sits just before the final offer to add a human close.
+
 ## v1.20.0 — Liquid fix + default variant
 - **Fixed invalid Liquid in the offer section**: the variants JSON used comparisons inside output tags (`{{ a > b }}`), which Shopify's API rejects — the section would fail to install. Now uses `assign`/`if`. *(Found by a code agent during a live build.)*
 - **New "Default variant ID" setting** on both the offer section and the sticky add-to-cart bar, so a page can be built around a specific variant (e.g. one flavour or size) instead of always defaulting to the product's first variant.

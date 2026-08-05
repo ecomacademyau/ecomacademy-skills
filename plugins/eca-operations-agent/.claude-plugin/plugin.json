@@ -1,7 +1,7 @@
 {
   "name": "eca-operations-agent",
   "displayName": "ECA Operations Coworker",
-  "version": "1.24.0",
+  "version": "1.26.0",
   "description": "Ecommerce Academy Operations Coworker — the build-and-automate toolkit for your store. Turn repeatable tasks into reusable Claude skills with the TEACH framework, and build high-converting ad landing pages straight into your Shopify theme. New operations skills are added here over time; install this one plugin to stay current with all of them.",
   "author": {
     "name": "Ecommerce Academy",

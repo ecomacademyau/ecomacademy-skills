@@ -1,0 +1,86 @@
+{%- comment -%} eca-lp-library v1.21.0 {%- endcomment -%}
+{%- comment -%}
+  ECA LP — Visual proof. Real customer photos and videos (UGC).
+  Use genuine customer content only — never stock imagery presented as customers.
+{%- endcomment -%}
+<section class="eca-lp-vp">
+  <div class="eca-lp-wrap">
+    {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.intro != blank -%}<div class="eca-lp-vp__intro">{{ section.settings.intro }}</div>{%- endif -%}
+    <div class="eca-lp-vp__grid eca-lp-vp__grid--{{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        {%- if block.type == '@app' -%}
+          <div class="eca-lp-vp__app" {{ block.shopify_attributes }}>{% render block %}</div>
+        {%- else -%}
+          <figure class="eca-lp-vp__item" {{ block.shopify_attributes }}>
+            <div class="eca-lp-vp__media">
+              {%- if block.settings.video != blank -%}
+                {{ block.settings.video | video_tag: image_size: '600x', autoplay: false, loop: true, muted: true, controls: true, class: 'eca-lp-vp__vid' }}
+              {%- elsif block.settings.image != blank -%}
+                {{ block.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'eca-lp-vp__img', sizes: '(min-width: 750px) 30vw, 50vw', widths: '300,500,700', alt: block.settings.caption }}
+              {%- else -%}
+                {% render 'eca-lp-placeholder', ratio: '1x1', label: 'Customer photo or video' %}
+              {%- endif -%}
+            </div>
+            {%- if block.settings.caption != blank or block.settings.handle != blank -%}
+              <figcaption class="eca-lp-vp__cap">
+                {%- if block.settings.caption != blank -%}<span class="eca-lp-vp__quote">{{ block.settings.caption }}</span>{%- endif -%}
+                {%- if block.settings.handle != blank -%}<span class="eca-lp-vp__handle">{{ block.settings.handle }}</span>{%- endif -%}
+              </figcaption>
+            {%- endif -%}
+          </figure>
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+    {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — Visual proof (UGC)",
+  "tag": "section", "class": "eca-lp-section",
+  "settings": [
+    { "type": "paragraph", "content": "Real customer photos and videos only. Never present stock imagery as customer content." },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "Real customers, real results" },
+    { "type": "richtext", "id": "intro", "label": "Intro (optional)" },
+    { "type": "select", "id": "columns", "label": "Columns", "options": [
+      {"value":"2","label":"2"},{"value":"3","label":"3"},{"value":"4","label":"4"}], "default": "3" },
+    { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Photo / video", "settings": [
+      { "type": "image_picker", "id": "image", "label": "Photo" },
+      { "type": "video", "id": "video", "label": "Video (overrides photo)" },
+      { "type": "text", "id": "caption", "label": "Caption / short quote", "info": "Their words, not marketing copy.", "default": "" },
+      { "type": "text", "id": "handle", "label": "Name or @handle", "default": "" } ] },
+    { "type": "@app" }
+  ],
+  "max_blocks": 12,
+  "presets": [{ "name": "ECA LP — Visual proof (UGC)", "blocks": [{"type":"item"},{"type":"item"},{"type":"item"}] }]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-vp{padding:3.5rem 1.5rem}
+.eca-lp-vp__intro{text-align:center;max-width:620px;margin:0 auto 2rem;opacity:.85}
+.eca-lp-vp__grid{display:grid;gap:1rem;margin-top:1.5rem;grid-template-columns:repeat(2,1fr)}
+@media(min-width:750px){
+  .eca-lp-vp__grid--2{grid-template-columns:repeat(2,1fr)}
+  .eca-lp-vp__grid--3{grid-template-columns:repeat(3,1fr)}
+  .eca-lp-vp__grid--4{grid-template-columns:repeat(4,1fr)}
+}
+.eca-lp-vp__item{margin:0}
+.eca-lp-vp__media{position:relative;border-radius:12px;overflow:hidden}
+.eca-lp-vp__img,.eca-lp-vp__vid{width:100%;height:100%;aspect-ratio:1/1;object-fit:cover;display:block}
+.eca-lp-vp__cap{padding:.6rem .1rem 0;font-size:.85rem;line-height:1.5}
+.eca-lp-vp__quote{display:block;opacity:.9}
+.eca-lp-vp__handle{display:block;opacity:.6;font-weight:600;margin-top:.15rem}
+.eca-lp-vp .eca-lp-cta{text-align:center;margin-top:2rem}
+.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;min-height:160px;color:currentColor}
+.eca-lp-ph--1x1{aspect-ratio:1/1}
+.eca-lp-ph--4x3{aspect-ratio:4/3}
+.eca-lp-ph--16x9{aspect-ratio:16/9}
+.eca-lp-ph__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.eca-lp-ph__label{position:relative;font-size:.75rem;font-weight:600;opacity:.55;padding:.35rem .7rem;background:rgba(255,255,255,.75);border-radius:999px;text-align:center}
+{% endstylesheet %}

@@ -1,0 +1,91 @@
+{%- comment -%} eca-lp-library v1.21.0 {%- endcomment -%}
+{%- comment -%}
+  ECA LP — What's in the box/kit. Image in one column, itemised list in the other.
+{%- endcomment -%}
+<section class="eca-lp-box">
+  <div class="eca-lp-wrap eca-lp-box__inner eca-lp-box__inner--{{ section.settings.image_position }}">
+    <div class="eca-lp-box__media">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'eca-lp-box__img', sizes: '(min-width: 750px) 45vw, 100vw', widths: '500,700,900', alt: section.settings.heading }}
+      {%- else -%}
+        {% render 'eca-lp-placeholder', ratio: '4x3', label: 'Everything laid out — 4:3' %}
+      {%- endif -%}
+    </div>
+    <div class="eca-lp-box__copy">
+      {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2 eca-lp-h2--left">{{ section.settings.heading }}</h2>{%- endif -%}
+      {%- if section.settings.intro != blank -%}<div class="eca-lp-box__intro">{{ section.settings.intro }}</div>{%- endif -%}
+      <ul class="eca-lp-box__list">
+        {%- for block in section.blocks -%}
+          {%- if block.type == '@app' -%}
+            <li {{ block.shopify_attributes }}>{% render block %}</li>
+          {%- else -%}
+            <li class="eca-lp-box__li" {{ block.shopify_attributes }}>
+              {% render 'eca-lp-icon', name: block.settings.icon_name, class: 'eca-lp-box__ico' %}
+              <span class="eca-lp-box__txt">
+                <strong>{{ block.settings.title }}</strong>
+                {%- if block.settings.value != blank -%}<em class="eca-lp-box__val">{{ block.settings.value }}</em>{%- endif -%}
+                {%- if block.settings.body != blank -%}<span class="eca-lp-box__desc">{{ block.settings.body }}</span>{%- endif -%}
+              </span>
+            </li>
+          {%- endif -%}
+        {%- endfor -%}
+      </ul>
+      {%- if section.settings.total_value != blank -%}
+        <p class="eca-lp-box__total">{{ section.settings.total_value }}</p>
+      {%- endif -%}
+      {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'primary' %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — What's in the box",
+  "tag": "section", "class": "eca-lp-section",
+  "settings": [
+    { "type": "text", "id": "heading", "label": "Heading", "default": "What's in the box" },
+    { "type": "richtext", "id": "intro", "label": "Intro (optional)" },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Everything laid out together works best. Leave empty for a placeholder." },
+    { "type": "select", "id": "image_position", "label": "Image position", "options": [
+      {"value":"left","label":"Image left, list right"},{"value":"right","label":"Image right, list left"}], "default": "left" },
+    { "type": "text", "id": "total_value", "label": "Total-value line", "info": "e.g. Total value $120 - yours for $89.", "default": "" },
+    { "type": "text", "id": "cta_label", "label": "Button text", "default": "" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+  ],
+  "blocks": [
+    { "type": "item", "name": "Item", "settings": [
+      { "type": "select", "id": "icon_name", "label": "Icon", "options": [
+        {"value":"check-circle","label":"Check"},{"value":"package","label":"Package"},{"value":"sparkle","label":"Sparkle"},
+        {"value":"star","label":"Star"},{"value":"heart","label":"Heart"},{"value":"leaf","label":"Leaf"},{"value":"none","label":"No icon"}], "default": "check-circle" },
+      { "type": "text", "id": "title", "label": "Item name", "default": "{{ITEM}}" },
+      { "type": "text", "id": "value", "label": "Value (optional)", "info": "e.g. $29 value" },
+      { "type": "text", "id": "body", "label": "What it's for (optional)", "default": "" } ] },
+    { "type": "@app" }
+  ],
+  "max_blocks": 10,
+  "presets": [{ "name": "ECA LP — What's in the box", "blocks": [{"type":"item"},{"type":"item"},{"type":"item"}] }]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-box{padding:3.5rem 1.5rem}
+.eca-lp-box__inner{display:grid;gap:2.5rem;align-items:center}
+@media(min-width:750px){
+  .eca-lp-box__inner{grid-template-columns:1fr 1fr}
+  .eca-lp-box__inner--right .eca-lp-box__media{order:2}
+}
+.eca-lp-box__img{width:100%;height:auto;border-radius:12px;display:block}
+.eca-lp-box__intro{line-height:1.7;opacity:.85;margin-bottom:1.25rem}
+.eca-lp-box__list{list-style:none;padding:0;margin:0 0 1.25rem;display:grid;gap:1rem}
+.eca-lp-box__li{display:flex;gap:.75rem;align-items:flex-start}
+.eca-lp-box__ico{width:20px;height:20px;flex:0 0 20px;margin-top:.15rem;opacity:.75}
+.eca-lp-box__txt{display:block;line-height:1.55}
+.eca-lp-box__val{display:inline-block;font-style:normal;font-weight:700;font-size:.8rem;opacity:.6;margin-left:.4rem}
+.eca-lp-box__desc{display:block;opacity:.8;font-size:.92rem;margin-top:.15rem}
+.eca-lp-box__total{font-weight:700;font-size:1.05rem;margin:0 0 1rem}
+.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;min-height:200px;color:currentColor}
+.eca-lp-ph--4x3{aspect-ratio:4/3}
+.eca-lp-ph--1x1{aspect-ratio:1/1}
+.eca-lp-ph--16x9{aspect-ratio:16/9}
+.eca-lp-ph__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.eca-lp-ph__label{position:relative;font-size:.8rem;font-weight:600;opacity:.55;padding:.4rem .8rem;background:rgba(255,255,255,.75);border-radius:999px}
+{% endstylesheet %}

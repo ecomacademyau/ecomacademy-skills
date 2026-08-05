@@ -39,7 +39,8 @@ Each format uses the same ten-element framework (`framework.md`) in a different 
 **Section order**
 1. `eca-lp-hero` — social-proof hook + rating/count
 2. `eca-lp-proof` — the headline numbers (rating, customers, results)
-3. `eca-lp-testimonials` — the main event: 6+ quotes, varied objections
+3. `eca-lp-visual-proof` — real customer photos and videos (UGC), the strongest proof on the page
+4. `eca-lp-testimonials` — 6+ quotes, varied objections
 4. `eca-lp-reviews-embed` — the live review app feed
 5. `eca-lp-benefits` — why they say that
 6. `eca-lp-guarantee`
@@ -51,7 +52,7 @@ Each format uses the same ten-element framework (`framework.md`) in a different 
 
 **Section order**
 1. `eca-lp-hero` — the kit promise + what it replaces
-2. `eca-lp-whats-included` — itemised contents, with values and total-value framing
+2. `eca-lp-in-the-box` — image of everything laid out in one column, itemised list with values in the other
 3. `eca-lp-benefits` — the outcome of having the whole kit
 4. `eca-lp-how-it-works` — for subscriptions: delivery cadence, skip/cancel, how to change it
 5. `eca-lp-proof`
@@ -73,3 +74,10 @@ Each format uses the same ten-element framework (`framework.md`) in a different 
 7. `eca-lp-offer` — the offer, arriving as the natural conclusion
 
 **Required:** advertorials must carry a visible **advertising disclosure** (e.g. "Advertisement" / "Sponsored"). Keep the founder voice first-person and the story true — no invented awards, press or quotes. (The `eca-blog-writer` skill's advertorial framework covers the narrative structure in depth.)
+
+
+---
+
+## Sections on every page
+
+- **`eca-lp-about`** — the human touch at the foot of every format: founder/team photo, a short story in their own voice, name and role. Use the real story from `brand-data.md` §1. Never invent a person, a quote, or a photo of one.

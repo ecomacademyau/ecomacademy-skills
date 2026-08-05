@@ -1,0 +1,73 @@
+{%- comment -%} eca-lp-library v1.21.0 {%- endcomment -%}
+{%- comment -%}
+  ECA LP — About us / me. The human touch at the foot of the page.
+  Use the real founder/team story from brand-data. Never invent a person or a photo of one.
+{%- endcomment -%}
+<section class="eca-lp-about">
+  <div class="eca-lp-wrap eca-lp-about__inner eca-lp-about__inner--{{ section.settings.image_position }}">
+    <div class="eca-lp-about__media">
+      {%- if section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 700 | image_tag: loading: 'lazy', class: 'eca-lp-about__img eca-lp-about__img--' | append: section.settings.image_shape, sizes: '(min-width: 750px) 35vw, 70vw', widths: '300,500,700', alt: section.settings.name }}
+      {%- else -%}
+        {% render 'eca-lp-placeholder', ratio: '1x1', label: 'Founder / team photo' %}
+      {%- endif -%}
+    </div>
+    <div class="eca-lp-about__copy">
+      {%- if section.settings.eyebrow != blank -%}<p class="eca-lp-about__eyebrow">{{ section.settings.eyebrow }}</p>{%- endif -%}
+      {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2 eca-lp-h2--left">{{ section.settings.heading }}</h2>{%- endif -%}
+      <div class="eca-lp-about__body">{{ section.settings.story }}</div>
+      {%- if section.settings.signature != blank -%}
+        {{ section.settings.signature | image_url: width: 300 | image_tag: loading: 'lazy', class: 'eca-lp-about__sig', alt: section.settings.name }}
+      {%- endif -%}
+      {%- if section.settings.name != blank -%}
+        <p class="eca-lp-about__by">{{ section.settings.name }}{% if section.settings.role != blank %}<span>{{ section.settings.role }}</span>{% endif %}</p>
+      {%- endif -%}
+      {% render 'eca-lp-cta', label: section.settings.cta_label, url: section.settings.cta_url, risk: section.settings.risk_text, style: 'secondary' %}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — About us",
+  "tag": "section", "class": "eca-lp-section",
+  "settings": [
+    { "type": "paragraph", "content": "Use the real founder or team story. Never invent a person, a quote or a photo of one." },
+    { "type": "text", "id": "eyebrow", "label": "Small label", "default": "Who's behind this" },
+    { "type": "text", "id": "heading", "label": "Heading", "default": "{{Why we made this}}" },
+    { "type": "richtext", "id": "story", "label": "Story", "info": "Two or three short paragraphs in the founder's own voice. Why they made it, who for.", "default": "<p>{{Two or three short paragraphs in your own voice — why you made this, and who you made it for.}}</p>" },
+    { "type": "image_picker", "id": "image", "label": "Photo", "info": "A real photo of the founder or team." },
+    { "type": "select", "id": "image_shape", "label": "Photo shape", "options": [
+      {"value":"round","label":"Round"},{"value":"square","label":"Rounded square"}], "default": "round" },
+    { "type": "select", "id": "image_position", "label": "Photo position", "options": [
+      {"value":"left","label":"Photo left"},{"value":"right","label":"Photo right"}], "default": "left" },
+    { "type": "image_picker", "id": "signature", "label": "Signature image (optional)" },
+    { "type": "text", "id": "name", "label": "Name", "default": "" },
+    { "type": "text", "id": "role", "label": "Role", "default": "" },
+    { "type": "text", "id": "cta_label", "label": "Button text (optional)", "default": "" },
+    { "type": "url", "id": "cta_url", "label": "Button link" },
+    { "type": "text", "id": "risk_text", "label": "Risk-removal line", "default": "" }
+  ],
+  "presets": [{ "name": "ECA LP — About us" }]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-about{padding:3.5rem 1.5rem;background:rgba(127,127,127,.05)}
+.eca-lp-about__inner{display:grid;gap:2rem;align-items:center;max-width:960px}
+@media(min-width:750px){
+  .eca-lp-about__inner{grid-template-columns:0.55fr 1fr}
+  .eca-lp-about__inner--right .eca-lp-about__media{order:2}
+}
+.eca-lp-about__img{width:100%;height:auto;display:block;object-fit:cover;aspect-ratio:1/1}
+.eca-lp-about__img--round{border-radius:999px;max-width:280px}
+.eca-lp-about__img--square{border-radius:16px}
+.eca-lp-about__eyebrow{text-transform:uppercase;letter-spacing:.12em;font-size:.7rem;font-weight:700;opacity:.55;margin:0 0 .5rem}
+.eca-lp-about__body{line-height:1.75;opacity:.9}
+.eca-lp-about__body p{margin:0 0 .85rem}
+.eca-lp-about__sig{max-width:180px;height:auto;margin:.5rem 0;display:block;opacity:.85}
+.eca-lp-about__by{font-weight:700;margin:.75rem 0 0}
+.eca-lp-about__by span{display:block;font-weight:400;opacity:.65;font-size:.9rem}
+.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:999px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;min-height:180px;max-width:280px;color:currentColor}
+.eca-lp-ph--1x1{aspect-ratio:1/1}
+.eca-lp-ph__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.eca-lp-ph__label{position:relative;font-size:.75rem;font-weight:600;opacity:.55;padding:.35rem .7rem;background:rgba(255,255,255,.75);border-radius:999px;text-align:center}
+{% endstylesheet %}
