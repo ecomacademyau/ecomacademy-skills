@@ -2,6 +2,16 @@
 
 Tracked so we know what changed between test runs. Newest first.
 
+## v1.20.0 — Liquid fix + default variant
+- **Fixed invalid Liquid in the offer section**: the variants JSON used comparisons inside output tags (`{{ a > b }}`), which Shopify's API rejects — the section would fail to install. Now uses `assign`/`if`. *(Found by a code agent during a live build.)*
+- **New "Default variant ID" setting** on both the offer section and the sticky add-to-cart bar, so a page can be built around a specific variant (e.g. one flavour or size) instead of always defaulting to the product's first variant.
+- Added a **Liquid validation step** to the build reference (comparison-in-output check + tag balance) so this class of bug is caught before pushing.
+
+## v1.19.0 — versioned sections
+- Sections are **version-namespaced on structural change** (`eca-lp-hero-v2.liquid`) and stamped with the library version on line 1.
+- **Rule: install missing → refresh same-name → never touch superseded.** Same-name files can only have changed additively (structural changes always get a new filename), so refreshing them is safe: saved settings persist, existing pages keep working and pick up fixes. Superseded files are never overwritten or deleted, so older pages render forever.
+- New versions are only created for structural changes (settings→blocks, removed/renamed settings). Cosmetic and additive changes ship inside the current version.
+
 ## v1.18.0 — auto-resetting countdown
 - Countdown gains **daily** and **weekly** modes that reset themselves — no more editing end dates. Ideal for a real dispatch/order cutoff ("Order within 4h 12m for dispatch today").
 - All modes now count down in the **store's timezone** (anchored to server-rendered time), so a customer in Perth and one in Sydney see the same cutoff.

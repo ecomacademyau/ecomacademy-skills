@@ -1,7 +1,7 @@
 {
   "sections": {
     "hero": {
-      "type": "eca-lp-hero",
+      "type": "eca-lp-hero-v2",
       "settings": {},
       "blocks": {
         "heading-1": {
@@ -128,7 +128,7 @@
       ]
     },
     "offer": {
-      "type": "eca-lp-offer",
+      "type": "eca-lp-offer-v2",
       "settings": {},
       "blocks": {
         "heading-1": {

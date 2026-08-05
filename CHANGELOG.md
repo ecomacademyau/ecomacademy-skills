@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.8 - 2026-08-05
+
+- Version control added to sections and blocks in landing pages.
+
 ## v1.12.7 - 2026-08-05
 
 - Update to sections

@@ -1,3 +1,4 @@
+{%- comment -%} eca-lp-library v1.20.0 {%- endcomment -%}
 {%- comment -%}
   ECA LP — Page settings. Landing-page-wide options: sticky add-to-cart bar + hide site nav/footer.
   Add this section once per landing page (it renders no visible content of its own beyond the sticky bar).
@@ -20,6 +21,13 @@
 {%- endif -%}
 
 {%- assign p = section.settings.product -%}
+{%- assign sv = p.selected_or_first_available_variant -%}
+{%- if section.settings.default_variant != blank -%}
+  {%- assign want_id = section.settings.default_variant | times: 1 -%}
+  {%- for variant in p.variants -%}
+    {%- if variant.id == want_id -%}{%- assign sv = variant -%}{%- endif -%}
+  {%- endfor -%}
+{%- endif -%}
 {%- if section.settings.sticky_enabled and p != blank -%}
   <div class="eca-lp-sticky" id="eca-lp-sticky" data-show-after="{{ section.settings.show_after }}">
     <div class="eca-lp-sticky__inner">
@@ -30,15 +38,15 @@
         <div>
           <div class="eca-lp-sticky__title">{{ section.settings.sticky_title | default: p.title }}</div>
           <div class="eca-lp-sticky__price">
-            {{ p.price | money }}
-            {%- if p.compare_at_price > p.price -%}<s>{{ p.compare_at_price | money }}</s>{%- endif -%}
+            {{ sv.price | money }}
+            {%- if sv.compare_at_price > sv.price -%}<s>{{ sv.compare_at_price | money }}</s>{%- endif -%}
           </div>
         </div>
       </div>
       {%- form 'product', p, id: 'eca-lp-sticky-form', class: 'eca-lp-sticky__form' -%}
-        <input type="hidden" name="id" value="{{ p.selected_or_first_available_variant.id }}">
-        <button type="submit" class="eca-lp-btn eca-lp-btn--primary eca-lp-sticky__btn" {% unless p.available %}disabled{% endunless %}>
-          {%- if p.available -%}{{ section.settings.sticky_cta }}{%- else -%}Sold out{%- endif -%}
+        <input type="hidden" name="id" value="{{ sv.id }}">
+        <button type="submit" class="eca-lp-btn eca-lp-btn--primary eca-lp-sticky__btn" {% unless sv.available %}disabled{% endunless %}>
+          {%- if sv.available -%}{{ section.settings.sticky_cta }}{%- else -%}Sold out{%- endif -%}
         </button>
       {%- endform -%}
     </div>
@@ -80,6 +88,7 @@
     { "type": "header", "content": "Sticky add to cart" },
     { "type": "checkbox", "id": "sticky_enabled", "label": "Show sticky add-to-cart bar", "default": true },
     { "type": "product", "id": "product", "label": "Product", "info": "The product this landing page sells." },
+    { "type": "text", "id": "default_variant", "label": "Default variant ID (optional)", "info": "Preselect a specific variant so the sticky bar sells the same one as the page. Find the ID in the product URL in Shopify admin (?variant=123456)." },
     { "type": "text", "id": "sticky_title", "label": "Bar title override", "info": "Leave blank to use the product title.", "default": "" },
     { "type": "text", "id": "sticky_cta", "label": "Button text", "default": "Add to cart" },
     { "type": "text", "id": "sticky_risk", "label": "Risk-removal line", "info": "Small line under the bar, e.g. 30-day money-back guarantee.", "default": "" },

@@ -30,6 +30,45 @@ Copy from this skill's `theme-files/`:
 
 **Rule: whole folders for dependencies (snippets, assets), selective only for sections and templates.**
 
+## 3a. Versioned sections — new pages get the latest, old pages never break
+
+Section files are **version-namespaced** when their structure changes:
+
+```
+sections/eca-lp-hero.liquid       v1 — an older page may still use this
+sections/eca-lp-hero-v2.liquid    v2 — current; new pages use this
+```
+
+Each file also carries a stamp on line 1 (`eca-lp-library vX.Y.Z`), and the skill ships `theme-files/VERSION`.
+
+### The rule
+
+**Install anything missing. Refresh same-name files to the current library version. Never touch a file whose name has been superseded.**
+
+This is safe *by construction*, because of how versions are assigned:
+
+| Situation | What you do | Why it's safe |
+|---|---|---|
+| File missing | Install it | Nothing to break |
+| **File exists with the same name as a current library file** | **Overwrite with the current version** | A same-name file can only have had **additive** changes since (structural changes always get a new filename). Shopify keeps saved settings, new settings take their defaults, existing blocks still render — so pages built on it keep working *and* pick up fixes |
+| File exists but its name is **superseded** (e.g. `eca-lp-hero.liquid` when the library ships `eca-lp-hero-v2.liquid`) | **Leave it completely alone** | An older page still renders from it. Never overwrite, never delete |
+| File exists and has been **hand-edited** (content differs from its stamped release) | **Stop and ask** before replacing; offer a `.bak` copy | Their customisation is real work |
+
+**The result:** duplicate a theme containing an old page, build a new page in it, and the new page gets **everything current** — new sections, new blocks, additive improvements and bug fixes — while the old page keeps rendering exactly as built.
+
+### When to create a new version (`-v2`, `-v3`…)
+Only for a **structural change** — something that would break a page built on the old file:
+- settings moved into blocks, or blocks restructured
+- a setting removed or its `id` changed
+- markup reworked such that existing saved settings no longer apply
+
+**Not** for cosmetic or additive changes (new optional setting, CSS tweak, bug fix) — those ship inside the current version, since existing pages keep working and benefit from the fix.
+
+When you do create one: copy the file to the new name, bump the stamp, update the templates to reference it, and mark the previous file **deprecated** in the library (`manifest.json` → `deprecated_do_not_install`). The library ships only current versions — a member's theme already has its old file, so there's nothing to re-ship. **Never install a deprecated file into a theme.**
+
+### Housekeeping
+Old version files stay in the theme even if unused — never delete them, since a page you can't see may reference one. A few extra section files is normal; Shopify themes carry dozens.
+
 ## 3b. Verify dependencies BEFORE pushing (mandatory)
 
 Never push a theme whose sections reference a file that isn't there. **Derive the dependency list from the code, not from memory** — this way it keeps working as the library grows and new helpers are added:
@@ -54,6 +93,23 @@ for t in glob.glob('templates/page.eca-lp-*.json'):
             print(f"MISSING SECTION: {f} (used by {t})")
 EOF
 ```
+
+**Also validate the Liquid itself** — Shopify's API rejects a file outright if it contains invalid Liquid, so the section silently fails to install:
+
+```bash
+# Comparisons are NOT allowed inside output tags. This is invalid and will be rejected:
+#   {{ variant.compare_at_price > variant.price }}
+# Use {% liquid assign x = false / if ... / endif %} then output {{ x }}.
+grep -nE "\{\{[^}]*( > | < | != | == )[^}]*\}\}" sections/*.liquid && echo "INVALID LIQUID: comparison inside an output tag"
+
+# Tag balance
+for f in sections/*.liquid; do
+  i=$(grep -c '{%- if \|{% if ' "$f"); e=$(grep -c '{%- endif\|{% endif' "$f")
+  [ "$i" = "$e" ] || echo "UNBALANCED if/endif: $f ($i/$e)"
+done
+```
+
+If the CLI reports a file as rejected, read its error before retrying — a rejected section means the page renders without it.
 
 **If anything reports missing, copy it across and re-check before pushing.** A missing snippet doesn't fail quietly — it renders a Liquid error to real visitors.
 

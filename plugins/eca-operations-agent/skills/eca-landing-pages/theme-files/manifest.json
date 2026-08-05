@@ -1,32 +1,34 @@
 {
+  "library_version": "1.20.0",
+  "install_rule": "Install anything missing. Refresh same-name files to the current version (additive-only by construction, so safe). Never overwrite or delete a superseded file listed in deprecated_do_not_install. Ask before replacing a hand-edited file.",
   "always_copy": [
     "snippets/",
     "assets/"
-  ],
-  "copy_per_format": {
-    "sections": "only those used by the chosen template",
-    "templates": "the chosen page.eca-lp-<format>.json"
-  },
-  "snippets": [
-    "eca-lp-cta.liquid",
-    "eca-lp-icon.liquid",
-    "eca-lp-placeholder.liquid"
   ],
   "sections": [
     "eca-lp-article.liquid",
     "eca-lp-benefits.liquid",
     "eca-lp-faq.liquid",
     "eca-lp-guarantee.liquid",
-    "eca-lp-hero.liquid",
+    "eca-lp-hero-v2.liquid",
     "eca-lp-how-it-works.liquid",
     "eca-lp-listicle.liquid",
-    "eca-lp-offer.liquid",
+    "eca-lp-offer-v2.liquid",
     "eca-lp-proof.liquid",
     "eca-lp-reviews-embed.liquid",
     "eca-lp-settings.liquid",
     "eca-lp-testimonials.liquid",
     "eca-lp-trust-bar.liquid",
     "eca-lp-whats-included.liquid"
+  ],
+  "deprecated_do_not_install": [
+    "eca-lp-hero.liquid",
+    "eca-lp-offer.liquid"
+  ],
+  "snippets": [
+    "eca-lp-cta.liquid",
+    "eca-lp-icon.liquid",
+    "eca-lp-placeholder.liquid"
   ],
   "templates": [
     "page.eca-lp-advertorial.json",
@@ -35,5 +37,5 @@
     "page.eca-lp-listicle.json",
     "page.eca-lp-social-proof.json"
   ],
-  "note": "Dependencies are verified from the code at build time (references/shopify-build.md 3b) \u2014 this manifest is a convenience, not the source of truth."
+  "note": "Structural changes create a new filename (-v2). Old files stay in members' themes so existing pages keep working; the library ships only current versions."
 }
