@@ -77,7 +77,7 @@ Preview URL · page URL · what to review · any remaining `{{PLACEHOLDER}}` ite
 
 ## Conventions for the section files
 
-- **Every piece of content is a setting.** No hardcoded copy in Liquid. Use `text`, `richtext`, `image_picker`, `url`, `select`, `checkbox`, `color`, `product`, `video` setting types, each with a clear `label` and a sensible `default`.
+- **Every piece of content is a setting.** No hardcoded copy in Liquid. Use `text`, `richtext`, `image_picker`, `url`, `select`, `checkbox`, `color`, `product`, `video` setting types, each with a clear `label` and a sensible `default`. **Never set `"default": ""` (an empty string) on a setting** — for optional fields, omit the `default` key entirely. The Admin API's `themeFilesUpsert` rejects section schemas containing blank defaults ("default can't be blank"), so an empty-string default breaks MCP-based installs even though the theme editor tolerates it.
 - **Repeatable content uses blocks** (`{% for block in section.blocks %}`) with `max_blocks` — so the member can add/remove/reorder items in the theme editor.
 - **Inherit the theme**, don't fight it: no hardcoded fonts or brand colours. Use `color_scheme` settings where the theme supports them, `rem`/relative units, and let headings inherit. Keep custom CSS scoped inside the section with a `.eca-lp-*` prefix.
 - **Use native features first** — the theme's own product form / buy buttons for purchase, the review app's block for reviews, `image_url`/`image_tag` filters with `loading="lazy"` and `srcset` for images, native `<details>/<summary>` for accordions. Only hand-roll what nothing native covers.
