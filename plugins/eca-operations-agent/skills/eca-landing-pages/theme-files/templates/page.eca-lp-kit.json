@@ -163,7 +163,7 @@
     "lp-settings": {
       "type": "eca-lp-settings",
       "settings": {
-        "hide_header": true,
+        "hide_header": false,
         "hide_footer": false,
         "sticky_enabled": true,
         "show_after": 600

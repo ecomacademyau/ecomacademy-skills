@@ -153,7 +153,7 @@ Give the member: the preview URL, the page URL (unpublished), what to review, an
 Every template includes an **ECA LP — Page settings** section (first in the order) that carries the landing-page-level options. Confirm both with the member in the brief:
 
 - **Sticky add-to-cart bar** — appears after a set scroll depth with the product, price, add-to-cart and a risk-removal line. On by default; set the product it sells. Keeps the ask permanently in reach on mobile.
-- **Hide site navigation** — removes the header/menu so the only way out of the page is the CTA. Standard for paid traffic. **Hiding the footer is separate and off by default** — some ad platforms expect policy links (returns, privacy, contact) to be reachable, so only hide it if the member is sure.
+- **Hide site navigation — OFF by default. Never turn it on without asking.** It's a real conversion lever for cold paid traffic, but it also removes the member's header, cart and announcement bar, which is a jarring surprise if they didn't choose it. Offer it as a suggestion ("want a distraction-free page? I can hide the nav") and leave it off unless they say yes. Same for the footer — and note some ad platforms expect policy links (returns, privacy, contact) to stay reachable.
 
 ## Step 7 — Now write the ads for it (offer this every time)
 
@@ -188,6 +188,8 @@ Say this plainly if they ask for five pages off one angle — it's usually enthu
 - **Use native Shopify/theme features wherever they exist** — the theme's own product/buy-buttons, review app blocks and image handling, standard section groups, `{{ section.settings }}`, `image_url` filters, and native `<details>` accordions. Only write custom Liquid where nothing native does the job.
 - **Everything must be editable in the theme editor** — every headline, body, image, button, and list item is a section/block setting with a sensible default and a clear label. No hardcoded copy in Liquid.
 - **OS 2.0 compatible, theme-agnostic** — don't depend on Horizon-only blocks; inherit the theme's fonts/colours rather than hardcoding a design system.
+- **Never switch on anything that changes the member's storefront chrome without asking** — hiding the navigation or footer is opt-in, every time.
+- **Always render a placeholder when an image slot is empty**, so the layout never collapses. Every section that can show an image ships its own placeholder CSS — don't rely on another section being present.
 - **Approval gates**: the **brief must be confirmed (Step 3)** before anything is created, and nothing is published — page or theme — without an explicit yes.
 - **Speed**: lazy-load below-fold images, keep custom CSS scoped and minimal, no external frameworks.
 - **AEO**: the FAQ section emits **FAQPage JSON-LD** so the page can be cited by AI answer engines.
