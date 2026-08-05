@@ -1,0 +1,201 @@
+{%- comment -%} eca-lp-library v1.28.0 {%- endcomment -%}
+{%- comment -%}
+  ECA LP — What's in the box/kit. Block-based: heading, text, items, total-value line,
+  CTA, guarantee and spacers are all movable blocks. Image/video column is section-level
+  and can be positioned left/right or switched off.
+{%- endcomment -%}
+{%- liquid
+  assign eca_cls = ''
+  if section.settings.color_scheme != blank
+    assign eca_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign eca_sty = ''
+  if section.settings.bg_color != blank
+    assign eca_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+<section class="eca-lp-box {{ eca_cls }}" style="{{ eca_sty }}">
+  <div class="eca-lp-wrap eca-lp-box__inner eca-lp-box__inner--{{ section.settings.image_position }}{% unless section.settings.show_image %} eca-lp-box__inner--nomedia{% endunless %}">
+    {%- if section.settings.show_image -%}
+      <div class="eca-lp-box__media">
+        {%- if section.settings.video != blank -%}
+          {{ section.settings.video | video_tag: image_size: '900x', autoplay: false, loop: true, muted: true, controls: true, class: 'eca-lp-box__img' }}
+        {%- elsif section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'eca-lp-box__img', sizes: '(min-width: 750px) 45vw, 100vw', widths: '500,700,900', alt: section.settings.image_alt }}
+        {%- else -%}
+          {% render 'eca-lp-placeholder', ratio: '4x3', label: 'Everything laid out — 4:3' %}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="eca-lp-box__copy">
+      {%- for block in section.blocks -%}
+        {%- case block.type -%}
+
+          {%- when 'heading' -%}
+            <h2 class="eca-lp-h2 eca-lp-h2--left eca-lp-box__h" {{ block.shopify_attributes }}>{{ block.settings.text }}</h2>
+
+          {%- when 'text' -%}
+            <div class="eca-lp-box__intro" {{ block.shopify_attributes }}>{{ block.settings.text }}</div>
+
+          {%- when 'item' -%}
+            {%- liquid
+              assign i0 = forloop.index0
+              assign open_ul = true
+              if i0 > 0
+                assign pi = i0 | minus: 1
+                assign prevb = section.blocks[pi]
+                if prevb.type == 'item'
+                  assign open_ul = false
+                endif
+              endif
+              assign close_ul = true
+              assign ni = i0 | plus: 1
+              assign nextb = section.blocks[ni]
+              if nextb.type == 'item'
+                assign close_ul = false
+              endif
+            -%}
+            {%- if open_ul -%}<ul class="eca-lp-box__list">{%- endif -%}
+              <li class="eca-lp-box__li" {{ block.shopify_attributes }}>
+                {%- unless block.settings.icon_name == 'none' -%}
+                  {% render 'eca-lp-icon', name: block.settings.icon_name, class: 'eca-lp-box__ico' %}
+                {%- endunless -%}
+                <span class="eca-lp-box__txt">
+                  <strong>{{ block.settings.title }}</strong>
+                  {%- if block.settings.value != blank -%}<em class="eca-lp-box__val">{{ block.settings.value }}</em>{%- endif -%}
+                  {%- if block.settings.body != blank -%}<span class="eca-lp-box__desc">{{ block.settings.body }}</span>{%- endif -%}
+                </span>
+              </li>
+            {%- if close_ul -%}</ul>{%- endif -%}
+
+          {%- when 'total' -%}
+            <p class="eca-lp-box__total" {{ block.shopify_attributes }}>
+              {{ block.settings.text }}
+              {%- if block.settings.strike != blank -%}<s class="eca-lp-box__strike">{{ block.settings.strike }}</s>{%- endif -%}
+            </p>
+
+          {%- when 'cta' -%}
+            <div class="eca-lp-box__cta" {{ block.shopify_attributes }}>
+              {% render 'eca-lp-cta', label: block.settings.label, url: block.settings.url, risk: block.settings.risk, style: block.settings.style %}
+            </div>
+
+          {%- when 'risk' -%}
+            <p class="eca-lp-box__risk" {{ block.shopify_attributes }}>
+              {%- unless block.settings.icon_name == 'none' -%}
+                {% render 'eca-lp-icon', name: block.settings.icon_name, class: 'eca-lp-box__rico' %}
+              {%- endunless -%}
+              {{ block.settings.text }}
+            </p>
+
+          {%- when 'spacer' -%}
+            <div class="eca-lp-box__sp" style="height:{{ block.settings.height }}px" {{ block.shopify_attributes }}></div>
+
+          {%- when '@app' -%}
+            <div class="eca-lp-box__app" {{ block.shopify_attributes }}>{% render block %}</div>
+
+        {%- endcase -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{% schema %}
+{
+  "name": "ECA LP — In the box",
+  "tag": "section",
+  "class": "eca-lp-section",
+  "settings": [
+    { "type": "paragraph", "content": "Everything in the text column is a movable block — drag the heading, items, value line, button and guarantee into any order." },
+    { "type": "checkbox", "id": "show_image", "label": "Show the image / video", "default": true },
+    { "type": "image_picker", "id": "image", "label": "Image", "info": "Everything laid out together works best. Leave empty for a placeholder." },
+    { "type": "video", "id": "video", "label": "Video (used instead of the image)" },
+    { "type": "text", "id": "image_alt", "label": "Image description (alt text)" },
+    { "type": "select", "id": "image_position", "label": "Image position", "options": [
+      { "value": "left", "label": "Image left, list right" },
+      { "value": "right", "label": "Image right, list left" }], "default": "left" },
+    { "type": "header", "content": "Section colour" },
+    { "type": "color_scheme", "id": "color_scheme", "label": "Colour scheme", "info": "Uses your theme's colour schemes so text and buttons stay readable. Leave as-is to inherit the page." },
+    { "type": "color", "id": "bg_color", "label": "Custom background (optional)", "info": "Overrides the scheme. Only use if you need an exact colour." },
+    { "type": "color", "id": "text_color", "label": "Custom text (optional)" }
+  ],
+  "blocks": [
+    { "type": "heading", "name": "Heading", "limit": 2, "settings": [
+      { "type": "text", "id": "text", "label": "Heading", "default": "What's in the box" } ] },
+    { "type": "text", "name": "Text", "settings": [
+      { "type": "richtext", "id": "text", "label": "Text", "default": "<p>Everything you need, in one box.</p>" } ] },
+    { "type": "item", "name": "Item", "settings": [
+      { "type": "select", "id": "icon_name", "label": "Icon", "options": [
+        { "value": "check-circle", "label": "Check" },
+        { "value": "package", "label": "Package" },
+        { "value": "sparkle", "label": "Sparkle" },
+        { "value": "star", "label": "Star" },
+        { "value": "heart", "label": "Heart" },
+        { "value": "leaf", "label": "Leaf" },
+        { "value": "none", "label": "No icon" }], "default": "check-circle" },
+      { "type": "text", "id": "title", "label": "Item name", "default": "{{ITEM}}" },
+      { "type": "text", "id": "value", "label": "Value (optional)", "info": "e.g. $29 value" },
+      { "type": "text", "id": "body", "label": "What it's for (optional)", "default": "" } ] },
+    { "type": "total", "name": "Total value", "limit": 2, "settings": [
+      { "type": "text", "id": "text", "label": "Line", "info": "e.g. Yours for $89", "default": "Yours for {{PRICE}}" },
+      { "type": "text", "id": "strike", "label": "Struck-through value (optional)", "info": "Only use a value you can genuinely stand behind." } ] },
+    { "type": "cta", "name": "Button", "limit": 2, "settings": [
+      { "type": "text", "id": "label", "label": "Button text", "default": "Get the kit" },
+      { "type": "url", "id": "url", "label": "Button link" },
+      { "type": "select", "id": "style", "label": "Style", "options": [
+        { "value": "primary", "label": "Primary" },
+        { "value": "secondary", "label": "Secondary" }], "default": "primary" },
+      { "type": "text", "id": "risk", "label": "Small line under the button", "info": "e.g. 30-day money-back guarantee" } ] },
+    { "type": "risk", "name": "Guarantee", "settings": [
+      { "type": "select", "id": "icon_name", "label": "Icon", "options": [
+        { "value": "shield", "label": "Shield" },
+        { "value": "refresh", "label": "Refresh" },
+        { "value": "truck", "label": "Delivery" },
+        { "value": "check-circle", "label": "Check" },
+        { "value": "none", "label": "No icon" }], "default": "shield" },
+      { "type": "text", "id": "text", "label": "Guarantee", "default": "30-day money-back guarantee" } ] },
+    { "type": "spacer", "name": "Spacer", "settings": [
+      { "type": "range", "id": "height", "label": "Height", "min": 4, "max": 64, "step": 4, "unit": "px", "default": 16 } ] },
+    { "type": "@app" }
+  ],
+  "max_blocks": 16,
+  "presets": [
+    { "name": "ECA LP — In the box", "blocks": [
+      { "type": "heading" }, { "type": "item" }, { "type": "item" }, { "type": "item" },
+      { "type": "total" }, { "type": "cta" }, { "type": "risk" } ] }
+  ]
+}
+{% endschema %}
+{% stylesheet %}
+.eca-lp-box{padding:3.5rem 1.5rem}
+.eca-lp-box__inner{display:grid;gap:2.5rem;align-items:center}
+@media(min-width:750px){
+  .eca-lp-box__inner{grid-template-columns:1fr 1fr}
+  .eca-lp-box__inner--right .eca-lp-box__media{order:2}
+  .eca-lp-box__inner--nomedia{grid-template-columns:1fr;max-width:680px;margin-left:auto;margin-right:auto}
+}
+.eca-lp-box__img{width:100%;height:auto;border-radius:12px;display:block}
+.eca-lp-box__h{margin:0 0 .75rem}
+.eca-lp-box__intro{line-height:1.7;opacity:.85;margin-bottom:1.25rem}
+.eca-lp-box__list{list-style:none;padding:0;margin:0 0 1.25rem;display:grid;gap:1rem}
+.eca-lp-box__li{display:flex;gap:.75rem;align-items:flex-start}
+.eca-lp-box__ico{width:20px;height:20px;flex:0 0 20px;margin-top:.15rem;opacity:.75}
+.eca-lp-box__txt{display:block;line-height:1.55}
+.eca-lp-box__val{display:inline-block;font-style:normal;font-weight:700;font-size:.8rem;opacity:.6;margin-left:.4rem}
+.eca-lp-box__desc{display:block;opacity:.8;font-size:.92rem;margin-top:.15rem}
+.eca-lp-box__total{font-weight:700;font-size:1.05rem;margin:0 0 1rem;display:flex;align-items:baseline;gap:.5rem;flex-wrap:wrap}
+.eca-lp-box__strike{opacity:.5;font-weight:400;font-size:.95rem}
+.eca-lp-box__cta{margin:0 0 .5rem}
+.eca-lp-box__risk{display:flex;align-items:center;gap:.45rem;font-size:.9rem;opacity:.8;margin:.35rem 0 1rem}
+.eca-lp-box__rico{width:16px;height:16px;flex:0 0 16px}
+.eca-lp-box__sp{width:100%}
+.eca-lp-ph{position:relative;width:100%;overflow:hidden;border-radius:12px;background:rgba(127,127,127,.08);display:flex;align-items:center;justify-content:center;min-height:200px;color:currentColor}
+.eca-lp-ph--4x3{aspect-ratio:4/3}
+.eca-lp-ph--1x1{aspect-ratio:1/1}
+.eca-lp-ph--16x9{aspect-ratio:16/9}
+.eca-lp-ph--9x16{aspect-ratio:9/16}
+.eca-lp-ph__svg{position:absolute;inset:0;width:100%;height:100%;display:block}
+.eca-lp-ph__label{position:relative;font-size:.8rem;font-weight:600;opacity:.55;padding:.4rem .8rem;background:rgba(255,255,255,.75);border-radius:999px}
+{% endstylesheet %}

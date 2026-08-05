@@ -1,4 +1,4 @@
-{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.28.0 {%- endcomment -%}
 {%- comment -%}
   ECA LP — Offer + buy. Block-based: badge, heading, price, variants, inventory,
   countdown, buy button, risk line and trust points are all movable blocks.
@@ -24,20 +24,58 @@
   if section.settings.text_color != blank
     assign eca_sty = eca_sty | append: 'color:' | append: section.settings.text_color | append: ';'
   endif
--%}
-<section class="eca-lp-offer {{ eca_cls }}" id="eca-lp-offer" style="{{ eca_sty }}">
-  <div class="eca-lp-wrap eca-lp-offer__inner">
-    <div class="eca-lp-offer__media">
-      {%- if section.settings.image != blank -%}
-        {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: p.title | default: 'Product' }}
-      {%- elsif p != blank -%}
-        {{ p.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'eca-lp-offer__pimg', alt: p.title }}
-      {%- else -%}
-        {% render 'eca-lp-placeholder', ratio: '1x1', label: 'Product image' %}
-      {%- endif -%}
-    </div>
 
-    <div class="eca-lp-offer__copy" data-eca-offer>
+  assign lay = section.settings.layout | default: 'media-left'
+  assign is_bg = false
+  if lay == 'background'
+    assign is_bg = true
+  endif
+  assign show_media = section.settings.show_media
+  assign col_media = show_media
+  if is_bg
+    assign col_media = false
+  endif
+  assign bg_media = false
+  if is_bg and show_media
+    assign bg_media = true
+  endif
+  assign copy_style = ''
+  if is_bg
+    assign bg_text = section.settings.text_color | default: '#ffffff'
+    assign copy_style = 'color:' | append: bg_text
+  endif
+-%}
+<section class="eca-lp-offer eca-lp-offer--{{ lay }} eca-lp-offer--{{ section.settings.content_align }}{% unless show_media %} eca-lp-offer--nomedia{% endunless %}{% if section.settings.content_card %} eca-lp-offer--card{% endif %} {{ eca_cls }}" id="eca-lp-offer" style="{{ eca_sty }}--eca-lp-minh:{{ section.settings.min_height }}px;">
+  {%- if bg_media -%}
+    <div class="eca-lp-offer__bg" aria-hidden="true">
+      {%- if section.settings.video != blank -%}
+        {{ section.settings.video | video_tag: image_size: '1600x', autoplay: true, loop: true, muted: true, controls: false, class: 'eca-lp-offer__bgmedia' }}
+      {%- elsif section.settings.image != blank -%}
+        {{ section.settings.image | image_url: width: 2000 | image_tag: loading: 'lazy', class: 'eca-lp-offer__bgmedia', sizes: '100vw', widths: '800,1200,1600,2000', alt: '' }}
+      {%- elsif p != blank -%}
+        {{ p.featured_image | image_url: width: 2000 | image_tag: loading: 'lazy', class: 'eca-lp-offer__bgmedia', sizes: '100vw', alt: '' }}
+      {%- else -%}
+        {% render 'eca-lp-placeholder', ratio: '16x9', label: 'Background image or video' %}
+      {%- endif -%}
+      <span class="eca-lp-offer__scrim" style="background:{{ section.settings.overlay_color }};opacity:{{ section.settings.overlay_opacity | times: 0.01 }}"></span>
+    </div>
+  {%- endif -%}
+  <div class="eca-lp-wrap eca-lp-offer__inner">
+    {%- if col_media -%}
+      <div class="eca-lp-offer__media">
+        {%- if section.settings.video != blank -%}
+          {{ section.settings.video | video_tag: image_size: '900x', autoplay: false, loop: true, muted: true, controls: true, class: 'eca-lp-offer__vid' }}
+        {%- elsif section.settings.image != blank -%}
+          {{ section.settings.image | image_url: width: 900 | image_tag: loading: 'lazy', alt: p.title | default: 'Product' }}
+        {%- elsif p != blank -%}
+          {{ p.featured_image | image_url: width: 900 | image_tag: loading: 'lazy', class: 'eca-lp-offer__pimg', alt: p.title }}
+        {%- else -%}
+          {% render 'eca-lp-placeholder', ratio: '1x1', label: 'Product image' %}
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+
+    <div class="eca-lp-offer__copy" data-eca-offer style="{{ copy_style }}">
       {%- form 'product', p, id: 'eca-lp-offer-form', class: 'eca-lp-offer__form' -%}
         <input type="hidden" name="id" value="{{ v.id }}" data-eca-variant-id>
 
@@ -256,6 +294,100 @@
       "id": "default_variant",
       "label": "Default variant ID (optional)",
       "info": "Preselect a specific variant — e.g. build this page around one flavour or size. Find the ID in the product URL in Shopify admin (?variant=123456). Leave blank to use the first available variant."
+    },
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Layout",
+      "options": [
+        {
+          "value": "media-left",
+          "label": "Image left, text right"
+        },
+        {
+          "value": "media-right",
+          "label": "Image right, text left"
+        },
+        {
+          "value": "background",
+          "label": "Image/video as background"
+        }
+      ],
+      "default": "media-left"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_media",
+      "label": "Show the image / video",
+      "default": true,
+      "info": "Turn off for a text-only offer block. Works in every layout."
+    },
+    {
+      "type": "video",
+      "id": "video",
+      "label": "Video (used instead of the image)"
+    },
+    {
+      "type": "header",
+      "content": "Background layout"
+    },
+    {
+      "type": "paragraph",
+      "content": "Only used when Layout is set to “Image/video as background”."
+    },
+    {
+      "type": "color",
+      "id": "overlay_color",
+      "label": "Overlay colour",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay strength",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "default": 45,
+      "info": "Darkens the media so the text stays readable. Check it on your own image."
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "label": "Minimum height",
+      "min": 360,
+      "max": 900,
+      "step": 20,
+      "unit": "px",
+      "default": 600
+    },
+    {
+      "type": "select",
+      "id": "content_align",
+      "label": "Text position",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Centred"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "checkbox",
+      "id": "content_card",
+      "label": "Panel behind the text",
+      "default": true,
+      "info": "A soft panel behind the copy. Keeps text legible on busy photos."
     },
     {
       "type": "header",
@@ -626,7 +758,20 @@
 .eca-lp-offer{padding:3.5rem 1.5rem}
 .eca-lp-offer__inner{display:grid;gap:2.5rem;align-items:center}
 @media(min-width:750px){.eca-lp-offer__inner{grid-template-columns:1fr 1fr}}
-.eca-lp-offer__media img{width:100%;height:auto;border-radius:12px;display:block}
+.eca-lp-offer__media img,.eca-lp-offer__vid{width:100%;height:auto;border-radius:12px;display:block}
+@media(min-width:750px){.eca-lp-offer--media-right .eca-lp-offer__media{order:2}}
+.eca-lp-offer--nomedia .eca-lp-offer__inner{grid-template-columns:1fr!important;max-width:640px}
+.eca-lp-offer--background{position:relative;overflow:hidden;display:grid;align-items:center;min-height:var(--eca-lp-minh,600px);padding-top:4rem;padding-bottom:4rem}
+.eca-lp-offer__bg{position:absolute;inset:0;z-index:0}
+.eca-lp-offer__bgmedia{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.eca-lp-offer__bg .eca-lp-ph{position:absolute;inset:0;height:100%;border-radius:0}
+.eca-lp-offer__scrim{position:absolute;inset:0;display:block}
+.eca-lp-offer--background .eca-lp-offer__inner{position:relative;z-index:1;grid-template-columns:1fr;max-width:640px}
+.eca-lp-offer--background.eca-lp-offer--center .eca-lp-offer__inner{margin-left:auto;margin-right:auto;text-align:center}
+.eca-lp-offer--background.eca-lp-offer--center .eca-lp-offer__price,.eca-lp-offer--background.eca-lp-offer--center .eca-lp-offer__trust{justify-content:center}
+.eca-lp-offer--background.eca-lp-offer--card .eca-lp-offer__copy{background:rgba(0,0,0,.35);-webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);padding:2rem 1.75rem;border-radius:16px}
+.eca-lp-offer--background .eca-lp-offer__vselect{border-color:rgba(255,255,255,.5)}
+.eca-lp-offer--background .eca-lp-offer__vselect option{color:#111}
 .eca-lp-h2--left{text-align:left}
 .eca-lp-offer__badge{display:inline-block;padding:.3rem .75rem;border-radius:999px;font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.85rem}
 .eca-lp-offer__body{line-height:1.7;opacity:.9;margin-bottom:1rem}

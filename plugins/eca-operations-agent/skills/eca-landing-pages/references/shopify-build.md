@@ -136,18 +136,22 @@ Also worth running after the push: pull the preview URL and confirm the page ren
 
 Then **write the approved copy into the template JSON** so the page renders complete on first load — every value still lives in `settings`, so it all stays editable in the theme editor.
 
-### Colour schemes — check the theme supports them
+### Colour schemes — adapt to the theme (mandatory, before pushing)
 
-Every section exposes a `color_scheme` setting. That control is populated by the theme's own scheme definitions, so before you rely on it:
+Every section offers a **Colour scheme** dropdown. That control is populated by the theme's own scheme definitions, and on a theme without them Shopify shows a red banner across the top of the editor:
+
+> *To preview your changes, color schemes must be defined in settings_data and settings_schema files.*
+
+Nothing is broken when that appears — every section still renders and inherits the page colours — but it looks like an error to the member, so don't leave it there. After copying the files into the theme and **before** `shopify theme push`, run:
 
 ```bash
-grep -l "color_scheme_group" <theme-dir>/config/settings_schema.json
+python3 <skill-dir>/scripts/adapt-color-schemes.py <theme-dir>
 ```
 
-- **Found** — schemes work. Set them per section in the theme editor (or in the page template JSON via `"color_scheme": "scheme-2"`).
-- **Not found** (older OS 2.0 themes) — the dropdown will be empty. Nothing breaks and every section still renders inheriting the page colours, but tell the member plainly that their theme predates colour schemes and they should use the **Custom background / Custom text** pickers on each section instead.
+- **Theme has `color_scheme_group`** — the script leaves everything alone and the dropdown works.
+- **Theme has none** (older OS 2.0 themes) — the script strips the `color_scheme` setting from the ECA LP sections so the warning never appears. Tell the member their theme predates colour schemes and point them at the **Custom background / Custom text** pickers, which work everywhere.
 
-Either way the section Liquid only applies a scheme class when one is actually chosen, so an unset value always falls back to the theme's own colours.
+The section Liquid only applies a scheme class when one is actually chosen, so a stripped or unset value always falls back to the theme's own colours. The script is safe to re-run.
 
 ## 4. Push + preview
 ```bash

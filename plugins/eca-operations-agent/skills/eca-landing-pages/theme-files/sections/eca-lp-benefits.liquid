@@ -1,4 +1,4 @@
-{%- comment -%} eca-lp-library v1.25.0 {%- endcomment -%}
+{%- comment -%} eca-lp-library v1.28.0 {%- endcomment -%}
 {%- comment -%} ECA LP — Benefits. Element 4: benefit / outcome / transformation. {%- endcomment -%}
 {%- liquid
   assign eca_cls = ''
@@ -17,19 +17,25 @@
   <div class="eca-lp-wrap">
     {%- if section.settings.heading != blank -%}<h2 class="eca-lp-h2">{{ section.settings.heading }}</h2>{%- endif -%}
     {%- if section.settings.intro != blank -%}<div class="eca-lp-intro">{{ section.settings.intro }}</div>{%- endif -%}
-    <div class="eca-lp-benefits__grid eca-lp-benefits__grid--{{ section.settings.columns }}">
+    <div class="eca-lp-benefits__grid eca-lp-benefits__grid--{{ section.settings.columns }} eca-lp-benefits__grid--m{{ section.settings.media_position }} eca-lp-benefits__grid--a{{ section.settings.item_align }}" style="--eca-ben-size:{{ section.settings.media_size }}px;--eca-ben-fit:{{ section.settings.media_fit }};--eca-ben-radius:{{ section.settings.media_radius }}px;">
       {%- for block in section.blocks -%}
         {%- if block.type == '@app' -%}
           <div {{ block.shopify_attributes }}>{% render block %}</div>
         {%- else -%}
         <div class="eca-lp-benefits__item" {{ block.shopify_attributes }}>
           {%- if block.settings.icon != blank -%}
-            {{ block.settings.icon | image_url: width: 120 | image_tag: loading: 'lazy', class: 'eca-lp-benefits__icon', alt: '' }}
+            <div class="eca-lp-benefits__media">
+              {{ block.settings.icon | image_url: width: 600 | image_tag: loading: 'lazy', class: 'eca-lp-benefits__icon', widths: '100,200,400,600', alt: block.settings.title }}
+            </div>
           {%- elsif block.settings.icon_name != 'none' -%}
-            <span class="eca-lp-benefits__ico">{% render 'eca-lp-icon', name: block.settings.icon_name %}</span>
+            <div class="eca-lp-benefits__media">
+              <span class="eca-lp-benefits__ico">{% render 'eca-lp-icon', name: block.settings.icon_name %}</span>
+            </div>
           {%- endif -%}
-          <h3 class="eca-lp-benefits__title">{{ block.settings.title }}</h3>
-          <div class="eca-lp-benefits__body">{{ block.settings.body }}</div>
+          <div class="eca-lp-benefits__txt">
+            <h3 class="eca-lp-benefits__title">{{ block.settings.title }}</h3>
+            <div class="eca-lp-benefits__body">{{ block.settings.body }}</div>
+          </div>
         </div>
         {%- endif -%}
       {%- endfor -%}
@@ -73,6 +79,83 @@
         }
       ],
       "default": "3"
+    },
+    {
+      "type": "header",
+      "content": "Icons & images"
+    },
+    {
+      "type": "paragraph",
+      "content": "Applies to every item, so they stay consistent. Small icons suit a 3-4 column grid; larger photos suit 2 columns."
+    },
+    {
+      "type": "range",
+      "id": "media_size",
+      "label": "Size",
+      "min": 24,
+      "max": 240,
+      "step": 4,
+      "unit": "px",
+      "default": 48
+    },
+    {
+      "type": "select",
+      "id": "media_position",
+      "label": "Position",
+      "options": [
+        {
+          "value": "top",
+          "label": "Above the text"
+        },
+        {
+          "value": "left",
+          "label": "Beside the text"
+        }
+      ],
+      "default": "top"
+    },
+    {
+      "type": "select",
+      "id": "media_fit",
+      "label": "If the image isn't square",
+      "options": [
+        {
+          "value": "contain",
+          "label": "Show the whole image"
+        },
+        {
+          "value": "cover",
+          "label": "Fill the space (crops)"
+        }
+      ],
+      "default": "contain"
+    },
+    {
+      "type": "range",
+      "id": "media_radius",
+      "label": "Corner rounding",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "default": 0,
+      "info": "Set this to half the size for a circle."
+    },
+    {
+      "type": "select",
+      "id": "item_align",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Centred"
+        }
+      ],
+      "default": "left"
     },
     {
       "type": "header",
@@ -202,7 +285,8 @@
         {
           "type": "image_picker",
           "id": "icon",
-          "label": "Custom icon image (overrides the icon above)"
+          "label": "Image (used instead of the icon)",
+          "info": "Size, position and cropping are set for the whole section above."
         },
         {
           "type": "text",
@@ -249,9 +333,15 @@
 .eca-lp-intro{text-align:center;max-width:640px;margin:0 auto 2.5rem;opacity:.85}
 .eca-lp-benefits__grid{display:grid;gap:2rem}
 @media(min-width:750px){.eca-lp-benefits__grid--2{grid-template-columns:repeat(2,1fr)}.eca-lp-benefits__grid--3{grid-template-columns:repeat(3,1fr)}.eca-lp-benefits__grid--4{grid-template-columns:repeat(4,1fr)}}
-.eca-lp-benefits__icon{width:48px;height:48px;object-fit:contain;margin-bottom:.75rem}
-.eca-lp-benefits__ico{display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;border-radius:12px;background:rgba(127,127,127,.1);margin-bottom:.85rem}
-.eca-lp-benefits__ico svg{width:22px;height:22px}
+.eca-lp-benefits__media{margin-bottom:.85rem}
+.eca-lp-benefits__icon{width:var(--eca-ben-size,48px);height:var(--eca-ben-size,48px);object-fit:var(--eca-ben-fit,contain);border-radius:var(--eca-ben-radius,0);display:block;max-width:100%}
+.eca-lp-benefits__ico{display:inline-flex;align-items:center;justify-content:center;width:var(--eca-ben-size,48px);height:var(--eca-ben-size,48px);border-radius:12px;background:rgba(127,127,127,.1)}
+.eca-lp-benefits__ico svg{width:50%;height:50%}
+.eca-lp-benefits__grid--mleft .eca-lp-benefits__item{display:flex;gap:1rem;align-items:flex-start}
+.eca-lp-benefits__grid--mleft .eca-lp-benefits__media{flex:0 0 var(--eca-ben-size,48px);margin-bottom:0}
+.eca-lp-benefits__grid--acenter .eca-lp-benefits__item{text-align:center}
+.eca-lp-benefits__grid--acenter .eca-lp-benefits__media{margin-left:auto;margin-right:auto;width:max-content}
+.eca-lp-benefits__grid--acenter.eca-lp-benefits__grid--mleft .eca-lp-benefits__item{text-align:left}
 .eca-lp-benefits__title{font-size:1.15rem;margin:0 0 .5rem}
 .eca-lp-benefits__body{opacity:.85;line-height:1.6}
 .eca-lp-benefits .eca-lp-cta{text-align:center;margin-top:2.5rem}

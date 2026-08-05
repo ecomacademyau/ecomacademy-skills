@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.11 - 2026-08-05
+
+- Update to section layouts and usability
+
 ## v1.12.10 - 2026-08-05
 
 - Visual Proof Update, Color Scheme for Sections

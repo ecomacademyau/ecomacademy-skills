@@ -238,11 +238,16 @@
       ]
     },
     "in-the-box": {
-      "type": "eca-lp-in-the-box",
+      "type": "eca-lp-in-the-box-v2",
       "settings": {
+        "show_image": true,
         "image_position": "left"
       },
       "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {}
+        },
         "item-1": {
           "type": "item",
           "settings": {}
@@ -255,16 +260,27 @@
           "type": "item",
           "settings": {}
         },
-        "item-4": {
-          "type": "item",
+        "total": {
+          "type": "total",
+          "settings": {}
+        },
+        "cta": {
+          "type": "cta",
+          "settings": {}
+        },
+        "risk": {
+          "type": "risk",
           "settings": {}
         }
       },
       "block_order": [
+        "heading",
         "item-1",
         "item-2",
         "item-3",
-        "item-4"
+        "total",
+        "cta",
+        "risk"
       ]
     },
     "about": {
