@@ -47,7 +47,7 @@
       "name": "eca-ecommerce-agent",
       "displayName": "ECA Marketing Coworker",
       "source": "./plugins/eca-ecommerce-agent",
-      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, SEO/AI store audits, and Meta ads analysis (4PI). New skills are added here over time; install this one plugin to stay current with all of them.  What's new (v1.12.12): Advertorial editorial masthead, benefit image controls, colour-scheme adapter",
+      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, SEO/AI store audits, and Meta ads analysis (4PI). New skills are added here over time; install this one plugin to stay current with all of them.  What's new (v1.12.13): Added in Black Friday Blueprint",
       "category": "ecommerce",
       "tags": [
         "shopify",
@@ -95,6 +95,28 @@
       "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
       "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
       "license": "MIT"
+    },
+    {
+      "name": "eca-black-friday-blueprint",
+      "displayName": "Black Friday Blueprint",
+      "source": "./plugins/eca-black-friday-blueprint",
+      "description": "Ecommerce Academy Black Friday Blueprint — everything you need for an outstanding BFCM, built on your own data. Pulls last year's Q4 and BFCM performance, cross-checks it against this year's goals, and recommends a core offer, a Cyber Monday offer and a pre-agreed Plan B, all captured in a BFCM Campaign Master File.",
+      "category": "ecommerce",
+      "tags": [
+        "black-friday",
+        "bfcm",
+        "cyber-monday",
+        "q4",
+        "promotion",
+        "offer",
+        "discount",
+        "shopify",
+        "ecommerce",
+        "campaign",
+        "pricing",
+        "margin"
+      ],
+      "homepage": "https://github.com/ecomacademyau/ecomacademy-skills"
     }
   ]
 }

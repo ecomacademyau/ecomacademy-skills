@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.13 - 2026-09-02
+
+- Added in Black Friday Blueprint
+
 ## v1.12.12 - 2026-08-06
 
 - Advertorial editorial masthead, benefit image controls, colour-scheme adapter
