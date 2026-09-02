@@ -91,11 +91,28 @@ Also note the sends that **cost** list: high unsubscribe rate with no revenue is
 
 **Flows** matter too. A large share of BFCM email revenue usually comes from abandoned-cart and browse-abandon flows working harder because traffic is higher, not from campaigns.
 
-**List size now vs 12 months ago.** Do this honestly, because it is easy to get wrong:
+**List size: count who you can actually sell to, not everyone in the database.**
 
-- **Best:** a segment time series, which gives real historical membership.
-- **Acceptable fallback:** current subscriber count, minus profiles that subscribed in the last 12 months. **State the limit plainly:** this ignores unsubscribes and churn, so it flatters growth. Label it as an estimate.
-- **Never** present an estimate as a measurement.
+A raw profile count is the wrong number and it is always too big. It includes unsubscribed, suppressed, bounced and never-consented profiles. Planning a BFCM send plan against it overstates reach, and every per-recipient figure calculated from it is wrong.
+
+What to report, in this order:
+
+| Number | What it is | Why it matters |
+|---|---|---|
+| **Marketable email subscribers** | Consented, not suppressed | The real ceiling on the send plan |
+| **Engaged (90 days)** | Opened or clicked recently | Who will actually see it — usually the number that drives the forecast |
+| **Marketable SMS subscribers** | Same test, SMS consent | Separate channel, separate ceiling |
+| **Suppressed / unengaged** | For context only | Large and growing means a deliverability problem before BFCM, not after |
+
+**How.** List the account's segments and look for one already defined on active subscription, commonly named something like "All Active Subscribers", plus an engaged-90-day segment. Most accounts have both. Use `query_segment_series` with `total_members` against those segment ids. **Never** substitute a list profile count or an account-wide profile count, and never present either as "list size".
+
+If no suitable segment exists, say so and ask the member which segment represents their marketable audience. Do not guess, and do not build one silently.
+
+**The historical comparison has a trap that produces a confidently wrong answer.** Segment series data only exists from the date the segment was *created*. Query a recently built "Active Subscribers" segment over twelve months and it returns zeros for every month before it existed, then a jump. Read literally, that says the list grew from nothing in a month.
+
+So: **check the leading months of every series.** A run of zeros followed by a step change is a segment birthday, not list growth. When that happens, either use an older segment that genuinely existed twelve months ago — an engaged segment usually does — or state plainly that the historical figure is unavailable. Then say which segment the growth number came from, because engaged-audience growth and total-subscriber growth are different claims.
+
+A useful cross-check: the recipient count on last year's largest broadcast is a real, measured snapshot of who was marketable on that date.
 
 ## 5. Anything else connected
 
@@ -132,7 +149,7 @@ TIMESERIES week SINCE <13 months ago> UNTIL today
 Weekly, not daily. Then feed it to the script:
 
 ```bash
-python3 scripts/promo_outliers.py rows.json
+python3 scripts/promo_outliers.py bfcm/weekly-rows.json
 ```
 
 ### What the script does, and why it is not just "biggest week"

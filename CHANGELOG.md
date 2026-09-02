@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.7.0 - 2026-09-03
+
+- Update to BFCM Offer Skill
+
 ## v1.12.15 - 2026-09-03
 
 - Update to HTML overview

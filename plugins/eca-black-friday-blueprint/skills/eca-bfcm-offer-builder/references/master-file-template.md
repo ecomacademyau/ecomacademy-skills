@@ -2,7 +2,9 @@
 
 This is the spine of the Black Friday Blueprint. **One file per brand per year**, written by this skill and appended to by every skill that follows.
 
-**Filename:** `bfcm-<year>-master.md`, saved in the member's working folder.
+**Filename:** `bfcm/bfcm-<year>-master.md`.
+
+Everything the Black Friday Blueprint creates lives in a **`bfcm/` folder** in the member's working directory — master file, calendar, runsheet and dashboard. One folder per campaign year's worth of artefacts, kept together so nothing is hunted for in December, and so last year's files are still there when next year's outlier scan and post-mortem want them.
 
 ## Rules for every skill that touches this file
 
@@ -30,9 +32,9 @@ This is the spine of the Black Friday Blueprint. **One file per brand per year**
 | **Currency** | <ccy> |
 | **Status** | Offer approved / In build / Live / Complete |
 | **Evidence tier** | 1 Full / 2 Partial / 3 Manual / 4 None — *and what that means for confidence* |
-| **Calendar CSV** | `bfcm-<year>-calendar.csv` |
-| **Runsheet CSV** | `bfcm-<year>-runsheet.csv` (append-only) |
-| **Dashboard** | `bfcm-<year>-dashboard.html` (generated) |
+| **Calendar CSV** | `bfcm/bfcm-<year>-calendar.csv` |
+| **Runsheet CSV** | `bfcm/bfcm-<year>-runsheet.csv` (append-only) |
+| **Dashboard** | `bfcm/bfcm-<year>-dashboard.html` (generated) |
 | **Created** | <date> |
 | **Last updated** | <date> |
 | **Last updated by** | <skill name> |
@@ -128,13 +130,17 @@ This is the spine of the Black Friday Blueprint. **One file per brand per year**
 
 ## 4. Evidence — audience and list
 
-| | Now | 12 months ago | Change |
-|---|---|---|---|
-| Email subscribers | | | |
-| SMS subscribers | | | |
-| Engaged 90-day segment | | | |
+| | Now | 12 months ago | Change | Segment used |
+|---|---|---|---|---|
+| Marketable email subscribers | | | | |
+| Marketable SMS subscribers | | | | |
+| Engaged (90 days) | | | | |
+| Suppressed / unengaged | | | | |
+
+> **Marketable, not total.** A raw profile count includes unsubscribed, suppressed and bounced people, is always too big, and corrupts every per-recipient figure derived from it. Name the segment each number came from.
 
 **Method + limits:** <how historical size was derived, and what it does not account for>
+**Segment age check:** <confirm each segment existed 12 months ago. A series that starts at zero and jumps is a segment being created, not a list growing.>
 
 ---
 
@@ -223,6 +229,8 @@ Where the member's ambition and the evidence agree, and where they do not. **Thi
 **Sync rule.** The sheet is the member's to edit; skills read it and never write to it. Every skill re-reads it at the start of a run and compares against the snapshot below. If they differ: update the snapshot, say what moved, and flag any plan built on the old dates.
 
 **Store timezone:** <tz — stated once, used by every skill>
+**Sale dates given by the member:** CONFIRMED on <date> / **TO CONFIRM** — never leave a generated default sitting here as though it were a decision
+**In their words:** "<what they actually said about when the sale runs>"
 
 | Phase ID | Starts | Ends | Days | What happens |
 |---|---|---|---|---|

@@ -28,7 +28,7 @@ Do not skip ahead to the offer. The recommendation is worthless without the evid
 5. Intake — what they want this year, including margin and target
 6. Reconcile ambition against evidence
 7. Build the core offer, Cyber Monday offer and Plan B
-8. Lock the calendar and the budget split
+8. Ask their sale dates, lock the calendar and the budget split
 9. Approve **(gate)**
 10. Write the Master File
 11. Hand over
@@ -149,9 +149,9 @@ Offer **the no-discount column** genuinely, not as a token gesture. For a brand 
 
 Then settle the conditions list, and the scarcity, and check any pricing claim is one they can substantiate.
 
-## Step 8 — Lock the calendar and the budget split
+## Step 8 — Ask their sale dates, then lock the calendar and budget
 
-An offer without dates is not a decision, and five downstream skills are blocked until this exists.
+An offer without dates is not a decision, and five downstream skills are blocked until this exists. **The dates are the member's to give, not yours to assume.**
 
 ```bash
 python3 scripts/campaign_calendar.py --year <year> --ea-days <n> --sale-lead <n> --ends <date>
@@ -159,7 +159,17 @@ python3 scripts/campaign_calendar.py --year <year> --ea-days <n> --sale-lead <n>
 
 **Dates are computed, never typed.** Getting "the Monday of Black Friday week" wrong by a day silently corrupts every send time in every channel plan.
 
-Settle with the member:
+**Ask the member when their sale actually runs, before generating anything.** The script's defaults are a starting proposal, not a decision. Plenty of brands do not run the standard window: some open the week before, some run the whole of November, some skip Black Friday itself and own Cyber Monday, some extend to mid-December for the gifting run. Guessing here silently misdates every email, ad and on-site change downstream.
+
+Ask it plainly and in their words:
+
+> "When do you want the sale to actually run — when does it open to everyone, and when does it end?"
+
+Then confirm what they said back as dates, with the weekday, before writing the calendar: *"So the offer is live Monday 23 November through Tuesday 1 December, with VIPs from Friday 13th."* Weekdays matter — people think in "the Monday before", and a date without a weekday is where off-by-one errors hide.
+
+**If they do not know yet, say so in the Master File** as `TO CONFIRM` rather than quietly locking the default. A placeholder everyone knows is a placeholder is safe; a default that looks like a decision is not.
+
+Then settle the rest with them:
 
 - **Whether there is an early-access phase, and how long.** This is an offer decision, not a scheduling one — it sets the date the list-build has to start, and on most stores the early-access audience is worth several times the broadcast list per person.
 - **When the core offer opens to everyone**, and when it ends.
@@ -175,22 +185,36 @@ The canonical phases, which every downstream skill will reference: `LIST_BUILD` 
 
 ### Where the calendar lives
 
-Two CSVs in the member's folder are the source of truth, and everything else is generated from them:
+**Everything this plugin creates lives in a `bfcm/` folder** in the member's working directory. Create it on first run. One folder, one campaign, easy to find in December and easy to archive in January.
+
+```
+bfcm/
+  bfcm-<year>-master.md         the Master File — every skill reads and appends
+  bfcm-<year>-calendar.csv      source of truth for dates
+  bfcm-<year>-runsheet.csv      source of truth for tasks (append-only)
+  bfcm-<year>-dashboard.html    generated view, never edited by hand
+```
+
+Keeping the year in the filenames means next year's campaign sits alongside this one rather than overwriting it — and last year's files are exactly what the outlier scan and post-mortem want.
+
+Two CSVs are the source of truth, and everything else is generated from them:
 
 | File | Rows | Who writes it |
 |---|---|---|
-| `bfcm-<year>-calendar.csv` | one per phase | **This skill and the member only.** Every other skill reads it. |
-| `bfcm-<year>-runsheet.csv` | one per task | **Append-only.** Each channel skill adds rows tagged with its own `OWNER` and never edits another's. |
-| `bfcm-<year>-dashboard.html` | — | Generated. Never edit by hand. |
+| `bfcm/bfcm-<year>-calendar.csv` | one per phase | **This skill and the member only.** Every other skill reads it. |
+| `bfcm/bfcm-<year>-runsheet.csv` | one per task | **Append-only.** Each channel skill adds rows tagged with its own `OWNER` and never edits another's. |
+| `bfcm/bfcm-<year>-dashboard.html` | — | Generated. Never edit by hand. |
 
 The dashboard is branded with the **ECA Design System** (`assets/ECA Design System/`), the same one the 4PI reports use, so everything a member receives from the Academy looks like it came from the same place. Dark hero with the ECA mark, all-caps Nunito Sans headings, Montserrat body, white cards on `#F5F5F5`, green-tinted table headers, pill badges on the semantic colours. **No gradients, no serif, no emoji.** If you change a colour, change it in `eca-tokens.css` first and keep the generator in sync.
 
 Separating the two is what makes multiple writers safe. The calendar answers *when the phases are* and needs one writer; the runsheet answers *what fires when* and needs many. Appends cannot collide; edits can.
 
 ```bash
-python3 scripts/campaign_calendar.py --year <year> --ends <date> --csv > bfcm-<year>-calendar.csv
-python3 scripts/sync_campaign.py bfcm-<year>-calendar.csv bfcm-<year>-runsheet.csv \
-        --html bfcm-<year>-dashboard.html --markdown
+mkdir -p bfcm
+python3 scripts/campaign_calendar.py --year <year> --ea-days <n> --sale-lead <n> \
+        --ends <their end date> --csv > bfcm/bfcm-<year>-calendar.csv
+python3 scripts/sync_campaign.py bfcm/bfcm-<year>-calendar.csv bfcm/bfcm-<year>-runsheet.csv \
+        --html bfcm/bfcm-<year>-dashboard.html --brand "<Brand>" --markdown
 ```
 
 **Run `sync_campaign.py` at the start of every skill's run and after every change.** It validates and regenerates; it never invents. It catches the two things that actually go wrong: a spreadsheet silently rewriting `2026-11-27` into `27/11/2026` on save, and phases that overlap, invert or leave gaps. Paste its markdown output into Master File §10 so the plan reads in one document.
@@ -207,7 +231,7 @@ Expect them to change something. Rebuild the break-even when they do, rather tha
 
 ## Step 10 — Write the Master File
 
-Create `bfcm-<year>-master.md` in their working folder from `references/master-file-template.md`. Fill sections 1 through 12. Leave 13 through 19 as reserved headings, one per downstream skill. **Never renumber them.** Log assumptions with their assumed values in 20, and start the change log in 21.
+Create `bfcm/bfcm-<year>-master.md` (make the folder if it does not exist) from `references/master-file-template.md`. Fill sections 1 through 12. Leave 13 through 19 as reserved headings, one per downstream skill. **Never renumber them.** Log assumptions with their assumed values in 20, and start the change log in 21.
 
 **Every number carries its source and window.** Later skills, and the member in six weeks, will rely on this.
 
@@ -222,6 +246,8 @@ Give them, briefly: the file, the three offers in one line each, the single bigg
 - **Never state a trend from an aggregate.** Pull the series and look at the shape first. One long-window number hides everything, and a busy month inside it will make you report a collapse that never happened.
 - **Never read the offer off the discount rate.** Free shipping, gifts and bundle pricing often do not register there at all. Read the campaign names before you characterise what they ran.
 - **Label modelled numbers as models where they appear**, with the assumed value shown. Quoted twice, an assumption becomes a fact by the third mention.
+- **Count marketable subscribers, never all profiles.** A raw profile count includes unsubscribed, suppressed and bounced people. It is always too big, and every per-recipient number derived from it is wrong. Use an active-subscriber segment and an engaged-90-day segment, and name which one each figure came from.
+- **Check the first months of any segment time series.** Zeros followed by a step change means the segment was created then, not that the list grew. Reporting that as growth is a confidently wrong answer nothing downstream will catch.
 - **Never invent a benchmark.** No "typical BFCM uplift is 3x". Compare the brand against itself. If you do not have a figure, say so.
 - **Never present an estimate as a measurement.** Especially list size twelve months ago, and any member-recalled number.
 - **Never recommend a depth without the break-even in front of them.**
