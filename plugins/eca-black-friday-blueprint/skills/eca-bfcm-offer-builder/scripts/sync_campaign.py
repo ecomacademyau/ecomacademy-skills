@@ -101,58 +101,119 @@ ECA_MARK = ("""<svg viewBox="0 0 310 285" fill="none" xmlns="http://www.w3.org/2
             """<path d="M120 96 205 40l74 48"/><path d="M279 31v57h-57"/></g></svg>""")
 
 
+def _offer_window(phases):
+    """The window a customer can actually buy in — NOT the whole calendar.
+
+    The full span includes LIST_BUILD and POST_SALE, which are not the sale. Labelling
+    that span "sale window" tells the member the offer runs for four months.
+    """
+    selling = [p for p in phases
+               if p["PHASE_ID"] in ("SALE_LIVE", "BLACK_FRIDAY", "WEEKEND",
+                                    "CYBER_MONDAY", "LAST_CHANCE") and p["_s"]]
+    if not selling:
+        return ""
+    s_, e_ = min(p["_s"] for p in selling), max(p["_e"] for p in selling)
+    return "Offer live {} &ndash; {} &middot; ".format(
+        s_.strftime("%-d %b"), e_.strftime("%-d %b %Y"))
+
+
 def dashboard(phases, tasks, today, problems, brand="", year=""):
-    """ECA Design System. Tokens in assets/ECA Design System/eca-tokens.css — keep in sync."""
+    """ECA Design System. Tokens in assets/ECA Design System/eca-tokens.css — keep in sync.
+
+    Layout notes, because the obvious versions do not work:
+    - The timeline is a FLEX strip with a min-width per segment, not an absolutely
+      positioned to-scale bar. A 56-day list-build next to a 1-day Black Friday makes a
+      true-to-scale timeline unreadable — November collapses into slivers and the labels
+      overlap. Relative width still communicates length; exact dates live in the cards.
+    - Phases are CARDS, not table rows. A table forces the phase name, dates and a long
+      task list into one row, which leaves a column of dead space beside every task block.
+    """
     if not phases:
         return "<p>No phases.</p>"
-    start, end = phases[0]["_s"], max(p["_e"] for p in phases)
-    span = max((end - start).days, 1)
-    def pct(d): return (d - start).days / span * 100
 
-    bars = []
+    def state_of(p):
+        return "done" if p["_e"] < today else ("live" if p["_s"] <= today else "todo")
+
+    # ---- timeline: flex segments, min-width so labels always fit ----
+    segs = []
     for p in phases:
-        left, width = pct(p["_s"]), max((p["_e"] - p["_s"]).days + 1, 1) / span * 100
-        state = "done" if p["_e"] < today else ("live" if p["_s"] <= today else "todo")
-        bars.append('<div class="bar {}" style="left:{:.2f}%;width:{:.2f}%" title="{} to {}">'
-                    '<span>{}</span></div>'.format(state, left, width, p["_s"], p["_e"],
-                                                   html.escape(p["PHASE_ID"])))
-    marker = ('<div class="today" style="left:{:.2f}%"><span>TODAY</span></div>'.format(pct(today))
-              if start <= today <= end else "")
+        days = max((p["_e"] - p["_s"]).days + 1, 1)
+        st = state_of(p)
+        tick = ""
+        if st == "live":
+            pos = (today - p["_s"]).days / days * 100
+            tick = '<i class="tick" style="left:{:.1f}%"></i>'.format(min(max(pos, 2), 98))
+        segs.append(
+            '<div class="seg {}" style="flex:{}">{}'
+            '<b>{}</b><span>{}</span></div>'.format(
+                st, days, tick, html.escape(p["PHASE_ID"].replace("_", " ")),
+                "{} day{}".format(days, "s" if days > 1 else "")))
 
-    live = next((p for p in phases if p["_s"] <= today <= p["_e"]), None)
+    # ---- header stats ----
+    live = next((p for p in phases if state_of(p) == "live"), None)
     nxt = next((p for p in phases if p["_s"] > today), None)
     bf = next((p for p in phases if p["PHASE_ID"] == "BLACK_FRIDAY"), None)
-    stats = []
-    stats.append(("PHASE NOW", live["PHASE_ID"] if live else "NOT STARTED"))
+    done = sum(1 for t in tasks
+               if (t.get("STATUS") or "").strip().lower() in ("done", "complete", "completed"))
+    def nice(d):
+        return d.strftime("%a %-d %b") if hasattr(d, "strftime") else str(d)
+
+    stats = [("PHASE NOW",
+              live["PHASE_ID"].replace("_", " ") if live else "NOT STARTED",
+              "until {}".format(nice(live["_e"])) if live else
+              ("starts {}".format(nice(phases[0]["_s"])) if phases else ""))]
     if nxt:
-        stats.append(("NEXT", "{} in {}d".format(nxt["PHASE_ID"], (nxt["_s"] - today).days)))
+        stats.append((nxt["PHASE_ID"].replace("_", " ") + " IN",
+                      "{}d".format((nxt["_s"] - today).days), nice(nxt["_s"])))
     if bf:
         d = (bf["_s"] - today).days
-        stats.append(("BLACK FRIDAY", "{}d".format(d) if d >= 0 else "PASSED"))
-    done = sum(1 for t in tasks if (t.get("STATUS") or "").strip().lower() in ("done", "complete", "completed"))
+        stats.append(("BLACK FRIDAY", "{}d".format(d) if d >= 0 else "PASSED", nice(bf["_s"])))
+    cm = next((p for p in phases if p["PHASE_ID"] == "CYBER_MONDAY"), None)
+    if cm:
+        d = (cm["_s"] - today).days
+        stats.append(("CYBER MONDAY", "{}d".format(d) if d >= 0 else "PASSED", nice(cm["_s"])))
     if tasks:
-        stats.append(("TASKS DONE", "{}/{}".format(done, len(tasks))))
+        stats.append(("TASKS DONE", "{}/{}".format(done, len(tasks)),
+                      "{} outstanding".format(len(tasks) - done)))
 
-    rows = []
+    # ---- phase cards ----
+    cards = []
     for p in phases:
+        st = state_of(p)
         d = (p["_s"] - today).days
-        when, cls = ("LIVE", "live") if p["_s"] <= today <= p["_e"] else \
-                    (("IN {}D".format(d), "") if d > 0 else ("DONE", "done"))
+        when = "LIVE NOW" if st == "live" else ("IN {} DAYS".format(d) if d > 0 else "DONE")
+        days = (p["_e"] - p["_s"]).days + 1
         mine = [t for t in tasks if (t.get("PHASE_ID") or "").strip() == p["PHASE_ID"]]
-        tl = "".join(
-            '<li><span class="w">{}</span> {} <span class="pill {}">{}</span>'
-            '<span class="own">{}</span></li>'.format(
-                html.escape(t.get("WHEN", "") or ""), html.escape(t.get("TASK", "")),
-                "ok" if (t.get("STATUS") or "").lower().startswith(("done", "complete")) else "todo",
-                html.escape(t.get("STATUS", "") or "-"), html.escape(t.get("OWNER", "") or ""))
-            for t in mine)
-        rows.append(
-            '<tr class="{}"><td class="pid">{}</td><td class="num">{}</td><td class="num">{}</td>'
-            '<td><span class="pill {}">{}</span></td><td>{}{}</td></tr>'.format(
-                cls, html.escape(p["PHASE_ID"]), p["_s"], p["_e"],
-                "ok" if cls == "live" else ("mute" if cls == "done" else "info"), when,
-                html.escape(p.get("WHAT HAPPENS", "")),
-                "<ul class='tasks'>{}</ul>".format(tl) if tl else ""))
+
+        rows = ""
+        for t in mine:
+            status = (t.get("STATUS") or "").strip() or "-"
+            cls = "ok" if status.lower().startswith(("done", "complete")) else "todo"
+            note = (t.get("NOTES") or "").strip()
+            rows += ('<li><span class="tdate">{}</span>'
+                     '<span class="ttask">{}{}</span>'
+                     '<span class="pill {}">{}</span>'
+                     '<span class="towner">{}</span></li>').format(
+                html.escape(t.get("WHEN", "") or "—"),
+                html.escape(t.get("TASK", "")),
+                '<em>{}</em>'.format(html.escape(note)) if note else "",
+                cls, html.escape(status),
+                html.escape((t.get("OWNER", "") or "").replace("_", " ")))
+        body = ('<ul class="tasks">{}</ul>'.format(rows) if rows
+                else '<p class="empty">No tasks yet.</p>')
+
+        cards.append(
+            '<section class="phase {st}">'
+            '<div class="phead">'
+            '<span class="badge {st}">{pid}</span>'
+            '<span class="dates">{s} &rarr; {e}</span>'
+            '<span class="len">{days} day{pl}</span>'
+            '<span class="when {st}">{when}</span>'
+            '</div>'
+            '<p class="what">{what}</p>{body}</section>'.format(
+                st=st, pid=html.escape(p["PHASE_ID"].replace("_", " ")),
+                s=p["_s"], e=p["_e"], days=days, pl="s" if days > 1 else "",
+                when=when, what=html.escape(p.get("WHAT HAPPENS", "")), body=body))
 
     warn = ('<div class="warn"><h3>CHECK BEFORE RELYING ON THESE DATES</h3><ul>{}</ul></div>'.format(
         "".join("<li>{}</li>".format(html.escape(x)) for x in problems)) if problems else "")
@@ -163,93 +224,116 @@ def dashboard(phases, tasks, today, problems, brand="", year=""):
 <link href="https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{{--eca-green:#3DD62B;--eca-green-dark:#2FB61F;--eca-green-tint:#E8FAE6;--eca-black:#0A0A0A;
---eca-ink:#1A1A1A;--eca-gray-2:#555555;--eca-gray-3:#999999;--eca-line:#E0E0E0;--eca-bg:#F5F5F5;--eca-card:#FFFFFF;
---eca-warning:#F5A623;--eca-error:#D0021B;--eca-info:#4A90E2;--eca-radius-card:12px;
---eca-shadow-sm:0 1px 3px rgba(10,10,10,.08);
+--eca-ink:#1A1A1A;--eca-gray-2:#555555;--eca-gray-3:#999999;--eca-line:#E0E0E0;--eca-bg:#F5F5F5;
+--eca-card:#FFFFFF;--eca-warning:#F5A623;--eca-error:#D0021B;--eca-info:#4A90E2;
+--eca-radius-card:12px;--eca-shadow-sm:0 1px 3px rgba(10,10,10,.08);
 /* system fallbacks appended so the file still renders correctly with no network */
 --eca-display:'Nunito Sans',-apple-system,BlinkMacSystemFont,sans-serif;
 --eca-body:'Montserrat',-apple-system,BlinkMacSystemFont,sans-serif}}
 *{{box-sizing:border-box}}
 body{{margin:0;background:var(--eca-bg);color:var(--eca-ink);font:15px/1.6 var(--eca-body)}}
-h1,h2,h3{{font-family:var(--eca-display);text-transform:uppercase;letter-spacing:-.02em;line-height:1.1;
-font-weight:800;margin:0}}
-header{{background:var(--eca-black);color:#fff;padding:2rem 2rem 2.25rem}}
-.hwrap{{max-width:1120px;margin:0 auto}}
-.brandrow{{display:flex;align-items:center;gap:.7rem;margin-bottom:1.5rem}}
-.mark{{width:26px;height:26px;flex:0 0 26px}}
-.wordmark{{font-family:var(--eca-display);font-weight:900;font-style:italic;font-size:12px;
-letter-spacing:.08em;color:#fff}}
-header h1{{font-size:clamp(1.4rem,3vw,2rem);color:#fff}}
-.eyebrow{{font-family:var(--eca-display);font-size:11px;font-weight:800;letter-spacing:.14em;
-color:var(--eca-green);margin-bottom:.4rem}}
-.prep{{color:var(--eca-gray-3);font-size:13px;margin-top:.35rem}}
-.stats{{display:flex;flex-wrap:wrap;gap:.75rem;margin-top:1.5rem}}
-.stat{{background:#141414;border:1px solid #262626;border-radius:var(--eca-radius-card);
-padding:.7rem 1.1rem;min-width:130px}}
-.stat b{{display:block;font-family:var(--eca-display);font-size:10px;font-weight:800;
-letter-spacing:.1em;color:var(--eca-gray-3)}}
-.stat span{{font-family:var(--eca-display);font-weight:800;font-size:1.15rem;color:var(--eca-green)}}
-main{{max-width:1120px;margin:0 auto;padding:2rem}}
+h1,h2{{font-family:var(--eca-display);text-transform:uppercase;letter-spacing:-.02em;
+line-height:1.1;font-weight:800;margin:0}}
+header{{background:var(--eca-black);color:#fff;padding:1.75rem 2rem 2rem}}
+.wrap{{max-width:1080px;margin:0 auto}}
+.brandrow{{display:flex;align-items:center;gap:.6rem;margin-bottom:1.4rem}}
+.mark{{width:24px;height:24px;flex:0 0 24px}}
+.wordmark{{font-family:var(--eca-display);font-weight:900;font-style:italic;font-size:11px;
+letter-spacing:.09em}}
+.eyebrow{{font-family:var(--eca-display);font-size:10px;font-weight:800;letter-spacing:.16em;
+color:var(--eca-green);margin:0 0 .45rem}}
+header h1{{font-size:clamp(1.35rem,3vw,1.9rem);color:#fff}}
+.prep{{color:var(--eca-gray-3);font-size:12.5px;margin:.45rem 0 0}}
+.stats{{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:.7rem;margin-top:1.4rem}}
+.stat{{background:#141414;border:1px solid #262626;border-radius:var(--eca-radius-card);padding:.65rem .9rem}}
+.stat b{{display:block;font-family:var(--eca-display);font-size:9.5px;font-weight:800;
+letter-spacing:.11em;color:var(--eca-gray-3);margin-bottom:.15rem}}
+.stat span{{font-family:var(--eca-display);font-weight:800;font-size:1.1rem;color:var(--eca-green);
+display:block;line-height:1.15}}
+.stat i{{display:block;font-style:normal;font-size:10.5px;color:var(--eca-gray-3);
+margin-top:.2rem;font-variant-numeric:tabular-nums}}
+main{{max-width:1080px;margin:0 auto;padding:1.75rem 2rem 3rem}}
 .card{{background:var(--eca-card);border:1px solid var(--eca-line);border-radius:var(--eca-radius-card);
-box-shadow:var(--eca-shadow-sm);padding:1.5rem;margin-bottom:1.5rem}}
-.card>h2{{font-size:.95rem;margin-bottom:1.25rem}}
-.strip{{position:relative;height:70px}}
-.bar{{position:absolute;top:10px;height:32px;border-radius:8px;display:flex;align-items:center;
-justify-content:center;overflow:hidden;background:#EDEDED;border:1px solid var(--eca-line)}}
-.bar span{{font-family:var(--eca-display);font-size:9px;font-weight:800;letter-spacing:.06em;
-padding:0 8px;white-space:nowrap;color:var(--eca-gray-2)}}
-.bar.done{{opacity:.45}}
-.bar.live{{background:var(--eca-green);border-color:var(--eca-green-dark)}}
-.bar.live span{{color:var(--eca-black)}}
-.today{{position:absolute;top:0;bottom:18px;width:2px;background:var(--eca-error)}}
-.today span{{position:absolute;top:100%;left:-14px;font-family:var(--eca-display);font-size:9px;
-font-weight:800;letter-spacing:.08em;color:var(--eca-error)}}
-table{{width:100%;border-collapse:collapse}}
-th{{background:var(--eca-green-tint);color:var(--eca-green-dark);font-family:var(--eca-display);
-font-size:10px;font-weight:800;letter-spacing:.1em;text-align:left;padding:.7rem .75rem}}
-td{{padding:.8rem .75rem;border-bottom:1px solid var(--eca-line);vertical-align:top}}
-tr:nth-child(even) td{{background:#FAFAFA}}
-tr.live td{{background:var(--eca-green-tint)}} tr.done td{{opacity:.5}}
-.pid{{font-family:var(--eca-display);font-size:11px;font-weight:800;letter-spacing:.05em;white-space:nowrap}}
-.num{{font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--eca-gray-2)}}
-.pill{{display:inline-block;padding:2px 10px;border-radius:999px;font-size:11px;font-weight:600;
-white-space:nowrap}}
+box-shadow:var(--eca-shadow-sm);padding:1.4rem;margin-bottom:1.4rem}}
+.card>h2{{font-size:.85rem;margin-bottom:1.1rem}}
+/* timeline: flex, not to-scale, so short phases stay legible */
+.strip{{display:flex;gap:5px;align-items:stretch;overflow-x:auto;padding-bottom:2px}}
+.seg{{position:relative;min-width:96px;flex-shrink:0;border-radius:8px;padding:.55rem .5rem;background:#F0F0F0;
+border:1px solid var(--eca-line);text-align:center;overflow:hidden}}
+.seg b{{display:block;font-family:var(--eca-display);font-size:9.5px;font-weight:800;
+letter-spacing:.05em;color:var(--eca-gray-2);line-height:1.25}}
+.seg span{{font-size:10px;color:var(--eca-gray-3)}}
+.seg.done{{opacity:.45}}
+.seg.live{{background:var(--eca-green);border-color:var(--eca-green-dark)}}
+.seg.live b,.seg.live span{{color:var(--eca-black)}}
+.tick{{position:absolute;top:0;bottom:0;width:2px;background:var(--eca-error)}}
+.scale{{margin:.6rem 0 0;font-size:11px;color:var(--eca-gray-3);text-align:right}}
+/* phase cards */
+.phase{{border:1px solid var(--eca-line);border-radius:var(--eca-radius-card);
+background:var(--eca-card);margin-bottom:.85rem;overflow:hidden}}
+.phase.live{{border-color:var(--eca-green);box-shadow:0 0 0 2px rgba(61,214,43,.18)}}
+.phase.done{{opacity:.6}}
+.phead{{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;padding:.85rem 1.1rem;
+background:#FAFAFA;border-bottom:1px solid var(--eca-line)}}
+.phase.live .phead{{background:var(--eca-green-tint)}}
+.badge{{font-family:var(--eca-display);font-size:10px;font-weight:800;letter-spacing:.08em;
+padding:.32rem .7rem;border-radius:999px;background:var(--eca-black);color:#fff;white-space:nowrap}}
+.badge.live{{background:var(--eca-green);color:var(--eca-black)}}
+.badge.done{{background:#00000014;color:var(--eca-gray-2)}}
+.dates{{font-variant-numeric:tabular-nums;font-size:13px;color:var(--eca-gray-2);white-space:nowrap}}
+.len{{font-size:11.5px;color:var(--eca-gray-3);white-space:nowrap}}
+.when{{margin-left:auto;font-family:var(--eca-display);font-size:10px;font-weight:800;
+letter-spacing:.07em;padding:.3rem .65rem;border-radius:999px;background:#4A90E21A;
+color:var(--eca-info);white-space:nowrap}}
+.when.live{{background:var(--eca-green);color:var(--eca-black)}}
+.when.done{{background:#00000010;color:var(--eca-gray-3)}}
+.what{{margin:0;padding:.75rem 1.1rem;color:var(--eca-gray-2);font-size:13.5px}}
+.tasks{{list-style:none;margin:0;padding:0 1.1rem 1rem}}
+.tasks li{{display:grid;grid-template-columns:132px 1fr auto auto;gap:.75rem;align-items:baseline;
+padding:.55rem 0;border-top:1px solid var(--eca-line);font-size:13.5px}}
+.tdate{{font-variant-numeric:tabular-nums;color:var(--eca-gray-3);font-size:12px;white-space:nowrap}}
+.ttask em{{display:block;font-style:normal;color:var(--eca-gray-3);font-size:12px;margin-top:.1rem}}
+.towner{{font-family:var(--eca-display);font-size:9.5px;font-weight:800;letter-spacing:.06em;
+color:var(--eca-gray-3);white-space:nowrap}}
+.pill{{display:inline-block;padding:.15rem .6rem;border-radius:999px;font-size:11px;
+font-weight:600;white-space:nowrap}}
 .pill.ok{{background:var(--eca-green-tint);color:var(--eca-green-dark)}}
-.pill.info{{background:#4A90E21A;color:var(--eca-info)}}
-.pill.mute{{background:#0000000D;color:var(--eca-gray-3)}}
 .pill.todo{{background:#F5A6231A;color:#9A6608}}
-.tasks{{margin:.6rem 0 0;padding:0;list-style:none;font-size:13px}}
-.tasks li{{padding:.3rem 0;border-top:1px solid var(--eca-line);display:flex;flex-wrap:wrap;
-align-items:center;gap:.5rem}}
-.w{{font-variant-numeric:tabular-nums;color:var(--eca-gray-2);font-size:12px;min-width:112px}}
-.own{{color:var(--eca-gray-3);font-size:11px;margin-left:auto}}
+.empty{{margin:0;padding:0 1.1rem 1rem;color:var(--eca-gray-3);font-size:13px}}
 .warn{{background:#D0021B0D;border:1px solid #D0021B55;border-left:4px solid var(--eca-error)}}
-.warn h3{{font-size:.8rem;color:var(--eca-error);margin-bottom:.6rem}}
+.warn h3{{font-family:var(--eca-display);text-transform:uppercase;font-size:.78rem;
+color:var(--eca-error);margin:0 0 .55rem}}
 .warn ul{{margin:0;padding-left:1.1rem;font-size:13.5px}}
-footer{{max-width:1120px;margin:0 auto;padding:0 2rem 3rem;color:var(--eca-gray-3);font-size:12px}}
-@media(max-width:720px){{header,main{{padding:1.25rem}}.w{{min-width:0}}}}
+footer{{max-width:1080px;margin:0 auto;padding:0 2rem 3rem;color:var(--eca-gray-3);font-size:11.5px}}
+@media(max-width:760px){{header,main{{padding:1.25rem}}
+.tasks li{{grid-template-columns:1fr auto;row-gap:.15rem}}
+.tdate{{grid-column:1/-1}} .towner{{grid-column:2}}
+.when{{margin-left:0}}}}
 </style>
-<header><div class="hwrap">
+<header><div class="wrap">
 <div class="brandrow">{mark}<span class="wordmark">ECOMMERCE ACADEMY&trade;</span></div>
-<p class="eyebrow">BLACK FRIDAY BLUEPRINT</p>
+<p class="eyebrow">ECA BLACK FRIDAY BLUEPRINT</p>
 <h1>BFCM {year} Campaign Calendar</h1>
-<p class="prep">{prep}Generated {gen} &middot; the CSVs are the source of truth</p>
+<p class="prep">{prep}{window}Generated {gen}</p>
 <div class="stats">{stats}</div>
 </div></header>
 <main>
 {warn}
-<div class="card"><h2>Campaign timeline</h2><div class="strip">{bars}{marker}</div></div>
-<div class="card"><h2>Phases &amp; tasks</h2>
-<table><tr><th>Phase</th><th>Starts</th><th>Ends</th><th>When</th><th>What happens</th></tr>
-{rows}</table></div>
+<div class="card"><h2>Campaign timeline</h2><div class="strip">{segs}</div>
+<p class="scale">Segment width shows relative length, not exact scale &middot; red line marks today</p></div>
+<h2 style="font-size:.85rem;margin:0 0 .9rem">Phases &amp; tasks</h2>
+{cards}
 </main>
 <footer>Generated by sync_campaign.py &middot; do not edit this file, changes will be overwritten.
 Edit the calendar CSV and re-run sync.</footer></html>
 """.format(year=year or today.year, brandt=(" — " + brand) if brand else "",
            prep=("Prepared for " + html.escape(brand) + " &middot; ") if brand else "",
-           mark=ECA_MARK, gen=today.isoformat(), warn=warn, bars="".join(bars), marker=marker,
-           rows="".join(rows),
-           stats="".join('<div class="stat"><b>{}</b><span>{}</span></div>'.format(k, v) for k, v in stats))
+           window=_offer_window(phases),
+           mark=ECA_MARK, gen=today.isoformat(), warn=warn,
+           segs="".join(segs), cards="".join(cards),
+           stats="".join('<div class="stat"><b>{}</b><span>{}</span>{}</div>'.format(
+               k, v, '<i>{}</i>'.format(html.escape(sub)) if sub else "")
+               for k, v, sub in stats))
 
 
 if __name__ == "__main__":

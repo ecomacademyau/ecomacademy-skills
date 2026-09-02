@@ -1,7 +1,7 @@
 {
   "name": "eca-black-friday-blueprint",
   "displayName": "ECA Black Friday Blueprint",
-  "version": "1.5.1",
+  "version": "1.6.1",
   "description": "Ecommerce Academy Black Friday Blueprint — everything you need for an outstanding BFCM, built on your own data. Starts by scanning a full year of trading to find the best offer the store has already run, then pulling last year's Q4 and BFCM performance, cross-checks it against what you want this year, and recommends a core offer, a Cyber Monday offer and a pre-agreed Plan B. All of it lands in a BFCM Campaign Master File, a phase calendar and an append-only runsheet that the rest of the Blueprint builds on. Works with a brand-new store too, on unit economics rather than history. More BFCM skills are added here in the lead-up, so install this one plugin to stay current.",
   "author": {
     "name": "Ecommerce Academy",
