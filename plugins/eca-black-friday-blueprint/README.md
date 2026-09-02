@@ -1,4 +1,4 @@
-# Black Friday Blueprint
+# ECA Black Friday Blueprint
 
 Everything you need for an outstanding BFCM, built on **your** data rather than on what the brand next door is doing.
 

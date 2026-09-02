@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.12.14 - 2026-09-02
+
+- Rename to ECA Black Friday Blueprint
+
 ## v1.12.13 - 2026-09-02
 
 - Added in Black Friday Blueprint
