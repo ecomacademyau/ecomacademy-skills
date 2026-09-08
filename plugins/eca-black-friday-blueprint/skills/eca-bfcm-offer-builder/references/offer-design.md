@@ -23,26 +23,100 @@ Order of operations, always: **objective → growth lever → mechanic → depth
 | **Traffic / Awareness** | More people arrive | Get in front of new audiences |
 | **Database** | More people on the list | Build the asset you can sell to for free afterwards |
 
+## Simple scales, complexity fails
+
+**This governs every recommendation in this file.** An offer has to survive three seconds of a distracted person's attention on a phone, in the busiest, noisiest week of the retail year, while eleven other brands shout at them. Complexity is not a neutral design choice that costs a little clarity. It is the thing that kills offers.
+
+Complexity costs three times over, and the second and third are the ones people forget:
+
+1. **The customer has to understand it.** Every clause is a chance to give up. Confusion does not produce a question — it produces a closed tab.
+2. **The member has to build it.** Tiers, exclusions and stacking rules are where discounts get misconfigured, and a misconfigured discount on Black Friday is a live fire with real money going out the door.
+3. **You have to be able to tell whether it worked.** An offer with four moving parts cannot be attributed to any of them, so nothing is learned and next year starts from zero again.
+
+A flat offer everyone understands beats a clever one that is theoretically optimal. Optimal-on-paper assumes the customer reads the paper.
+
+### The one-line test — an offer fails until it passes
+
+**Say the offer in one plain sentence, with no "and", no brackets, no asterisk, no second sentence.** If it cannot be said that way, it is not ready to recommend, no matter how good the maths looks.
+
+| Passes | Fails |
+|---|---|
+| "30% off everything." | "30% off, or 40% when you spend $150, excluding new arrivals." |
+| "Spend $100, save $25." | "Spend $100 save $20, $200 save $50, $300 save $90, cannot combine." |
+| "Free shipping on every order." | "Free express shipping over $80 for members with code CYBER, one use." |
+| "Buy 2, get the third free." | "Buy 2 get 1 free on selected lines, excluding bundles and sale items." |
+
+The test is not "can I write it in one line" — anyone can compress anything. It is **would a stranger act on that line without asking a follow-up question.** If your one-liner needs a footnote to be honest, the offer is too complicated and the footnote is the proof.
+
+### Score it before you recommend it
+
+`scripts/offer_friction.py` counts the hoops so "too complicated" is a number you can put in front of the member rather than an opinion they can wave away.
+
+```bash
+python3 scripts/offer_friction.py --line "Spend $100, save $25" --threshold --build automatic
+python3 scripts/offer_friction.py --line "<their offer>" --build code --tiers 3 \
+        --conditions "no stacking,excl gift cards,excl bundles"
+```
+
+**0–1 clean · 2–3 acceptable, near the practical ceiling · 4+ rework before recommending.** It exits non-zero on a fail, and it names each thing adding friction so the conversation is about specific removals rather than a general feeling that something is too fiddly. Run it on the member's own idea too — a score of 12 beside a score of 1 makes the argument better than any amount of advocacy.
+
+### Rewrite, do not annotate
+
+When an offer fails the test, the fix is never a clearer explanation, a better banner, or a well-designed table of tiers. **The fix is a simpler offer.** Design effort spent making complexity legible is effort that should have been spent removing it.
+
+Three tiers become one threshold. Four exclusions become one collection that is in or out. A code becomes an automatic discount. Every removal is a real gain, not a compromise.
+
+### What to do when the member wants the complicated one
+
+Members often arrive attached to an elaborate mechanic, usually because it models beautifully in a spreadsheet. Do not just agree, and do not lecture. **Show them the simple version beside it**, with the break-even for both, and say plainly what the complexity is buying and what it costs. Often the simple version earns nearly as much on paper and considerably more in practice, because the modelled version assumes perfect comprehension and perfect setup.
+
+If they still want it after seeing both, build it — it is their store and their call. Record in the Master File that the simpler alternative was offered and declined, along with the one-liner it would have had. Next year's post-mortem will want to know.
+
 ## The tactic bank
 
-Propose mechanics from the lever's column. Do not pull a tactic from a column you are not trying to move.
+Mechanics are grouped by **the lever they move**, and within each lever they are ordered **least friction first**. Do not pull a tactic from a column you are not trying to move — and do not reach past the top of a column without a reason you can say out loud.
 
-### Average Order Value
-Buy X for $XX · Spend & Save · Buy One Get One (or BOGO 50%) · Spend to win · VIP program · Gift with purchase at a threshold · Bundles · Add-ons · Personal shopping · Live shopping event · Tiered discount by basket size
+**Start at the top. Move down only when the simpler mechanic genuinely cannot do the job.** "It is a bit boring" is not a reason. Boring converts.
+
+### Reading the friction tiers
+
+- **Tier 1 — reach for these first.** One sentence, no threshold to calculate, no code to remember, and Shopify can run it natively as an automatic discount. The customer understands it at a glance and the member cannot misconfigure it badly.
+- **Tier 2 — fine, with one condition.** A single threshold or a single qualifying rule. Still one sentence. This is the practical ceiling for most stores.
+- **Tier 3 — only with a specific reason.** Multiple conditions, extra customer steps, or app/manual setup. These need real justification, and they need someone with time to build and monitor them during the busiest week of the year.
 
 ### Conversion Rate
-Site-wide discount · Collection discount · Flash sale · Free shipping · Express shipping upgrade · Gift with purchase · Markdowns · Clearance / final sale · Referral award · Shop & win · Influencer coupons · Secret sale
+
+- **Tier 1** — Site-wide discount · Free shipping · Collection discount
+- **Tier 2** — Gift with purchase · Clearance / final sale tier · Flash sale on one clear window
+- **Tier 3** — Secret sale · Shop & win · Influencer coupon codes · Referral award
+
+### Average Order Value
+
+- **Tier 1** — A single fixed bundle at one price · Buy one get one
+- **Tier 2** — Spend & Save at **one** threshold · Buy X for $XX · Gift with purchase at one threshold
+- **Tier 3** — Multi-tier spend & save · Tiered discount by basket size · Spend to win · VIP program · Live shopping event · Personal shopping
+
+**On tiered spend-and-save specifically.** It is the most over-recommended mechanic in BFCM, because in a spreadsheet each tier looks like free incremental margin. In the checkout it asks the customer to do arithmetic against their cart, and most will not. If AOV is the lever, **one threshold set just above current AOV** captures most of the available lift for a fraction of the confusion. Recommend the single threshold first, every time.
 
 ### Traffic / Awareness
-Google Ads · Meta Ads · SEO · Video ads · Product reviews · Affiliate marketing · Public relations · Offline marketing
+
+- **Tier 1** — Meta Ads · Google Ads · Video ads
+- **Tier 2** — SEO · Product reviews · Affiliate marketing
+- **Tier 3** — Public relations · Offline marketing
 
 ### Database
-On-site capture · Off-site competitions · Off-site sign-ups · Partnerships · In-store sign-up · Event sign-ups · Referral marketing
+
+- **Tier 1** — On-site capture · Early access sign-up for the sale
+- **Tier 2** — Off-site sign-ups · Event sign-ups · In-store sign-up
+- **Tier 3** — Off-site competitions · Partnerships · Referral marketing
 
 ### No discount
-**Read this column out loud to every member before they commit to a percentage.** These protect margin and several of them outperform a discount on a brand with genuine demand.
 
-Limited edition product · Customisation · "Not on sale" sale · Members-only products · Digital product add-on · New drop · Collaborations · Holiday packages · Partner program · Extended returns window · Extended warranties · Gift guides · Charity donations
+**Read this column out loud to every member before they commit to a percentage.** These protect margin, and several outperform a discount on a brand with genuine demand.
+
+- **Tier 1** — "Not on sale" sale · New drop · Extended returns window · Gift guides
+- **Tier 2** — Limited edition product · Members-only products · Holiday packages · Charity donations · Extended warranties
+- **Tier 3** — Customisation · Digital product add-on · Collaborations · Partner program
 
 ## Objective → lever → mechanic
 
@@ -104,13 +178,15 @@ That number reframes everything honestly. A target that looks like 4x last year 
 ## Designing the three offers
 
 ### The core offer
-The main event, live for the whole window. It should:
-- Move the lever tied to the stated objective
-- Be explainable in one line, on a banner, without a footnote
-- Be defensible on margin at the forecast volume
-- Beat last year's mechanic for a reason you can name from the data
+The main event, live for the whole window. It must:
 
-**Simple beats clever.** A tiered offer nobody understands converts worse than a flat one everybody does.
+1. **Pass the one-line test** — before anything else. Write the actual sentence the customer will read and put it at the top of the recommendation. If you cannot write it, you do not have an offer yet.
+2. **Move the lever** tied to the stated objective.
+3. **Be defensible on margin** at the forecast volume.
+4. **Beat last year's mechanic** for a reason you can name from the data.
+5. **Be buildable in Shopify natively**, ideally as an automatic discount with no code. If it needs an app, manual work, or a support person explaining it, that cost is part of the offer and must be stated.
+
+Take the simplest mechanic that moves the lever, then stop. The instinct to add "and also free shipping over $X" is where good offers go to die — it doubles the thinking and adds almost nothing, because the customer already decided at the headline.
 
 ### The Cyber Monday offer
 Cyber Monday is not "the sale continues". Traffic returns with different intent: later buyers, more considered, more mobile, and many arriving after seeing the brand for the first time on Friday. A repeated offer gets ignored by everyone who already saw it.
@@ -119,6 +195,8 @@ Make it **genuinely different**, and usually pointed at a different lever:
 - Core was site-wide CVR? Make Cyber Monday an AOV play — bundle, spend-and-save, gift with purchase.
 - Core was AOV? Make Cyber Monday a narrower, sharper CVR play on a specific collection.
 - Or make it access rather than depth: a limited drop, a members-only door, the bundle that sold out on Friday coming back.
+
+**Different does not mean more complicated.** The Cyber Monday offer gets the same one-line test, and it is a fresh sentence rather than an amendment to Friday's. "Everything 30% off" followed by "Free shipping on everything, today only" is two clean offers. "30% off, plus free shipping, plus the bundle tier unlocks" is one confusing one. If the second offer can only be explained by referring to the first, it is a continuation wearing a costume.
 
 **Do not go deeper than the core offer** unless the member accepts that Friday's buyers will feel punished for buying early. If they do go deeper, plan the goodwill fix in advance — usually a credit to early buyers.
 
@@ -159,6 +237,24 @@ Rules for this skill:
 - If they want a strikethrough, ask when the item last sold at that price, and record the answer in the Master File
 - "Up to X% off" requires a meaningful number of items at the maximum depth
 
-## Conditions to settle before the offer is locked
+## Conditions — every one is friction, so start from none
 
-Every one of these has caused a real mess when left unstated: minimum spend · exclusions (new arrivals, bundles, gift cards, already-discounted lines) · stacking with other codes and automatic discounts · subscription orders · whether it applies to returns and exchanges · one use per customer · start and end times **with timezone** · whether wholesale or retail partners are affected · what happens to orders placed minutes after the end.
+The section below is often read as a checklist of conditions to *add*. It is the opposite. **Every condition is a small tax on comprehension and a place the build can go wrong.** Three exclusions do not sound like much until they are the difference between a customer buying and a customer closing the tab, or between a discount that works and one that quietly applies to gift cards all weekend.
+
+**Default to none. Add a condition only when leaving it out causes a real, nameable loss** — margin destroyed, stock oversold, a legal or partner obligation broken. "It feels safer" is not a nameable loss. Neither is "in case someone games it": a handful of people getting a slightly better deal costs far less than every customer having to parse a rule.
+
+Where a condition must exist, prefer the version the customer never has to think about:
+
+| Instead of | Prefer | Why |
+|---|---|---|
+| A discount code | An automatic discount | Nothing to remember, copy, or mistype |
+| Four excluded collections | One collection that is in, or out | One rule instead of four |
+| "One use per customer" | No limit, unless there is a real arbitrage risk | Rarely worth the confusion it causes |
+| Tiered thresholds | One threshold | Removes arithmetic at the checkout |
+| Complex stacking rules | Discounts do not stack, stated plainly once | Ambiguity here generates support tickets and chargebacks |
+
+**These still have to be decided, even when the answer is "no condition".** Deciding is not the same as adding — an unstated default is how a sale ends up applying to wholesale partners at 2am. Settle each one and write the answer down, keeping as many as possible at "none":
+
+Minimum spend · exclusions (new arrivals, bundles, gift cards, already-discounted lines) · stacking with other codes and automatic discounts · subscription orders · whether it applies to returns and exchanges · one use per customer · start and end times **with timezone** · whether wholesale or retail partners are affected · what happens to orders placed minutes after the end.
+
+**Then read the final one-liner again with every surviving condition included.** If it no longer passes the one-line test, the conditions have eaten the offer — go back and remove until it does.

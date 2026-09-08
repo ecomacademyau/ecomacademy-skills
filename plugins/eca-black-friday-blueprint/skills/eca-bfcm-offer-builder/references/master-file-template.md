@@ -174,15 +174,24 @@ Where the member's ambition and the evidence agree, and where they do not. **Thi
 
 ## 7. THE CORE OFFER
 
+> ### "<the one line the customer reads>"
+>
+> Fill this first. One plain sentence — no "and", no brackets, no asterisk. If it needs a footnote to be honest, the offer is too complicated: simplify it, do not annotate it.
+
 | | |
 |---|---|
-| **Offer** | |
+| **The one-liner** | <exactly what goes on the banner> |
+| **Passes the one-line test** | Yes / No — if No, it is not ready |
+| **Simpler version considered** | <the simpler offer, and why it was not chosen> |
 | **Mechanic** | |
+| **Friction tier** | 1 / 2 / 3 — and the reason if not Tier 1 |
+| **Customer steps to claim it** | <ideally: none, it applies automatically> |
+| **Build** | Automatic discount / code / app / manual — anything past automatic is a real cost |
 | **Lever it moves** | |
 | **Why this one** | <tied to a specific number in section 2 or 3> |
-| **Discount code** | |
-| **Eligibility / exclusions** | |
-| **Conditions** | |
+| **Discount code** | <prefer none — an automatic discount has nothing to mistype> |
+| **Eligibility / exclusions** | <prefer none> |
+| **Conditions** | <list every one; each is friction, so justify each> |
 | **Scarcity** | Time / Product / Bonus — and why it is real |
 | **Starts / ends** | |
 | **Early access** | |
@@ -196,9 +205,11 @@ Where the member's ambition and the evidence agree, and where they do not. **Thi
 
 | | |
 |---|---|
-| **Offer** | |
+| **The one-liner** | <a fresh sentence, not an amendment to the core offer> |
+| **Passes the one-line test** | Yes / No |
 | **Why it differs from the core offer** | |
 | **Mechanic** | |
+| **Friction tier** | 1 / 2 / 3 |
 | **Starts / ends** | |
 | **Margin** | |
 

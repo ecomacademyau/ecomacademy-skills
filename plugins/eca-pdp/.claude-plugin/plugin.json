@@ -1,6 +1,6 @@
 {
   "name": "eca-pdp",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Connects to a Shopify store via the Shopify CLI, duplicates the live theme into a development theme, and installs a research-backed high-converting product page template. Built for Shopify's Horizon theme architecture.",
   "author": {
     "name": "Ecommerce Academy",

@@ -2,6 +2,14 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.13.0 - 2026-09-08
+
+- Removed PDP and Promotions, depreciated skills
+
+## v1.13.0 - 2026-09-08
+
+- Update  to description length
+
 ## v1.7.0 - 2026-09-03
 
 - Update to BFCM Offer Skill

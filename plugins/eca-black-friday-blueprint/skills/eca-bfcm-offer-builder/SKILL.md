@@ -139,15 +139,23 @@ If the evidence supports what they want, say that clearly too, and move faster.
 
 Follow `references/offer-design.md`.
 
-**The core offer.** Objective → lever → mechanic → depth → conditions, in that order. Run the break-even and show it. Tie the recommendation to a specific number from the evidence — "your spend-and-save last year lifted AOV 22% and cost 9 points of margin, versus the site-wide 20% which cost 20 points for a 12% order lift" is a reason. "Spend and save works well" is not.
+**Simple scales, complexity fails.** Read the simplicity section of `references/offer-design.md` before proposing anything. **Write the one line the customer will read, first, and lead the recommendation with it.** One plain sentence — no "and", no brackets, no asterisk, no footnote. If you cannot write that sentence, you do not have an offer yet, and no amount of modelling will fix it. When an offer fails the test the answer is a simpler offer, never a clearer explanation.
+
+Work down from the top of each lever's column in the tactic bank — those are ordered least-friction first. Reaching past Tier 1 needs a reason you can say out loud; "it is a bit boring" is not one. Prefer an automatic discount over a code, one threshold over tiers, and no exclusions over a list of them. Every condition is a tax on comprehension and a place the build can go wrong in the busiest week of the year.
+
+If the member wants something elaborate, do not just agree and do not lecture — **show the simple version beside it with both break-evens**, say what the complexity buys and what it costs, then build what they choose and record that the simpler option was offered.
+
+Score every candidate with `python3 scripts/offer_friction.py --line "<the one-liner>" [flags]` and show the member the number. Run it on their own idea as well — two scores side by side settle the question faster than argument.
+
+**The core offer.** One-liner → objective → lever → mechanic → depth → conditions, in that order. Run the break-even and show it. Tie the recommendation to a specific number from the evidence — "your spend-and-save last year lifted AOV 22% and cost 9 points of margin, versus the site-wide 20% which cost 20 points for a 12% order lift" is a reason. "Spend and save works well" is not.
 
 Offer **the no-discount column** genuinely, not as a token gesture. For a brand with real demand and thin margins it is often the better answer, and almost nobody considers it.
 
-**The Cyber Monday offer.** Different mechanic, usually a different lever. Not a continuation.
+**The Cyber Monday offer.** Different mechanic, usually a different lever. Not a continuation — and **different does not mean more complicated.** It gets its own one-line test and its own fresh sentence. If it can only be explained by referring back to Friday's offer, it is a continuation wearing a costume.
 
 **Plan B.** Trigger metric, threshold, exact check point, the switch, and who decides. Written down now, while everyone is calm.
 
-Then settle the conditions list, and the scarcity, and check any pricing claim is one they can substantiate.
+Then settle the conditions — **starting from none**, adding only where leaving it out causes a real, nameable loss — and the scarcity, and check any pricing claim is one they can substantiate. **Finally, read the one-liner again with every surviving condition included.** If it no longer passes, the conditions have eaten the offer: remove until it does.
 
 ## Step 8 — Ask their sale dates, then lock the calendar and budget
 
@@ -254,6 +262,8 @@ Give them, briefly: the file, the three offers in one line each, the single bigg
 - **Never propose fake scarcity or an unsubstantiated "was" price.** Both are misleading conduct and BFCM is when regulators look.
 - **Never let the answer be "match the competitor".** It is the most common BFCM mistake and it optimises for someone else's margin, stock position and customer base.
 - **One primary objective.** A sale trying to do four things does none of them.
+- **Simple scales, complexity fails.** Every offer must be sayable in one plain sentence a stranger would act on without a follow-up question. Complexity costs three times: the customer has to understand it, the member has to build it correctly under pressure, and nobody can tell afterwards which part worked. Default to an automatic discount, one threshold, and no exclusions.
+- **Never fix a confusing offer with better wording.** If it fails the one-line test, change the offer, not the explanation.
 - **Confirm every input.** A wrong assumption at intake propagates through every skill that reads this file.
 - **Say what you could not get**, every time, without being asked.
 
@@ -265,3 +275,5 @@ Give them, briefly: the file, the three offers in one line each, the single bigg
 - `scripts/bfcm_dates.py` — computes BFCM windows for any year
 - `scripts/promo_outliers.py` — finds the best promotional periods across the whole year, detrended and weighted by discount cost
 - `scripts/campaign_calendar.py` — builds the phase calendar with computed dates and a countdown
+- `scripts/sync_campaign.py` — validates the calendar and runsheet and regenerates the dashboard
+- `scripts/offer_friction.py` — scores an offer's friction, so "too complicated" is a number, not an opinion
