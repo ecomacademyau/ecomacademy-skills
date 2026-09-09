@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.9.1 - 2026-09-09
+
+- Added in Email Skill
+
 ## v1.13.0 - 2026-09-08
 
 - Removed PDP and Promotions, depreciated skills

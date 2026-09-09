@@ -293,7 +293,7 @@ Where the member's ambition and the evidence agree, and where they do not. **Thi
 ---
 
 ## 13. Email and SMS plan
-*Reserved — Email & SMS Plan skill.*
+*Filled by `eca-bfcm-email-campaigns` — the email calendar, the ratio check, the segment per send, and a pointer to the full handoff document. SMS stays `TBD` until an SMS run happens.*
 
 ## 14. Meta Ads plan
 *Reserved — Meta Ads skill.*
