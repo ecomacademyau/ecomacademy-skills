@@ -31,7 +31,19 @@ Takes the offer the Offer Builder settled and turns it into the whole email prog
 
 It uses the exact offer one-liner from the Master File rather than rewriting it, so the emails, the banner and the ads all say the same thing. Audience sizes come from real marketable segments, never a raw profile count.
 
-## How the two skills work together
+### `eca-bfcm-ads-builder` — build the ad creative
+
+Takes the locked offer, your real product photos and one inspo ad, and produces finished, launch-ready statics with the offer baked into the image.
+
+1. **Rebuilds the inspo's geometry**, not its vibe — same camera height, crop, subject scale and text zones. It takes the layout and discards the other brand's product, logo, type and copy entirely.
+2. **Protects product fidelity** — cross-checks your supplied photos against your live store so the packaging on the ad is the packaging you actually sell.
+3. **Generates cheap while deciding**, then renders the approved concept properly. It checks every image in Chrome before showing you anything, because nobody can see generation output otherwise.
+4. **Writes the bottom-of-funnel Meta copy**, tested against last year's Black Friday control.
+5. **Files it** to the naming convention Ads Manager and the 4PI analyst can actually read.
+
+**Needs Higgsfield** connected to generate the images. Without it you still get the full creative brief, the composition decision and the finished generation prompt to run in your own tool — it tells you which path you're on up front rather than dying halfway.
+
+## How the three skills work together
 
 Both read and write one shared set of files in a `bfcm/` folder:
 
@@ -39,12 +51,14 @@ Both read and write one shared set of files in a `bfcm/` folder:
 |---|---|---|
 | `bfcm-<year>-master.md` | Offer Builder, then each channel skill fills its own section | Everything |
 | `bfcm-<year>-calendar.csv` | Offer Builder and you, one writer only | Everything |
-| `bfcm-<year>-runsheet.csv` | Append-only, every skill tags its own rows | The dashboard |
+| `bfcm-<year>-runsheet.csv` | Append-only, every skill tags its own rows (`EMAIL`, `ADS`, …) | The dashboard |
 | `bfcm-<year>-dashboard.html` | Generated, never edited by hand | You, each morning |
 
 The email skill appends every send to the runsheet tagged `OWNER=EMAIL` and places it against a **phase ID** rather than a hard-coded date. Move your launch and every email moves with it. Open the dashboard and the emails sit alongside every other channel, in order.
 
-**Run them in order.** The email skill needs the offer settled before it starts, and will send you back to the Offer Builder if it isn't. Every subject line, send date and segment is downstream of what the offer actually is, so planning emails first just means rewriting them all once it changes.
+**Run the Offer Builder first, always.** Both the email skill and the ads skill start from the locked offer and will send you back if it isn't there. Every subject line, send date, segment and on-image headline is downstream of what the offer actually is, so building them first just means rebuilding them once it changes — and with ads that costs credits, not just time.
+
+The offer one-liner travels unchanged into the emails and onto the creative, so the email, the ad and the site banner all say the same thing. Three different phrasings of one sale reads as three offers.
 
 ## Connectors
 

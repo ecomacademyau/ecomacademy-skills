@@ -296,7 +296,7 @@ Where the member's ambition and the evidence agree, and where they do not. **Thi
 *Filled by `eca-bfcm-email-campaigns` — the email calendar, the ratio check, the segment per send, and a pointer to the full handoff document. SMS stays `TBD` until an SMS run happens.*
 
 ## 14. Meta Ads plan
-*Reserved — Meta Ads skill.*
+*Filled by `eca-bfcm-ads-builder` — the concepts built, angle and funnel stage, ratios, asset names, where the files live, and the Notion board if one was made.*
 
 ## 15. Google Ads plan
 *Reserved — Google Ads skill.*

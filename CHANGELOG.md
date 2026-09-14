@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.10.0 - 2026-09-15
+
+- Added in BFCM Ads Builder
+
 ## v1.9.1 - 2026-09-09
 
 - Added in Email Skill

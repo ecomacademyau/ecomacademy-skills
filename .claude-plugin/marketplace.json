@@ -64,7 +64,7 @@
       "name": "eca-black-friday-blueprint",
       "displayName": "ECA Black Friday Blueprint",
       "source": "./plugins/eca-black-friday-blueprint",
-      "description": "Ecommerce Academy Black Friday Blueprint — everything you need to plan and run BFCM. Decide a data-backed offer from last year's numbers, lock the phase calendar, then build the full email content calendar and copy off the back of it. Two skills that share one set of campaign files, so the offer, the dates and every send live in the same runsheet and dashboard.  What's new (v1.9.1): Added in Email Skill",
+      "description": "Ecommerce Academy Black Friday Blueprint — everything you need to plan and run BFCM. Decide a data-backed offer from last year's numbers, lock the phase calendar, then build the email programme and the ad creative off the back of it. Three skills sharing one set of campaign files, so the offer, the dates, every send and every ad live in the same runsheet and dashboard. The ads skill needs Higgsfield connected to generate images, and produces a full creative brief and prompt when it is not.  What's new (v1.10.0): Added in BFCM Ads Builder",
       "category": "ecommerce",
       "tags": [
         "black-friday",
