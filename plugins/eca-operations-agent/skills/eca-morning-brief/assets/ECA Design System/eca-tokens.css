@@ -1,0 +1,42 @@
+/* ECA Design System — Ecommerce Academy™ — report tokens
+   Distilled from the ECA design system (README + color/type previews).
+   Fonts: Mont (licensed; substitute Nunito Sans) for display, Montserrat for body. */
+
+:root{
+  /* Brand */
+  --eca-green:      #3DD62B;   /* signature electric green — CTAs, highlights, logo mark */
+  --eca-green-dark: #2FB61F;   /* hover state */
+  --eca-green-tint: #E8FAE6;   /* light green surface */
+  --eca-black:      #0A0A0A;   /* dark hero backgrounds, heavy headlines */
+
+  /* Neutrals */
+  --eca-ink:    #1A1A1A;
+  --eca-gray-1: #2C2C2C;
+  --eca-gray-2: #555555;
+  --eca-gray-3: #999999;
+  --eca-line:   #E0E0E0;
+  --eca-bg:     #F5F5F5;
+  --eca-card:   #FFFFFF;
+  --eca-card-dark: #141414;
+
+  /* Semantic */
+  --eca-success: #3DD62B;
+  --eca-warning: #F5A623;
+  --eca-error:   #D0021B;
+  --eca-info:    #4A90E2;
+
+  /* Shape & elevation */
+  --eca-radius-card: 12px;
+  --eca-radius-md: 8px;
+  --eca-radius-full: 999px;
+  --eca-shadow-sm: 0 1px 3px rgba(10,10,10,.08);
+  --eca-shadow-md: 0 4px 14px rgba(10,10,10,.10);
+  --eca-shadow-green: 0 4px 20px rgba(61,214,43,.25);
+
+  /* Type */
+  --eca-display: 'Nunito Sans', sans-serif;   /* Mont substitute: 700–900, ALL CAPS, -0.03em, lh 1.1 */
+  --eca-body: 'Montserrat', sans-serif;       /* 400–600, lh 1.6 */
+}
+
+/* Google Fonts import for reports:
+https://fonts.googleapis.com/css2?family=Nunito+Sans:wght@700;800;900&family=Montserrat:wght@400;500;600;700&display=swap */

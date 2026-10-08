@@ -41,7 +41,7 @@
       "name": "eca-operations-agent",
       "displayName": "ECA Operations Coworker",
       "source": "./plugins/eca-operations-agent",
-      "description": "Ecommerce Academy Operations Coworker — turn repeatable tasks into reusable Claude skills with the TEACH framework, and build high-converting ad landing pages into your Shopify theme.",
+      "description": "Ecommerce Academy Operations Coworker — the daily running of the store. A morning brief that reads Shopify, Meta Ads and your inbox and tells you what needs doing today, a landing page builder that installs straight into your theme, and a skill builder that turns any repeatable task of yours into a reusable skill.  What's new (v1.36.0): Added in daily bried",
       "category": "ecommerce",
       "tags": [
         "operations",
@@ -64,7 +64,7 @@
       "name": "eca-black-friday-blueprint",
       "displayName": "ECA Black Friday Blueprint",
       "source": "./plugins/eca-black-friday-blueprint",
-      "description": "Ecommerce Academy Black Friday Blueprint — everything you need to plan and run BFCM. Decide a data-backed offer from last year's numbers, lock the phase calendar, then build the email programme and the ad creative off the back of it. Three skills sharing one set of campaign files, so the offer, the dates, every send and every ad live in the same runsheet and dashboard. The ads skill needs Higgsfield connected to generate images, and produces a full creative brief and prompt when it is not.  What's new (v1.10.0): Added in BFCM Ads Builder",
+      "description": "Ecommerce Academy Black Friday Blueprint — everything you need to plan and run BFCM. Decide a data-backed offer from last year's numbers, lock the phase calendar, then build the email programme and the ad creative off the back of it. Three skills sharing one set of campaign files, so the offer, the dates, every send and every ad live in the same runsheet and dashboard. The ads skill needs Higgsfield connected to generate images, and produces a full creative brief and prompt when it is not.",
       "category": "ecommerce",
       "tags": [
         "black-friday",

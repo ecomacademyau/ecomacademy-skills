@@ -1,8 +1,8 @@
 {
   "name": "eca-operations-agent",
   "displayName": "ECA Operations Coworker",
-  "version": "1.35.2",
-  "description": "Ecommerce Academy Operations Coworker — the build-and-automate toolkit for your store. Turn repeatable tasks into reusable Claude skills with the TEACH framework, and build high-converting ad landing pages straight into your Shopify theme. New operations skills are added here over time; install this one plugin to stay current with all of them.",
+  "version": "1.36.0",
+  "description": "Ecommerce Academy Operations Coworker — the daily running of the store. A morning brief that reads Shopify, Meta Ads and your inbox and tells you what needs doing today, a landing page builder that installs straight into your theme, and a skill builder that turns any repeatable task of yours into a reusable skill.  What's new (v1.36.0): Added in daily bried",
   "author": {
     "name": "Ecommerce Academy",
     "email": "brendan@ecomfactory.com.au"
@@ -22,7 +22,11 @@
     "shopify",
     "theme",
     "cro",
-    "ads"
+    "ads",
+    "morning",
+    "brief",
+    "daily",
+    "dashboard"
   ],
   "skills": "./skills"
 }
