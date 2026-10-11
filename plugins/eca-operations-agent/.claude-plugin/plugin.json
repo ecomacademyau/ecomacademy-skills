@@ -1,8 +1,8 @@
 {
   "name": "eca-operations-agent",
   "displayName": "ECA Operations Coworker",
-  "version": "1.36.0",
-  "description": "Ecommerce Academy Operations Coworker — the daily running of the store. A morning brief that reads Shopify, Meta Ads and your inbox and tells you what needs doing today, a landing page builder that installs straight into your theme, and a skill builder that turns any repeatable task of yours into a reusable skill.  What's new (v1.36.0): Added in daily bried",
+  "version": "1.47.0",
+  "description": "Ecommerce Academy Operations Coworker — the daily running of the store. A morning brief that reads Shopify, Meta Ads and your inbox and tells you what needs doing today, a customer service skill that drafts your replies and learns which ones it can handle alone, a landing page builder that installs into your theme, and a skill builder that turns any repeatable task of yours into a reusable skill.  What's new (v1.47.0): Update to CS Skill",
   "author": {
     "name": "Ecommerce Academy",
     "email": "brendan@ecomfactory.com.au"
@@ -26,7 +26,12 @@
     "morning",
     "brief",
     "daily",
-    "dashboard"
+    "dashboard",
+    "customer-service",
+    "support",
+    "inbox",
+    "gmail",
+    "email"
   ],
   "skills": "./skills"
 }

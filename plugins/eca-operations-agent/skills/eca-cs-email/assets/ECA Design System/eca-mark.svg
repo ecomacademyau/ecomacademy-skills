@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 310 285" fill="none">
+  <!-- ECA mark — vector recreation of the Ecommerce Academy bar-chart-and-arrow logo.
+       Outline style, brand green #3DD62B, rounded joins. Replace with official
+       ECA-Logo-SQ-logo-only.png when the original file is available. -->
+  <g stroke="#3DD62B" stroke-width="22" stroke-linejoin="round" stroke-linecap="round">
+    <!-- bar 1 (short, leaning parallelogram) -->
+    <path d="M38 262 L20 262 Q12 262 14 254 L26 210 Q28 202 36 202 L66 202 Q74 202 72 210 L60 254 Q58 262 50 262 Z"/>
+    <!-- bar 2 (taller) -->
+    <path d="M118 262 L86 262 Q78 262 80 254 L106 158 Q108 150 116 150 L146 150 Q154 150 152 158 L126 254 Q124 262 116 262 Z"/>
+    <!-- arrow: body sweeping up from baseline into a large up-right head -->
+    <path d="M160 262 Q188 262 204 222 Q222 178 230 120 L206 132 Q198 136 197 127 L206 52 Q207 42 216 40 L286 22 Q296 20 294 30 L280 100 Q278 109 271 103 L256 88 Q250 160 226 214 Q202 266 158 262 Z"/>
+  </g>
+</svg>

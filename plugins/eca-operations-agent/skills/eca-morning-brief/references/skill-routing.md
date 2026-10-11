@@ -29,7 +29,7 @@ beyond moving the row.
 | What the action is about | Skill to prefer | Status | What the fallback must cover |
 |---|---|---|---|
 | Meta ad performance, spend, ROAS, a drop | `eca-meta-ads-4pi` | installed | Pull account, campaign, ad set and ad level for the window; name what changed and when |
-| Customer service email | `eca-cs-email` | planned | Read unanswered customer mail, summarise, draft replies, send nothing |
+| Customer service email | `eca-cs-email` | installed | Find threads whose last message is not from the store, oldest first, check orders in Shopify, draft replies, send nothing |
 | Product reviews | `eca-review-replies` | planned | Find reviews via Judge.me notification emails, draft per-review replies, flag low ratings |
 | Stock cover and reordering | `eca-stock-cover` | planned | On-hand against 28-day velocity, weeks of cover, flag under threshold |
 | Dispatch and fulfilment | none | — | Unfulfilled paid orders with ages, daily fulfilment counts, average hours to dispatch |

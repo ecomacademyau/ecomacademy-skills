@@ -1,3 +1,4 @@
+<!-- Lives at morning-brief/config.md in your working folder, never inside the installed skill. -->
 # Morning brief configuration
 
 Written at first run. Copy to `config.md` and fill it in, or let setup do it.

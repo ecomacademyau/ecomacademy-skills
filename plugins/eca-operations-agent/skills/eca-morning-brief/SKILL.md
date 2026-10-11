@@ -16,10 +16,37 @@ Slack.
 says so in one line and gets out of the way. A brief that invents three things to worry
 about every day trains the reader to stop opening it.
 
-## Setup, on the first run only
+## Step 0 — The gate. Every run. Before anything else.
 
-Setup writes `config.md` beside this skill. Once it exists, every later run reads it and
-goes straight to work.
+**Do not pull any data until this passes.** A brief built before setup is finished picks
+the wrong ad account, compares against the wrong timezone, and reports thresholds nobody
+agreed to. It looks exactly like a working brief, which is what makes it dangerous.
+
+| Check | How | If it fails |
+|---|---|---|
+| 1. Shopify works | `get-shop-info` | **Stop.** Without it there is no brief. Help them connect it. |
+| 2. `morning-brief/config.md` exists | read it | **Stop and run setup.** |
+| 3. The ad account in config is still valid | it appears in `ads_get_ad_accounts` | Ads section is skipped and named in `unavailable`. Ask whether it changed. |
+
+Say which check failed and do that instead. Do not produce a partial brief as a
+consolation prize.
+
+## Setup — run when the gate fails, not "on the first run"
+
+The gate decides when this runs, which includes a member who abandoned setup halfway.
+
+Setup writes into a **`morning-brief/` folder in the member's working directory**, not
+beside the skill. An installed skill lives in a read-only cache and cannot be written to,
+so anything saved there is lost or fails outright.
+
+```
+morning-brief/
+  config.md                 ad account, timezone, thresholds, Slack choice
+  brief-<date>.html         each morning's brief, kept for the record
+```
+
+Create the folder if it is not there. Once `config.md` exists, every later run reads it
+and goes straight to work.
 
 ### 1. Check the connectors, by calling them
 
@@ -63,7 +90,14 @@ Create the recurring task with `create_scheduled_task` at the agreed time. Say t
 scheduled tasks run while the app is open, and one that comes due while it is closed
 runs at next launch.
 
+**Every scheduled run is a fresh session with no memory of the last one.** Nothing carries
+across except `morning-brief/config.md` and the saved briefs, so the task prompt has to be
+self-contained and the run has to re-read config every time. A scheduled run also has
+nobody present: publish the brief and report, never stop and wait for an answer.
+
 ## The daily run
+
+**Step 0 has passed by the time you are here.**
 
 ### 1. Establish the window
 
@@ -127,15 +161,36 @@ python3 scripts/build_brief.py findings.json --out brief.html
 ```
 
 Publish with `create_artifact`, id `morning-brief-<YYYY-MM-DD>`, so each day is its own
-readable page. Save the HTML alongside it for the record.
+readable page. Save the HTML to `morning-brief/brief-<YYYY-MM-DD>.html` for the record.
 
-### 7. Slack, per config
+### 7. Name the run, and say what it found
+
+Set both with `update_scheduled_task` at the end of every run.
+
+**Title**, in the store's timezone, day and short month without a leading zero:
+
+```
+Brief - 12 Oct
+```
+
+**Description**, the one-line sidebar summary, carrying this morning's headline finding:
+
+```
+Revenue -31% since 3 Oct. Ads and store both broke the same day.
+Quiet weekend, nothing needs you. 24 orders waiting to ship.
+```
+
+Lead with the exception, numbers rather than adjectives, under about 70 characters, and
+**update it every run** so a line from a worse morning does not sit there looking current.
+
+### 8. Slack, per config
 
 Off: skip silently. Draft-and-ask: show the brief, then ask before posting. Automatic:
 post to the configured channel and say that it went.
 
 ## Checks before finishing
 
+- Step 0 passed before any data was pulled.
 - Today's partial day is excluded from every comparison.
 - Every number that appears twice is the same number both times. Compute once, reuse.
 - Every modelled figure is labelled as a projection with its method stated.
@@ -146,6 +201,8 @@ post to the configured channel and say that it went.
 
 ## Rules
 
+- **Never build a brief before the gate passes.** A brief against an unconfigured store
+  looks identical to a real one and is wrong in ways nobody will spot.
 - **Check connectors by calling them.** A tool in the list is not a working connection.
 - **Never guess the ad account.** Members have dozens.
 - **Exclude today.** Always.
@@ -164,4 +221,4 @@ post to the configured channel and say that it went.
 - `references/skill-routing.md` — which skill owns which action, and the fallback rule
 - `references/brief-data-format.md` — the findings JSON the generator expects
 - `scripts/build_brief.py` — renders the ECA-styled HTML
-- `config.md` — written at setup; the ad account, timezone, thresholds and Slack choice
+- `morning-brief/config.md` — written at setup; ad account, timezone, thresholds, Slack

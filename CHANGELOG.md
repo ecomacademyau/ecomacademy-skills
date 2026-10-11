@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.47.0 - 2026-10-12
+
+- Update to CS Skill
+
 ## v1.36.0 - 2026-10-09
 
 - Added in daily bried
