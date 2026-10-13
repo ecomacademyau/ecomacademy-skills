@@ -1,6 +1,10 @@
 # Finding what actually needs a reply
 
-Every query here was run against a live mailbox. The failure mode in this step is not an
+**The queries below are Gmail syntax.** The intent behind each is portable; see the
+translation table in `references/mail-providers.md` and rewrite rather than copy. The test
+itself — who sent the last message in the thread — works on any mail system.
+
+Every query here was run against a live Gmail mailbox. The failure mode in this step is not an
 error, it is a number that looks plausible and is wrong.
 
 ## Unread is the wrong test

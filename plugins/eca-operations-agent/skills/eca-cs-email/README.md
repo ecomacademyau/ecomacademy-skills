@@ -92,14 +92,28 @@ Ask twice in an afternoon and the second answer is a sentence, not a repeat.
 
 ## Mail providers
 
-Built and tested against **Gmail**. The logic is provider-agnostic — the test is who sent
-the last message in a thread — but Gmail is the verified path.
+It needs a connected mailbox that can do four things: search by date, list a thread's
+messages, read a body, and **create a draft on an existing thread**. That last one is
+where providers differ.
 
-Another provider works if it can search with a date filter, return a thread's messages
-with senders and timestamps, read a body, and **create a draft on an existing thread**.
-That last one is where most fall short. Superhuman Mail covers Gmail and Outlook and can
-draft. The Microsoft 365 connector can search Outlook but cannot create drafts, so it can
-triage but not draft.
+| Provider | Works? |
+|---|---|
+| Gmail | Fully. The tested path. |
+| Superhuman Mail | Fully, and it covers Outlook accounts too. |
+| Fastmail | Fully, by its toolset. |
+| Microsoft 365 | Searches and reads Outlook, but cannot draft. Triage-only. |
+| Apple Mail | No connector. It is an app, not a mail service. |
+
+**If you use Apple Mail or Outlook, the question is what is behind it.** Both are clients.
+The account underneath is often Google Workspace on a custom domain, which connects
+straight away. Setup asks, because that one question resolves most "I don't use Gmail"
+cases into "actually, Gmail."
+
+Where nothing can connect, you have two honest options: forward your support address to a
+mailbox that can be connected, or run it triage-only and copy the replies out. Triage-only
+still gives you the brief, the queue and the drafted text — it just cannot put them in
+your mailbox, and it cannot learn, because learning compares what you sent against what it
+wrote.
 
 ## Setup
 

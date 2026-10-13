@@ -1,0 +1,898 @@
+{
+  "meta": {
+    "brand": "Hollow Oak",
+    "report_title": "Customers want to smell it before they buy",
+    "accent_word": "smell it",
+    "period_label": "September 2026",
+    "alltime_label": "since launch on 1 June 2026",
+    "source": "Zigpoll MCP",
+    "generated": "2026-10-01",
+    "skill_version": "2.0.0",
+    "market_spelling": "AU"
+  },
+  "snapshot": {
+    "intro": "Scent is both the biggest reason people buy and the biggest reason they nearly don't. Fix how scent comes across online and you move both at once.",
+    "metrics": [
+      {
+        "label": "New customer answers",
+        "value": "301",
+        "sub": "91 this period"
+      },
+      {
+        "label": "Returning answers",
+        "value": "110",
+        "sub": "34 this period"
+      },
+      {
+        "label": "Top reason to buy",
+        "value": "Scent descriptions",
+        "sub": "29.5% all-time"
+      },
+      {
+        "label": "Top objection",
+        "value": "Couldn't smell it",
+        "sub": "34.7% all-time"
+      },
+      {
+        "label": "Top channel",
+        "value": "Instagram",
+        "sub": "27.9% all-time"
+      },
+      {
+        "label": "Easy yes",
+        "value": "22.7%",
+        "sub": "bought with no hesitation"
+      }
+    ],
+    "note": "All-time runs from 1 June to 30 September 2026. Bases differ by question because not every respondent answers every question."
+  },
+  "last_actions": {
+    "items": [
+      {
+        "status": "done",
+        "text": "Add 'smells like' comparisons to every candle page",
+        "note": "Live from 4 August. Too early for the objection share to show it; it is in line with all-time this period."
+      },
+      {
+        "status": "not_done",
+        "text": "Add a breakage guarantee line to product pages and the cart",
+        "note": "Still the top reason inside the shipping objection (13 of 23)."
+      }
+    ]
+  },
+  "insights": [
+    {
+      "title": "A third of buyers nearly didn't buy because they couldn't smell it",
+      "body": "101 of 291 new customers named it, more than price, burn time and shipping combined. The follow-up says the problem is vague descriptions (39 of 85), not the lack of samples (27 of 85).",
+      "action": "Rewrite scent descriptions on the top 5 candles as 'smells like' comparisons before anything else.",
+      "source": "Main objection question and scent follow-up, all-time"
+    },
+    {
+      "title": "The scent copy is also why people buy",
+      "body": "The scent descriptions are the top reason to buy (88 of 298). The same lever answers the top objection and feeds the top angle, so it is the highest-return piece of copy on the site.",
+      "action": "Lead Meta ads with a specific scent picture, not with the wax or the brand.",
+      "source": "Main reason to buy, all-time"
+    },
+    {
+      "title": "Price is not the problem and does not need a discount",
+      "body": "42 of 291 named price, steady this period. Of those who explained, 16 of 36 were really asking about burn hours for the money, which is a copy fix, not a price fix.",
+      "action": "Show cost per burn hour next to the price on candle pages.",
+      "source": "Main objection and price follow-up, all-time"
+    },
+    {
+      "title": "Friends drive a fifth of first orders",
+      "body": "61 of 301 heard about the brand from a friend or family member, second only to Instagram. Ad platforms cannot see these sales, so paid channels look stronger than they are.",
+      "action": "Add a give-a-candle, get-a-candle referral offer to the post-purchase flow.",
+      "source": "How they found you, all-time"
+    },
+    {
+      "title": "TikTok is picking up this period",
+      "body": "15 of 91 new customers this period came from TikTok against about 8% before. It is the only channel growing beyond normal variation.",
+      "action": "Turn the strongest scent hook into a TikTok-native video and watch next month's share.",
+      "source": "How they found you, this period against all-time"
+    },
+    {
+      "title": "Diffuser buyers worry about price twice as often",
+      "body": "12 of 48 diffuser buyers named price against 17 of 138 signature candle buyers. Diffusers are the higher ticket, so value framing matters more there.",
+      "action": "Add 'lasts up to 90 days' framing to diffuser pages.",
+      "source": "Objections by product line, all-time"
+    },
+    {
+      "title": "People come back when the candle burns down, not when emailed",
+      "body": "41 of 110 returning buyers came back because their candle burnt down; 3 because of an email. The replenishment moment exists and nothing catches it.",
+      "action": "Build a burn-down reminder flow at about five weeks.",
+      "source": "Returning: what brought you back, all-time"
+    }
+  ],
+  "motivation": {
+    "label": "Main reason to buy",
+    "q": "What was the main reason you chose us today?",
+    "type": "single",
+    "n_all": 298,
+    "n_period": 90,
+    "rows": [
+      {
+        "label": "The scent descriptions",
+        "all": 88,
+        "period": 25
+      },
+      {
+        "label": "Clean-burning soy wax",
+        "all": 61,
+        "period": 18
+      },
+      {
+        "label": "Long burn time",
+        "all": 47,
+        "period": 14
+      },
+      {
+        "label": "The reviews convinced me",
+        "all": 41,
+        "period": 13
+      },
+      {
+        "label": "Australian made",
+        "all": 32,
+        "period": 9
+      },
+      {
+        "label": "Gift-ready packaging",
+        "all": 18,
+        "period": 7
+      },
+      {
+        "label": "Other",
+        "all": 11,
+        "period": 4
+      }
+    ]
+  },
+  "angles": [
+    {
+      "angle": "Scent you can picture",
+      "why": "Buyers pick the brand because the descriptions let them imagine the room.",
+      "hooks": [
+        "Smells like a cedar cabin after rain",
+        "Your lounge, but it smells like a fig orchard",
+        "Close your eyes. That's the Ember candle."
+      ],
+      "best_for": "Self-buyers winding down at night",
+      "source": "Scent descriptions, 88 of 298"
+    },
+    {
+      "angle": "Clean burn",
+      "why": "A big group is swapping away from paraffin candles.",
+      "hooks": [
+        "No black soot on your ceiling",
+        "Soy wax that burns clean to the last centimetre"
+      ],
+      "best_for": "Buyers replacing candles they no longer trust",
+      "source": "Soy wax, 61 of 298; problem: replace candles with nasties, 24 of 128"
+    },
+    {
+      "angle": "Lasts for weeks",
+      "why": "Burn time sells, and it also answers the price objection.",
+      "hooks": [
+        "60 hours of burn from one candle",
+        "Less than a dollar an evening"
+      ],
+      "best_for": "Value-conscious self-buyers",
+      "source": "Long burn time, 47 of 298; price follow-up: burn hours for the money, 16 of 36"
+    },
+    {
+      "angle": "Proof from real homes",
+      "why": "Reviews tipped one in seven over the line.",
+      "hooks": [
+        "4,000 lounges can't be wrong",
+        "What 'fills the room' looks like in a real home"
+      ],
+      "best_for": "Cold traffic who haven't heard of the brand",
+      "source": "Reviews, 41 of 298"
+    }
+  ],
+  "objections": {
+    "label": "Main objection question",
+    "q": "What almost stopped you from buying today?",
+    "type": "single",
+    "n_all": 291,
+    "n_period": 88,
+    "rows": [
+      {
+        "label": "Couldn't smell it online",
+        "all": 101,
+        "period": 27
+      },
+      {
+        "label": "Nothing, it was an easy yes",
+        "all": 66,
+        "period": 22,
+        "frictionless": true
+      },
+      {
+        "label": "The price",
+        "all": 42,
+        "period": 13
+      },
+      {
+        "label": "Not sure how long it burns",
+        "all": 30,
+        "period": 9
+      },
+      {
+        "label": "Shipping cost or breakage",
+        "all": 27,
+        "period": 11
+      },
+      {
+        "label": "Hadn't heard of the brand",
+        "all": 25,
+        "period": 6
+      }
+    ],
+    "note": "Objections buyers overcame."
+  },
+  "objection_cards": [
+    {
+      "theme": "Couldn't smell it online",
+      "row_label": "Couldn't smell it online",
+      "summary": "Buyers are not asking for samples so much as for words they can picture. Vague descriptions and fear of a scent being too strong carry most of it.",
+      "why": {
+        "label": "Follow-up",
+        "q": "What made the scent hard to judge?",
+        "type": "multi",
+        "n_all": 85,
+        "rows": [
+          {
+            "label": "Scent descriptions felt vague",
+            "all": 39
+          },
+          {
+            "label": "Worried it would be too strong",
+            "all": 31
+          },
+          {
+            "label": "No sample option",
+            "all": 27
+          },
+          {
+            "label": "Couldn't compare it to a scent I know",
+            "all": 24
+          }
+        ]
+      },
+      "quotes": [
+        "I couldn't tell if 'fig and cedar' would be sweet or woody",
+        "Strong candles give me a headache so I nearly didn't risk it",
+        "I wish it said what it smells like, not just the notes"
+      ],
+      "counters": {
+        "website": "On each candle page, add a 'smells like' line and a light to bold strength scale right under the product title.",
+        "ads": [
+          "Smells like a cedar cabin after rain",
+          "Not too strong. Just enough to fill the room.",
+          "Can't smell it? Here's exactly what it's like."
+        ],
+        "content": "Reel series: one candle per video, a customer describes the scent in their own words in their own lounge.",
+        "email": "Welcome email: 'Not sure which scent? Here's what each one smells like' with the strength scale."
+      },
+      "source": "Main objection 101 of 291; follow-up n = 85; written answers"
+    },
+    {
+      "theme": "The price",
+      "row_label": "The price",
+      "summary": "Price is mostly a value question in disguise: people want to know how long it lasts for the money. Steady, not growing.",
+      "why": {
+        "label": "Follow-up",
+        "q": "What made the price feel like a hurdle?",
+        "type": "multi",
+        "n_all": 36,
+        "rows": [
+          {
+            "label": "I've seen cheaper candles elsewhere",
+            "all": 19
+          },
+          {
+            "label": "Not sure about burn hours for the price",
+            "all": 16
+          },
+          {
+            "label": "Waiting for a discount code",
+            "all": 9
+          }
+        ]
+      },
+      "quotes": [
+        "$49 is a lot until you see it lasts 60 hours",
+        "Cheaper ones always tunnel so I gave it a go"
+      ],
+      "counters": {
+        "website": "Show cost per burn hour under the price on every candle page.",
+        "ads": [
+          "Less than a dollar an evening",
+          "60 hours of burn. Do the maths."
+        ],
+        "content": "Side-by-side burn test video: one candle, one week, timestamps.",
+        "email": "Abandoned cart: lead with burn hours and cost per evening, not a discount."
+      },
+      "source": "Main objection 42 of 291; follow-up n = 36"
+    },
+    {
+      "theme": "Not sure how long it burns",
+      "row_label": "Not sure how long it burns",
+      "summary": "Past candles that tunnelled made buyers sceptical, and burn hours are buried on the page.",
+      "why": {
+        "label": "Follow-up",
+        "q": "What made you unsure about burn time?",
+        "type": "multi",
+        "n_all": 26,
+        "rows": [
+          {
+            "label": "Other candles tunnelled on me",
+            "all": 15
+          },
+          {
+            "label": "Burn hours weren't on the page",
+            "all": 12
+          },
+          {
+            "label": "Not sure how big the candle is",
+            "all": 6
+          }
+        ]
+      },
+      "quotes": [
+        "Every other soy candle I've bought tunnels after a week"
+      ],
+      "counters": {
+        "website": "Move burn hours next to the price and add a 'burns evenly to the edge' line with a photo of a used candle.",
+        "ads": [
+          "The candle that won't tunnel on you",
+          "Burns evenly. Right to the edge."
+        ],
+        "content": "Time-lapse of a candle burning down evenly, with hour markers.",
+        "email": "Post-purchase day 2: 'Get the full 60 hours' first-burn tips."
+      },
+      "source": "Main objection 30 of 291; follow-up n = 26"
+    },
+    {
+      "theme": "Shipping cost or breakage",
+      "row_label": "Shipping cost or breakage",
+      "summary": "Breakage worries more people than the shipping fee. Glass and parcels feel risky after bad experiences elsewhere.",
+      "why": {
+        "label": "Follow-up",
+        "q": "What was the concern with shipping?",
+        "type": "multi",
+        "n_all": 23,
+        "rows": [
+          {
+            "label": "Worried the glass would break",
+            "all": 13
+          },
+          {
+            "label": "Shipping cost under $79",
+            "all": 10
+          },
+          {
+            "label": "Delivery time",
+            "all": 5
+          }
+        ]
+      },
+      "quotes": [
+        "Glass candles always arrive smashed from other shops"
+      ],
+      "counters": {
+        "website": "Add 'Arrives in one piece or we replace it' under the add-to-cart and in the cart drawer.",
+        "ads": [
+          "Arrives in one piece, or we replace it",
+          "Packed like it's going overseas"
+        ],
+        "content": "Unboxing video showing the packaging layers.",
+        "email": "Shipping confirmation: show how it's packed and the replacement promise."
+      },
+      "source": "Main objection 27 of 291; follow-up n = 23"
+    },
+    {
+      "theme": "Hadn't heard of the brand",
+      "row_label": "Hadn't heard of the brand",
+      "summary": "Cold buyers wanted social proof from people like them before trusting a brand they had not seen.",
+      "why": {
+        "label": "Follow-up",
+        "q": "What made you unsure about us?",
+        "type": "multi",
+        "n_all": 21,
+        "rows": [
+          {
+            "label": "Didn't know anyone who'd tried it",
+            "all": 11
+          },
+          {
+            "label": "Wanted to see more reviews",
+            "all": 9
+          },
+          {
+            "label": "Not sure where it ships from",
+            "all": 5
+          }
+        ]
+      },
+      "quotes": [
+        "Took a while to find reviews with photos"
+      ],
+      "counters": {
+        "website": "Put three photo reviews above the fold on candle pages, and 'Hand poured in Byron Bay' near the price.",
+        "ads": [
+          "What 4,000 lounges smell like",
+          "Hand poured in Byron Bay, shipped from here too"
+        ],
+        "content": "Founder video: who pours the candles and where.",
+        "email": "Welcome email: three customer photos and the founder story."
+      },
+      "source": "Main objection 25 of 291; follow-up n = 21"
+    }
+  ],
+  "attribution": {
+    "label": "Attribution",
+    "q": "How did you first hear about us?",
+    "type": "single",
+    "n_all": 301,
+    "n_period": 91,
+    "rows": [
+      {
+        "label": "Instagram",
+        "all": 84,
+        "period": 25
+      },
+      {
+        "label": "Friend or family recommendation",
+        "all": 61,
+        "period": 21
+      },
+      {
+        "label": "Google search",
+        "all": 60,
+        "period": 14
+      },
+      {
+        "label": "Facebook",
+        "all": 36,
+        "period": 8
+      },
+      {
+        "label": "TikTok",
+        "all": 31,
+        "period": 15
+      },
+      {
+        "label": "AI assistant (ChatGPT, Gemini, etc.)",
+        "all": 9,
+        "period": 3
+      },
+      {
+        "label": "Other",
+        "all": 20,
+        "period": 5
+      }
+    ],
+    "comment": "Friends and family started a fifth of first orders, and AI assistants a few more. Ad platforms cannot see either, so Meta and Google will each claim some of these sales. Use this split, not platform-reported revenue, when deciding where demand comes from."
+  },
+  "audience": {
+    "who_for": {
+      "label": "Who for",
+      "q": "Who are you buying for today?",
+      "type": "single",
+      "n_all": 301,
+      "n_period": 91,
+      "rows": [
+        {
+          "label": "Myself",
+          "all": 214,
+          "period": 62
+        },
+        {
+          "label": "A gift",
+          "all": 87,
+          "period": 29
+        }
+      ]
+    },
+    "problem": {
+      "label": "Problem",
+      "q": "What were you hoping our candle would help with?",
+      "type": "open",
+      "n_all": 128,
+      "n_period": 41,
+      "rows": [
+        {
+          "label": "Winding down at night",
+          "all": 47,
+          "period": 15
+        },
+        {
+          "label": "Making home smell clean and fresh",
+          "all": 31,
+          "period": 10
+        },
+        {
+          "label": "Finding a gift",
+          "all": 26,
+          "period": 9
+        },
+        {
+          "label": "Replacing candles with nasties in them",
+          "all": 24,
+          "period": 7
+        }
+      ],
+      "note": "Grouped from 128 written answers."
+    },
+    "personas": [
+      {
+        "name": "The wind-down self-buyer",
+        "share": "The largest group: buying for themselves to relax at night",
+        "who": "Buys for herself, lights a candle most evenings",
+        "wants": "A scent that makes the lounge feel calm",
+        "worries": "That it will be too strong or smell nothing like the description",
+        "angle": "Scent you can picture: 'Your lounge, but it smells like a fig orchard'",
+        "source": "Who for: myself 214 of 301; problem: winding down 47 of 128"
+      },
+      {
+        "name": "The clean-swap buyer",
+        "share": "About one in five: switching away from paraffin",
+        "who": "Reads labels and has stopped buying cheap candles",
+        "wants": "A clean burn without soot or nasties",
+        "worries": "Paying more for something that tunnels",
+        "angle": "Clean burn: 'No black soot on your ceiling'",
+        "source": "Soy wax 61 of 298; replace candles with nasties 24 of 128"
+      },
+      {
+        "name": "The gift buyer",
+        "share": "About three in ten new orders, more among returning customers",
+        "who": "Buying for a friend, mum or host",
+        "wants": "Something that looks considered and arrives intact",
+        "worries": "Breakage and the scent not suiting the recipient",
+        "angle": "Gift-ready: 'Arrives in one piece, wrapped and ready'",
+        "source": "Who for: a gift 87 of 301 new, 41 of 110 returning"
+      }
+    ]
+  },
+  "products": {
+    "title": "Half of baskets are signature candles",
+    "n": 280,
+    "rows": [
+      {
+        "label": "Signature candles",
+        "count": 138
+      },
+      {
+        "label": "Travel tins",
+        "count": 63
+      },
+      {
+        "label": "Diffusers",
+        "count": 48
+      },
+      {
+        "label": "Gift sets",
+        "count": 22
+      },
+      {
+        "label": "Other",
+        "count": 9
+      }
+    ],
+    "note": "280 of 291 objection respondents had line items attached. 14 baskets held more than one line and are counted to the line with the highest value.",
+    "objection_mix": {
+      "cols": [
+        "Scent",
+        "Price",
+        "Burn time",
+        "Shipping",
+        "Trust",
+        "None"
+      ],
+      "neutral_cols": [
+        5
+      ],
+      "rows": [
+        {
+          "label": "Signature candles",
+          "n": 138,
+          "cells": [
+            52,
+            17,
+            17,
+            10,
+            9,
+            33
+          ]
+        },
+        {
+          "label": "Travel tins",
+          "n": 63,
+          "cells": [
+            22,
+            8,
+            6,
+            6,
+            6,
+            15
+          ]
+        },
+        {
+          "label": "Diffusers",
+          "n": 48,
+          "cells": [
+            13,
+            12,
+            3,
+            5,
+            4,
+            11
+          ]
+        },
+        {
+          "label": "Gift sets",
+          "n": 22,
+          "cells": [
+            6,
+            3,
+            2,
+            4,
+            2,
+            5
+          ]
+        },
+        {
+          "label": "Other",
+          "n": 9,
+          "cells": [
+            3,
+            1,
+            1,
+            1,
+            1,
+            2
+          ]
+        }
+      ],
+      "comment": "Diffuser buyers name price far more often (12 of 48) than signature candle buyers (17 of 138). Gift set buyers lean towards shipping worries, but 22 baskets is too few to read."
+    }
+  },
+  "returning": {
+    "questions": [
+      {
+        "label": "Returning",
+        "q": "What brought you back today?",
+        "type": "single",
+        "n_all": 110,
+        "n_period": 34,
+        "rows": [
+          {
+            "label": "My candle burnt down",
+            "all": 41,
+            "period": 12
+          },
+          {
+            "label": "I wanted a new scent",
+            "all": 28,
+            "period": 9
+          },
+          {
+            "label": "Buying a gift",
+            "all": 19,
+            "period": 6
+          },
+          {
+            "label": "There was a sale or offer",
+            "all": 13,
+            "period": 4
+          },
+          {
+            "label": "An email reminded me",
+            "all": 3,
+            "period": 1
+          },
+          {
+            "label": "Other",
+            "all": 6,
+            "period": 2
+          }
+        ]
+      },
+      {
+        "label": "Returning",
+        "q": "What do you love most about our candles?",
+        "type": "open",
+        "n_all": 71,
+        "n_period": 22,
+        "rows": [
+          {
+            "label": "The scent fills the room",
+            "all": 29,
+            "period": 9
+          },
+          {
+            "label": "Clean burn, no black soot",
+            "all": 19,
+            "period": 6
+          },
+          {
+            "label": "Lasts longer than other candles",
+            "all": 16,
+            "period": 5
+          },
+          {
+            "label": "The jar is reusable",
+            "all": 7,
+            "period": 2
+          }
+        ],
+        "note": "Grouped from 71 written answers."
+      }
+    ],
+    "comparison": {
+      "q": "Who are you buying for today? (asked in both surveys)",
+      "rows": [
+        {
+          "label": "A gift",
+          "new": 87,
+          "new_n": 301,
+          "ret": 41,
+          "ret_n": 110
+        },
+        {
+          "label": "Myself",
+          "new": 214,
+          "new_n": 301,
+          "ret": 69,
+          "ret_n": 110
+        }
+      ],
+      "note": "Returning buyers gift more often. Worth a gifting prompt in post-purchase emails."
+    },
+    "moves": [
+      {
+        "title": "Burn-down replenishment flow",
+        "body": "Send a reminder about five weeks after a 200g candle order, with a new-scent suggestion. This is the moment most returning buyers name.",
+        "source": "Burnt down 41 of 110; new scent 28 of 110"
+      },
+      {
+        "title": "Gifting prompt for returning customers",
+        "body": "Add a 'send one to someone' block with gift wrap to the post-purchase and replenishment emails.",
+        "source": "A gift: 37.3% of returning against 28.9% of new"
+      },
+      {
+        "title": "Rethink the promo calendar",
+        "body": "Only 13 of 110 came back for a sale and 3 for an email. Send fewer discount campaigns and more new-scent launches.",
+        "source": "What brought you back, all-time"
+      }
+    ]
+  },
+  "shifts_comment": "TikTok is the one clear shift this period. Google search is slightly lower, an early signal worth watching next month. Everything else, including the top objection, is in line with all-time.",
+  "actions": {
+    "this_week": [
+      {
+        "channel": "Website",
+        "title": "Add 'smells like' lines to the top 5 candle pages",
+        "body": "One sentence under each product title in plain language, plus a light to bold strength note.",
+        "source": "Scent objection 101 of 291; vague descriptions 39 of 85"
+      },
+      {
+        "channel": "Website",
+        "title": "Add the breakage promise to product pages and the cart",
+        "body": "'Arrives in one piece or we replace it' under the add-to-cart and in the cart drawer.",
+        "source": "Shipping follow-up: glass breaking 13 of 23"
+      },
+      {
+        "channel": "Ads",
+        "title": "Launch three scent-picture hooks on Meta",
+        "body": "Test 'Smells like a cedar cabin after rain', 'Not too strong. Just enough to fill the room.' and 'Your lounge, but it smells like a fig orchard' against the current best ad.",
+        "source": "Top motivation and top objection"
+      }
+    ],
+    "this_month": [
+      {
+        "channel": "Email",
+        "title": "Build the burn-down replenishment flow",
+        "body": "Trigger at about five weeks, lead with a new-scent suggestion, no discount.",
+        "source": "Returning: burnt down 41 of 110"
+      },
+      {
+        "channel": "Website",
+        "title": "Show cost per burn hour on candle and diffuser pages",
+        "body": "Under the price: '60 hours, about 80c an evening'. Diffusers first.",
+        "source": "Price follow-up: burn hours for the money 16 of 36; diffusers price 12 of 48"
+      },
+      {
+        "channel": "Content",
+        "title": "Customer scent reels, one candle per video",
+        "body": "Brief five customers to describe one scent in their own words in their own homes.",
+        "source": "Scent follow-up and language bank"
+      }
+    ],
+    "test_next": [
+      {
+        "channel": "Ads",
+        "title": "TikTok-native version of the best scent hook",
+        "body": "TikTok is the only channel growing this period. Re-cut the winning hook for TikTok and watch next month's attribution share.",
+        "source": "TikTok 15 of 91 this period, Strong signal"
+      },
+      {
+        "channel": "Product",
+        "title": "Sample-size travel tin as a low-risk first order",
+        "body": "27 of 85 wanted a sample. A discovery tin could answer them without discounting full-size candles.",
+        "source": "Scent follow-up: no sample option 27 of 85"
+      },
+      {
+        "channel": "Website",
+        "title": "Exit-intent survey on the top candle page",
+        "body": "Ask people leaving 'What stopped you buying today?' to see the objections this survey cannot.",
+        "source": "These objections come from buyers only"
+      }
+    ]
+  },
+  "language_bank": [
+    {
+      "theme": "Scent",
+      "phrases": [
+        "fills the whole lounge",
+        "smells like a cedar cabin",
+        "not too strong, just right",
+        "I can smell it from the hallway"
+      ]
+    },
+    {
+      "theme": "Clean burn",
+      "phrases": [
+        "no black soot on the ceiling",
+        "burns right to the edge",
+        "doesn't give me a headache"
+      ]
+    },
+    {
+      "theme": "Value",
+      "phrases": [
+        "lasts for weeks",
+        "worth it when you see the burn hours",
+        "I only light it for an hour"
+      ]
+    },
+    {
+      "theme": "Gifting",
+      "phrases": [
+        "bought two for my sister",
+        "looks expensive",
+        "arrived beautifully wrapped"
+      ]
+    }
+  ],
+  "questions_to_consider": [
+    "Several written answers mention scent strength. Consider adding 'Not sure how strong the scent would be' as its own objection option next time you review the survey."
+  ],
+  "method": "Data pulled live from Zigpoll on 1 October 2026: the Post-Purchase New Customers and Post-Purchase Returning Customers surveys. All-time is 1 June to 30 September 2026; this period is 1 to 30 September (Australia/Brisbane). August had almost no answers (the survey was unpublished for 26 days) and is included in all-time as collected.\n\nEvery written answer was read (128 for the problem question, 71 for what returning customers love, 64 'Other' answers). Clear 'Other' answers were counted under the matching option. Product lines come from the Shopify line items attached to 280 responses, counted by hand.\n\nThis example uses fictional data for a fictional brand. It shows the shape and depth of a finished report only.",
+  "history": {
+    "schema": 2,
+    "brand": "hollow-oak",
+    "period": "2026-09",
+    "generated": "2026-10-01",
+    "actions": [
+      {
+        "id": "a1",
+        "channel": "Website",
+        "text": "Add 'smells like' lines to the top 5 candle pages"
+      },
+      {
+        "id": "a2",
+        "channel": "Website",
+        "text": "Breakage promise on product pages and cart"
+      },
+      {
+        "id": "a3",
+        "channel": "Ads",
+        "text": "Three scent-picture hooks on Meta"
+      }
+    ]
+  }
+}

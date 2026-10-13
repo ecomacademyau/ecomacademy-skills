@@ -1,6 +1,6 @@
 ---
 name: eca-cs-email
-description: "Open with a customer service brief, then work the inbox. The brief measures the store's real dispatch time from what actually shipped, says plainly whether the published shipping promise is currently true, and lists the customers about to complain before they write in. Then it finds every message genuinely waiting on a reply, oldest first, looks up the real order in Shopify with a clickable admin link, and drafts a reply in the brand's voice signed by whoever the member chose. Covers order status, shipping, products, returns, refunds, complaints, wholesale, creator collabs and press. Learns which replies can be trusted and asks before handling any of them alone. Use for inbox triage, answering or drafting customer emails, who has been waiting longest, or a daily support check. Nothing is sent without permission. Needs a mail connector and Shopify."
+description: "Open with a customer service brief, then work the inbox. The brief measures the store's real dispatch time from what actually shipped, says plainly whether the published shipping promise is currently true, and lists the customers about to complain before they write in. Then it finds every message genuinely waiting on a reply, oldest first, looks up the real order in Shopify with a clickable admin link, and drafts a reply in the brand's voice signed by whoever the member chose. Covers order status, shipping, products, returns, refunds, complaints, wholesale, creator collabs and press. Learns which replies can be trusted and asks before handling any alone. Use for inbox triage, answering or drafting customer emails, who has been waiting longest, or a daily support check. Nothing is sent without permission. Works with any connected mailbox that can search, read and draft, including Gmail, Superhuman and Fastmail; falls back to triage-only where drafting is unavailable. Needs Shopify."
 ---
 
 # Customer Service Email
@@ -26,10 +26,29 @@ Check all four, in order, and stop at the first failure:
 
 | Check | How | If it fails |
 |---|---|---|
-| 1. Mail connector works | one small search call | **Stop.** Help them connect it. There is no skill without a mailbox. |
+| 1. A mail connector works | one small search call | **Stop.** Help them connect one. See below. |
+| 1b. It can create a draft | check the connector's tools for draft creation | Not a stop. Offer **triage-only mode**. |
 | 2. Shopify works | `get-shop-info` | **Stop.** Help them connect it. See below. |
 | 3. `cs-email/config.md` exists | read it | **Stop and run setup.** |
 | 4. `cs-email/brand-answers.md` exists **and has verified entries** | read it, count entries marked verified | **Stop and finish setup.** |
+
+**Any mail connector will do, but check what it can actually do.** This skill needs four
+things: date-filtered search, a thread's messages with senders and timestamps, message
+bodies, and **creating a draft on an existing thread**. The first three are the skill; the
+fourth is how it delivers. Follow `references/mail-providers.md`.
+
+**If someone says they do not use Gmail, ask where their mail actually lives.** Apple Mail
+and Outlook are apps, not mail services, and the account behind them is often Google
+Workspace on a custom domain, which connects straight away. One question resolves most of
+these:
+
+> "Which account is behind it? If you open Mail and check the account name, is it an
+> iCloud address, a Google one, or a Microsoft one?"
+
+If no connector can reach it, say so plainly and offer the two honest routes: forward
+support mail to a mailbox that can be connected, or run triage-only and take the drafts by
+hand. Do not half-run and let someone believe they have a drafting assistant when they
+have a reader.
 
 **Shopify is required, not optional.** Most customer service email is about an order:
 where is it, when does it ship, can I change it, I want to send it back. Without the
@@ -72,20 +91,18 @@ A tool in the tool list is not an authenticated connection. Make a real call.
 | **A mail connector** | one small search | No skill. Stop and help them connect one. |
 | **Shopify** | `get-shop-info` | No skill. Most support email is about an order. Stop and help them connect it. |
 
-**On mail providers.** This skill is built and tested against the **Gmail** connector.
-The logic itself is provider-agnostic, because the triage test is "who sent the last
-message in this thread", which every mail system can answer. But only Gmail has been
-verified end to end.
+**On mail providers.** Built and tested against Gmail, but nothing in the logic is
+Gmail-specific. `references/mail-providers.md` has the current picture: Superhuman Mail
+covers Gmail and Outlook accounts with drafting; Microsoft 365 can search and read Outlook
+but exposes no draft creation, so it is triage-only; Apple Mail has no connector at all,
+because it is a client rather than a service.
 
-A different provider works if it can do four things: search a mailbox with a date filter,
-return the messages in a thread with sender and timestamp, read a message body, and
-**create a draft on an existing thread**. That last one is where most fall short.
-Superhuman Mail covers Gmail and Outlook and does have draft creation. The Microsoft 365
-connector can search Outlook but exposes no way to create a draft, so it can triage and
-summarise but not draft.
+That table will date. Verify by calling the connector rather than trusting it.
 
-If the member's provider cannot create drafts, say so at setup and offer to write the
-replies into the chat for copying instead. Do not pretend the workflow is the same.
+**Record the mode in config**, because it changes what later runs can promise. A
+triage-only setup also loses the learning loop, since promotion depends on comparing sent
+replies against drafted ones and there are no drafts to compare. Say that at setup rather
+than letting the member wonder later why it never offers to take anything over.
 
 ### Build the answer book
 
@@ -475,6 +492,8 @@ anything sent automatically — **automatic never means invisible**.
 
 ## Rules
 
+- **Never assume Gmail.** Ask where the mail lives, not which app they read it in.
+- **Never promise drafting before confirming the connector can create one.**
 - **Never triage before the gate passes.** An inbox read against an empty answer book
   produces replies that sound confident and are made up.
 - **Nothing is sent without permission.** Either approval that day, or a standing
@@ -532,6 +551,7 @@ anything sent automatically — **automatic never means invisible**.
 
 - `references/finding-what-needs-a-reply.md` — the triage test, verified queries, noise
 - `references/categories.md` — the taxonomy, handling per category, writing rules
+- `references/mail-providers.md` — the four capabilities, what each provider can do, triage-only mode
 - `references/cs-brief.md` — the opening brief: real dispatch time, the promise, who is about to complain
 - `references/cs-brief-data-format.md` — the findings JSON the generator expects
 - `scripts/build_cs_brief.py` — renders the brief in ECA styling

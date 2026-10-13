@@ -11,7 +11,7 @@
       "name": "eca-ecommerce-agent",
       "displayName": "ECA Marketing Coworker",
       "source": "./plugins/eca-ecommerce-agent",
-      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO/AI blog writing, UGC video scripts, SEO/AI store audits, and Meta ads analysis (4PI). New skills are added here over time; install this one plugin to stay current with all of them.",
+      "description": "Ecommerce Academy skills bundle — brand intelligence, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO and AI blog writing, UGC video scripts, store visibility audits, Meta ads analysis (4PI), and post-purchase surveys from writing the questions to turning the answers into angles, objections and personas. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.14.0): Add survey skills, morning brief and customer service, and fix skill labels that were too long to load",
       "category": "ecommerce",
       "tags": [
         "shopify",
@@ -41,7 +41,7 @@
       "name": "eca-operations-agent",
       "displayName": "ECA Operations Coworker",
       "source": "./plugins/eca-operations-agent",
-      "description": "Ecommerce Academy Operations Coworker — the daily running of the store. A morning brief that reads Shopify, Meta Ads and your inbox and tells you what needs doing today, a customer service skill that drafts your replies and learns which ones it can handle alone, a landing page builder that installs into your theme, and a skill builder that turns any repeatable task of yours into a reusable skill.  What's new (v1.47.0): Update to CS Skill",
+      "description": "Ecommerce Academy Operations Coworker — the daily running of the store. A morning brief that reads Shopify, Meta Ads and your inbox and tells you what needs doing today, a customer service skill that drafts your replies and learns which ones it can handle alone, a landing page builder that installs into your theme, and a skill builder that turns any repeatable task of yours into a reusable skill.  What's new (v1.14.0): Add survey skills, morning brief and customer service, and fix skill labels that were too long to load",
       "category": "ecommerce",
       "tags": [
         "operations",

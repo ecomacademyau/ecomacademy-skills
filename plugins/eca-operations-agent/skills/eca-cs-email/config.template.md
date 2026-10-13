@@ -2,8 +2,14 @@
 # Customer service email configuration
 
 ## Mailbox
-- **Provider**: Gmail (tested) | Superhuman | other — and whether it can create drafts
+- **Provider**: <Gmail | Superhuman | Fastmail | Microsoft 365 | other>
+- **Mail actually lives at**: <the service behind the app, e.g. Google Workspace on a
+  custom domain, read in Apple Mail>
+- **Mode**: full (can create drafts) | triage-only (search and read, no drafting)
 - **Address**: <the inbox this skill works>
+
+> Triage-only loses the learning loop: promotion compares sent replies against drafted
+> ones, and there are no drafts to compare.
 
 ## Who replies come from
 - **Default name**: <the name the customer sees>
