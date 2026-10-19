@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.15.0 - 2026-10-19
+
+- Add hero product finder and survey skills, morning brief and customer service, and fix skill labels that were too long to load
+
 ## v1.14.0 - 2026-10-13
 
 - Add survey skills, morning brief and customer service, and fix skill labels that were too long to load
