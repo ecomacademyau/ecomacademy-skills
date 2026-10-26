@@ -11,7 +11,7 @@
       "name": "eca-ecommerce-agent",
       "displayName": "ECA Marketing Coworker",
       "source": "./plugins/eca-ecommerce-agent",
-      "description": "Ecommerce Academy skills bundle — brand intelligence, hero product analysis, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO and AI blog writing, UGC video scripts, store visibility audits, Meta ads analysis (4PI), and post-purchase surveys from writing the questions to turning the answers into angles, objections and personas. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.16.0): Brand file now lives in your working folder (./brand/brand-data.md) and syncs to EcomOS — every Marketing App and the AI coach there use it; say \"Sync my brand to EcomOS\".",
+      "description": "Ecommerce Academy skills bundle — brand intelligence, hero product analysis, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO and AI blog writing, UGC video scripts, store visibility audits, Meta ads analysis (4PI), the ECA Reel Editor (a raw talking-head clip → an on-brand reel or video ad with product, review and offer cards from your store), and post-purchase surveys from writing the questions to turning the answers into angles, objections and personas. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.17.0): ECA Reel Editor joins the bundle, and EcomOS connects from inside Claude Code (type /mcp → ecomos → Authenticate) so your brand syncs to EcomOS and the editor can read your products.",
       "category": "ecommerce",
       "tags": [
         "shopify",
@@ -33,7 +33,9 @@
         "meta",
         "4pi",
         "ecomos",
-        "brand-sync"
+        "brand-sync",
+        "reels",
+        "video-ads"
       ],
       "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
       "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
@@ -83,30 +85,6 @@
         "margin"
       ],
       "homepage": "https://github.com/ecomacademyau/ecomacademy-skills"
-    },
-    {
-      "name": "eca-reel-editor",
-      "displayName": "ECA Reel Editor",
-      "source": "./plugins/eca-reel-editor",
-      "description": "Ecommerce Academy Reel Editor — drop a raw talking-head clip into Claude Code and get back a finished vertical reel or Meta video ad in your own brand: cleaned audio, filler words cut, captions and graphics that match what you say, plus product, review and offer cards from your Shopify store. Brand comes from the Marketing Coworker's brand-data.md (no interview); products and reel logging come from EcomOS when connected. Runs on your own computer — footage never leaves it. Built on Nicola Pocock's claude-reel-editor (MIT).",
-      "category": "ecommerce",
-      "tags": [
-        "reels",
-        "video",
-        "tiktok",
-        "shorts",
-        "ugc",
-        "talking-head",
-        "captions",
-        "video-ads",
-        "meta-ads",
-        "shopify",
-        "ecommerce",
-        "brand"
-      ],
-      "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
-      "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
-      "license": "MIT"
     }
   ]
 }

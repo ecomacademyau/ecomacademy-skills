@@ -13,7 +13,7 @@
 
 The tools `ping`, `sync_brand`, `get_brand`, `get_products`, `log_reel` come from an MCP server named **`ecomos`**. If they are not in this session, the member has not connected Claude to EcomOS. Say it **once**, plainly, and move on with the task:
 
-> Your brand isn't synced to EcomOS yet. To connect: in Claude go to Settings → Connectors → **Add custom connector**, name it EcomOS and paste `https://ecomos.ecomacademy.co/mcp`, click Connect and allow it with your EcomOS Google login. (The exact steps are on the Brand Profile card in EcomOS → Marketing Apps.) Then tell me "Connect to EcomOS and sync my brand".
+> Your brand isn't synced to EcomOS yet. In Claude Code, type `/mcp`, choose **ecomos**, pick **Authenticate**, and allow it on the EcomOS page that opens (sign in with the Google account you use for EcomOS). In claude.ai or the desktop app instead: Settings → Connectors → Add custom connector → name it EcomOS, URL `https://ecomos.ecomacademy.co/mcp` → Connect. Then tell me "Connect to EcomOS and sync my brand".
 
 The tools may appear under the server name `ecomos` or as a claude.ai connector (`claude_ai_EcomOS`); either is fine. Never ask for a key in chat. Never try to call EcomOS over HTTP yourself.
 

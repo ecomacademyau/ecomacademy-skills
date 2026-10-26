@@ -101,7 +101,7 @@ Show the member the drafted profile (or a section-by-section summary), and expli
 
 Only **after the member signs off** do you write `brand-data.md` — to **`./brand/brand-data.md`** in the working folder (create `./brand/`), never into this plugin folder — and save the market-research report next to it. If they want changes, revise and re-present — don't save a version they haven't approved.
 
-**Then sync it to EcomOS** (`references/ecomos-sync.md`): if the `ecomos` tools (`sync_brand`, `get_brand`…) are available in this session, build `./brand/brand-sync.json` per `references/brand-sync-schema.json`, run `python3 scripts/brand_sections.py --payload ./brand/brand-sync.json`, call `sync_brand` with the printed object, and say "Synced to EcomOS". If they are not available, say once how to connect (Claude → Settings → Connectors → Add custom connector → `https://ecomos.ecomacademy.co/mcp`; the Brand Profile card in EcomOS has the steps) and carry on. Then continue to Mode B for the task that triggered the skill.
+**Then sync it to EcomOS** (`references/ecomos-sync.md`): if the `ecomos` tools (`sync_brand`, `get_brand`…) are available in this session, build `./brand/brand-sync.json` per `references/brand-sync-schema.json`, run `python3 scripts/brand_sections.py --payload ./brand/brand-sync.json`, call `sync_brand` with the printed object, and say "Synced to EcomOS". If they are not available, say once how to connect (in Claude Code: `/mcp` → ecomos → Authenticate; in claude.ai: Settings → Connectors → Add custom connector → `https://ecomos.ecomacademy.co/mcp`) and carry on. Then continue to Mode B for the task that triggered the skill.
 
 ## Mode B — Apply the brand
 

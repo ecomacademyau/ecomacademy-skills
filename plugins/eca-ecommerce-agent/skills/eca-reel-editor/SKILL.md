@@ -9,7 +9,7 @@ Turns a raw talking-head clip into a finished, on-brand vertical reel or ad for 
 
 Footage never leaves their computer. Transcription is local (Whisper) unless they set an ElevenLabs key; rendering is local (HyperFrames + ffmpeg); the review page carries a 540p proxy on their own claude.ai account.
 
-Built on Nicola Pocock's `claude-reel-editor` (MIT) — see the plugin README for attribution.
+Built on Nicola Pocock's `claude-reel-editor` (MIT) — see `README.md` in this folder for attribution.
 
 ## 0. Before anything else
 
@@ -21,7 +21,7 @@ Built on Nicola Pocock's `claude-reel-editor` (MIT) — see the plugin README fo
 - Exit 3 = **visual gaps**: it prints `{"gaps": [...], "suggested": {...}}`. Ask only those questions (≤ 6, one at a time, options + the suggested default) per `references/reel-kit.md`, save `kit.json`, rerun with `--kit kit.json`. That writes a ```reel-kit block into §4 of `brand-data.md`. Then, if the `ecomos` tools exist, run the brand sync (`eca-brand-intelligence/references/ecomos-sync.md`) so EcomOS carries it. Once. Never again unless they change their mind.
 - Fonts: a file in `./brand/fonts/` wins; otherwise the named Google font is downloaded; otherwise a clean system font with a note. Roca, Poppins, Inter, Montserrat — whatever §4 names.
 
-**EcomOS.** When the EcomOS MCP tools are in the session (server `ecomos`, or the claude.ai connector `claude_ai_EcomOS`): `ping` once at the start of a session (say the business name back), `get_products` when a line mentions a product, `log_reel` after delivery. When they are not: say once "add EcomOS as a custom connector in Claude (Settings → Connectors → Add custom connector → `https://ecomos.ecomacademy.co/mcp`) to pull products and log reels" and carry on with what they give you.
+**EcomOS.** When the EcomOS MCP tools are in the session (server `ecomos`, or the claude.ai connector `claude_ai_EcomOS`): `ping` once at the start of a session (say the business name back), `get_products` when a line mentions a product, `log_reel` after delivery. When they are not: say once "type `/mcp`, choose ecomos and Authenticate (or in claude.ai: Settings → Connectors → Add custom connector → `https://ecomos.ecomacademy.co/mcp`) so I can pull your products and log reels" and carry on with what they give you.
 
 Read `reels/reel-brief.md` in full before step 3. It is short on purpose.
 

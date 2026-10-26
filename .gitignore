@@ -14,5 +14,5 @@ _archive_dawn/
 .claude/settings.local.json
 
 # ECA reel editor: the template engine is built per machine by scripts/setup_engine.py (gsap + sfx + HyperFrames motions)
-plugins/eca-reel-editor/skills/eca-reel-editor/engine/
+plugins/eca-ecommerce-agent/skills/eca-reel-editor/engine/
 __pycache__/

@@ -140,9 +140,9 @@ def main():
 
     # ---- EcomOS connector (product cards + reel logging) and, on the CapCut route, the CapCut connector
     mcp = claude_mcp_list()
-    ecomos_fix = ("Add EcomOS as a custom connector in Claude (Settings → Connectors → Add custom connector → "
-                  "https://ecomos.ecomacademy.co/mcp → Connect → Allow). If you already did that in claude.ai, ignore this: "
-                  "`claude mcp list` only shows servers added from the terminal.")
+    ecomos_fix = ("In Claude Code type /mcp, choose ecomos, Authenticate, and allow it on the EcomOS page "
+                  "(claude.ai: Settings → Connectors → Add custom connector → https://ecomos.ecomacademy.co/mcp). "
+                  "If you already did, ignore this: `claude mcp list` cannot see plugin or claude.ai servers.")
     if mcp is None:
         warn("couldn't run `claude mcp list` (Claude Code CLI not on PATH?) — EcomOS connection unverified", ecomos_fix)
     elif "ecomos" in mcp.lower():

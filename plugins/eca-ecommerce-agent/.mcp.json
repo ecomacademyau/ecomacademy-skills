@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "ecomos": {
+      "type": "http",
+      "url": "https://ecomos.ecomacademy.co/mcp"
+    }
+  }
+}

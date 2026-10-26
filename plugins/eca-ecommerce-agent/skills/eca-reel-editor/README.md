@@ -1,4 +1,4 @@
-# ECA Reel Editor
+# ECA Reel Editor (skill in the ECA Marketing Coworker)
 
 Drop a raw talking-head clip into Claude Code and get back a finished vertical reel or Meta video ad **in your own brand**: cleaned-up audio, the "um"s and false starts cut, captions and graphics that match what you actually say, and — because you sell things — **product, review and offer cards** pulled from your Shopify store.
 
@@ -8,7 +8,7 @@ It runs on your computer and your Claude plan. Your footage never leaves your ma
 
 - **Claude Code** on a paid Claude plan (the review page uses Claude Code's Artifacts; older versions review in chat instead).
 - **The ECA Marketing Coworker plugin** with a built brand: the reel editor reads `./brand/brand-data.md` from the brand-intelligence skill. No brand file → it sends you to build one first (about ten minutes). There is no brand questionnaire in this plugin.
-- **EcomOS connected** (recommended): in Claude, Settings → Connectors → **Add custom connector** → name it EcomOS, URL `https://ecomos.ecomacademy.co/mcp` → Connect → sign in with your EcomOS Google account → Allow. No terminal needed. That gives the editor your live products (image, price, link), keeps your brand in sync with the dashboard, and logs every reel you deliver. Without it the editor asks you for a product photo and price.
+- **EcomOS connected** (recommended): the Marketing Coworker already knows the EcomOS server. In Claude Code type `/mcp`, choose **ecomos**, **Authenticate**, sign in with your EcomOS Google account and press Allow. (claude.ai or the desktop app: Settings → Connectors → Add custom connector → `https://ecomos.ecomacademy.co/mcp`.) No terminal needed. That gives the editor your live products (image, price, link), keeps your brand in sync with the dashboard, and logs every reel you deliver. Without it the editor asks you for a product photo and price.
 - **ffmpeg**, **Node.js** (LTS) and **Python 3.10+**. Mac: `brew install ffmpeg node`. Windows: install from ffmpeg.org / nodejs.org / python.org, or `npm i -g ffmpeg-static ffprobe-static`.
 - **The HyperFrames skills** (free, from HeyGen): `npx skills add heygen-com/hyperframes`.
 - About 10 GB of free disk (35 GB for 4K exports).
@@ -16,14 +16,12 @@ It runs on your computer and your Claude plan. Your footage never leaves your ma
 
 ## Install
 
-In Claude Code:
+The reel editor is part of the **ECA Marketing Coworker** plugin (it needs brand-intelligence from the same bundle). In Claude Code:
 
 ```
 /plugin marketplace add ecomacademyau/ecomacademy-skills
-/plugin install eca-reel-editor --marketplace ecomacademyau/ecomacademy-skills
+/plugin install eca-ecommerce-agent --marketplace ecomacademyau/ecomacademy-skills
 ```
-
-(Install `eca-ecommerce-agent` from the same marketplace too — it holds brand-intelligence, which builds the brand file this editor reads.)
 
 Then, in Claude Code, inside your brand folder: **"run the reel editor doctor check"**. It tells you plainly what is missing.
 

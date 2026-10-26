@@ -2,6 +2,11 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.17.0 - 2026-10-27
+
+- The ECA Reel Editor now ships inside the Marketing Coworker (`eca-ecommerce-agent`) as the `eca-reel-editor` skill; the standalone `eca-reel-editor` plugin released earlier today is withdrawn from the marketplace (uninstall it if you added it).
+- The Marketing Coworker declares the EcomOS MCP server: in Claude Code type `/mcp`, choose `ecomos`, Authenticate, allow it on the EcomOS page. No terminal, no URL to paste. (claude.ai / desktop chat: Settings → Connectors → Add custom connector → `https://ecomos.ecomacademy.co/mcp`.)
+
 ## v1.16.0 - 2026-10-27
 
 - New plugin **ECA Reel Editor** (`eca-reel-editor` v0.1.0): drop a raw talking-head clip into Claude Code and get back a finished vertical reel or Meta video ad in your brand, with product, review and offer cards from your Shopify store via EcomOS. Built on Nicola Pocock's claude-reel-editor (MIT); Python scripts, Windows untested.
