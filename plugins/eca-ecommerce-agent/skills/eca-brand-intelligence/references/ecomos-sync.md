@@ -2,6 +2,10 @@
 
 `brand-data.md` is the single source of truth for the brand. EcomOS (the member's dashboard) keeps a **read-only mirror** of it so every Marketing App there — Offer Builder, Prompt Generator, Hook Library, the AI coach chat, the Ad Data Analyser, the Meta 4PI and Google Ads Spend analysts — writes in the brand's voice. The flow is one way: file → EcomOS. Nothing in EcomOS edits the file.
 
+## One file, one folder
+
+The sync pushes **the brand file in the folder Claude Code is open in** (lookup order in `brand-file-location.md`). A member who has copies in several folders (Downloads, a Drive folder, an old skills folder) will sync whichever one they happen to be in — and the copies drift. When you find more than one `brand-data.md` for the same brand, say so, show their "Last updated" dates and TBD counts, and offer to make the richest one `./brand/brand-data.md` in their working folder and retire the rest. Do not merge files silently.
+
 ## When to sync
 
 - **Right after Gate 2** writes (or rewrites) `brand-data.md`.
@@ -17,7 +21,7 @@ The tools `ping`, `sync_brand`, `get_brand`, `get_products`, `log_reel` come fro
 
 The tools may appear under the server name `ecomos` or as a claude.ai connector (`claude_ai_EcomOS`); either is fine. Never ask for a key in chat. Never try to call EcomOS over HTTP yourself.
 
-## How to sync (3 steps, ~1 minute)
+## How to sync (4 steps, ~1–3 minutes)
 
 1. **Split and fingerprint the file**
    `python3 <this skill>/scripts/brand_sections.py` → `{path, sha256, brandName, sections}`. (It finds the file per `brand-file-location.md`.)
@@ -38,11 +42,20 @@ The tools may appear under the server name `ecomos` or as a claude.ai connector 
    - `confidence` {sectionName: high|med|low} from §18, `verifiedAt` = the header's "Last updated"
    Leave out anything the file marks `TBD`. Keep arrays within the schema caps (the script clips them anyway). Numbers are numbers.
 
-3. **Check and send**
-   `python3 <this skill>/scripts/brand_sections.py --payload ./brand/brand-sync.json` prints the complete `sync_brand` arguments `{brand, sections, sourcePath, sourceHash}` (exit 2 = fix the JSON; "note:" lines = something was clipped). Call the **`sync_brand`** tool with that object. On `{ok: true}` say one line: *"Synced to EcomOS — your Marketing Apps now use this brand."* Then `ping` is not needed.
+3. **Make it complete before it goes across — the sync is the brand file's health check**
+   `python3 <this skill>/scripts/brand_sections.py --gaps ./brand/brand-sync.json` prints two lists and exits 3 while anything is open:
+   - **MISSING** — fields the Marketing Apps and the reel editor actually read (accent/ink/light colours, heading font, logo, pillar hooks, product prices and the hero, CTA, guarantee, rating + review count, quotes, objections, personas, claims to avoid). **Do not sync past a MISSING list without trying to fill it.** For each item, in this order:
+     1. *Look it up yourself where it is verifiable:* colours, fonts and the logo from the live storefront (fetch the homepage; theme CSS custom properties, the header logo `<img>`, Shopify theme settings if the Shopify MCP is connected), products and prices from Shopify, rating and count from the review widget or app. Present what you found as a proposal with its source — never as fact until the member confirms.
+     2. *Ask the member for the rest* in one round (AskUserQuestion where available): hex codes with your proposals as defaults, the heading font, the usual CTA, the guarantee. "Skip for now" is a valid answer and is written as still TBD.
+     3. *Write every confirmed answer into `brand-data.md`* in its own section (replace the TBD), add the source and today's date to §18, tick it off in §19, update `brand-sync.json`, and rerun `--gaps`.
+   - **UNCONFIRMED** — sections that still say TBD / placeholder / "to be confirmed". Items in sections the apps read (§1–§9, §12) get the same treatment as MISSING. Items in §13/§14/§17 (operations, calendar, channels) are mentioned in one line and never block the sync.
+   A brand file that comes back COMPLETE here is a brand file every skill can trust; that is the point of doing this on every sync.
+
+4. **Send**
+   `python3 <this skill>/scripts/brand_sections.py --payload ./brand/brand-sync.json` prints the complete `sync_brand` arguments `{brand, sourcePath, sourceHash}` (exit 2 = fix the JSON; "note:" lines = something was clipped). Call the **`sync_brand`** tool with exactly that object — it is a few KB. The raw markdown sections are **optional and off by default** (`--with-sections` adds them; nothing in EcomOS displays them yet), so never summarise or skip "because the file is long". On `{ok: true}` say one line: *"Synced to EcomOS — your Marketing Apps now use this brand."*, then a short "what went across" list and, if anything was skipped, a one-line "still to confirm" list. `ping` is not needed.
 
 If `sync_brand` returns an error, show it in one line and keep going with the member's actual task; a failed sync never blocks copywriting.
 
 ## What EcomOS does with it
 
-`brandProfiles/{owner}` gets `brand` (the JSON), `sections` (the raw markdown by number, so the Brand Profile card can show the original wording), and six derived summary fields the older apps read. The Brand Profile card becomes read-only with a "Synced from Claude" badge; a manual edit there is refused with "Managed by Claude" and points back to this skill.
+`brandProfiles/{owner}` gets `brand` (the JSON), optionally `sections` (raw markdown by number), and six derived summary fields the older apps read. The Brand Profile card becomes read-only with a "Synced from Claude" badge; a manual edit there is refused with "Managed by Claude" and points back to this skill.
