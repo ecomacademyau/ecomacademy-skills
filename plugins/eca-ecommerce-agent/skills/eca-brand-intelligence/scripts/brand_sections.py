@@ -12,7 +12,8 @@ Usage:
   python3 brand_sections.py --gaps brand-sync.json       → what is still missing or unconfirmed, as a checklist:
                                                             structured fields the apps need that are empty, plus every
                                                             section of brand-data.md that still says TBD / [PLACEHOLDER].
-                                                            Exit 0 = complete, 3 = gaps to fill before syncing.
+                                                            Ends with VERDICT: COMPLETE (exit 0) · PATCH (exit 3: fill the
+                                                            few gaps at sync time) · REBUILD (exit 4: run Mode A refresh first).
 
 The brand file is found per references/brand-file-location.md:
   $ECA_BRAND_FILE → ./brand/brand-data.md → ./brand-data.md → ./skills/*/brand-data.md → the plugin folder (read-only).
@@ -187,6 +188,42 @@ def gaps(brand, text):
     return missing, tbd
 
 
+APP_SECTIONS = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "12"}   # sections the Marketing Apps / reel editor read
+PATCH_MAX_MISSING = 4        # more missing app fields than this → REBUILD
+PATCH_MAX_TBD_SECTIONS = 3   # more app-read sections still TBD than this → REBUILD
+STALE_DAYS = 120             # a brand file older than this is re-researched, not patched
+
+
+def file_age_days(text):
+    import datetime
+    m = re.search(r"\*\*Last updated:\*\*\s*(\d{4}-\d{2}-\d{2})", text) or re.search(r"Last updated:?\s*(\d{4}-\d{2}-\d{2})", text)
+    if not m:
+        return None
+    try:
+        return (datetime.date.today() - datetime.date.fromisoformat(m.group(1))).days
+    except ValueError:
+        return None
+
+
+def verdict_for(missing, tbd, text):
+    """COMPLETE / PATCH / REBUILD with the reasons, so the skill routes the member to the right amount of work."""
+    app_tbd = [t for t in tbd if t[0] in APP_SECTIONS]
+    age = file_age_days(text)
+    reasons = []
+    if not missing and not tbd:
+        return "COMPLETE", reasons
+    if len(missing) > PATCH_MAX_MISSING:
+        reasons.append(f"{len(missing)} app fields missing (patch limit {PATCH_MAX_MISSING})")
+    if len(app_tbd) > PATCH_MAX_TBD_SECTIONS:
+        reasons.append(f"{len(app_tbd)} app-read sections still TBD (patch limit {PATCH_MAX_TBD_SECTIONS})")
+    if age is not None and age > STALE_DAYS:
+        reasons.append(f"file last updated {age} days ago (older than {STALE_DAYS})")
+    if reasons:
+        return "REBUILD", reasons
+    reasons.append(f"{len(missing)} missing field(s), {len(app_tbd)} app-read section(s) with TBDs" + (f", {age} days old" if age is not None else ""))
+    return "PATCH", reasons
+
+
 def main(argv):
     if "--gaps" in argv:
         payload_path = Path(argv[argv.index("--gaps") + 1])
@@ -196,17 +233,22 @@ def main(argv):
         text = p.read_text(encoding="utf-8")
         brand = json.loads(payload_path.read_text(encoding="utf-8"))
         missing, tbd = gaps(brand, text)
-        if not missing and not tbd:
-            print("COMPLETE: every field the apps use is filled and no section says TBD."); return
+        verdict, reasons = verdict_for(missing, tbd, text)
+        if verdict == "COMPLETE":
+            print("VERDICT: COMPLETE — every field the apps use is filled and no section says TBD."); return
         if missing:
-            print("MISSING (the apps read these — fill before syncing):")
+            print("MISSING (the apps read these):")
             for path, label, section, why in missing:
                 print(f"  - {label}  [{section}; used by: {why}]")
         if tbd:
             print("UNCONFIRMED in brand-data.md (TBD / placeholder / to-be-confirmed):")
             for num, title, n in tbd:
                 print(f"  - §{num} {title}: {n} item(s)")
-        sys.exit(3)
+        print(f"VERDICT: {verdict} — " + "; ".join(reasons))
+        print("  PATCH   = fill these few items now (live store lookups, then one round of questions), write them into the file, sync."
+              if verdict == "PATCH" else
+              "  REBUILD = too thin or stale to patch at sync time: run brand-intelligence Mode A (refresh) first — research the gaps, Gate 1, Gate 2 — then sync.")
+        sys.exit(3 if verdict == "PATCH" else 4)
 
     if "--path-only" in argv:
         p, src = resolve_brand_file()

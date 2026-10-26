@@ -1,8 +1,8 @@
 {
   "name": "eca-ecommerce-agent",
   "displayName": "ECA Marketing Coworker",
-  "version": "1.17.1",
-  "description": "Ecommerce Academy skills bundle — brand intelligence, hero product analysis, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO and AI blog writing, UGC video scripts, store visibility audits, Meta ads analysis (4PI), the ECA Reel Editor (a raw talking-head clip → an on-brand reel or video ad with product, review and offer cards from your store), and post-purchase surveys from writing the questions to turning the answers into angles, objections and personas. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.17.1): ECA Reel Editor joins the bundle, and EcomOS connects from inside Claude Code (type /mcp → ecomos → Authenticate) so your brand syncs to EcomOS and the editor can read your products.",
+  "version": "1.17.2",
+  "description": "Ecommerce Academy skills bundle — brand intelligence, hero product analysis, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO and AI blog writing, UGC video scripts, store visibility audits, Meta ads analysis (4PI), the ECA Reel Editor (a raw talking-head clip → an on-brand reel or video ad with product, review and offer cards from your store), and post-purchase surveys from writing the questions to turning the answers into angles, objections and personas. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.17.2): ECA Reel Editor joins the bundle, and EcomOS connects from inside Claude Code (type /mcp → ecomos → Authenticate) so your brand syncs to EcomOS and the editor can read your products.",
   "author": {
     "name": "Ecommerce Academy",
     "email": "brendan@ecomfactory.com.au"

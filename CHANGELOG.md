@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.17.2 - 2026-10-27
+
+- The sync gap check now gives a verdict: COMPLETE, PATCH (a few gaps, fresh file → filled at sync time) or REBUILD (more than 4 app fields missing, more than 3 app-read sections TBD, or older than 120 days → the brand-intelligence build runs as a refresh first, with Gate 1 and Gate 2, then syncs).
+
 ## v1.17.1 - 2026-10-27
 
 - "Sync my brand to EcomOS" is now a completeness gate: `brand_sections.py --gaps` lists the fields the apps read that are missing (colours, fonts, logo, hooks, prices, CTA, guarantee, proof, objections, personas) and every section still marked TBD; the skill looks up what the live store can answer, asks the member for the rest, writes it into brand-data.md, then syncs. Raw markdown sections are no longer sent by default. The skill also flags duplicate brand files in different folders instead of silently syncing whichever one it is in.

@@ -43,7 +43,12 @@ The tools may appear under the server name `ecomos` or as a claude.ai connector 
    Leave out anything the file marks `TBD`. Keep arrays within the schema caps (the script clips them anyway). Numbers are numbers.
 
 3. **Make it complete before it goes across — the sync is the brand file's health check**
-   `python3 <this skill>/scripts/brand_sections.py --gaps ./brand/brand-sync.json` prints two lists and exits 3 while anything is open:
+   `python3 <this skill>/scripts/brand_sections.py --gaps ./brand/brand-sync.json` prints two lists and ends with a **VERDICT**:
+   - **COMPLETE** → go to step 4.
+   - **PATCH** (a few gaps, file still fresh) → fill them now as described below, then step 4.
+   - **REBUILD** (more than 4 app fields missing, more than 3 app-read sections still TBD, or the file is older than 120 days) → **do not patch it at sync time.** Tell the member in two lines that the brand file is too thin or too old to sync well, and that the proper fix is the brand-intelligence build: run **Mode A as a refresh** (keep everything the member already approved, re-research the gaps and anything stale, Gate 1, Gate 2), write the file, *then* sync. This is the same skill, so just proceed into Mode A unless they say "sync what's there anyway" — in which case sync, and list what is missing afterwards.
+
+   For a PATCH verdict, the two lists are:
    - **MISSING** — fields the Marketing Apps and the reel editor actually read (accent/ink/light colours, heading font, logo, pillar hooks, product prices and the hero, CTA, guarantee, rating + review count, quotes, objections, personas, claims to avoid). **Do not sync past a MISSING list without trying to fill it.** For each item, in this order:
      1. *Look it up yourself where it is verifiable:* colours, fonts and the logo from the live storefront (fetch the homepage; theme CSS custom properties, the header logo `<img>`, Shopify theme settings if the Shopify MCP is connected), products and prices from Shopify, rating and count from the review widget or app. Present what you found as a proposal with its source — never as fact until the member confirms.
      2. *Ask the member for the rest* in one round (AskUserQuestion where available): hex codes with your proposals as defaults, the heading font, the usual CTA, the guarantee. "Skip for now" is a valid answer and is written as still TBD.

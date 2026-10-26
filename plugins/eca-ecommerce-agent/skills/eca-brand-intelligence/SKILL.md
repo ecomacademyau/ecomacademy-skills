@@ -17,6 +17,7 @@ Find the brand file per `references/brand-file-location.md` (`$ECA_BRAND_FILE` �
 
 - **It's missing, or more than ~30% of it is still `[PLACEHOLDERS]` / `TBD`** → run **Mode A — Build** to create or finish it, then continue to Mode B.
 - **It exists and is substantially filled** → go straight to **Mode B — Apply**.
+- **It exists but the EcomOS sync gap check says REBUILD** (`python3 scripts/brand_sections.py --gaps …`: many app fields missing, several sections still TBD, or the file older than ~4 months) → run **Mode A as a refresh**: keep every section the member has approved, re-research only the gaps and whatever is stale, then Gate 1 and Gate 2 as usual. A thin file patched at sync time is not brand intelligence.
 
 Never half-load the file. A thin brand-data file produces confident, wrong copy — building it first is always worth the few minutes.
 
