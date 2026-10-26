@@ -1,0 +1,418 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "schemaVersion": {
+      "default": 1,
+      "type": "number",
+      "const": 1
+    },
+    "brandName": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 120
+    },
+    "tagline": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "storeUrl": {
+      "type": "string",
+      "maxLength": 300
+    },
+    "essence": {
+      "type": "object",
+      "properties": {
+        "oneLiner": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "mission": {
+          "type": "string",
+          "maxLength": 600
+        },
+        "positioning": {
+          "type": "string",
+          "maxLength": 600
+        }
+      },
+      "required": [
+        "oneLiner"
+      ]
+    },
+    "voice": {
+      "type": "object",
+      "properties": {
+        "tone": {
+          "default": [],
+          "maxItems": 12,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 60
+          }
+        },
+        "do": {
+          "default": [],
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "dont": {
+          "default": [],
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "vocabulary": {
+          "maxItems": 40,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 60
+          }
+        },
+        "sampleLines": {
+          "maxItems": 10,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 300
+          }
+        }
+      }
+    },
+    "visual": {
+      "type": "object",
+      "properties": {
+        "colors": {
+          "type": "object",
+          "properties": {
+            "primary": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "accent": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "light": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "ink": {
+              "type": "string",
+              "maxLength": 40
+            }
+          }
+        },
+        "fonts": {
+          "type": "object",
+          "properties": {
+            "heading": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "body": {
+              "type": "string",
+              "maxLength": 80
+            },
+            "accent": {
+              "type": "string",
+              "maxLength": 80
+            }
+          }
+        },
+        "logoUrl": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "never": {
+          "default": [],
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        },
+        "reelKit": {
+          "type": "object",
+          "properties": {
+            "captionMode": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "captionCase": {
+              "type": "string",
+              "maxLength": 20
+            },
+            "highlightColor": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "graphics": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "sfx": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "pacing": {
+              "type": "string",
+              "maxLength": 40
+            },
+            "cta": {
+              "type": "string",
+              "maxLength": 200
+            }
+          },
+          "description": "Visual preferences the reel editor asked for once (Reel kit block in §4 of brand-data.md)"
+        }
+      }
+    },
+    "pillars": {
+      "default": [],
+      "maxItems": 20,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "hook": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    "angles": {
+      "maxItems": 20,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 300
+      }
+    },
+    "products": {
+      "default": [],
+      "maxItems": 40,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "handle": {
+            "type": "string",
+            "maxLength": 160
+          },
+          "price": {
+            "type": "number",
+            "minimum": 0
+          },
+          "role": {
+            "default": "sub",
+            "type": "string",
+            "enum": [
+              "hero",
+              "sub",
+              "accessory",
+              "bundle",
+              "gift"
+            ]
+          },
+          "oneLiner": {
+            "type": "string",
+            "maxLength": 300
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    },
+    "offer": {
+      "type": "object",
+      "properties": {
+        "aov": {
+          "type": "number",
+          "minimum": 0
+        },
+        "discountPolicy": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "cta": {
+          "type": "string",
+          "maxLength": 200
+        },
+        "guarantee": {
+          "type": "string",
+          "maxLength": 300
+        }
+      }
+    },
+    "proof": {
+      "type": "object",
+      "properties": {
+        "reviewCount": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "rating": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 5
+        },
+        "quotes": {
+          "default": [],
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "text": {
+                "type": "string",
+                "maxLength": 400
+              },
+              "source": {
+                "type": "string",
+                "maxLength": 120
+              }
+            },
+            "required": [
+              "text"
+            ]
+          }
+        },
+        "press": {
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 200
+          }
+        }
+      }
+    },
+    "objections": {
+      "default": [],
+      "maxItems": 20,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "objection": {
+            "type": "string",
+            "maxLength": 300
+          },
+          "rebuttal": {
+            "type": "string",
+            "maxLength": 500
+          }
+        },
+        "required": [
+          "objection",
+          "rebuttal"
+        ]
+      }
+    },
+    "personas": {
+      "default": [],
+      "maxItems": 10,
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "maxLength": 80
+          },
+          "summary": {
+            "type": "string",
+            "maxLength": 500
+          },
+          "triggers": {
+            "maxItems": 10,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "maxLength": 200
+            }
+          }
+        },
+        "required": [
+          "name",
+          "summary"
+        ]
+      }
+    },
+    "claimsToAvoid": {
+      "default": [],
+      "maxItems": 20,
+      "type": "array",
+      "items": {
+        "type": "string",
+        "maxLength": 300
+      }
+    },
+    "market": {
+      "type": "object",
+      "properties": {
+        "category": {
+          "type": "string",
+          "maxLength": 120
+        },
+        "competitors": {
+          "maxItems": 20,
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 120
+          }
+        }
+      }
+    },
+    "confidence": {
+      "type": "object",
+      "propertyNames": {
+        "type": "string",
+        "maxLength": 40
+      },
+      "additionalProperties": {
+        "type": "string",
+        "enum": [
+          "high",
+          "med",
+          "low"
+        ]
+      }
+    },
+    "verifiedAt": {
+      "type": "string",
+      "maxLength": 40
+    }
+  },
+  "required": [
+    "brandName"
+  ],
+  "title": "EcomOS BrandSync",
+  "description": "Structured brand built from brand-data.md and pushed to EcomOS with the ecomos MCP tool sync_brand (schemaVersion 1)."
+}

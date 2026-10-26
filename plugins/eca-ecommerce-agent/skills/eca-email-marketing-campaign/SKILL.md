@@ -18,7 +18,7 @@ These four rules govern every campaign. If a draft violates one, fix it before s
 
 ## When to invoke the brand-intelligence skill
 
-The brand-intelligence skill (in `../eca-brand-intelligence/`) holds the brand's voice, products, ICP, and competitor positioning. Pull it in at the **drafting** stage, not during topic discovery. Topic discovery is more about calendar, performance, and category-level thinking. Once you're writing subject lines and body copy, you need the voice rules.
+The brand-intelligence skill holds the brand's voice, products, ICP, and competitor positioning in `brand-data.md` — in the member's working folder (`./brand/brand-data.md`; lookup order in `../eca-brand-intelligence/references/brand-file-location.md`), not inside the plugin. Pull it in at the **drafting** stage, not during topic discovery. Topic discovery is more about calendar, performance, and category-level thinking. Once you're writing subject lines and body copy, you need the voice rules.
 
 If brand context appears genuinely useful earlier (e.g., the user asks "is this campaign idea on-brand?"), pull it in earlier — just don't make the user wait while you load it unnecessarily.
 
@@ -180,11 +180,11 @@ See `references/email-checklist.md` for the full list. Highlights:
 
 This skill is structured to be portable. The framework, series, templates, push workflow, and checklist are brand-agnostic and live in `SKILL.md` and `references/`. The brand-specific parts live in two places:
 
-- **`../eca-brand-intelligence/brand-data.md`** — voice, products, ICP, market, competitors, visual identity
+- **`brand-data.md`** (resolved per `../eca-brand-intelligence/references/brand-file-location.md`; normally `./brand/brand-data.md` in the working folder) — voice, products, ICP, market, competitors, visual identity
 - **`klaviyo-config.md`** (top level of this skill folder) — Klaviyo master template ID, sender defaults, audience config
 
 To fork this skill for a different brand:
-1. Swap `../eca-brand-intelligence/brand-data.md` for that brand's version
+1. Open Claude Code in that brand's folder (its `./brand/brand-data.md`), or point `$ECA_BRAND_FILE` at its brand file
 2. Swap `klaviyo-config.md` for that brand's version (set their master template ID, sender defaults, etc.)
 3. Nothing else needs to change.
 

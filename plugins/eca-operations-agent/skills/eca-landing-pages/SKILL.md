@@ -79,7 +79,7 @@ If they've already told you the ad or the angle in their opening message, skip t
 Work through these with them, one at a time, each with your recommendation attached. Pull what you can first so you're asking informed questions, not blank ones:
 
 - **Source material** — the ad this page serves. If the Meta Ads MCP is connected, pull the real creative copy, headline, angle and current destination URL (`ads_get_creatives`, `ads_get_ad_entities`). Otherwise ask them to paste the ad copy. *This is the raw material for message match.*
-- **Brand** — read `brand-data.md` from `eca-brand-intelligence` for voice, personas, objections, proof and claim rules. Say so if it's missing (the copy will be more generic).
+- **Brand** — read `brand-data.md` from `eca-brand-intelligence` for voice, personas, objections, proof and claim rules (lookup order: `$ECA_BRAND_FILE`, `./brand/brand-data.md`, `./brand-data.md`, `./skills/*/brand-data.md`; the brand-intelligence plugin folder is a read-only fallback). Say so if it's missing (the copy will be more generic).
 - **Format** — recommend one of the five from the ad's angle (`references/page-formats.md`) and explain why in a line. Their call.
 - **Product / offer** — what the page sells, and the exact offer (price, bundle, subscription, discount).
 - **Goal + destination** — buy now, add to cart, subscribe, or lead capture.

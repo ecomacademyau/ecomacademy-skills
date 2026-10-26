@@ -46,7 +46,7 @@ Once Shopify and Klaviyo are confirmed, check for the campaign files. Ask the me
 
 **If the Master File exists but the offer section is still `TO CONFIRM` or a placeholder**, treat it as not decided. A half-finished Master File is not a decision, and drafting against a provisional offer produces work that gets thrown away.
 
-If `eca-brand-intelligence` is installed (sibling skill folder), pull its brand data at the drafting stage (Stage 5) for voice and product knowledge. If it isn't installed, ask the member for the brand's tone in a sentence or two and work from that — don't invent brand facts.
+If `eca-brand-intelligence` is installed, pull its brand data at the drafting stage (Stage 5) for voice and product knowledge — the file is `./brand/brand-data.md` in the working folder (lookup order: `$ECA_BRAND_FILE`, `./brand/brand-data.md`, `./brand-data.md`, `./skills/*/brand-data.md`), not a sibling skill folder. If it isn't installed, ask the member for the brand's tone in a sentence or two and work from that — don't invent brand facts.
 
 ## Steps
 

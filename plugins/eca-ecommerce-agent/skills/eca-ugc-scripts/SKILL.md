@@ -13,7 +13,7 @@ These scripts are meant to be *filmed*, by the founder/member or a creator — s
 
 Every script needs the brand's real specifics or it comes out generic. Get them in this order:
 
-1. **Prefer `brand-data.md`** — if the brand-intelligence skill's `brand-data.md` exists, read it. It already has the founder story, hero product, the category frustration, the audience, voice, proof, objections, and the why-people-buy transformation — which is exactly what these scripts need. Use it.
+1. **Prefer `brand-data.md`** — if the brand-intelligence skill's `brand-data.md` exists, read it. Find the file per `eca-brand-intelligence/references/brand-file-location.md` (`$ECA_BRAND_FILE`, then `./brand/brand-data.md`, `./brand-data.md`, `./skills/*/brand-data.md`, then the plugin folder as a read-only fallback). It already has the founder story, hero product, the category frustration, the audience, voice, proof, objections, and the why-people-buy transformation — which is exactly what these scripts need. Use it.
 2. **Fall back to `config.md`** — if there's no brand profile, read this skill's `config.md` for the minimum inputs, and ask the member for anything still missing (don't invent product facts, prices, or claims).
 3. **Confirm the essentials** for the chosen type before writing: the hero product in one line, the specific frustration/feeling, who it's for, and any proof or real detail you'll lean on.
 

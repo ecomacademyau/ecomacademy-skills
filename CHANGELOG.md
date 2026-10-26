@@ -2,6 +2,12 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.16.0 - 2026-10-27
+
+- New plugin **ECA Reel Editor** (`eca-reel-editor` v0.1.0): drop a raw talking-head clip into Claude Code and get back a finished vertical reel or Meta video ad in your brand, with product, review and offer cards from your Shopify store via EcomOS. Built on Nicola Pocock's claude-reel-editor (MIT); Python scripts, Windows untested.
+- Brand intelligence: the brand file lives in your working folder (`./brand/brand-data.md`; lookup order in `references/brand-file-location.md`) so plugin updates never touch it, and it syncs to EcomOS (`references/ecomos-sync.md`, "Sync my brand to EcomOS") so the Marketing Apps and AI coach there use the same brand.
+- All skills that read `brand-data.md` now use the shared lookup order (operations agent v1.48.2, Black Friday blueprint v1.10.5).
+
 ## v1.15.0 - 2026-10-19
 
 - Add hero product finder and survey skills, morning brief and customer service, and fix skill labels that were too long to load

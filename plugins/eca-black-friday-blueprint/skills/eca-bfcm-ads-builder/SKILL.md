@@ -98,7 +98,7 @@ Chrome       OK
 Look in this order and stop at the first useful hit, continuing to gather anything else available:
 
 1. A dedicated brand intelligence skill for that brand, including its `references/` files
-2. `brand-data.md`, `brand-dna.md`, `brand-voice.md`, `icp-cards.md` in the working folder, `./brand/`, or `./clients/[brand]/brand/`
+2. `brand-data.md` per the ECA lookup order (`$ECA_BRAND_FILE`, `./brand/brand-data.md`, `./brand-data.md`, `./skills/*/brand-data.md`), then `brand-dna.md`, `brand-voice.md`, `icp-cards.md` in the working folder, `./brand/`, or `./clients/[brand]/brand/`
 3. Any client config from a sibling report skill
 4. If none exist, scrape the live site with WebFetch, then Firecrawl if blocked, for palette hex values, typography, product range, sourced claims, review count and voice
 5. If that also fails, ask for the site URL. Never proceed on guesses.

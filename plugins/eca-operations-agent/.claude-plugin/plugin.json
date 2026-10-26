@@ -1,7 +1,7 @@
 {
   "name": "eca-operations-agent",
   "displayName": "ECA Operations Coworker",
-  "version": "1.48.1",
+  "version": "1.48.2",
   "description": "Ecommerce Academy Operations Coworker — the daily running of the store. A morning brief that reads Shopify, Meta Ads and your inbox and tells you what needs doing today, a customer service skill that drafts your replies and learns which ones it can handle alone, a landing page builder that installs into your theme, and a skill builder that turns any repeatable task of yours into a reusable skill.",
   "author": {
     "name": "Ecommerce Academy",

@@ -1,11 +1,11 @@
 ---
 name: eca-brand-intelligence
-description: "Load the brand's full identity — story, market, competitors, products, voice, visual rules, ICP or avatar, and the why-people-buy transformation — before producing any customer-facing content or strategic suggestion. If no brand-data file exists yet, or it is mostly placeholders, this skill builds one from the store URL by crawling the site, running deep market and competitor research, mining reviews for buying motivation, and drafting the whole profile for approval. Use whenever the user asks Claude to write, edit or review marketing copy, product descriptions, ad creative, email or SMS, social posts, landing-page content, blog articles, FAQ, customer-service replies, value-prop work, or positioning decisions, even if they never name the brand. Also trigger for \"is this on-brand?\", \"how would we say X?\", \"who's our customer?\", \"who are our competitors?\", \"set up brand intelligence\", \"build our brand profile from our website\", or evaluating an opportunity against the brand's positioning."
+description: "Load the brand's full identity — story, market, competitors, products, voice, visual rules, ICP and the why-people-buy transformation — before any customer-facing content or strategic suggestion. If no brand-data file exists (or it is mostly placeholders), build one from the store URL: crawl the site, research the market and competitors, mine reviews, draft the profile for approval. Use whenever the user asks to write, edit or review marketing copy, product descriptions, ad creative, email/SMS, social posts, landing pages, blog articles, FAQ, customer-service replies, value props or positioning, even if the brand is never named. Also for \"is this on-brand?\", \"who's our customer?\", \"who are our competitors?\", \"set up brand intelligence\", \"build our brand profile from our website\", and \"sync my brand to EcomOS\" / \"connect to EcomOS and sync my brand\" (the brand file is mirrored into the member's EcomOS so every Marketing App there uses it)."
 ---
 
 # Brand Intelligence
 
-This skill grounds every downstream marketing skill (email, ads, content, blog, personas, promotions, PDPs) in the real brand — not generic ecommerce best practice. All brand facts live in one file, `brand-data.md`, in this folder. The logic for *how* to build and apply that file lives here.
+This skill grounds every downstream marketing skill (email, ads, content, blog, personas, promotions, PDPs) in the real brand — not generic ecommerce best practice. All brand facts live in one file, `brand-data.md`, in the member's working folder (`./brand/brand-data.md`; the full lookup order is in `references/brand-file-location.md`). The logic for *how* to build and apply that file lives here. The same file is mirrored into the member's **EcomOS** dashboard (`references/ecomos-sync.md`), so the Marketing Apps there and the ECA reel editor read the identical brand.
 
 **The skill has two modes. Always run Step 0 first to decide which.**
 
@@ -13,7 +13,7 @@ This skill grounds every downstream marketing skill (email, ads, content, blog, 
 
 ## Step 0 — Decide the mode
 
-Read `brand-data.md` in this folder (if present).
+Find the brand file per `references/brand-file-location.md` (`$ECA_BRAND_FILE` → `./brand/brand-data.md` → `./brand-data.md` → `./skills/*/brand-data.md` → this folder's legacy copy, read-only) and read it if present. `python3 scripts/brand_sections.py --path-only` prints the resolved path. If the only copy is the legacy one inside this plugin folder, say so once and offer to copy it to `./brand/brand-data.md` — plugin updates replace this folder and would wipe it.
 
 - **It's missing, or more than ~30% of it is still `[PLACEHOLDERS]` / `TBD`** → run **Mode A — Build** to create or finish it, then continue to Mode B.
 - **It exists and is substantially filled** → go straight to **Mode B — Apply**.
@@ -99,14 +99,16 @@ Show the member the drafted profile (or a section-by-section summary), and expli
 - walk them through the **low-confidence sections** and the **founder-only questions** (mission, discount depth, shelf life, logo rules, verified ICP, etc.) and collect their answers,
 - ask them to **approve the brand direction and intelligence as final**, or mark what still needs changing.
 
-Only **after the member signs off** do you write `brand-data.md` and save the market-research report. If they want changes, revise and re-present — don't save a version they haven't approved. Then continue to Mode B for the task that triggered the skill.
+Only **after the member signs off** do you write `brand-data.md` — to **`./brand/brand-data.md`** in the working folder (create `./brand/`), never into this plugin folder — and save the market-research report next to it. If they want changes, revise and re-present — don't save a version they haven't approved.
+
+**Then sync it to EcomOS** (`references/ecomos-sync.md`): if the `ecomos` tools (`sync_brand`, `get_brand`…) are available in this session, build `./brand/brand-sync.json` per `references/brand-sync-schema.json`, run `python3 scripts/brand_sections.py --payload ./brand/brand-sync.json`, call `sync_brand` with the printed object, and say "Synced to EcomOS". If they are not available, say once how to connect (Claude → Settings → Connectors → Add custom connector → `https://ecomos.ecomacademy.co/mcp`; the Brand Profile card in EcomOS has the steps) and carry on. Then continue to Mode B for the task that triggered the skill.
 
 ## Mode B — Apply the brand
 
 The file exists and is filled. Now use it.
 
 ### B1 — Read the brand data first
-Before producing any output covered by this skill, read `brand-data.md` — the whole file. Every section earns its keep: essence (what story to tell), why-people-buy (the transformation to sell), voice (the words), visual identity (anything visual), messaging pillars (the angles), products (no invented SKUs), offers (on-strategy promos), proof (trust), objections (what to pre-empt), market & competitors (positioning), ICP (who you're speaking to), operational facts (accurate support/FAQ), promo calendar (timing), SEO territory (content). If a section says `TBD`, flag the gap rather than inventing content.
+Before producing any output covered by this skill, read `brand-data.md` — the whole file. **Keep EcomOS current:** if the `ecomos` tools are available, call `get_brand` and compare its `sourceHash` with the file's sha256 (`python3 scripts/brand_sections.py` prints it); when they differ — or the member asks to "sync my brand to EcomOS" — run the sync in `references/ecomos-sync.md` first (one minute), then continue. When they match, say nothing about it. Every section earns its keep: essence (what story to tell), why-people-buy (the transformation to sell), voice (the words), visual identity (anything visual), messaging pillars (the angles), products (no invented SKUs), offers (on-strategy promos), proof (trust), objections (what to pre-empt), market & competitors (positioning), ICP (who you're speaking to), operational facts (accurate support/FAQ), promo calendar (timing), SEO territory (content). If a section says `TBD`, flag the gap rather than inventing content.
 
 ### B2 — Match the work to the right sections
 - **Product copy / PDPs** → Products, Why-people-buy, Proof, Objections, Offers, ICP, Voice
@@ -138,4 +140,4 @@ If the brief contradicts the brand (a hard-discount tone for a premium brand, a 
 
 ## Reusing for other brands
 
-This folder is designed to be forked. To stand up a new brand: copy the folder, delete the old `brand-data.md`, and invoke the skill with the new store URL — Mode A builds the file from scratch. To keep two brands side by side, rename the folder (e.g., `brand-intelligence-acme/`). The logic in this `SKILL.md` never changes — it's brand-agnostic by design. See `README.md` for the full walkthrough.
+The brand lives in the member's working folder, not in this plugin, so one install serves any number of brands: open Claude Code in a different folder (or point `$ECA_BRAND_FILE` at a different file) and Mode A builds that brand's `./brand/brand-data.md` from its store URL. The logic in this `SKILL.md` never changes — it's brand-agnostic by design. See `README.md` for the full walkthrough.

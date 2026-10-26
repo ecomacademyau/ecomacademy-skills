@@ -1,0 +1,15 @@
+{
+  "name": "eca-reel-editor",
+  "displayName": "ECA Reel Editor",
+  "version": "0.1.0",
+  "description": "Ecommerce Academy Reel Editor — drop a raw talking-head clip into Claude Code and get back a finished vertical reel or Meta video ad in your own brand: cleaned audio, filler words cut, captions and graphics that match what you say, plus product, review and offer cards from your Shopify store. Brand comes from brand-intelligence's brand-data.md (no interview); products, reviews and reel logging come from EcomOS when connected. Runs on your Mac — footage never leaves your computer. Built on Nicola Pocock's claude-reel-editor (MIT).",
+  "author": {
+    "name": "Ecommerce Academy",
+    "email": "brendan@ecomfactory.com.au"
+  },
+  "homepage": "https://github.com/ecomacademyau/ecomacademy-skills",
+  "repository": "https://github.com/ecomacademyau/ecomacademy-skills",
+  "license": "MIT",
+  "keywords": ["reels", "video", "tiktok", "shorts", "ugc", "talking-head", "captions", "video-ads", "meta-ads", "shopify", "ecommerce", "brand", "hyperframes"],
+  "skills": "./skills"
+}

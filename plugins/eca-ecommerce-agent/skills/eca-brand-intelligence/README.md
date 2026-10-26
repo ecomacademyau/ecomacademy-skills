@@ -9,12 +9,16 @@ It's brand-agnostic by design: point the skill at any store URL and it builds th
 ```
 brand-intelligence/
 ├── SKILL.md                          # Generic logic — two modes: Build and Apply. Same for every brand.
-├── brand-data.md                     # Brand-specific data. SWAP THIS (or rebuild it) for a different brand.
+├── brand-data.md                     # Placeholder template only. The REAL brand file lives in the member's working folder: ./brand/brand-data.md
+├── scripts/brand_sections.py         # Finds the brand file, splits it by section, fingerprints it, builds the EcomOS sync payload
 ├── README.md                         # This file.
 ├── templates/
 │   └── brand-data-template.md        # The full schema — 19 sections — used both as a fork scaffold and as the spec the Build mode fills.
 └── references/
-    └── market-research.md            # Forum-first voice-of-customer + market pain-point research method, and the trainable report structure.
+    ├── market-research.md            # Forum-first voice-of-customer + market pain-point research method, and the trainable report structure.
+    ├── brand-file-location.md        # Where the brand file lives and the lookup order every ECA skill uses
+    ├── ecomos-sync.md                # How the file is mirrored into EcomOS (sync_brand over MCP)
+    └── brand-sync-schema.json        # The JSON Schema the sync payload must match (exported from EcomOS)
 ```
 
 ## How it works — two modes

@@ -15,7 +15,7 @@ The skill is **brand-agnostic in logic, brand-specific in config**. The workflow
 
 Great ad copy is built from the customer's own language, not generic best practice. Before writing anything:
 
-1. **Load brand voice.** Invoke the `eca-brand-intelligence` skill if available so the brand's tone, positioning, products, claims-you-can-make, and ICP are in context. If it isn't available, read whatever brand brief the user points to (per `config.md`).
+1. **Load brand voice.** Invoke the `eca-brand-intelligence` skill if available so the brand's tone, positioning, products, claims-you-can-make, and ICP are in context (its `brand-data.md` lives in the working folder — `./brand/brand-data.md` — per `eca-brand-intelligence/references/brand-file-location.md`). If it isn't available, read whatever brand brief the user points to (per `config.md`).
 2. **Load the customer's words.** If a personas file and/or a customer-reviews file exist (see `config.md`), read them. The best headlines and hooks reuse the exact phrases customers use ("game-changer", "saves me every morning"). If the `eca-persona-builder` skill or its output is available, lean on it.
 3. **Read `config.md`** in this folder for the brand-specific settings (brand name, default region, source files, output path, any house rules on character limits).
 

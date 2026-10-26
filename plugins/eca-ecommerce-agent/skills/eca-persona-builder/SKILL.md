@@ -14,7 +14,7 @@ The skill is **brand-agnostic in logic, brand-specific in config**. The workflow
 ## Before you start
 
 1. **Read `config.md`** for this brand's settings — where the reviews live, how many personas to produce, and output preferences.
-2. **Load brand context** if available (the `eca-brand-intelligence` skill) so persona language matches the brand and you know the product lineup. Not required, but it sharpens the output.
+2. **Load brand context** if available (the `eca-brand-intelligence` skill; its `brand-data.md` is found per `eca-brand-intelligence/references/brand-file-location.md`, normally `./brand/brand-data.md`) so persona language matches the brand and you know the product lineup. Not required, but it sharpens the output.
 3. **Get the data.** You need real customer voice to do this honestly. Acceptable sources:
    - a reviews export (.txt / .csv) — Judge.me, Okendo, Yotpo, Shopify reviews, etc.
    - support tickets, survey responses, social comments, testimonials

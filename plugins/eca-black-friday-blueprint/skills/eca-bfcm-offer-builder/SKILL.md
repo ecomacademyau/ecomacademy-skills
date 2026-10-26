@@ -56,7 +56,7 @@ Then check what you can reach — and **check that each account is actually thei
 | **Klaviyo** | Campaign and flow revenue, list size then and now | Ask which sends worked and what the list size is. Label it member-supplied. |
 | **Anything else** | Other revenue sources, session behaviour | Ask once whether Q4 revenue came from anywhere else. |
 
-**Read `brand-data.md` if the member has one** — not for voice, which this skill does not need, but for the facts that constrain the offer: products and price points (§6), their normal offer and discount strategy (§7), operational facts like shipping thresholds and cut-offs (§13), and the promotional calendar and seasonality (§14). That last one pairs directly with the year-wide scan in Step 3: the scan finds unexplained spikes, and §14 often explains them.
+**Read `brand-data.md` if the member has one** (`$ECA_BRAND_FILE`, then `./brand/brand-data.md`, `./brand-data.md`, `./skills/*/brand-data.md`) — not for voice, which this skill does not need, but for the facts that constrain the offer: products and price points (§6), their normal offer and discount strategy (§7), operational facts like shipping thresholds and cut-offs (§13), and the promotional calendar and seasonality (§14). That last one pairs directly with the year-wide scan in Step 3: the scan finds unexplained spikes, and §14 often explains them.
 
 If there is no `brand-data.md`, ask for those specifics directly and say that is what you are doing. **Never fill the gaps with invented brand facts.** Voice and personas belong to the channel skills that write copy, not to this one.
 

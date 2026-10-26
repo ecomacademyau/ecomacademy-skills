@@ -16,7 +16,7 @@ The skill is **brand-agnostic in logic, brand-specific in config**. The workflow
 
 ## Before you start: load the brand and the config
 
-Customer-facing content is only as good as your understanding of the brand. **Invoke the `eca-brand-intelligence` skill first** so the voice, products, ICP, and positioning are loaded. If it isn't available, read whatever brand brief the user points you to (and tell them the writing will be more generic without it).
+Customer-facing content is only as good as your understanding of the brand. **Invoke the `eca-brand-intelligence` skill first** so the voice, products, ICP, and positioning are loaded (it reads `./brand/brand-data.md` from the working folder — see its `references/brand-file-location.md`). If it isn't available, read whatever brand brief the user points you to (and tell them the writing will be more generic without it).
 
 Then read `config.md` in this folder for the brand-specific settings: the store's blog, default author, target market, products to feature, publishing default, and house style.
 

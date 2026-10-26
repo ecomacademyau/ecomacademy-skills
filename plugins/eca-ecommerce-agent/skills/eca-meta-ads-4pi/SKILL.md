@@ -42,7 +42,7 @@ Ask which brand/account this analysis is for if not obvious from context.
 
 - Check `clients/<brand-slug>.md` inside this skill for an existing config (brand colors, logo, currency, target CPA, website, personas pointer).
 - If none exists, run the short onboarding in `clients/README.md`: ask for brand name, primary/accent colors (or derive from their website), logo URL, currency, target CPA, and website. Echo the completed config block back to the user so they can save it into the skill for next time.
-- Also look for brand intelligence: search available skill/knowledge folders for `brand-data.md`, `brand-dna.md`, or `icp-cards.md` for this brand (e.g. from eca-brand-intelligence or icp-deep-dive). If found, read the personas, angles, and objections — they drive Step 7. If not found, proceed and note in the report that persona-level recommendations are generic.
+- Also look for brand intelligence: `brand-data.md` per `eca-brand-intelligence/references/brand-file-location.md` (`$ECA_BRAND_FILE`, `./brand/brand-data.md`, `./brand-data.md`, `./skills/*/brand-data.md`), then `brand-dna.md` or `icp-cards.md` for this brand (e.g. from icp-deep-dive). If found, read the personas, angles, and objections — they drive Step 7. If not found, proceed and note in the report that persona-level recommendations are generic.
 
 **Target CPA** comes only from the client config or directly from the user — never invent one. If none is available, run the analysis without a target: judge CPA relative to campaign peers and profitability, state "no target CPA set" in the report, and for the minimum-data spend threshold use 2× the campaign's blended CPA (labelled as a data-sufficiency bar, not a performance target).
 
