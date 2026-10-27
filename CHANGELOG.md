@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.17.5 - 2026-10-27
+
+- **eca-reel-editor:** on the hosted path, `get_reel` now returns the EcomOS reel template (brief + optional script) when the member started from one; the skill follows that brief's beats and cards instead of inventing a structure, and treats `planning` reels as not-yet-uploaded.
+
 ## v1.17.4 - 2026-10-27
 
 - **eca-reel-editor:** hosted is now the default whenever the EcomOS tools (with `list_reels`) are in the session; the skill no longer runs doctor/transcription or downloads models in a sandbox and never asks to fetch files through the member's browser. Local path only on explicit request in Claude Code on the member's own machine. If `list_reels` is missing, it says hosted editing isn't enabled on the account instead of falling back.
