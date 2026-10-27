@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.17.4 - 2026-10-27
+
+- **eca-reel-editor:** hosted is now the default whenever the EcomOS tools (with `list_reels`) are in the session; the skill no longer runs doctor/transcription or downloads models in a sandbox and never asks to fetch files through the member's browser. Local path only on explicit request in Claude Code on the member's own machine. If `list_reels` is missing, it says hosted editing isn't enabled on the account instead of falling back.
+
 ## v1.17.3 - 2026-10-27
 
 - Reel Editor: hosted path. When Claude runs in a sandbox (claude.ai, Cowork) the clip is uploaded on EcomOS → Marketing Apps → Reel Editor; EcomOS transcribes and renders, and Claude drives the edit with the `list_reels` / `get_reel` / `set_edit` / `render_reel` / `get_render` tools (frames come back as images for QA). Local path unchanged.

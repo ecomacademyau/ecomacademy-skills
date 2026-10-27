@@ -1,23 +1,28 @@
 ---
 name: eca-reel-editor
-description: "Edit a raw talking-head video (phone clip, selfie video, webcam recording) into a finished vertical reel, TikTok, Short or Meta video ad in the member's own brand, with ecommerce cards (product, reviews, offer code) from their Shopify store. Use when someone drops a video and says \"edit this\", \"make this a reel\", \"cut this down\", \"add captions and graphics\", \"turn this into an ad\", \"add my product to this\", or asks to set up the reel editor. Brand comes from brand-data.md (brand-intelligence) — never from an interview — and products, reviews and reel logging come from EcomOS when it is connected."
+description: "Edit a raw talking-head video (phone clip, selfie video, webcam recording) into a finished vertical reel, TikTok, Short or Meta video ad in the member's own brand, with ecommerce cards (product, reviews, offer code) from their Shopify store. Use when someone drops a video and says \"edit this\", \"make this a reel\", \"cut this down\", \"add captions and graphics\", \"turn this into an ad\", \"add my product to this\", or asks to set up the reel editor, and when they say \"I uploaded a clip in EcomOS\" or \"edit my latest reel\". Brand comes from brand-data.md (brand-intelligence) — never from an interview — and products, reviews and reel logging come from EcomOS when it is connected."
 ---
 
 # ECA Reel Editor
 
 Turns a raw talking-head clip into a finished, on-brand vertical reel or ad for a Shopify brand. Every look-and-feel choice (colours, fonts, caption style, sounds, CTA) comes from the member's **brand file** — `brand-data.md`, maintained by the brand-intelligence skill — never from defaults in this skill and never from a brand interview. Product shots, prices and review numbers come from the member's store through **EcomOS**. You do the editing; they only make the calls that are theirs: which lines go, which graphics stay, when it is done.
 
-Footage never leaves their computer. Transcription is local (Whisper) unless they set an ElevenLabs key; rendering is local (HyperFrames + ffmpeg); the review page carries a 540p proxy on their own claude.ai account.
+Two ways to run the same edit. **Hosted** (the default): the member uploads the clip on EcomOS → Marketing Apps → Reel Editor and EcomOS transcribes and renders; you edit through the `ecomos` tools and never install, download or run anything. **Local** (only on request, Claude Code on their own machine): transcription and rendering run on their computer with the scripts in this folder.
 
 Built on Nicola Pocock's `claude-reel-editor` (MIT) — see `README.md` in this folder for attribution.
 
 ## 0. Before anything else
 
-**Where you are.** Work in the member's brand folder (the one with `./brand/brand-data.md`). The reel workspace is `./reels/` there (or `$REELS_HOME`). If there is no brand file in the lookup order (`$ECA_BRAND_FILE`, `./brand/brand-data.md`, `./brand-data.md`, `./skills/*/brand-data.md`), **stop**: say the brand-intelligence skill builds it in ten minutes, and offer to run it. Do not edit a clip without a brand file, even if they say "just use whatever".
+**Hosted or local — decide first, before touching any script.**
+- If the EcomOS tools are in the session (server `ecomos`, or the claude.ai connector `claude_ai_EcomOS`) and they include `list_reels` → **hosted**. Full stop. Do not run `doctor.py`, do not transcribe, do not download a speech model, a font or a binary, and do not try to process a file dropped into chat. Go to **Hosted flow** below.
+- If the EcomOS tools are there but `list_reels` is **not** among them → hosted editing is not switched on for this account yet. Say so in one line ("hosted reel editing isn't enabled on your EcomOS account yet — ask ECA to turn it on") and stop. Do **not** fall back to local in a sandbox.
+- **Local only** when the member explicitly asks for it ("run it locally", "don't upload") **and** you are in Claude Code on their own machine where `python3 scripts/doctor.py` says READY. A sandbox (Cowork, claude.ai, a cloud session) is never local: if a download is blocked, that is the signal you are in the wrong mode, not a problem to work around. Never offer to fetch a model through the member's Chrome or ask them to allow-list a domain.
 
-**Tools (once per machine).** `python3 scripts/doctor.py` — ffmpeg, Node, Python, the HyperFrames skills, the template engine, disk, and whether EcomOS is connected. Ends READY / READY WITH LIMITS / MISSING. Fix ❌ items before editing (install steps are in the README). An EcomOS warning is not blocking: without it you ask for a product image and price instead of pulling them.
+**Where you are (local path).** On the hosted path the brand comes from EcomOS: if `get_reel` says no brand is synced, run the brand-intelligence skill (it builds the brand file in ten minutes) and then "Sync my brand to EcomOS" before proposing a cut. Locally, work in the member's brand folder (the one with `./brand/brand-data.md`). The reel workspace is `./reels/` there (or `$REELS_HOME`). If there is no brand file in the lookup order (`$ECA_BRAND_FILE`, `./brand/brand-data.md`, `./brand-data.md`, `./skills/*/brand-data.md`), **stop**: say the brand-intelligence skill builds it in ten minutes, and offer to run it. Do not edit a clip without a brand file, even if they say "just use whatever".
 
-**Brand → brand.json.** `python3 scripts/brand_from_eca.py`. It reads the brand file and writes `reels/brand.json` (what the scripts use) and `reels/reel-brief.md` (what you read before proposing cuts: voice, top angles, proof, hero product, objections, claims to avoid, CTA). It re-runs only when the brand file changed.
+**Tools (local path only, once per machine).** `python3 scripts/doctor.py` — ffmpeg, Node, Python, the HyperFrames skills, the template engine, disk, and whether EcomOS is connected. Ends READY / READY WITH LIMITS / MISSING. Fix ❌ items before editing (install steps are in the README). An EcomOS warning is not blocking: without it you ask for a product image and price instead of pulling them.
+
+**Brand → brand.json (local path; on the hosted path `get_reel` returns the brand brief and kit, skip this).** `python3 scripts/brand_from_eca.py`. It reads the brand file and writes `reels/brand.json` (what the scripts use) and `reels/reel-brief.md` (what you read before proposing cuts: voice, top angles, proof, hero product, objections, claims to avoid, CTA). It re-runs only when the brand file changed.
 - Exit 3 = **visual gaps**: it prints `{"gaps": [...], "suggested": {...}}`. Ask only those questions (≤ 6, one at a time, options + the suggested default) per `references/reel-kit.md`, save `kit.json`, rerun with `--kit kit.json`. That writes a ```reel-kit block into §4 of `brand-data.md`. Then, if the `ecomos` tools exist, run the brand sync (`eca-brand-intelligence/references/ecomos-sync.md`) so EcomOS carries it. Once. Never again unless they change their mind.
 - Fonts: a file in `./brand/fonts/` wins; otherwise the named Google font is downloaded; otherwise a clean system font with a note. Roca, Poppins, Inter, Montserrat — whatever §4 names.
 
@@ -25,12 +30,9 @@ Built on Nicola Pocock's `claude-reel-editor` (MIT) — see `README.md` in this 
 
 Read `reels/reel-brief.md` in full before step 3. It is short on purpose.
 
-## Hosted or local? Decide once per session
+## Hosted or local?
 
-Two ways to run the same edit; the brand, the cards and the house rules are identical.
-
-- **Hosted (default when Claude is in a sandbox):** the member uploads the clip in **EcomOS → Marketing Apps → Reel Editor**; EcomOS cleans the voice, transcribes with word timings and renders. You drive it with the EcomOS tools `list_reels` → `get_reel` → `set_edit` → `render_reel` → `get_render`. No ffmpeg, Chrome, model downloads or network allow-listing needed, and nothing is installed on the member's machine. Use it whenever `doctor.py` cannot run, says MISSING, the network blocks a download, or the member simply says "I uploaded it in EcomOS". If the member drops a file into chat while you are sandboxed, don't try to process it: ask them to upload it on the Reel Editor page (one drag-and-drop) and then run `list_reels`.
-- **Local (Claude Code on their own Mac/PC with the tools installed):** steps 1–8 below with the scripts in this folder. Faster iteration, no upload, works offline after setup.
+Decided in §0: hosted whenever `list_reels` is available; local only on explicit request in Claude Code on their own machine. The brand, the cards and the house rules are identical on both paths. On the hosted path, if the member drops a video into chat, don't process it: ask them to upload it on **EcomOS → Marketing Apps → Reel Editor** (one drag-and-drop), then run `list_reels`.
 
 ### Hosted flow
 
