@@ -25,7 +25,22 @@ Built on Nicola Pocock's `claude-reel-editor` (MIT) — see `README.md` in this 
 
 Read `reels/reel-brief.md` in full before step 3. It is short on purpose.
 
-## 1–8. The edit, in order
+## Hosted or local? Decide once per session
+
+Two ways to run the same edit; the brand, the cards and the house rules are identical.
+
+- **Hosted (default when Claude is in a sandbox):** the member uploads the clip in **EcomOS → Marketing Apps → Reel Editor**; EcomOS cleans the voice, transcribes with word timings and renders. You drive it with the EcomOS tools `list_reels` → `get_reel` → `set_edit` → `render_reel` → `get_render`. No ffmpeg, Chrome, model downloads or network allow-listing needed, and nothing is installed on the member's machine. Use it whenever `doctor.py` cannot run, says MISSING, the network blocks a download, or the member simply says "I uploaded it in EcomOS". If the member drops a file into chat while you are sandboxed, don't try to process it: ask them to upload it on the Reel Editor page (one drag-and-drop) and then run `list_reels`.
+- **Local (Claude Code on their own Mac/PC with the tools installed):** steps 1–8 below with the scripts in this folder. Faster iteration, no upload, works offline after setup.
+
+### Hosted flow
+
+1. `list_reels` → pick the reel (status `ready` means the transcript is in). `get_reel` → read the word-timed transcript, the brand brief and `howToEdit`.
+2. Propose the cut and the cards to the member exactly as in step 3 below (numbered lines, cuts, the ecommerce cards with real numbers from the brand brief and `get_products`). Wait for their yes.
+3. `set_edit {reelId, edit: {keep: [[start,end],…], accentWords, cards: [{id,type,anchor,after?,end_anchor?,…}], tail}}` — anchors are spoken words from the transcript; `after` disambiguates repeated words. The cards are the same objects as a local `proposal.json`; y-positions and the "never cover the face" rule still apply (the brief says where the face sits only if you look at frames, so put cards low when in doubt: title y≈1080, review y≈1060, product y≈940).
+4. `render_reel {reelId, mode: "preview"}` → tell the member it takes 1–3 minutes and they can watch it on the Reel Editor page. Poll `get_render` (every ~30 s, not more). It returns the QA result and **frames as images at every card** — look at them: inside the frame, readable, on brand, face clear, price exact. Fix the edit and re-render if not.
+5. When the member approves: `render_reel {mode: "final"}` → `get_render final` → confirm QA PASS → tell them to download from the Reel Editor page. The reel is logged in EcomOS automatically (no `log_reel` call needed on the hosted path).
+
+## 1–8. The edit, in order (local path)
 
 Each reel gets its own folder: `reels/<yyyy-mm-dd>-<short-name>/`. Copy the raw clip in as `raw.<ext>` (never edit the original).
 

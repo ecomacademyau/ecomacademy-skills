@@ -40,11 +40,12 @@ def google(family, weight, fonts_dir):
         css = urllib.request.urlopen(req, timeout=30).read().decode("utf-8", "replace")
     except (urllib.error.URLError, OSError):
         return None
-    m = re.search(r"url\((https://fonts\.gstatic\.com/[^)]+\.ttf)\)", css)
+    # Google answers this UA with .ttf or .woff depending on the family; both work in the template (@font-face format map)
+    m = re.search(r"url\((https://fonts\.gstatic\.com/[^)]+\.(ttf|otf|woff2|woff))\)", css)
     if not m:
         return None
     fonts_dir.mkdir(parents=True, exist_ok=True)
-    dst = fonts_dir / f"{family.replace(' ', '')}-{weight}.ttf"
+    dst = fonts_dir / f"{family.replace(' ', '')}-{weight}.{m.group(2)}"
     try:
         data = urllib.request.urlopen(urllib.request.Request(m.group(1), headers={"User-Agent": UA}), timeout=60).read()
     except (urllib.error.URLError, OSError):

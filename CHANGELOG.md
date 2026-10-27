@@ -2,6 +2,11 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.17.3 - 2026-10-27
+
+- Reel Editor: hosted path. When Claude runs in a sandbox (claude.ai, Cowork) the clip is uploaded on EcomOS → Marketing Apps → Reel Editor; EcomOS transcribes and renders, and Claude drives the edit with the `list_reels` / `get_reel` / `set_edit` / `render_reel` / `get_render` tools (frames come back as images for QA). Local path unchanged.
+- Reel Editor: Google Fonts download fixed (the API serves .woff to the fetcher), doctor hint updated for the plugin-declared EcomOS server.
+
 ## v1.17.2 - 2026-10-27
 
 - The sync gap check now gives a verdict: COMPLETE, PATCH (a few gaps, fresh file → filled at sync time) or REBUILD (more than 4 app fields missing, more than 3 app-read sections TBD, or older than 120 days → the brand-intelligence build runs as a refresh first, with Gate 1 and Gate 2, then syncs).
