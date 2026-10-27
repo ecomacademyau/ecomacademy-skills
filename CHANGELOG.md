@@ -2,6 +2,10 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.17.6 - 2026-10-27
+
+- **eca-reel-editor (hosted):** EcomOS auto-edits uploaded clips in the chosen style; the skill now reads the existing cut (`edit`, `editNotes`, `style`, `changes`) from `get_reel` and adjusts it on request rather than proposing from scratch.
+
 ## v1.17.5 - 2026-10-27
 
 - **eca-reel-editor:** on the hosted path, `get_reel` now returns the EcomOS reel template (brief + optional script) when the member started from one; the skill follows that brief's beats and cards instead of inventing a structure, and treats `planning` reels as not-yet-uploaded.
