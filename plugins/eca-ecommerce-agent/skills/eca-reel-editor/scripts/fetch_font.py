@@ -56,7 +56,7 @@ def google(family, weight, fonts_dir):
 
 def fetch(family, weight=700, fonts_dir=None):
     fonts_dir = Path(fonts_dir or Path.cwd() / "brand" / "fonts")
-    return local(family, weight, fonts_dir) or google(family, weight, fonts_dir)
+    return local(family, weight, fonts_dir) or google(family, weight, fonts_dir) or (int(weight) != 400 and google(family, 400, fonts_dir)) or None
 
 
 if __name__ == "__main__":
