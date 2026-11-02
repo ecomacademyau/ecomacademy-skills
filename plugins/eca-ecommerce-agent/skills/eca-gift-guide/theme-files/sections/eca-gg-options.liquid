@@ -1,0 +1,171 @@
+{%- comment -%} eca-gift-guide library v1.0.0 {%- endcomment -%}
+{%- liquid
+  assign gg_cls = ''
+  if section.settings.color_scheme != blank
+    assign gg_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign gg_sty = ''
+  if section.settings.bg_color != blank
+    assign gg_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign gg_sty = gg_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+
+<section class="gg-opts {{ gg_cls }}" style="{{ gg_sty }}padding-top:{{ section.settings.pad_top }}px;padding-bottom:{{ section.settings.pad_bottom }}px;" {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}>
+  <div class="gg-wrap">
+    {%- if section.settings.heading != blank -%}<h2 class="gg-opts__h">{{ section.settings.heading }}</h2>{%- endif -%}
+    {%- if section.settings.lead != blank -%}<div class="gg-opts__lead">{{ section.settings.lead }}</div>{%- endif -%}
+    <ul class="gg-opts__list gg-opts__list--c{{ section.settings.columns }}">
+      {%- for block in section.blocks -%}
+        <li class="gg-opt" {{ block.shopify_attributes }}>
+          <h3 class="gg-opt__title">{{ block.settings.title }}</h3>
+          {%- if block.settings.detail != blank -%}<div class="gg-opt__detail">{{ block.settings.detail }}</div>{%- endif -%}
+          {%- if block.settings.url != blank and block.settings.cta != blank -%}
+            <a class="gg-opt__cta" href="{{ block.settings.url }}">{{ block.settings.cta }}</a>
+          {%- endif -%}
+        </li>
+      {%- endfor -%}
+    </ul>
+  </div>
+</section>
+<style>
+  .gg-opts__h{margin:0 0 .5rem}
+  .gg-opts__lead{max-width:60ch;opacity:.85}
+  .gg-opts__list{list-style:none;margin:1.25rem 0 0;padding:0;display:grid;gap:1rem}
+  .gg-opts__list--c1{grid-template-columns:1fr}
+  .gg-opts__list--c2{grid-template-columns:repeat(2,1fr)}
+  .gg-opts__list--c3{grid-template-columns:repeat(3,1fr)}
+  .gg-opt{border:1px solid currentColor;border-radius:10px;padding:1.1rem}
+  .gg-opt__title{margin:0 0 .35rem;font-size:1.05rem}
+  .gg-opt__detail{opacity:.9}
+  .gg-opt__cta{display:inline-block;margin-top:.6rem;font-weight:600;color:inherit}
+  @media (max-width:749px){.gg-opts__list{grid-template-columns:1fr !important}}
+</style>
+{% schema %}
+{
+  "name": "ECA Gift Guide - Last-minute options",
+  "tag": "section",
+  "class": "gg-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "What someone can still do once posting is too slow. Only list what the store genuinely offers - a click-and-collect tile on a store with no premises is the fastest way to lose trust in December."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Left it too late?"
+    },
+    {
+      "type": "richtext",
+      "id": "lead",
+      "label": "Intro line"
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Anchor id (optional)"
+    },
+    {
+      "type": "range",
+      "id": "columns",
+      "label": "Columns",
+      "min": 1,
+      "max": 3,
+      "step": 1,
+      "default": 3
+    },
+    {
+      "type": "header",
+      "content": "Colour"
+    },
+    {
+      "type": "paragraph",
+      "content": "Prefer a colour scheme over the custom pickers - a scheme carries text and button colours together, so a dark band still has readable text."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text colour (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "pad_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "pad_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "option",
+      "name": "Option",
+      "limit": 6,
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Title",
+          "default": "Digital gift card"
+        },
+        {
+          "type": "richtext",
+          "id": "detail",
+          "label": "Detail"
+        },
+        {
+          "type": "url",
+          "id": "url",
+          "label": "Link"
+        },
+        {
+          "type": "text",
+          "id": "cta",
+          "label": "Link text",
+          "default": "Buy a gift card"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ECA Gift Guide - Last-minute options",
+      "blocks": [
+        {
+          "type": "option"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

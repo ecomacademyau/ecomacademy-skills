@@ -1,0 +1,152 @@
+{
+  "sections": {
+    "settings": {
+      "type": "eca-gg-settings",
+      "settings": {
+        "show_cutoff": true
+      }
+    },
+    "banner": {
+      "type": "eca-gg-banner",
+      "settings": {}
+    },
+    "quicklinks": {
+      "type": "eca-gg-quicklinks",
+      "settings": {},
+      "blocks": {
+        "l1": {
+          "type": "link",
+          "settings": {}
+        },
+        "l2": {
+          "type": "link",
+          "settings": {}
+        },
+        "l3": {
+          "type": "link",
+          "settings": {}
+        },
+        "l4": {
+          "type": "link",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "l1",
+        "l2",
+        "l3",
+        "l4"
+      ]
+    },
+    "grid1": {
+      "type": "eca-gg-grid",
+      "settings": {},
+      "blocks": {
+        "g1": {
+          "type": "gift",
+          "settings": {}
+        },
+        "g2": {
+          "type": "gift",
+          "settings": {}
+        },
+        "g3": {
+          "type": "gift",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3"
+      ]
+    },
+    "grid2": {
+      "type": "eca-gg-grid",
+      "settings": {},
+      "blocks": {
+        "g1": {
+          "type": "gift",
+          "settings": {}
+        },
+        "g2": {
+          "type": "gift",
+          "settings": {}
+        },
+        "g3": {
+          "type": "gift",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "g1",
+        "g2",
+        "g3"
+      ]
+    },
+    "options": {
+      "type": "eca-gg-options",
+      "settings": {},
+      "blocks": {
+        "o1": {
+          "type": "option",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "o1"
+      ]
+    },
+    "faq": {
+      "type": "eca-gg-faq",
+      "settings": {},
+      "blocks": {
+        "q1": {
+          "type": "qa",
+          "settings": {}
+        },
+        "q2": {
+          "type": "qa",
+          "settings": {}
+        },
+        "q3": {
+          "type": "qa",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "q1",
+        "q2",
+        "q3"
+      ]
+    },
+    "seo": {
+      "type": "eca-gg-seo",
+      "settings": {},
+      "blocks": {
+        "p1": {
+          "type": "part",
+          "settings": {}
+        },
+        "p2": {
+          "type": "part",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "p1",
+        "p2"
+      ]
+    }
+  },
+  "order": [
+    "settings",
+    "banner",
+    "quicklinks",
+    "grid1",
+    "grid2",
+    "options",
+    "faq",
+    "seo"
+  ]
+}

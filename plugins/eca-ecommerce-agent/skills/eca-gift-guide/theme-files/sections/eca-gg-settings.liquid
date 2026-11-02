@@ -1,0 +1,101 @@
+{%- comment -%} eca-gift-guide library v1.0.0 {%- endcomment -%}
+{%- liquid
+  assign gg_cls = ''
+  if section.settings.color_scheme != blank
+    assign gg_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign gg_sty = ''
+  if section.settings.bg_color != blank
+    assign gg_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign gg_sty = gg_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+
+{%- if section.settings.show_cutoff and section.settings.cutoff_text != blank -%}
+<div class="gg-cutoff {{ gg_cls }}{% if section.settings.sticky %} gg-cutoff--sticky{% endif %}" style="{{ gg_sty }}">
+  <p class="gg-cutoff__text">{{ section.settings.cutoff_text }}</p>
+  {%- if section.settings.cutoff_link_url != blank and section.settings.cutoff_link_text != blank -%}
+    <a class="gg-cutoff__link" href="{{ section.settings.cutoff_link_url }}">{{ section.settings.cutoff_link_text }}</a>
+  {%- endif -%}
+</div>
+<style>
+  .gg-cutoff{padding:.7rem 1rem;text-align:center;display:flex;gap:.75rem;align-items:center;justify-content:center;flex-wrap:wrap}
+  .gg-cutoff--sticky{position:sticky;top:0;z-index:40}
+  .gg-cutoff__text{margin:0;font-weight:600;letter-spacing:.01em}
+  .gg-cutoff__link{color:inherit}
+</style>
+{%- endif -%}
+{% schema %}
+{
+  "name": "ECA Gift Guide - Page settings",
+  "tag": "section",
+  "class": "gg-section gg-settings",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "The Christmas delivery cut-off. This is the most-read line on the page and the one most likely to be wrong - confirm the weekday with the member before it goes live, and change it here only, so the page never contradicts itself."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_cutoff",
+      "label": "Show the cut-off bar",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "cutoff_text",
+      "label": "Cut-off line",
+      "info": "Write it so it can be read out loud and checked: 'Order by 11am Friday 19 December for Christmas delivery'.",
+      "default": "{{CUT-OFF - confirm the date and weekday before publishing}}"
+    },
+    {
+      "type": "checkbox",
+      "id": "sticky",
+      "label": "Keep it visible while scrolling",
+      "default": false
+    },
+    {
+      "type": "url",
+      "id": "cutoff_link_url",
+      "label": "Link (optional)",
+      "info": "Usually the shipping policy page."
+    },
+    {
+      "type": "text",
+      "id": "cutoff_link_text",
+      "label": "Link text",
+      "default": "Shipping details"
+    },
+    {
+      "type": "header",
+      "content": "Colour"
+    },
+    {
+      "type": "paragraph",
+      "content": "Prefer a colour scheme over the custom pickers - a scheme carries text and button colours together, so a dark band still has readable text."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text colour (optional)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "ECA Gift Guide - Page settings"
+    }
+  ]
+}
+{% endschema %}

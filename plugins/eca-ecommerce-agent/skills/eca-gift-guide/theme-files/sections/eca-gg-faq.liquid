@@ -1,0 +1,175 @@
+{%- comment -%} eca-gift-guide library v1.0.0 {%- endcomment -%}
+{%- liquid
+  assign gg_cls = ''
+  if section.settings.color_scheme != blank
+    assign gg_cls = 'color-' | append: section.settings.color_scheme | append: ' gradient'
+  endif
+  assign gg_sty = ''
+  if section.settings.bg_color != blank
+    assign gg_sty = 'background:' | append: section.settings.bg_color | append: ';'
+  endif
+  if section.settings.text_color != blank
+    assign gg_sty = gg_sty | append: 'color:' | append: section.settings.text_color | append: ';'
+  endif
+-%}
+
+{%- liquid
+  assign gg_qa = ''
+-%}
+<section class="gg-faq {{ gg_cls }}" style="{{ gg_sty }}padding-top:{{ section.settings.pad_top }}px;padding-bottom:{{ section.settings.pad_bottom }}px;" {% if section.settings.anchor != blank %}id="{{ section.settings.anchor | handleize }}"{% endif %}>
+  <div class="gg-wrap">
+    {%- if section.settings.heading != blank -%}<h2 class="gg-faq__h">{{ section.settings.heading }}</h2>{%- endif -%}
+    <div class="gg-faq__list">
+      {%- for block in section.blocks -%}
+        {%- if block.settings.q != blank and block.settings.a != blank -%}
+          <details class="gg-faq__item" {% if section.settings.open_first and forloop.first %}open{% endif %} {{ block.shopify_attributes }}>
+            <summary class="gg-faq__q">{{ block.settings.q }}</summary>
+            <div class="gg-faq__a">{{ block.settings.a }}</div>
+          </details>
+          {%- liquid
+            assign gg_plain = block.settings.a | strip_html | strip
+            capture gg_one
+              echo '{"@type":"Question","name":'
+              echo block.settings.q | json
+              echo ',"acceptedAnswer":{"@type":"Answer","text":'
+              echo gg_plain | json
+              echo '}}'
+            endcapture
+            if gg_qa == ''
+              assign gg_qa = gg_one
+            else
+              assign gg_qa = gg_qa | append: ',' | append: gg_one
+            endif
+          -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </div>
+</section>
+{%- if gg_qa != '' -%}
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{{ gg_qa }}]}
+</script>
+{%- endif -%}
+<style>
+  .gg-faq__h{margin:0 0 1rem}
+  .gg-faq__item{border-top:1px solid currentColor;padding:.85rem 0}
+  .gg-faq__item:last-child{border-bottom:1px solid currentColor}
+  .gg-faq__q{cursor:pointer;font-weight:600;list-style:revert}
+  .gg-faq__a{margin-top:.5rem;max-width:70ch;opacity:.9}
+</style>
+{% schema %}
+{
+  "name": "ECA Gift Guide - FAQ",
+  "tag": "section",
+  "class": "gg-section",
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Answer the questions a Christmas shopper actually asks. The FAQPage schema is generated from these same blocks, so the page and the schema can never contradict each other - which also means a wrong answer here is wrong in both places."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Christmas delivery and returns"
+    },
+    {
+      "type": "text",
+      "id": "anchor",
+      "label": "Anchor id (optional)"
+    },
+    {
+      "type": "checkbox",
+      "id": "open_first",
+      "label": "Open the first answer",
+      "default": true,
+      "info": "Usually the delivery cut-off. Worth having open."
+    },
+    {
+      "type": "header",
+      "content": "Colour"
+    },
+    {
+      "type": "paragraph",
+      "content": "Prefer a colour scheme over the custom pickers - a scheme carries text and button colours together, so a dark band still has readable text."
+    },
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Colour scheme"
+    },
+    {
+      "type": "color",
+      "id": "bg_color",
+      "label": "Custom background (optional)"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Custom text colour (optional)"
+    },
+    {
+      "type": "header",
+      "content": "Spacing"
+    },
+    {
+      "type": "range",
+      "id": "pad_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "pad_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "qa",
+      "name": "Question",
+      "limit": 20,
+      "settings": [
+        {
+          "type": "text",
+          "id": "q",
+          "label": "Question",
+          "info": "Phrase it the way someone would type it: 'When is the last day to order for Christmas delivery?'"
+        },
+        {
+          "type": "richtext",
+          "id": "a",
+          "label": "Answer",
+          "info": "Answer in the first sentence, then add detail. An answer engine quotes the first sentence."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "ECA Gift Guide - FAQ",
+      "blocks": [
+        {
+          "type": "qa"
+        },
+        {
+          "type": "qa"
+        },
+        {
+          "type": "qa"
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

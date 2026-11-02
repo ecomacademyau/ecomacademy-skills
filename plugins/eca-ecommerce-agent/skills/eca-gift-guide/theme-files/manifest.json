@@ -1,0 +1,16 @@
+{
+  "library_version": "1.0.0",
+  "install_rule": "Install anything missing. Refresh same-name files to the current version. Ask before replacing a file the member has hand-edited.",
+  "sections": [
+    "eca-gg-banner.liquid",
+    "eca-gg-faq.liquid",
+    "eca-gg-grid.liquid",
+    "eca-gg-options.liquid",
+    "eca-gg-quicklinks.liquid",
+    "eca-gg-seo.liquid",
+    "eca-gg-settings.liquid"
+  ],
+  "templates": [
+    "page.eca-gift-guide.json"
+  ]
+}

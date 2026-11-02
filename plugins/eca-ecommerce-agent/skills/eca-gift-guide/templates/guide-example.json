@@ -1,0 +1,126 @@
+{
+  "title": "Christmas Gift Guide",
+  "accent_scheme": "",
+  "cutoff": {
+    "banner": "Christmas delivery: order by 11am Friday 19 December",
+    "sticky": true,
+    "link_url": "/policies/shipping-policy",
+    "link_text": "Shipping details"
+  },
+  "banner": {
+    "layout": "split",
+    "heading": "Christmas Gift Guide",
+    "image_alt": "A Acme Coffee coffee gift pack wrapped for Christmas",
+    "body": "Cafe-quality coffee in 30 seconds, wrapped up for someone who needs it. Everything here is in stock and ships from our warehouse.",
+    "cta_label": "Shop all gifts",
+    "cta_url": "/collections/gifting"
+  },
+  "quick_links_heading": "Start with who it's for",
+  "quick_links": [
+    {
+      "collection": "gifting",
+      "label": "Gifts for coffee lovers"
+    },
+    {
+      "collection": "gift-packs",
+      "label": "Ready-to-give gift packs"
+    },
+    {
+      "collection": "accessories",
+      "label": "Stocking fillers under $20"
+    },
+    {
+      "collection": "bundle",
+      "label": "Coffee kits for the home barista"
+    }
+  ],
+  "sections": [
+    {
+      "heading": "The best gifts for someone who loves coffee",
+      "lead": "For the person who already owns the machine, or who swears they cannot function before 9am.",
+      "anchor": "coffee-lovers",
+      "more_url": "/collections/gifting",
+      "more_text": "See all gifts for coffee lovers",
+      "items": [
+        {
+          "handle": "starter-pack",
+          "note": "A measuring-jigger and a bottle of espresso - the easiest first gift."
+        },
+        {
+          "handle": "latte-kit",
+          "note": "For the one who orders a latte every single time."
+        },
+        {
+          "handle": "coffee-concentrate",
+          "note": "A refill for someone already hooked."
+        }
+      ]
+    },
+    {
+      "heading": "Coffee gifts under $20",
+      "lead": "For Secret Santa, the teacher, the neighbour, and everyone you forgot.",
+      "anchor": "under-20",
+      "columns": 2,
+      "more_url": "/collections/accessories",
+      "more_text": "See all coffee gifts under $20",
+      "items": [
+        {
+          "handle": "measuring-jigger",
+          "note": "Pours a perfect single or double every time."
+        },
+        {
+          "handle": "milk-frother",
+          "note": "Turns cold milk into cafe foam in about ten seconds."
+        }
+      ]
+    }
+  ],
+  "options_heading": "Left it too late?",
+  "options_lead": "Posting takes a few days. These do not.",
+  "options": [
+    {
+      "title": "Digital gift card",
+      "detail": "From $30 to $100, emailed straight to them. No postage and no cut-off.",
+      "url": "/products/gift-card",
+      "cta": "Buy a gift card"
+    }
+  ],
+  "faq_heading": "Christmas delivery and returns",
+  "faqs": [
+    {
+      "q": "When is the last day to order for Christmas delivery?",
+      "a": "Order by 11am on Friday 19 December for standard delivery before Christmas. After that, a digital gift card arrives instantly."
+    },
+    {
+      "q": "What is a good coffee gift under $20?",
+      "a": "The Measuring Jigger and the Hand Held Frother are both $14.95 and both in stock."
+    },
+    {
+      "q": "Can I send a gift straight to the person receiving it?",
+      "a": "Yes. Enter their address as the shipping address at checkout."
+    },
+    {
+      "q": "What if I leave it too late to post?",
+      "a": "A digital gift card is emailed immediately, from $30 to $100, so there is no delivery cut-off."
+    }
+  ],
+  "seo_text": {
+    "heading": "About these Christmas gifts",
+    "intro": "Every gift in this guide is built around the same idea: cafe-quality coffee without the cafe, the machine, or the queue. Here is who each one suits.",
+    "columns": "1",
+    "parts": [
+      {
+        "heading": "The best gifts for someone who loves coffee",
+        "body": "If they already take coffee seriously, the Coffee Starter Pack is the safest gift on this page. It pairs a bottle of espresso concentrate with the Measuring Jigger, so they can pour an accurate shot into milk or water and have a flat white in about thirty seconds. For someone who orders a latte every time, the Latte Kit with Coffee goes further, and comes in Original, Decaf, Vanilla and Caramel, so you can match what they actually drink rather than guessing. If they already buy from us, skip the kits entirely and give them a refill of the Coffee Concentrate, which is the thing they will run out of first."
+      },
+      {
+        "heading": "Coffee gifts under $20",
+        "body": "Secret Santa, teacher gifts and Kris Kringle all come with a budget and a deadline, which makes them the easiest gifts on this list to get right. The Measuring Jigger at $14.95 measures a single or double shot without any guesswork, and it is useful to anyone who makes coffee at home regardless of the brand they buy. The Hand Held Frother, also $14.95, whips cold milk into cafe-style foam in about ten seconds and turns an ordinary coffee into something that looks deliberate. Both are small enough to post cheaply and sturdy enough to survive a desk drawer until the party."
+      },
+      {
+        "heading": "Left it too late?",
+        "body": "If posting is no longer fast enough, an Acme Coffee digital gift card is emailed immediately and can be bought at any hour, including on Christmas Eve. They run from $30 to $100, which covers everything from a stocking filler to a full coffee kit, and the recipient chooses the flavour themselves, which removes the one real risk of giving coffee as a gift."
+      }
+    ]
+  }
+}
