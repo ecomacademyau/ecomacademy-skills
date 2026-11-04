@@ -87,6 +87,28 @@ Weeks of cover = `on_hand / (units_sold / 28) / 7`.
 > Deep analysis belongs to the stock skills. The brief only flags what is under the
 > threshold and hands off.
 
+### The funnel and the customer mix
+
+Both verified against a live store. Full reading guidance, including what to suggest
+against each weak step, is in `references/conversion-and-customers.md`.
+
+```sql
+FROM sessions SHOW sessions, sessions_with_cart_additions, sessions_that_reached_checkout,
+     sessions_that_completed_checkout, conversion_rate TIMESERIES day SINCE -14d UNTIL today
+
+FROM sales SHOW customers, new_customers, returning_customers, returning_customer_rate,
+     average_order_value TIMESERIES week SINCE -84d UNTIL today
+```
+
+> **Both return rates as decimals.** `conversion_rate` of 0.0226 is 2.26% and
+> `returning_customer_rate` of 0.4681 is 46.8%. Printed raw they look like rounding errors.
+
+> **Drop the partial period from both.** Today for the funnel, the current week for the
+> customer mix, which otherwise reads as a collapse every Monday.
+
+> **Never read conversion off a single day.** A store doing 40 orders a week swings from
+> 0.8% to 4.4% day to day on small numbers. Sum the 14 complete days.
+
 ### The forecast
 
 ```sql

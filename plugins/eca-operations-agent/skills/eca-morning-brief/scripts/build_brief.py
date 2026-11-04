@@ -148,6 +148,36 @@ def stat_block(s):
 
 
 
+
+def render_funnel(steps, leak_index=None):
+    """Four steps as proportional bars, with the biggest leak marked.
+
+    The point is not the four numbers, it is which gap is the big one. A table of
+    percentages makes the reader do that work; the bars do it for them.
+    """
+    if not steps:
+        return ""
+    top = float(steps[0].get("value") or 0) or 1
+    out = ['<div class="funnel">']
+    for i, st in enumerate(steps):
+        v = float(st.get("value") or 0)
+        pct = max(v / top * 100, 1.2)
+        conv = st.get("conv")
+        is_leak = (leak_index == i)
+        out.append(
+            '<div class="fn-row{}">'
+            '<div class="fn-head"><span class="fn-label">{}</span>'
+            '<span class="fn-val">{:,}</span></div>'
+            '<div class="fn-track"><div class="fn-bar" style="width:{:.1f}%"></div></div>'
+            '{}</div>'.format(
+                " leak" if is_leak else "", esc(st.get("label")), int(v), pct,
+                '<div class="fn-conv">{}{}</div>'.format(
+                    esc(conv), ' <span class="fn-flag">biggest drop</span>' if is_leak else "")
+                if conv else ""))
+    out.append("</div>")
+    return "".join(out)
+
+
 def metric_card(m):
     return ('<div class="metric">'
             '<div class="m-label">{}</div>'
@@ -218,6 +248,11 @@ def build(d):
     # shape, then the headline numbers. A reader who stops here should still know.
     sm = d.get("summary") or {}
     parts = []
+    if d.get("demo"):
+        parts.append(
+            '<section class="demobar"><strong>Demo brief.</strong> Every number on this '
+            'page is invented, for a store that does not exist. Nothing here came from a '
+            'real shop, ad account or inbox.</section>')
     if sm:
         try:
             dl_day = dt.date.fromisoformat(day).strftime("%A %d %B %Y").replace(" 0", " ")
@@ -270,6 +305,33 @@ def build(d):
         parts.append(section("Ads", inner, ad.get("note")))
 
 
+    cv = d.get("conversion")
+    if cv:
+        inner = render_funnel(cv.get("steps", []), cv.get("leak_index"))
+        if cv.get("metrics"):
+            inner += '<div class="metrics">{}</div>'.format(
+                "".join(metric_card(m) for m in cv["metrics"]))
+        if cv.get("verdict"):
+            inner += '<p class="verdict-line">{}</p>'.format(esc(cv["verdict"]))
+        if cv.get("model"):
+            inner += '<p class="method"><strong>If the weak step improved:</strong> {}</p>'.format(
+                esc(cv["model"]))
+        if cv.get("suggestions"):
+            inner += "<ul class=\"sugg\">{}</ul>".format(
+                "".join("<li>{}</li>".format(esc(x)) for x in cv["suggestions"]))
+        parts.append(section("Where visitors are lost", inner, cv.get("note")))
+
+    cm = d.get("customers")
+    if cm:
+        inner = '<div class="metrics">{}</div>'.format(
+            "".join(metric_card(m) for m in cm.get("metrics", [])))
+        if cm.get("verdict"):
+            inner += '<p class="verdict-line">{}</p>'.format(esc(cm["verdict"]))
+        if cm.get("suggestions"):
+            inner += "<ul class=\"sugg\">{}</ul>".format(
+                "".join("<li>{}</li>".format(esc(x)) for x in cm["suggestions"]))
+        parts.append(section("Order value and who is buying", inner, cm.get("note")))
+
     fc = d.get("forecast")
     if fc:
         inner = '<div class="metrics">{}</div>'.format(
@@ -278,6 +340,24 @@ def build(d):
             inner += '<p class="method"><strong>How this is worked out:</strong> {}</p>'.format(
                 esc(fc["method"]))
         parts.append(section("Where the month lands", inner, fc.get("note")))
+
+    ch = d.get("channels")
+    if ch:
+        rows = []
+        for c in ch.get("rows", []):
+            spend = c.get("spend")
+            rows.append([td(c.get("channel")), td(c.get("orders"), num=True),
+                         td(money(c.get("revenue"), cur), num=True),
+                         td(money(spend, cur) if spend is not None else "not visible", num=True),
+                         td(c.get("note", ""))])
+        inner = table([{"t": "Channel"}, {"t": "Orders", "num": True},
+                       {"t": "Revenue", "num": True}, {"t": "Spend", "num": True},
+                       {"t": ""}], rows)
+        if ch.get("verdict"):
+            inner += '<p class="verdict-line">{}</p>'.format(esc(ch["verdict"]))
+        for f in ch.get("flags", []):
+            inner += '<div class="unavail">{}</div>'.format(esc(f))
+        parts.append(section("Where the orders came from", inner, ch.get("note")))
 
     dp = d.get("dispatch")
     if dp:
@@ -372,6 +452,9 @@ body{{margin:0;background:{T[bg]};color:{T[ink]};font-family:'Montserrat',system
 .hero-t{{font-family:'Nunito Sans',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.02em;font-size:13px}}
 .hero-b{{color:{T[g3]};font-size:12px;margin-left:auto}}
 .summary.card{{margin-top:22px}}
+.demobar{{background:{T[warning]};color:{T[black]};border-radius:10px;padding:11px 16px;
+         margin-top:20px;font-size:13.5px;line-height:1.45}}
+.demobar strong{{font-family:'Nunito Sans',sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:12px}}
 .summary{{padding:28px 30px 26px}}
 .dateline{{font-size:11.5px;text-transform:uppercase;letter-spacing:.07em;color:{T[g3]};font-weight:600;margin:0 0 12px}}
 .head{{font-family:'Nunito Sans',sans-serif;font-weight:900;text-transform:uppercase;letter-spacing:-.03em;line-height:1.08;font-size:27px;margin:0 0 12px;color:{T[ink]};max-width:34ch}}
@@ -401,6 +484,22 @@ h2{{font-family:'Nunito Sans',sans-serif;font-weight:800;text-transform:uppercas
 .a-what{{font-weight:600}}
 .a-why{{font-size:13px;color:{T[g2]};margin-top:2px}}
 .a-src{{font-size:11px;text-transform:uppercase;letter-spacing:.04em;color:{T[g3]};border:1px solid {T[line]};border-radius:999px;padding:2px 9px;white-space:nowrap;margin-top:4px}}
+.funnel{{margin-bottom:4px}}
+.fn-row{{margin-bottom:13px}}
+.fn-row:last-child{{margin-bottom:0}}
+.fn-head{{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}}
+.fn-label{{font-size:12px;text-transform:uppercase;letter-spacing:.05em;color:{T[g2]};font-weight:600}}
+.fn-val{{font-family:'Nunito Sans',sans-serif;font-weight:800;font-size:16px;letter-spacing:-.02em}}
+.fn-track{{background:{T[bg]};border-radius:4px;height:11px;overflow:hidden}}
+.fn-bar{{background:#D6D3CC;height:100%;border-radius:4px}}
+.fn-row.leak .fn-bar{{background:{T[warning]}}}
+.fn-row.leak .fn-val{{color:{T[warning]}}}
+.fn-conv{{font-size:12px;color:{T[g3]};margin-top:4px}}
+.fn-flag{{color:{T[warning]};font-weight:700;text-transform:uppercase;letter-spacing:.04em;font-size:10.5px}}
+.verdict-line{{margin:16px 0 0;font-size:14px;font-weight:600;color:{T[ink]}}}
+.sugg{{margin:10px 0 0;padding-left:18px;font-size:13.5px;color:{T[g2]}}}
+.sugg li{{margin-bottom:5px}}
+.sugg li:last-child{{margin-bottom:0}}
 .method{{font-size:12.5px;color:{T[g2]};background:{T[bg]};border-radius:8px;padding:11px 13px;margin:16px 0 0}}
 .cover{{font-weight:700}}
 .cover.warn{{color:{T[warning]}}}

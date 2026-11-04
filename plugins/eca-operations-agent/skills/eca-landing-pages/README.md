@@ -42,7 +42,7 @@ It runs as an **interactive guide**. You make the calls; it brings the options, 
 3. **Confirm the brief** — it writes the whole plan back to you (format, hook options, structure, key messages, media, gaps). **Nothing is built until you approve it.**
 4. **It builds** — Shopify CLI duplicates your **live theme into a dev theme** (live is never touched), installs only the sections that format needs, writes the copy into the template, pushes, and returns a preview link.
 5. **Hand over** — page created unpublished, with three clickable links: **edit in the theme editor** (deep-linked to your page), **preview** it as a customer, and **page settings** in admin — plus any remaining placeholders, how to publish, and a reminder to point the ad at the new page.
-6. **Write the matching ads** — it then offers to run `eca-ad-copywriting` (headlines + primary text) and `eca-ugc-scripts` (video scripts) off the same angle, so the ad and the page say the same thing.
+6. **Write the matching ads** — it then offers to run `eca-ad-copywriting` (headlines + primary text) and `eca-creative-strategist` (video scripts) off the same angle, so the ad and the page say the same thing.
 
 ### How many pages should I build?
 **One per distinct angle, not several per angle.** Different angles (founder story vs price vs convenience) each deserve their own page — that's message match. Multiple pages for the *same* angle only pay off once you have the traffic to split-test properly (roughly 100+ conversions per variant). Test your **ads** first: creative variance is much bigger than page variance, and it's faster and cheaper to learn from.

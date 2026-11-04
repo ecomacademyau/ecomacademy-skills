@@ -1,6 +1,6 @@
 # Facebook Ads 4PI Analysis — Knowledge Base
 
-Contents: Core philosophy · Misleading metrics · The 4PI framework · Funnel decoder · Golden rule · Campaign isolation · Ad status · Minimum data · Time windows · Audience segments · Attribution · Profitability (Profit per Order / GPT) · AOV · Creative diagnostics · Creative type & CPM · Format funnel tendencies · Ad Concept Board · Learning status · Macro calendar · 3 testing paths · CSV fallback processing · Tone & decision rules · Action labels
+Contents: Core philosophy · Misleading metrics · The 4PI framework · Funnel decoder · Golden rule · Campaign isolation · Campaign types (lead gen, catalog) · Ad status · Minimum data · Time windows · Audience segments, NCPA & target modes · Attribution · Profitability (Profit per Order / GPT) · AOV · Creative diagnostics · Creative type & CPM · Format funnel tendencies · Ad Concept Board · Learning status · Macro calendar · 3 testing paths · CSV fallback processing · Tone & decision rules · Action labels
 
 ---
 
@@ -76,7 +76,11 @@ A campaign that looks increasingly efficient (better CPA/ROAS) while CPM and fre
 
 ## Campaign-Level Isolation
 
-All 4PI analysis is campaign-scoped. Never mix ads across campaigns: CPM comparisons, spend %, funnel gaps — all per campaign. Different objectives, products, audiences make cross-campaign CPM comparison meaningless. Group by campaign first, run 4PI in each independently, map each funnel, diagnose each gap; summarise across campaigns only in the account-level summary.
+All 4PI analysis is campaign-scoped. Never mix ads across campaigns: CPM comparisons, spend %, funnel gaps — all per campaign. Funnel-gap verdicts apply to purchase campaigns only; catalog ads never count as TOF. Different objectives, products, audiences make cross-campaign CPM comparison meaningless. Group by campaign first, run 4PI in each independently, map each funnel, diagnose each gap; summarise across campaigns only in the account-level summary.
+
+## Campaign Types: Lead Gen and Catalog
+
+Lead gen and catalog campaigns get their own analysis in `references/campaign-types.md`: their own metrics, data bar, labels, scaling verdict and report section. Never run them through the purchase 4PI table, the funnel map or an NCPA judgement. In short: lead gen is judged on cost per lead, daily frequency and the CPL trend; catalog is treated as bottom of funnel and is judged per order (CPA, profit/order) with daily frequency deciding whether it can scale (< 1.50 room to scale · 1.50 to < 1.80 healthy · 1.80 to < 2.00 hold · ≥ 2.00 saturated); link CTR and ROAS are context. Catalog ads never count as TOF, and the existing-customer rules below don't apply to catalog campaigns.
 
 ## Ad Status Detection
 
@@ -115,11 +119,69 @@ Date math: MCP presets handle 7d/30d; MTD = custom range from the 1st. (CSV fall
 
 Usage: strong 7d but deteriorating 30d → flag as possible blip. Weak 7d but strong 30d → possible early fatigue, not permanently broken. Shifts in spend share/CPM/frequency between windows = Facebook changing how it uses the ad. A $20 CPA that was $35 over 30d is improving; the same $20 that was $15 is deteriorating — different actions for identical 7d numbers.
 
-## Audience Segment Context
+## Audience Segments, NCPA & Target Modes
 
-Via MCP: only Advantage+ Shopping campaigns expose `user_segment_key` (new vs existing). Via CSV: Audience Segments column (New/Engaged/Existing). Use as diagnostic cross-validation of the frequency read, not the primary unit.
+Meta's `user_segment_key` breakdown works on every sales campaign, not just Advantage+ Shopping (pulls in mcp-data-pull.md §3b; CSV path: the Audience Segments column). It splits each campaign into **new (`prospecting`) · engaged · existing · unknown**, following the ad account's audience segment settings, and answers the question blended CPA can't: **what does it cost to win a customer who has never bought?**
 
-**Repeat purchase bias:** if a large share of purchases comes from existing customers, CPA/ROAS look strong but conversions were largely going to happen anyway. An ad that looks Scalable but converts mostly existing customers will not scale — the pool is too small. Truly scalable ads prove themselves in the new/prospecting segment. Flag whenever existing > 50% of purchases.
+### Formulas
+
+| Metric | Formula | Use |
+|---|---|---|
+| **New-customer purchases** | `prospecting` + `engaged` purchases | the proxy count (engaged = engaged but not matched as an existing customer) |
+| **NCPA** (headline) | all campaign spend ÷ new-customer purchases | acquisition cost loaded with what the campaign spent on existing customers. Targets are judged against this one. |
+| New-segment CPA | (`prospecting` + `engaged` spend) ÷ new-customer purchases | secondary: cost inside the new segments only |
+| Existing CPA | `existing` spend ÷ `existing` purchases | what re-buying customers cost |
+| Existing share | `existing` spend ÷ spend, and `existing` purchases ÷ purchases | repeat-purchase bias and over-serving |
+| **Account NCPA** | Σ purchase-campaign spend ÷ Σ their new-customer purchases | the account headline, judged against `target_ncpa`. Catalog campaigns are excluded from the judged number (they retarget, `references/campaign-types.md`). When catalog, lead or other campaigns are ≥ 5% of spend, also show a **fully loaded** variant including all spend, labelled as such |
+
+Why the loaded version leads: spend on existing customers is part of what the campaign costs to run. Dividing only new-segment spend by new purchases flatters the number.
+
+The Small-Sample Rule applies: NCPA on fewer than ~10 new-customer purchases is noise. Judge on the 30-day or longer baseline figure and say which window drove the call.
+
+### Target modes
+
+A client's target is either per order or per new customer. Never mix the two.
+
+| Mode | Config | What gets judged |
+|---|---|---|
+| `first_order` | `target_cpa` | blended CPA vs `target_cpa` (pre-v2.4 behaviour) |
+| `ltv` | `target_ncpa` (a `target_cpa` may be stored for context) | **NCPA vs `target_ncpa`** in scaling verdicts and sentiment. Blended CPA is shown, never judged against the LTV number, and a stored `target_cpa` is display-only, except for catalog campaigns, which are always judged per order (`references/campaign-types.md` §3) |
+| `both` | both | NCPA vs `target_ncpa` drives sentiment; scaling verdicts need **both** to pass (NCPA vs `target_ncpa` and blended CPA vs `target_cpa` each get a checklist line) |
+
+**The LTV trap:** an LTV target only buys room on *new* customers. Judging blended CPA against an LTV number green-lights paying LTV prices for returning customers who would have bought from an email anyway. In `ltv` mode the KPI is NCPA.
+
+If the mode is `ltv` or `both` but segments are **NOT SET UP** or **UNAVAILABLE**, NCPA can't be computed. Say so in the header and fall back to `target_cpa` if one exists (else judge on profit only, as with no target). NOT SET UP also makes "set up audience segments" a top-3 priority; UNAVAILABLE is an API gap, so the report just says "segment data unavailable this run, re-check next run".
+
+**Minimum-data bar in `ltv` mode:** with no `target_cpa`, use 2× the campaign's blended CPA, labelled as a data bar. Never 2× target NCPA: that sets an ad-level bar far too high.
+
+**Ad labels by mode** (identical in Quick and Full): `first_order` and `both` judge an ad's 7-day CPA against `target_cpa`; `ltv` judges it against campaign peers and profit/order, as with no target. Exceptions: catalog ads are judged per order in every mode, and lead ads on CPL (`references/campaign-types.md`). NCPA is a campaign-level and account-level number. The Full-mode ad-level segment pull (30d) adds each ad's new-customer share as context and for the funnel-decoder cross-check; it never changes an action label.
+
+### Setup status (once per account, every run)
+
+Evaluate in this order; **the first match sets the status** and any other matching signals are listed as flags under it: **UNAVAILABLE → NOT SET UP → SUSPECT → PARTIAL → OK**. Reach and frequency comparisons use the **30-day campaign pull of the largest purchase campaign by 30d spend** (never a catalog campaign: catalogs are mostly existing customers by design) (reach is deduped within a campaign, never summed across campaigns). Presence checks (`existing`/`engaged` rows) use the account-level 90-day pull whenever any sales campaign lacks a row.
+
+| Status | Evidence | What the report says / the fix |
+|---|---|---|
+| **OK** | `existing` and `engaged` rows present in the account, `unknown` < 5% of spend, no SUSPECT signal | One line: "Audience segments set up" plus the mix |
+| **PARTIAL** | at account level over 90 days, `existing` present but never `engaged`, or `engaged` present but never `existing` | "Engaged audience (or existing customers) isn't defined, so new-customer counts are approximate." Fix: define the missing segment in the ad account's audience segment settings |
+| **SUSPECT** | set up, but any of: existing reach < 5% of the campaign's reach **and** existing frequency > 5× new frequency (a small matched pool being hit over and over) · `unknown` between 5% and 50% of spend · with the Shopify cross-check run on the same 30 days, Shopify returning share ≥ 40% while Meta's existing purchase share < 10% | "The existing-customer definition looks small or stale: returning buyers are probably landing in 'new', so NCPA is understated." Fix: check which customer list or purchase events define existing customers; sync the full customer list (Shopify or Klaviyo) and keep it refreshing |
+| **NOT SET UP** | no `existing` and no `engaged` row at account level over 90 days (everything `prospecting`/`unknown`), or ≥ 50% of spend `unknown` | "Meta can't tell new from returning customers in this account, so there's no NCPA." Fix: define existing customers (synced customer list plus purchasers) and an engaged audience (site visitors, Facebook/Instagram engagers). Top-3 priority whenever the target mode is `ltv` or `both` |
+| **UNAVAILABLE** | the breakdown errors or returns nothing while the campaign has data | "Segment data unavailable this run." Never estimate a split |
+
+The API doesn't expose the segment definitions, so every non-OK status is inferred from delivery: the report says "confirm in Ads Manager" and never claims certainty. Setup status is structural. It goes in the header **Watch line** and never sets the sentiment badge, except that NOT SET UP or UNAVAILABLE in `ltv` or `both` mode removes the NCPA target test (see Target modes).
+
+### Meta "new" is not Shopify "new"
+
+`prospecting` means "not matched to the existing-customer definition", not "first order ever". Customer-list matching is never complete, so some "new" purchases are returning customers and Meta's NCPA is **optimistic**: treat it as a floor. When the Shopify cross-check runs (mcp-data-pull.md §3b), print the **Meta NCPA floor** (Meta spend ÷ all Shopify new customers) beside it. Meta's NCPA below that floor means Meta claims more new-customer purchases than the store gained new customers from every channel combined: over-claiming, with the caveat that Meta counts orders and Shopify counts customers.
+
+### Delivery flags from the segment split
+
+- **Existing over-serving** (Watch flag; feeds next steps; purchase campaigns only, never catalog): existing frequency ≥ 3× new frequency in the same window AND existing ≥ 15% of campaign spend. Meta is recycling customers it can re-hit cheaply instead of finding new ones; for a brand with strong email and retention this is the least incremental money in the account. Recommend a 2-week test: exclude existing customers from the campaign (or cap their share where Meta's existing-customer budget cap is available), judged on **NCPA**, not blended CPA (blended CPA usually rises because existing customers convert well). Add the account-owner escalation note if Meta is the brand's main retention channel.
+- **Promo windows:** existing share jumps during sales because returning customers buy clearance. Report it, don't treat it as a problem, and never use promo-window NCPA as the baseline: the pre-event window drives the call.
+- **Funnel-decoder cross-check** (ad level, Full mode): a TOF ad (daily frequency < 1.15) should take roughly 70%+ of its purchases from new + engaged. A "TOF" ad whose purchases are mostly existing customers is a decoder disagreement: investigate before calling it a prospecting workhorse. A BOF ad buying mostly existing customers is doing its job.
+- **Repeat purchase bias** (purchase campaigns only; catalog buyers are expected to be mostly existing): if existing > 50% of a campaign's purchases, CPA and ROAS look strong but most of those conversions were going to happen anyway. An ad that looks Scalable but converts mostly existing customers won't scale: the pool is too small. Truly scalable ads prove themselves on new-customer purchases; never label an ad Scalable on existing-customer volume.
+
+**Worked example** (example brand, BAU campaign, 12 weeks before a sale): spend $6,335.89; new 128 + engaged 6 = 134 new-customer purchases, so NCPA $47.28 against a $65 LTV target (inside) while blended CPA was $38.17. Existing customers took 17% of spend at frequency 45 against 3.7 for new. On the 30-day check the same campaign showed existing reach at 3.7% of campaign reach and existing frequency 7× new (20.1 vs 2.86): over-serving flag plus a SUSPECT list. During the sale itself existing customers rose to 35% of purchases: a promo window, not the baseline.
 
 ## Attribution Interpretation
 
@@ -196,7 +258,7 @@ If a campaign is missing TOF, don't test another square image or long video — 
 
 ## Ad Concept Board — by Funnel Position
 
-Ad Concept Board (source): https://hail-pond-0fc.notion.site/ebae3c1aaea34b8f9c85eaaa514d7f61?v=30f942daa302486d8c8d90731310b315
+Notion source: https://hail-pond-0fc.notion.site/ebae3c1aaea34b8f9c85eaaa514d7f61?v=30f942daa302486d8c8d90731310b315
 
 **TOF (fill the funnel):**
 
@@ -264,6 +326,8 @@ If the date range overlaps these, note it in the report header — CPM/frequency
 
 ## Budget Scaling Verdict (per campaign) & Account Sentiment
 
+Lead gen and catalog campaigns use their own verdict tables (`references/campaign-types.md`); the table below is for purchase campaigns.
+
 **Every active campaign section ends with an explicit scaling verdict** — one of three, always in 10–20% steps (bigger jumps reset learning; max one move per 3–4 days):
 
 | Verdict | Conditions (ALL must hold for Scale; ANY triggers Trim) |
@@ -274,14 +338,38 @@ If the date range overlaps these, note it in the report header — CPM/frequency
 
 Render the verdict as a checklist in the report — each condition with a pass/fail mark — so the reader sees *why*, not just the label. A HOLD should state what unlocks the next move and when (e.g. "re-check 16 Jul after the hero's 7-day read").
 
-**Account sentiment (report header):** one badge + one plain sentence summarising how the account feels this week. Derive from 7d vs 30d deltas and funnel health:
+**Target mode in the checklist:** in `ltv` or `both` mode the "CPA at/below target" line reads **campaign NCPA at/below `target_ncpa`** and prints both numbers (e.g. "NCPA $47.28 vs $65 ✓ · blended CPA $38.17 shown for context"). With segments NOT SET UP or UNAVAILABLE, fall back as described in "Target modes" and say so on that line.
 
-- **STRONG** — CPA improving, profit/order up, funnel healthy or improving
-- **STEADY** — stable metrics, no structural warnings
-- **AT RISK** — profitable but a structural warning is live (funnel drying, hero fatigue, saturation, single-ad concentration)
-- **DECLINING** — CPA worsening AND profit/order falling across windows
+**Promo distortion rule:** when the client's own sale, promo or launch overlaps the 7d or 30d window, **always-on campaigns** (live before the promo started) still pick up promo-driven orders (site-wide conversion jumps, email traffic, 1-day-view credit). Judge their CPA/NCPA lines on the clean pre-event window, print the promo-window number beside it, and say which drove the call. **Promo-only campaigns** have no baseline: judge them on their own window against the promo's operating rules (e.g. a kill CPA) and the data bar. A budget raise made on promo-inflated numbers is a TRIM candidate once the promo ends.
 
-A week can be STRONG and still carry a risk note — sentiment is the headline, not the whole story.
+**Account sentiment (report header): sentiment measures MONEY, not structure.**
+
+One question only: *is this account making money, and is that improving or eroding?* A badge that fires on every structural imperfection is a badge that always reads amber — and an always-amber badge carries no information and needlessly alarms the operator. Structural issues are real, but they belong in Watch flags and in the scaling verdict, not in the sentiment.
+
+Evaluate top-down at **account level**, on purchase and catalog campaigns only (lead and other campaigns are left out of every spend share and CPA here; a lead-only account badges on CPL, `references/campaign-types.md` §4), in this order; first match wins. STRONG is checked before STEADY because every STRONG account also meets STEADY's conditions: checked the other way round, STRONG could never show. STEADY is also the default when nothing else matches.
+
+| Badge | Conditions |
+|---|---|
+| **DECLINING** (red) | Profit/order negative over 7d AND 30d · or profit/order fell >25% (7d vs 30d) while CPA rose >15% · or >40% of spend sits in campaigns with negative profit/order |
+| **AT RISK** (amber) | Profit/order negative over 7d but positive over 30d (just turned) · or CPA >15% above target with spend flat/rising · or 20–40% of spend in unprofitable campaigns · or a hero carrying >60% of spend whose CPA has deteriorated >25% (fatigue **materialising**, not merely possible) |
+| **STRONG** (green) | Profit/order positive and stable-or-up 7d vs 30d, CPA at/below target or clearly improving, no unprofitable campaign above ~10% of spend. When a promo skips the direction tests (Promo distortion rule), STRONG also needs the clean read to sit comfortably inside target and no SUSPECT segment setup making NCPA optimistic; otherwise STEADY |
+| **STEADY** (blue) | Profit/order positive, CPA within ~15% of target, no material unprofitable spend. The default when no other row matches |
+
+**Never set the badge on these alone** — they are Watch flags, not risk:
+
+- **CPM movement.** CPM is an input price, not an outcome. It matters only once it reaches CPA and profit — and the YoY check exists to say whether it's the whole market rather than this account.
+- **Funnel gaps / no TOF ad.** Already handled by the scaling verdict (no TOF → HOLD). Encoding it again as AT RISK double-counts it — this is the single biggest cause of sentiment inflation.
+- **Single-ad concentration.** Normal below ~10 ads. It counts only when the concentrated ad's economics are actually deteriorating.
+- **Frequency drift, learning status, macro events, platform incidents.** Context, not verdicts.
+- **A noisy week under ~10 purchases.** The Small-Sample Rule applies to sentiment: judge on 30d and say so.
+
+**No target CPA set** → judge on profit/order direction and unprofitable-spend share only. Never infer a target to produce a verdict.
+
+**Target mode:** in `ltv` or `both` mode every "CPA vs target" condition in the badge table reads as **account NCPA vs `target_ncpa`**; blended CPA stays in the sentence for context. If segments are NOT SET UP or UNAVAILABLE, use `target_cpa` when one exists, else the no-target rule above, and say which in the sentence. The Promo distortion rule (above) applies here too: when a promo flatters the standard windows, set the badge on the clean pre-event read for always-on campaigns plus the promo campaigns' own numbers, skip the 7d-vs-30d direction tests for that run, and say so in the sentence.
+
+**Watch flags line** (header, neutral gray, max 3): the named structural items — "no TOF feeder", "58% of spend on one ad", "hero frequency rising", "audience segments not set up", "existing customers over-served (frequency 45 vs 3.7)". Visible, specific, not dressed as an emergency.
+
+**Calibration check before publishing: if the badge contradicts the sentence beside it, the badge is wrong.** "AT RISK — every economic target is being beaten" is a self-refuting header. Write the sentence from the money first, then pick the badge that matches it.
 
 ## Meta Platform Status Check
 
@@ -360,6 +448,9 @@ Critical rules:
 23. When on the AOV−CPA proxy, always label it pre-COGS. Never present it as true gross profit.
 24. Recommendations that involve big spends, offer changes, restructures, or shaky confidence get: "⚠ Double-check with the account owner before actioning."
 25. Never invent inputs the user didn't give: no fabricated target CPA, margin, budget, or benchmark. Missing input → say it's missing and work with what exists.
+26. In `ltv` mode the KPI is NCPA. Never judge blended CPA against an LTV or per-new-customer target.
+27. Meta's "new" is not Shopify's "new": label NCPA as Meta's proxy unless the Shopify cross-check has run, and call it optimistic when the existing-customer definition looks SUSPECT.
+28. Never conclude audience segments are "not set up" from one campaign; check the account over 90 days and say "confirm in Ads Manager".
 
 ## Action Labels
 

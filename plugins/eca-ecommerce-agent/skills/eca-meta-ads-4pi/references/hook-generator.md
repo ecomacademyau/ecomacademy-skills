@@ -1,6 +1,6 @@
 # Hook Generator — Andromeda-Diverse Meta Ad Hooks
 
-Use this when a Campaign Next Steps recommendation includes a **new creative test**. Generate **3–5 hooks** (not 20 — the report is a starting point, not a creative brief) across **different structural categories**, so the recommendation ships with something testable.
+Use this when a Campaign Next Steps recommendation includes a **new creative test** in a purchase campaign, or a Fix on a lead ad (catalog campaigns get short primary-text lines instead: `references/campaign-types.md`). Generate **3–5 hooks** (not 20 — the report is a starting point, not a creative brief) across **different structural categories**, so the recommendation ships with something testable.
 
 ## Why structural diversity
 

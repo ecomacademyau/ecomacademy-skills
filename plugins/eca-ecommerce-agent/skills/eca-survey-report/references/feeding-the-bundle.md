@@ -18,7 +18,7 @@ product page builder is a separate free download rather than part of a bundle.
 | What the report produced | Goes to | What to hand over |
 |---|---|---|
 | Angles, each with hooks | `eca-ad-copywriting` | The winning motivation, its share, and the hooks. It writes headlines and primary text from an angle. |
-| Angles that suit video | `eca-ugc-scripts` | The motivation and the customer's own words. A real phrase from a buyer is a better hook than an invented one. |
+| Angles that suit video | `eca-creative-strategist` | The motivation and the customer's own words. A real phrase from a buyer is a better hook than an invented one. |
 | Objection counters, website | `eca-landing-pages` (Operations Coworker), or the free ECA Product Page download | The objection, its share, and what the follow-ups said made it matter. That is what a PDP section or a landing page block has to answer. |
 | Objection counters, content | `eca-blog-writer` | The objection as a question a customer would type. Objections and search queries are usually the same sentence. |
 | Objection counters, email | `eca-email-marketing-campaign` | The objection and the counter, for the pre-purchase flow. |

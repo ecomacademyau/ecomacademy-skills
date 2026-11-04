@@ -161,7 +161,7 @@ Every template includes an **ECA LP — Page settings** section (first in the or
 A landing page only earns its keep if traffic arrives with the matching promise. Once the page is built, **offer to write the ads that point at it** — you already have everything they need (the angle, the hook, the audience, the offer, the proof, the guarantee):
 
 - **`eca-ad-copywriting`** — headlines and primary text for the Meta campaign, built from this page's hook and angle so the ad and page say the same thing.
-- **`eca-ugc-scripts`** — if the concept suits video (Founder Story, 3 Reasons Why, Comment Reply, Us vs Them), hand over the funnel tier and angle and let it script the shoot.
+- **`eca-creative-strategist`** — if the concept suits video (Founder Story, 3 Reasons Why, Comment Reply, Us vs Them), hand over the funnel tier and angle and let it script the shoot.
 
 Hand them the page's hook, the persona, the objection it handles, the offer and the guarantee, so the ads inherit the same message. Then remind them to **point the campaign's destination URL at the new page** — the whole thing only works if the ad actually sends traffic there.
 
@@ -216,4 +216,4 @@ Say this plainly if they ask for five pages off one angle — it's usually enthu
 - **AEO**: the FAQ section emits **FAQPage JSON-LD** so the page can be cited by AI answer engines.
 
 ## Related skills
-`references/apps-and-assets.md` (app-first + asset creation) · `eca-meta-ads-4pi` (flags the ad→page mismatch this skill fixes) · **`eca-ad-copywriting`** (write the ads that point at this page — offer this after every build) · **`eca-ugc-scripts`** (video ads for the same angle) · `eca-brand-intelligence` (voice, personas, proof) · `eca-seo-ai-audit` (checks the page once live).
+`references/apps-and-assets.md` (app-first + asset creation) · `eca-meta-ads-4pi` (flags the ad→page mismatch this skill fixes) · **`eca-ad-copywriting`** (write the ads that point at this page — offer this after every build) · **`eca-creative-strategist`** (video ads for the same angle) · `eca-brand-intelligence` (voice, personas, proof) · `eca-seo-ai-audit` (checks the page once live).

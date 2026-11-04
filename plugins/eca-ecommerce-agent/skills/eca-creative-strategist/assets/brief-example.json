@@ -1,0 +1,207 @@
+{
+  "_note": "Example only (a fictional brand). Copy this shape, replace every value. Fields starting with _ are ignored. examples is empty on purpose: only list videos you have watched, read the transcript of, or had described by the member in this run, each with what it shows.",
+  "brand": {
+    "name": "Coastline Kitchen",
+    "site_url": "https://coastlinekitchen.example",
+    "logo": "",
+    "colours": {
+      "brand": "#1F2A2E",
+      "accent": "#C8553D"
+    },
+    "fonts": {
+      "heading": "Fraunces",
+      "body": "Inter"
+    }
+  },
+  "product": {
+    "name": "Everyday Pan",
+    "url": "https://coastlinekitchen.example/products/everyday-pan",
+    "what_it_is": "a 28cm ceramic-coated frying pan.",
+    "what_makes_it_different": "Eggs slide off with no oil and it goes straight in the dishwasher.",
+    "who_its_for": "people who cook every night and are sick of scrubbing pans."
+  },
+  "format": {
+    "name": "Yapper",
+    "length": "40 to 50 seconds",
+    "delivery": "one take, no cuts or very minimal"
+  },
+  "greeting": "Hey there!",
+  "hello": "Thanks so much for doing this. None of it needs to be perfect, real beats polished every time.",
+  "idea": "You're talking to someone who scrubs a pan every night after dinner. You tell them about the night you gave up on your old one, and the pan is the payoff: an egg sliding straight off.",
+  "it_is": [
+    "You, talking to your phone in your own kitchen",
+    "One take, cooking as you go",
+    "A bit chatty, a bit messy. That's the point"
+  ],
+  "it_isnt": [
+    "An ad read, or reading off a screen",
+    "A cooking show",
+    "An edited video with cuts, music or lots of text",
+    "A hard sell"
+  ],
+  "shape": [
+    {
+      "beat": "Problem",
+      "text": "Scrubbing the pan every night, the egg that always sticks"
+    },
+    {
+      "beat": "Agitate",
+      "text": "What you tried: more oil, soaking it, a new cheap pan that lasted a month"
+    },
+    {
+      "beat": "Solution",
+      "text": "The pan comes out, front to the phone. No brand name yet"
+    },
+    {
+      "beat": "What makes it different",
+      "text": "Cook an egg with no oil and slide it off"
+    },
+    {
+      "beat": "Why it works",
+      "text": "Straight in the dishwasher; [your real detail on how long you've had it]"
+    },
+    {
+      "beat": "Result",
+      "text": "What your nights look like now"
+    },
+    {
+      "beat": "Offer",
+      "text": "One casual line at the end, with our name and website"
+    }
+  ],
+  "must_say": [
+    {
+      "text": "No oil, and the egg slides off.",
+      "how": "Show it, on camera, in the same take."
+    },
+    {
+      "text": "It goes in the dishwasher.",
+      "how": "Say it while you're holding it."
+    }
+  ],
+  "offer_line": "It's from Coastline Kitchen, they've got free shipping on at the moment, coastlinekitchen.example.",
+  "examples": [],
+  "shots": {
+    "in_take": [
+      "Hold the pan front to camera for 2 seconds",
+      "Close-up of the egg sliding off",
+      "Close-up of the coating",
+      "Putting it in the dishwasher"
+    ],
+    "extras": [
+      "The pan on the stove from above",
+      "5 to 10 photos: front, detail, in use"
+    ]
+  },
+  "ideas": [
+    {
+      "name": "The pan I nearly binned",
+      "summary": "Your real old pan, your real nightly scrub, and the egg slide as the payoff.",
+      "openers": [
+        {
+          "say": "I was this close to throwing this pan in the bin.",
+          "show": "Holding the old scratched pan over the bin",
+          "on_screen": "every night. scrubbing."
+        },
+        {
+          "say": "If you scrub a pan every single night, watch this.",
+          "show": "Mid-scrub at the sink",
+          "on_screen": "no oil. watch."
+        },
+        {
+          "say": "No oil. Watch.",
+          "show": "Egg sliding straight off the new pan, first second",
+          "on_screen": "zero oil"
+        }
+      ],
+      "talking_points": [
+        {
+          "beat": "Problem",
+          "text": "The scrub every night, the egg that always sticks."
+        },
+        {
+          "beat": "Agitate",
+          "text": "What you tried. [your real detail]"
+        },
+        {
+          "beat": "Solution",
+          "text": "The pan comes out. Show it. No brand name here."
+        },
+        {
+          "beat": "What makes it different",
+          "text": "Egg, no oil, slides off. On camera."
+        },
+        {
+          "beat": "Why it works",
+          "text": "Dishwasher. How long you've had it."
+        },
+        {
+          "beat": "Result",
+          "text": "What dinner clean-up looks like now."
+        },
+        {
+          "beat": "Offer",
+          "text": "\"It's from Coastline Kitchen, free shipping at the moment, coastlinekitchen.example.\""
+        }
+      ],
+      "sample_script": {
+        "seconds": 45,
+        "lines": [
+          {
+            "say": "\"I was this close to throwing this pan in the bin.",
+            "stage": "holds up the old pan"
+          },
+          {
+            "say": "Every night, scrubbing egg off it for like ten minutes. [your real detail]"
+          },
+          {
+            "say": "I tried more oil, soaking it overnight, a cheap new one. Lasted a month."
+          },
+          {
+            "say": "Then my sister put me onto this one.",
+            "stage": "new pan front to camera, 2 seconds"
+          },
+          {
+            "say": "Watch. No oil.",
+            "stage": "cracks an egg, cooks it, slides it straight off"
+          },
+          {
+            "say": "And it just goes in the dishwasher. That's it."
+          },
+          {
+            "say": "Dinner clean-up takes me two minutes now."
+          },
+          {
+            "say": "It's from Coastline Kitchen, they've got free shipping on at the moment. coastlinekitchen.example\""
+          }
+        ]
+      },
+      "shots": [
+        "Egg slide in the same take",
+        "Dishwasher at the end"
+      ],
+      "watch_outs": [
+        "Don't say it lasts forever or is non-toxic",
+        "Only mention your sister if that's true for you"
+      ]
+    }
+  ],
+  "dos": [
+    "Cook for real, in your own kitchen"
+  ],
+  "donts": [
+    "Say it's non-toxic, chemical-free or lasts forever"
+  ],
+  "send": {
+    "items": [
+      "One full take for each opening line",
+      "Optional extra footage and photos",
+      "Everything raw and unedited"
+    ],
+    "file_naming": "Coastline_Idea1_Opening1_YourName.mp4"
+  },
+  "sign_off": "Thanks heaps, the Coastline Kitchen team",
+  "filming_extra": [
+    "Film in your own kitchen at dinner time, so the light and the mess are real."
+  ]
+}

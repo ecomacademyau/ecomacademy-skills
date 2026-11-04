@@ -1,6 +1,6 @@
 ---
 name: eca-morning-brief
-description: "Produce a daily morning brief for a Shopify store: what happened yesterday, what it means, and what needs doing today, published as an ECA-styled artifact with a button on each action that hands the job to Claude. Reads Shopify for sales, orders, dispatch, stock cover and a month-end forecast, Meta Ads for spend and return, and Gmail for customer service and new product reviews, then compares yesterday against the same weekday last week and writes a plain-language headline. Use whenever someone wants a morning brief, a daily store summary, a daily check of sales, ads, orders or inbox, an overview of what needs attention today, or asks to set up a recurring briefing. Can post to Slack. Requires Shopify connected; Meta Ads and Gmail are optional and the brief names whatever it could not check."
+description: "Produce a daily morning brief for a Shopify store: what happened yesterday, what it means, and what needs doing today, published as an ECA-styled artifact with a button on each action that hands the job to Claude. Reads Shopify for sales, orders, dispatch, stock cover, a month-end forecast, the conversion funnel from sessions through to paid, order value, returning customer rate, and which channel every order came from including Google and email, plus Meta Ads for spend and return and Gmail for customer service and new reviews. Compares yesterday against the same weekday last week and writes a plain-language headline. Use whenever someone wants a morning brief, a daily store summary, a daily check of sales, ads, orders, conversion or inbox, an overview of what needs attention today, or asks to set up a recurring briefing. Can post to Slack. Requires Shopify."
 ---
 
 # Morning Brief
@@ -58,11 +58,23 @@ back.
 |---|---|---|
 | **Shopify** | `get-shop-info` | Sales, orders, dispatch, stock, the forecast |
 | **Meta Ads** | `ads_get_ad_accounts` | Spend, ROAS, cost per purchase |
+| **Other channels** | no connector needed | Orders and revenue per channel, from Shopify's own referrer data |
 | **Gmail** | `search_threads` on one recent query | Customer service, and reviews via Judge.me notifications |
 
 **Shopify is required. Without it there is no brief**, because every section except ads
 depends on it. If it fails, say so plainly, help the member connect it, and stop. Do not
 produce a brief of ad data alone and call it a morning brief.
+
+**Google and every other channel come from Shopify, not a connector.** There is no
+first-party Google Ads connector, so the brief reads orders and revenue by channel from
+Shopify's referrer data, which covers Google, Bing, organic social and anything else at
+once. **Run it even when Meta is connected**: a Meta-only brief on one real store reported
+Facebook's 19 orders and missed that Google delivered the same 19. It gives no spend, so
+**never present a Google ROAS the brief cannot compute** — report orders and revenue, say
+spend is not visible, and stop there.
+
+Ask once at setup whether a paid aggregator such as Supermetrics or Adspirer is connected
+for Google spend, and record the answer so later runs do not re-ask.
 
 **Meta Ads and Gmail are per-section.** If either is missing, offer to continue without
 it and name exactly what the member loses. Record the choice in config so the daily run
@@ -110,7 +122,8 @@ nonsense.
 ### 2. Gather
 
 Follow `references/data-sources.md`, which holds the verified queries and the traps for
-each source. In short: 15 days of daily Shopify sales, yesterday's product mix, unfulfilled
+each source, and `references/conversion-and-customers.md` for the funnel and the customer
+mix. In short: 15 days of daily Shopify sales, yesterday's product mix, unfulfilled
 orders, 28-day inventory velocity, month-to-date for the forecast, 14 days of Meta daily
 metrics, and the inbox.
 
@@ -123,6 +136,14 @@ section they do.
 This is the judgement, and it is the whole value. Candidates:
 
 - A metric that moved more than the threshold against the same weekday last week
+- **A step in the funnel that is clearly the weak one.** Read sessions, add to cart,
+  reached checkout and paid as three gaps rather than one conversion rate, and name only
+  the biggest. All three could be better is not an action.
+- **AOV and returning-customer rate moving together.** Falling AOV with a rising returning
+  rate means revenue is being held up by the same people buying again, often discounted,
+  which is an acquisition problem wearing a retention disguise. Read it beside ad spend:
+  rising returning share while paid spend climbs is the most expensive pattern a store can
+  run.
 - Ad spend with no return, or a day that bought nothing
 - Orders past the dispatch threshold
 - Stock under the cover threshold
@@ -196,6 +217,9 @@ post to the configured channel and say that it went.
 - Every modelled figure is labelled as a projection with its method stated.
 - Every unavailable source is named, with what it would have told them.
 - Every action is something the member could act on today.
+- The funnel named a single weakest step, not three.
+- Any conversion comparison was against the store's own history, with industry ranges
+  flagged as rough where used at all.
 - Every button prompt names its skill and still works without it.
 - The headline states a finding, not a category.
 
@@ -211,13 +235,27 @@ post to the configured channel and say that it went.
   count reports work that does not exist, and the brief loses its credibility in a week.
 - **Exclude $0 and very old orders from the dispatch backlog.** A forgotten test order
   makes "oldest unfulfilled" meaningless forever.
-- **Label projections as projections**, with the method beside them.
+- **Label projections as projections**, with the method beside them. That includes the
+  "if add to cart reached X" sizing, which assumes the extra carts behave like the current
+  ones and they usually convert slightly worse.
+- **Never report a ROAS for a channel whose spend is not visible.** Orders and revenue
+  only, with the gap named.
+- **Never call the blank referrer row "direct".** It is unattributed: direct, app traffic,
+  stripped UTMs and anything the browser dropped. It is usually the biggest row and it is
+  not a channel.
+- **Never invent a conversion benchmark.** Compare the store against its own trailing
+  average. Rough industry ranges are a sanity flag only, said as rough, never a target. A
+  considered purchase at a high price sits below all of them and is fine.
+- **Name one leak and one suggestion per finding.** A brief listing everything that could
+  be improved is a brief nobody acts on.
 - **Say what you could not check**, every time, without being asked.
 - **No invented urgency.** If the quiet day is just a quiet day, say that.
 
 ## Reference files
 
 - `references/data-sources.md` — the verified queries per source, and the traps in each
+- `references/conversion-and-customers.md` — the funnel read as three gaps, the four
+  AOV-and-returning readings, and what to suggest against each
 - `references/skill-routing.md` — which skill owns which action, and the fallback rule
 - `references/brief-data-format.md` — the findings JSON the generator expects
 - `scripts/build_brief.py` — renders the ECA-styled HTML

@@ -67,6 +67,11 @@ def build(d):
         pretty = day
 
     parts = []
+    if d.get("demo"):
+        parts.append(
+            '<section class="demobar"><strong>Demo brief.</strong> Every number, customer '
+            'and order on this page is invented, for a store that does not exist. Nothing '
+            'here came from a real shop, mailbox or customer.</section>')
 
     # --- the promise. The single most important thing on the page. ---
     pr = d.get("promise") or {}
@@ -166,6 +171,9 @@ body{{margin:0;background:{T[bg]};color:{T[ink]};font-family:'Montserrat',system
 .mark{{width:22px;flex:0 0 22px}}
 .h-t{{font-family:'Nunito Sans',sans-serif;font-weight:800;text-transform:uppercase;letter-spacing:.02em;font-size:12.5px}}
 .h-b{{color:{T[g3]};font-size:11.5px;margin-left:auto}}
+.demobar{{background:{T[warning]};color:{T[black]};border-radius:10px;padding:11px 16px;
+         margin-top:20px;font-size:13.5px;line-height:1.45}}
+.demobar strong{{font-family:'Nunito Sans',sans-serif;text-transform:uppercase;letter-spacing:.04em;font-size:12px}}
 .verdict{{display:flex;gap:14px;align-items:flex-start;border-radius:12px;padding:16px 18px;margin-top:20px}}
 .verdict.bad{{background:{T[err_tint]};border-left:4px solid {T[error]}}}
 .verdict.ok{{background:{T[green_tint]};border-left:4px solid {T[green]}}}

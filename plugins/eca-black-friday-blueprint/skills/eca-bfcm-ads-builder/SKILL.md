@@ -22,7 +22,7 @@ Fire on: "black friday ad", "BFCM creative", "cyber monday ad", "build our BF ad
 | Deciding what the offer should be, from data | `eca-bfcm-offer-builder` |
 | The email side of the sale | `eca-bfcm-email-campaigns` |
 | Meta copy on its own, no image | `eca-ad-copywriting` (Marketing Coworker) |
-| UGC and short-form video scripts | `eca-ugc-scripts` (Marketing Coworker) |
+| UGC and short-form video scripts | `eca-creative-strategist` (Marketing Coworker) |
 
 **The offer must already be decided. This skill does not run without it.** Building creative for an offer nobody has costed is wasted work, and it is expensive wasted work here because every re-roll spends credits. If there is no locked offer, stop and route to `eca-bfcm-offer-builder`.
 

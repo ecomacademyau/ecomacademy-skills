@@ -16,3 +16,6 @@ _archive_dawn/
 # ECA reel editor: the template engine is built per machine by scripts/setup_engine.py (gsap + sfx + HyperFrames motions)
 plugins/eca-ecommerce-agent/skills/eca-reel-editor/engine/
 __pycache__/
+
+# Demo skills (fictional stores, for recordings) never ship to members.
+plugins/*/skills/*-demo/

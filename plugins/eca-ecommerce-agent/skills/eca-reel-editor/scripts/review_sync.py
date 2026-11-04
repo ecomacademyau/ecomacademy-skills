@@ -73,9 +73,15 @@ def export(reel, proposal, out):
     # so a midpoint test would drop the final word of every take)
     proposed_cut = [i for i, w in enumerate(words) if not w.get("filler") and
                     not any(a - 0.05 <= w["s"] <= b for a, b in keep)]
-    # pauses Claude keeps on purpose: after a question or exclamation, or longer than 0.8 s after a sentence end
-    keep_pauses = [i for i in range(len(words) - 1) if re.search(r"[?!]$", words[i]["text"]) or
-                   (re.search(r"[.]$", words[i]["text"]) and words[i + 1]["s"] - words[i]["e"] > 0.8)]
+    # pauses kept on purpose: after a question or exclamation, or longer than 0.8 s after a sentence end, but ONLY when
+    # the proposal kept both words inside the same span. A gap between two spans is a cut the editor made; keeping it
+    # here put 4-6 s of dead air back into auto-edited reels (found 3 Nov 2026).
+    def span_of(w):
+        return next((k for k, (a, b) in enumerate(keep) if a - 0.05 <= w["s"] <= b), None)
+    keep_pauses = [i for i in range(len(words) - 1)
+                   if span_of(words[i]) is not None and span_of(words[i]) == span_of(words[i + 1]) and
+                   (re.search(r"[?!]$", words[i]["text"]) or
+                    (re.search(r"[.]$", words[i]["text"]) and words[i + 1]["s"] - words[i]["e"] > 0.8))]
     acc = set(proposal.get("accentWords", []))
     mode = brand.get("captions", {}).get("mode", "phrase")
     caps, cur = [], []

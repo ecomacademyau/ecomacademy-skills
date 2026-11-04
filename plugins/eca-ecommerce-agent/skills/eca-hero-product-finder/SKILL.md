@@ -15,7 +15,7 @@ House style for every output: Australian English, no em dashes, association lang
 eca-hero-product-finder  ->  which product to acquire on
          |
          +-> eca-survey-questions / eca-survey-report   why people buy it
-         +-> eca-ad-copywriting / eca-ugc-scripts       the ads for it
+         +-> eca-ad-copywriting / eca-creative-strategist       the ads for it
          +-> eca-landing-pages                          the page they land on
          +-> eca-meta-ads-4pi                           whether it holds under the break even CPA
 ```
@@ -127,7 +127,7 @@ Leave out any line whose inputs were not given (no Ecom OS numbers, no CPA). For
     | Next move | Skill, if installed | What to hand over |
     |---|---|---|
     | Write the ads | `eca-ad-copywriting` | The hero product, its break even CPA, and the offer suggestions from step 9. It builds the 3-2-2 test structure this step used to describe by hand. |
-    | Film it | `eca-ugc-scripts` | The product and why customers buy it, for hooks in their own words. |
+    | Film it | `eca-creative-strategist` | The product and why customers buy it, for hooks in their own words. |
     | Know why they buy it | `eca-survey-questions`, or `eca-survey-report` if a survey is already running | This skill says *which* product. Those say *why*, which is what the ad copy needs. |
     | Give it a page worth sending traffic to | `eca-landing-pages` (Operations Coworker) | The hero product and the offer to test. |
     | Watch what the ads then do | `eca-meta-ads-4pi` | The break even CPA, as the line the campaign has to stay under. |
