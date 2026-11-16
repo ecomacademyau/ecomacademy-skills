@@ -2,6 +2,12 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.19.1 - 2026-11-16
+
+- **eca-brand-intelligence: the brand now lives in EcomOS.** After sign-off the skill saves every section of the brand profile, the market research report and the structured brand to the member's EcomOS over the `ecomos` connection (one `put_context` call per section, each with a one-line summary and a short brief), so the brand no longer depends on one AI app or one folder. Step 0 looks in EcomOS first; a filled local `brand-data.md` that was never saved is saved there, after checking the connection is on that brand's business. Mode B loads only the sections a task needs (`get_context`, briefs first) instead of the whole file, and saves a correction to the section it belongs to. **EcomOS is always the source of truth:** `./brand/brand-data.md` stays as a copy (and as the only copy when EcomOS is not connected); when the two disagree the EcomOS version stands and the file is refreshed from it, after a backup. The skill also rewrites any brief EcomOS marks as automatic (for example after the member edits a section on the Business Brain page) and re-syncs the structured brand when a section has moved ahead of it.
+- **eca-brand-intelligence: new Mode C, "Help me fill my Business Brain".** EcomOS now scores the depth of the Business Brain (0-100, five levels) and lists the open questions; the skill asks them a few at a time (`brain_depth`), verifies what it can from the live store, writes each answer into its section, re-syncs the structured brand and reports the new score. Answers a member types on the Business Brain page are folded into their sections on the next run.
+- `brand_sections.py`: new `--plan` (what to upload, what to pull because it was edited in EcomOS, what conflicts), `--section <key>` (the exact text to send) and `--record` (remembers the EcomOS business and the version each section matches, in `.ecomos-sync.json` beside the brand file). Fixed: `--payload ./brand/brand-sync.json` sent the JSON file's own path and hash as the brand file's; the plugin's placeholder `brand-data.md` was treated as a real brand file; output no longer fails on Windows code pages.
+
 ## v1.17.6 - 2026-10-27
 
 - **eca-reel-editor (hosted):** EcomOS auto-edits uploaded clips in the chosen style; the skill now reads the existing cut (`edit`, `editNotes`, `style`, `changes`) from `get_reel` and adjusts it on request rather than proposing from scratch.

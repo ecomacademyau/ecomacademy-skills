@@ -2,33 +2,36 @@
 
 A Claude skill that loads a brand's full identity into context before Claude writes copy, content, or strategic suggestions — and, when no profile exists yet, **builds that identity from the store URL**: crawling the site, running market and competitor research, and mining reviews for why people buy.
 
-It's brand-agnostic by design: point the skill at any store URL and it builds that brand's profile from scratch, or drop in a pre-filled `brand-data.md`. Everything brand-specific lives in that one file.
+It's brand-agnostic by design: point the skill at any store URL and it builds that brand's profile from scratch.
+
+**The finished brand is saved in the member's EcomOS**, section by section, over the `ecomos` MCP connection. That makes the brand independent of any one AI app, computer or folder: Claude, another AI app the member connects, and the Marketing Apps inside EcomOS all read the same brand, and the member can see and edit it in EcomOS → Business Brain. EcomOS is the source of truth: a copy is kept in the working folder (`./brand/brand-data.md`) when there is one, and whenever the two disagree the EcomOS version stands. Without an EcomOS connection the skill works exactly as before from that file.
 
 ## What's in the folder
 
 ```
 brand-intelligence/
 ├── SKILL.md                          # Generic logic — two modes: Build and Apply. Same for every brand.
-├── brand-data.md                     # Placeholder template only. The REAL brand file lives in the member's working folder: ./brand/brand-data.md
-├── scripts/brand_sections.py         # Finds the brand file, splits it by section, fingerprints it, builds the EcomOS sync payload
+├── brand-data.md                     # Placeholder template only. The REAL brand lives in EcomOS, with a working copy in the member's folder: ./brand/brand-data.md
+├── scripts/brand_sections.py         # Works out which sections to save to or pull from EcomOS, prints each section's text, checks completeness, builds the structured-brand payload
 ├── README.md                         # This file.
 ├── templates/
 │   └── brand-data-template.md        # The full schema — 19 sections — used both as a fork scaffold and as the spec the Build mode fills.
 └── references/
     ├── market-research.md            # Forum-first voice-of-customer + market pain-point research method, and the trainable report structure.
-    ├── brand-file-location.md        # Where the brand file lives and the lookup order every ECA skill uses
-    ├── ecomos-sync.md                # How the file is mirrored into EcomOS (sync_brand over MCP)
-    └── brand-sync-schema.json        # The JSON Schema the sync payload must match (exported from EcomOS)
+    ├── brand-file-location.md        # Where the brand lives: EcomOS first, then the working copy's lookup order
+    ├── ecomos-sync.md                # Saving the brand to EcomOS (put_context per section + sync_brand) and reading it back (get_context)
+    └── brand-sync-schema.json        # The JSON Schema the structured brand must match (exported from EcomOS)
 ```
 
 ## How it works — two modes
 
-The skill always runs **Step 0** first to read `brand-data.md` and decide which mode applies:
+The skill always runs **Step 0** first: it looks for the brand in EcomOS, then for a working copy, and decides which mode applies. A filled local file that has never been saved to EcomOS is saved there at this point (the file stays where it is).
 
-- **Mode A — Build.** If `brand-data.md` is missing or mostly placeholders, the skill builds it. It first **recommends the connectors that make the build valuable** (Shopify, Klaviyo, a reviews app, the Claude in Chrome extension + desktop app, Semrush — see `references/connectors.md`), then asks for the store URL, then: crawls the homepage/about/product/FAQ/review pages (using the Shopify and reviews MCPs if connected), mines reviews for the before→after transformation and buying motivation, and runs **deep voice-of-customer research** — forum-first (Reddit, Quora, niche forums) plus competitor reviews (Amazon, Trustpilot, ProductReview), X, and Medium — to surface real pain points, why current solutions fail, and what consumers actually want (method in `references/market-research.md`). It also runs market-sizing and competitor desk research (Semrush for SEO territory if available). The build **outputs a standalone, trainable market-research report** alongside the profile, and drafts all 19 sections from the template. Anything it can't verify is flagged as a gap — it never invents brand facts. **The build is collaborative, not autonomous:** it stops at two mandatory checkpoints — **Gate 1** (you agree the positioning/direction and key assumptions before it drafts) and **Gate 2** (you sign off the finished profile and answer the founder-only questions before it saves).
-- **Mode B — Apply.** If the file is filled, the skill loads it and grounds every output in the brand's real story, voice, products, offers, proof, objections, competitors, and customer.
+- **Mode A — Build.** If there is no brand profile, or it is mostly placeholders, the skill builds it. It first **recommends the connectors that make the build valuable** (Shopify, Klaviyo, a reviews app, the Claude in Chrome extension + desktop app, Semrush — see `references/connectors.md`), then asks for the store URL, then: crawls the homepage/about/product/FAQ/review pages (using the Shopify and reviews MCPs if connected), mines reviews for the before→after transformation and buying motivation, and runs **deep voice-of-customer research** — forum-first (Reddit, Quora, niche forums) plus competitor reviews (Amazon, Trustpilot, ProductReview), X, and Medium — to surface real pain points, why current solutions fail, and what consumers actually want (method in `references/market-research.md`). It also runs market-sizing and competitor desk research (Semrush for SEO territory if available). The build **outputs a standalone, trainable market-research report** alongside the profile, and drafts all 19 sections from the template. Anything it can't verify is flagged as a gap — it never invents brand facts. **The build is collaborative, not autonomous:** it stops at two mandatory checkpoints — **Gate 1** (you agree the positioning/direction and key assumptions before it drafts) and **Gate 2** (you sign off the finished profile and answer the founder-only questions before it saves). After sign-off every section, the research report and the structured brand are saved to EcomOS, each section with a short brief so other skills can load the brand without loading all of it.
+- **Mode C — Deepen.** EcomOS scores how much it knows about the business (Brain depth, out of 100, five levels) and lists the questions still open. Say "Help me fill my Business Brain" and the skill asks them a few at a time, checks what it can against the live store, writes each answer into the right section and shows the new score. The same questions can be answered directly on the Business Brain page in EcomOS.
+- **Mode B — Apply.** If the brand exists, the skill loads what the task needs — from EcomOS, only the sections that task uses, as briefs first — and grounds every output in the brand's real story, voice, products, offers, proof, objections, competitors, and customer. Corrections the member makes along the way are saved back to the section they belong to.
 
-`SKILL.md` is brand-agnostic. `brand-data.md` is brand-specific. That separation is the whole point of the design.
+`SKILL.md` is brand-agnostic. The brand profile is brand-specific. That separation is the whole point of the design.
 
 ## What the brand profile captures (19 sections)
 
@@ -47,16 +50,12 @@ It deliberately does *not* trigger on generic ecommerce questions ("what's a goo
 
 ## How to use this skill for a different brand
 
-1. **Fork the folder.** Copy `brand-intelligence/` somewhere new — rename it (e.g., `brand-intelligence-acme/`) if you want both available, or replace the contents in place.
-2. **Delete the old `brand-data.md`** (or replace it with `templates/brand-data-template.md`).
-3. **Invoke the skill with the new store URL.** Mode A builds the file from scratch. Or fill `brand-data.md` by hand from the template if you'd rather.
-4. **Update the skill name if needed.** To run multiple brand-intelligence skills side by side, edit the `name:` field in `SKILL.md`'s frontmatter and rename the folder to match.
-5. **Don't change `SKILL.md`'s body unless you're improving the generic logic.** It's meant to work for any brand.
+The brand belongs to the EcomOS business the member connected, so nothing in this folder changes per brand. Connect the business you are working on (`ping` names it) and invoke the skill with the store URL: Mode A builds that brand and saves it there. Without EcomOS, open Claude Code in that brand's folder, or point `$ECA_BRAND_FILE` at its file, and the skill builds `./brand/brand-data.md` there. Don't change `SKILL.md`'s body unless you're improving the generic logic.
 
 ## How to keep it current
 
-`brand-data.md` decays. Trigger an update on: product/price changes, new campaigns or repositioning, competitor moves, fresh customer research, or a visual refresh. Section 18 (Sources & confidence) records when each section was last verified — a good quarterly review anchor. To refresh against reality, ask Claude to "audit `brand-data.md` against the current Shopify catalog and the live site" and flag what's stale.
+A brand profile decays. Trigger an update on: product/price changes, new campaigns or repositioning, competitor moves, fresh customer research, or a visual refresh. Section 18 (Sources & confidence) records when each section was last verified — a good quarterly review anchor. To refresh against reality, ask Claude to "audit my brand profile against the current Shopify catalog and the live site" and flag what's stale. Edits made in EcomOS → Business Brain are picked up the next time the skill runs. EcomOS keeps the earlier versions of an edited section, so an edit can be undone from that page.
 
 ## Limitations
 
-Mode A researches and drafts from real sources — it does not fabricate a brand with no online presence or founder input. Mode B applies the brand; the richer `brand-data.md` is, the better every downstream asset gets. Time invested in the profile compounds across all future work.
+Mode A researches and drafts from real sources — it does not fabricate a brand with no online presence or founder input. Mode B applies the brand; the richer the profile is, the better every downstream asset gets. Time invested in the profile compounds across all future work.
