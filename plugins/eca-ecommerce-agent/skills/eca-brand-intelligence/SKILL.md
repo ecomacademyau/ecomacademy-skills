@@ -163,27 +163,77 @@ Don't shoehorn competitor mentions into customer-facing copy unless the comparis
 ### B5 — Flag conflicts
 If the brief contradicts the brand (a hard-discount tone for a premium brand, a claim the product can't back up), say so and offer the on-brand alternative. The user can override knowingly. When the override is a standing preference rather than a one-off, record it in EcomOS with `log_context` (`kind:"learning"`; `skill` is the skill doing the work when it only concerns that kind of work, `"general"` when it is about the brand as a whole) so it is not argued again next time.
 
-## Mode C — Deepen the Brain (questions and answers)
+## Mode C — Deepen the Brain (a conversation, one question at a time)
 
-EcomOS scores how much it knows about the business: **Brain depth**, out of 100, with five levels. The member sees the score, the level and the open questions on the Business Brain page, and can answer them there. This mode is the same thing as a conversation: you ask, they answer, you write it into the Brain properly, the score goes up. Keep it light and quick — it should feel like progress, not a form.
+EcomOS scores how much it knows about the business: **Brain depth**, out of 100, with five levels. The member sees the score, the level and the open questions on the Business Brain page, and can answer them there. This mode does the same job as a conversation, and the conversation is the point: the page is the form, you are the person who helps them think.
+
+**Two rules shape everything below:**
+
+1. **One question per message.** Never send a list of questions, not even a short one. A list is a form, and members stop answering forms. Ask one thing, deal with the answer, then ask the next.
+2. **Every question comes with suggested answers.** You do the thinking first, from what the Brain, the store and the research already show, and the member picks one, changes one or says it their own way. A blank question makes them do your job.
 
 It needs the `brain_depth` tool. If it is not in this session, EcomOS is not connected: say how to connect (`references/ecomos-sync.md` → "Is EcomOS connected?") and stop.
 
-**C1 — Read the score.** Call `brain_depth`. It returns the score, the level, the points to the next level, and every open question with its id, the section it belongs to and its points. Tell the member in one or two lines: where they are, and what the next level takes.
+**C1 — Read the score and set it up.** Call `brain_depth`. It returns the score, the level, the points to the next level, and every open question with its id, the section it belongs to and its points. Tell the member in two or three lines: where they are, what the next level takes, and how this works ("I'll ask one thing at a time and suggest answers. Say *skip* to pass on one and *stop* whenever you've had enough; everything you answer is saved as we go."). Then go straight into the first question in the same message. Do not show them the list of open questions.
 
 **C2 — If the brand profile has not been built** (`setup-profile` is open), say that the brand build answers most of these through research and offer it (Mode A). If they would rather just answer questions, carry on.
 
-**C3 — Ask, a few at a time.** Most valuable first, grouped by topic, **no more than three questions in one message**. Use the questions as `brain_depth` gives them, in plain words. Before you ask, look for what you can verify yourself — products and prices (`get_products`, or Shopify if connected), the review rating and count, colours and logo from the storefront, policies from the site — and propose it for a yes or no instead of asking from scratch ("Your site says 30-day returns: is that still right?"). Never invent an answer, and never tick a question the member did not answer. "None" and "doesn't apply" are answers: save them as such.
+**C3 — Prepare the question before you ask it.** Take the most valuable open question, and stay on one topic until it is done so the conversation flows (finish the customer questions before jumping to operations). Then, before you ask, gather what could answer it:
 
-**C4 — Write each answer into its section, properly.** Not a question-and-answer dump: read the section whole (`get_context`, `depth:"full"`), put the fact where it belongs in the section's structure, replace any `TBD` it resolves (and tick it off in §19), keep the member's own words as quotes where the wording matters (voice, customer language), then `put_context` with `ifVersion`, a fresh `summary` and a fresh `brief`. A section that does not exist yet is created with its `## N. Title` heading from the key table in `references/ecomos-sync.md`.
+- what the Brain already holds: the question's own section and its neighbours (`get_context`, `depth:"full"`, once per section; reuse it for later questions), `search_context` for a single fact, the market research report;
+- what the live business shows: the catalogue and what sells (`get_products` with `detail:"full"` returns descriptions, variants, types and stock, plus `sales`: best sellers, what first-time customers buy first, free gifts and how often orders use a discount, counted from the store's recent Shopify orders), the review rating, count and wording, policies and FAQ on the site, colours and logo from the storefront.
+
+**When `brain_depth` already carries the store's answer.** A question followed by a line starting `↳ Shopify already shows the answer` has been answered by the member's own store (their products and prices, the product new customers buy first). Ask those first: they are the quickest wins. Show what the store says and ask them to confirm or correct it; do not ask from scratch. A line starting `↳ What Shopify shows` is evidence, not the answer (how often orders use a discount does not tell you their discount *rule*): bring it into the question ("74% of your orders used a discount, about 11% off on average. Is that the plan, and is there a line you never cross?"). Either way the member still confirms before anything is saved.
+
+From that, draft **two to four suggested answers**. What a suggestion may be depends on the kind of question:
+
+- **A fact** (a price, a policy, a number, a name, a date): suggest only what a source shows, and name the source ("Your returns page says 30 days"). One sourced suggestion to confirm is enough. If nothing shows it, say you could not find it and ask openly. **Never guess a fact.**
+- **A judgment** (voice, positioning, who the customer is, why they buy, objections, what makes them different): write real options, built from what the Brain and the reviews already say. Each one specific to this business, each one different from the others, in the member's own kind of language. No generic filler that would fit any store. Say which you would pick and why, in a few words.
+
+**C4 — Ask it.** One message, one question:
+
+- one short line on why it matters, when that is not obvious (what gets better once the Brain knows this);
+- the question, in plain words (the wording `brain_depth` gives is a starting point: make it sound like a person asking);
+- the suggestions, numbered;
+- a close that makes answering easy: pick a number, change one, or say it in your own words.
+
+If the app has a way to offer choices the member can click, use it, and always leave room for their own words.
+
+> **Example.** *This one sharpens every ad and product page I write for you.*
+> **What is the main thing holding people back from buying the first time?** From your reviews and FAQ, my guesses are:
+> 1. "Will it taste as good as what I buy at the cafe?" (comes up in 14 reviews)
+> 2. The price next to the supermarket version
+> 3. Not sure how long a bottle lasts
+>
+> I'd put 1 first. Pick one, reorder them, or tell me what you actually hear from customers.
+
+**C5 — Listen like a person, not a form.**
+
+- **They picked or edited a suggestion:** that is their answer. Do not ask them to confirm it again.
+- **The answer is thin or vague** ("quality", "everyone"): ask one follow-up that makes it usable ("Which customers say that most: the gift buyers or the ones buying for themselves?"). One follow-up, then take what you have.
+- **They answered more than you asked:** take it all. If it covers other open questions, do not ask those again; say what you captured.
+- **It contradicts what the Brain holds:** say so and ask which is right. What they confirm now stands.
+- **"Skip", "not sure", "later":** move on without pushing. Do not tick it.
+- **"None" or "doesn't apply":** that is an answer. Save it as such.
+- **They ask what you think, or want to talk it through:** do that. Helping them reach an answer is the job; the tick comes after.
+
+Never save a suggestion the member did not choose or confirm, and never tick a question the member did not answer.
+
+**C6 — Save it straight away, show the gain, ask the next one.** Do not collect answers for later: an answer that is not saved is lost if they close the app.
+
+1. **Write the answer into its section, properly.** Not a question-and-answer dump: put the fact where it belongs in the section's structure, replace any `TBD` it resolves (and tick it off in §19), keep the member's own words as quotes where the wording matters (voice, customer language), then `put_context` with `ifVersion`, a fresh `summary` and a fresh `brief`. A section that does not exist yet is created with its `## N. Title` heading from the key table in `references/ecomos-sync.md`.
+2. **Tick it:** `brain_depth` with `answered: [that id]` (plus any others their answer covered). It returns the new score.
+3. **Reply with one line of progress, then the next question in the same message** ("Saved to Objections. +5, you're at 66, four points from level 4."). Do not ask "shall I keep going?" after every answer; they will say stop.
+
+Pause and check in only at a natural break: a level reached (make something of it), a topic finished, or about every five questions. Say in a line what is now covered and what is next, and let them carry on or stop.
 
 Answers the member typed on the Business Brain page sit at the end of a section under a heading that starts **`### In the owner's words:`**. Whenever you meet one — here or at the start of Mode B — fold it into the section the same way and remove the heading, so skills read one coherent section. EcomOS marks those sections `auto brief`.
 
-**C5 — Bring the structured brand into line** and call `sync_brand` (`references/ecomos-sync.md` → "Keeping the copies in step"). Most checks are measured on the structured brand, so this is what makes the answer count everywhere.
+**C7 — Wrap up** when they stop or the questions run out:
 
-**C6 — Show the progress.** Call `brain_depth` again with `answered: [the ids the member answered and you saved]`. Report the new score, the points gained and any level reached, in one line, then ask whether to do the next few or stop there. Stop when they have had enough; the score is saved either way.
-
-**C7 —** If there is a working copy, refresh it from EcomOS (`--plan`, then pull).
+1. Bring the structured brand into line and call `sync_brand` (`references/ecomos-sync.md` → "Keeping the copies in step"). Most checks are measured on the structured brand, so this is what makes the answers count everywhere. In a long sitting, do this at each check-in as well.
+2. Call `brain_depth` once more and report where they started, where they are now, any level reached, and in one line what the next sitting would cover.
+3. If there is a working copy, refresh it from EcomOS (`--plan`, then pull).
 
 At the end of a Mode A or Mode B task you may mention the score once, in one line ("Your Business Brain is at 46 out of 100; five minutes on the open questions would take it to the next level"), when `list_context` shows it below 65. Never interrupt a task for it, and never bring it up twice in a session.
 
