@@ -2,6 +2,11 @@
 
 All notable changes to the ECA skills bundle. Newest first.
 
+## v1.19.3 - 2026-11-17
+
+- **eca-brand-intelligence: uses the first drafts EcomOS writes.** EcomOS now drafts an answer to each open Business Brain question from the member's website, store and Brain, for them to approve on the Business Brain page. In "Help me fill my Business Brain" the skill reads that draft to the member (approve, adjust or reject) instead of writing its own from scratch.
+- **eca-brand-intelligence: answers approved in EcomOS before the brand is built.** A member can now approve drafted answers on the Business Brain page before any AI app is connected. EcomOS says so ("Brand profile: NOT built yet"), and the skill then builds the full profile starting from those approved answers instead of treating the brand as already saved.
+
 ## v1.19.2 - 2026-11-17
 
 - **eca-brand-intelligence: "Help me fill my Business Brain" is now a conversation, not a form.** Mode C asks one question per message (never a list), and every question comes with two to four suggested answers drafted from the store, the reviews and what the Brain already holds, so the member picks one, changes one or says it their own way. Facts are only suggested from a named source and never guessed; judgment questions get real options with a recommendation. Each answer is written into its section and ticked straight away so the score moves as they go; one follow-up when an answer is too thin; skip and stop are always available; check-ins only at a level-up, a finished topic or about every five questions; the structured brand is re-synced at the end.

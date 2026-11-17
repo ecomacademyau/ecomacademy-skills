@@ -55,6 +55,7 @@ The market research report is `market-research`. A skill's own settings go under
 
 - `why-people-buy` is listed → the brand **is saved** in EcomOS. (EcomOS can make short summaries of up to 11 sections from an older structured sync, but never that one.)
 - `why-people-buy` is not listed → the brand is **not saved yet**, whatever else is there.
+- `Brand profile: NOT built yet` → the brand is **not saved yet** even if `why-people-buy` is listed: what is there are answers the owner approved on the Business Brain page. Read them in full, keep them, and build the profile around them.
 - Saved, but keys from the table above are missing → the last save was **interrupted**, or the member deleted a section. Finish the save from the working copy or the draft in this conversation; if neither exists, the stored sections are the approved ones — read them and treat only the missing sections as work to do (Mode A as a refresh). Do not rebuild from nothing.
 
 ## Saving a section
