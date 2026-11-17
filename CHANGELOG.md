@@ -4,6 +4,7 @@ All notable changes to the ECA skills bundle. Newest first.
 
 ## v1.19.3 - 2026-11-17
 
+- **eca-brand-intelligence: defers to the EcomOS playbooks.** EcomOS now serves the brand workflows itself (`get_playbook`: brand-build, fill-brain, use-brand), always current, so members do not need the plugin for them. When the connection offers `get_playbook`, the skill follows it; this file covers only local brand files and working without EcomOS.
 - **eca-brand-intelligence: uses the first drafts EcomOS writes.** EcomOS now drafts an answer to each open Business Brain question from the member's website, store and Brain, for them to approve on the Business Brain page. In "Help me fill my Business Brain" the skill reads that draft to the member (approve, adjust or reject) instead of writing its own from scratch.
 - **eca-brand-intelligence: answers approved in EcomOS before the brand is built.** A member can now approve drafted answers on the Business Brain page before any AI app is connected. EcomOS says so ("Brand profile: NOT built yet"), and the skill then builds the full profile starting from those approved answers instead of treating the brand as already saved.
 

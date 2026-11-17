@@ -1,8 +1,8 @@
 {
   "name": "eca-ecommerce-agent",
   "displayName": "ECA Marketing Coworker",
-  "version": "1.19.3",
-  "description": "Ecommerce Academy skills bundle — brand intelligence, hero product analysis, email marketing campaigns, competitor analysis, Meta ad copywriting, customer persona building, SEO and AI blog writing, UGC video scripts, store visibility audits, Meta ads analysis (4PI), the ECA Reel Editor (a raw talking-head clip → an on-brand reel or video ad with product, review and offer cards from your store), and post-purchase surveys from writing the questions to turning the answers into angles, objections and personas. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new (v1.18.0): new ECA Gift Guide skill — builds a Christmas gift guide as a full page template, a collection guide, or a blog article, with a banner, quick-link tiles, per-group SEO copy and ItemList/FAQPage schema.",
+  "version": "1.20.0",
+  "description": "Ecommerce Academy skills bundle — brand intelligence, hero product analysis, email marketing campaigns, competitor analysis, Meta ad copywriting, a Meta ads creative strategist (angles, hooks and ready-to-film video ad scripts), customer persona building, SEO and AI blog writing, store visibility audits, Meta ads analysis (4PI), Christmas gift guides, and post-purchase surveys from writing the questions to turning the answers into angles, objections and personas. New skills are added here over time; installing this one plugin keeps you current with all of them.  What's new: the ECA Reel Editor has moved into EcomOS — connect EcomOS in Claude Code and say \"edit this video into a reel\"; it always runs the latest version, with nothing to update here.",
   "author": {
     "name": "Ecommerce Academy",
     "email": "brendan@ecomfactory.com.au"

@@ -2,7 +2,7 @@
 
 **1. EcomOS, when it is connected.** The brand is saved in the member's EcomOS as sections (`voice`, `products`, `personas`…) that any AI app reads with the `ecomos` tools: `get_context` with `for:"<skill>"` for the sections a skill needs, `search_context` for one fact. How it is saved and kept current is in `ecomos-sync.md`. **EcomOS is the source of truth:** when it and a local file disagree, EcomOS stands, and a change to the brand is saved there first.
 
-**2. The working copy, `brand-data.md`.** A copy of the same brand in the member's working folder, refreshed from EcomOS. It is the only copy when EcomOS is not connected, and scripts (the reel editor's, the completeness check) read it. Resolve it in this order and use the **first** match:
+**2. The working copy, `brand-data.md`.** A copy of the same brand in the member's working folder, refreshed from EcomOS. It is the only copy when EcomOS is not connected, and scripts (the completeness check) read it. Resolve it in this order and use the **first** match:
 
 1. `$ECA_BRAND_FILE` — an explicit path in the environment (teams and agencies managing several brands set this per project).
 2. `./brand/brand-data.md` — **the standard location.** Mode A (Build) always writes here. It sits in the member's working folder, so plugin updates never touch it and every skill in every plugin finds it.

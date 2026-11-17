@@ -43,7 +43,7 @@ Skip it when the whole value is visual and needs a demo to land (use problem-sol
 - Product inside the take: front to the phone for 2 seconds, two detail close-ups, using or touching it.
 - Natural light, phone at eye level, front camera. No ring light, no filters, no beauty mode, no music under the voice.
 - Shoot the body once per hook, in one sitting: 3 to 5 takes.
-- Captions added in the edit (eca-reel-editor), not burned in by the creator.
+- Captions added in the edit (the EcomOS reel editor), not burned in by the creator.
 
 ## Pitfalls
 

@@ -198,7 +198,7 @@ Show the final scores, the remaining known risks, and one line per script on wha
 - Artifacts block images from other websites, so a logo linked from the brand's store won't show. Embed the logo as a data URI or upload it as an artifact asset; without a logo file, use a text wordmark and ask for the file (Step 0).
 - Every fix republishes to the same artifact (the same file path in this session, or its link from an earlier one), so the link never changes. Record the links in the creative log.
 
-Nothing gets sent to a creator or posted by you. Offer to turn the scripts into headlines and primary text with **eca-ad-copywriting**, and to edit the raw footage with **eca-reel-editor** once it's filmed.
+Nothing gets sent to a creator or posted by you. Offer to turn the scripts into headlines and primary text with **eca-ad-copywriting**, and to edit the raw footage with the **EcomOS reel editor** once it's filmed (in Claude Code with EcomOS connected: "edit this video into a reel").
 
 ## Step 9: Learn
 
@@ -212,7 +212,7 @@ Create or update `./brand/creative-log.md` (template in `assets/`; when the sess
 - **eca-persona-builder**: personas to aim angles at.
 - **eca-competitor-analysis**: a deep teardown of one competitor when step 3 needs more.
 - **eca-ad-copywriting**: headlines and primary text for the finished concepts.
-- **eca-reel-editor**: turns the raw clip into the finished ad.
+- **EcomOS reel editor** (the `reel-editor` playbook, served over the EcomOS connection): turns the raw clip into the finished ad.
 
 ## Hard rules
 
