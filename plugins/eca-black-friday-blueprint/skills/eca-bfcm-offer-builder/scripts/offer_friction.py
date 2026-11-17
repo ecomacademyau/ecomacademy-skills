@@ -38,6 +38,11 @@ def main() -> int:
                     help="requires a specific combination of products")
     args = ap.parse_args()
 
+    if not args.line.strip():
+        ap.error("--line must contain a non-empty offer")
+    if args.tiers < 1:
+        ap.error("--tiers must be at least 1")
+
     score, notes = 0, []
 
     def add(points: int, note: str) -> None:
